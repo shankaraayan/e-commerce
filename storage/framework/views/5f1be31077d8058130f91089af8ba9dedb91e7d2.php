@@ -83,14 +83,15 @@
                                 <?php else: ?>
                                 <li>
                                     <div class="ps-product ps-product--wishlist">
+
                                     <div class="ps-product__remove"><a href="javascript::void(0)" onclick="remove_to_cart(<?= $id ?>)"><i class="icon-trash2 text-danger"></i></a></div>
-                                    <div class="ps-product__thumbnail"><a class="ps-product__image" href="<?php echo e(route('product.detail', $details['slug'])); ?>">
-                                            <figure><img src="<?php echo e(asset('root/public/uploads/' . $details['images'])); ?>" alt="alt">
+                                    <div class="ps-product__thumbnail"><a class="ps-product__image" href="<?php echo e(route('product.detail', @$details['slug'])); ?>">
+                                            <figure><img src="<?php echo e(asset('root/public/uploads/' . @$details['images'])); ?>" alt="alt">
                                             </figure>
                                         </a></div>
                                     <div class="ps-product__content">
                                         <h5 class="ps-product__title d-block text-left">
-                                            <a href="<?php echo e(route('product.detail', $details['slug'])); ?>"><span><?php echo e(@$details['name']); ?></span></a>
+                                            <a href="<?php echo e(route('product.detail', @$details['slug'])); ?>"><span><?php echo e(@$details['name']); ?></span></a>
                                         </h5>
                                         <div class="ps-product__row">
                                             <div class="ps-product__label">Price:</div>
@@ -115,7 +116,7 @@
                                                         class="icon-minus"></i></button>
                                                 <input class="quantity" step="1" min="1" id="qty<?= $id ?>"
                                                     name="quantity" type="number" onchange="update_to_cart(<?= $id ?>)"
-                                                    name="qty[]" value="<?php echo e($details['quantity']); ?>"
+                                                    name="qty[]" value="<?php echo e(@$details['quantity']); ?>"
                                                     onkeypress="return isNumber(event)" size="4" placeholder=""
                                                     inputmode="numeric">
                                                 <button class="plus" onclick="QtyUpdate(<?= $id ?>,1)"><i
@@ -125,7 +126,7 @@
                                         </div>
                                         <div class="ps-product__row ps-product__subtotal">
                                             <div class="ps-product__label">Subtotal:</div>
-                                            <div class="ps-product__value"><?php echo e(formatPrice( @$details['price'] * $details['quantity'])); ?></div>
+                                            <div class="ps-product__value"><?php echo e(formatPrice( @$details['price'] * @$details['quantity'])); ?></div>
                                         </div>
                                     </div>
                                 </div>
@@ -151,7 +152,7 @@
                         <?php if(session('cart')): ?>
                             <?php $__currentLoopData = session('cart'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $details): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-                                <?php $total+=($details['price']*$details['quantity']); ?>
+                                <?php $total+=(@$details['price']*@$details['quantity']); ?>
 
                                 <?php @$shipping_country = (@$details['shipping_country']) ?>
                                 <!-- Product with variations -->
@@ -161,7 +162,7 @@
                                                 onclick="remove_to_cart(<?= $id ?>)"><i
                                                     class="icon-trash2 text-danger"></i></a></td>
                                         <td class="ps-product__thumbnail"><a class="ps-product__image"
-                                                href="<?php echo e(route('product.detail', $details['slug'])); ?>">
+                                                href="<?php echo e(route('product.detail', @$details['slug'])); ?>">
                                                 <figure><img
                                                         src="<?php echo e(asset('root/public/uploads/' . $details['images'])); ?>"
                                                         alt=""></figure>
@@ -207,15 +208,15 @@
                                                 onclick="remove_to_cart(<?= $id ?>)"><i
                                                     class="icon-trash2 text-danger"></i></a></td>
                                         <td class="ps-product__thumbnail"><a class="ps-product__image"
-                                                href="<?php echo e(route('product.detail', $details['slug'])); ?>">
+                                                href="<?php echo e(route('product.detail', @$details['slug'])); ?>">
                                                 <figure><img
-                                                        src="<?php echo e(asset('root/public/uploads/' . $details['images'])); ?>"
+                                                        src="<?php echo e(asset('root/public/uploads/' . @$details['images'])); ?>"
                                                         alt=""></figure>
                                             </a></td>
                                         <td class="ps-product__name">
                                             <div class="cart_product_name">
                                                 <a
-                                                    href="<?php echo e(route('product.detail', $details['slug'])); ?>"><?php echo e(@$details['name']); ?></a>
+                                                    href="<?php echo e(route('product.detail', @$details['slug'])); ?>"><?php echo e(@$details['name']); ?></a>
                                             </div>
                                             <div class="cart_product_shipping">
                                                 <span class="text-muted fs-5">Voraussichtliches Versanddatum Juli 14,
@@ -233,7 +234,7 @@
                                                 <input class="quantity" step="1" min="1"
                                                     id="qty<?= $id ?>" name="quantity" type="number"
                                                     onchange="update_to_cart(<?= $id ?>)" name="qty[]"
-                                                    value="<?php echo e($details['quantity']); ?>"
+                                                    value="<?php echo e(@$details['quantity']); ?>"
                                                     onkeypress="return isNumber(event)" inputmode="numeric">
                                                 <button class="plus" onclick="QtyUpdate(<?= $id ?>,1)"><i
                                                         class="icon-plus"></i></button>
@@ -242,7 +243,7 @@
                                             </div>
                                         </td>
                                         <td class="ps-product__subtotal">
-                                            <?php echo e(formatPrice(@$details['price'] * $details['quantity'])); ?></td>
+                                            <?php echo e(formatPrice(@$details['price'] * @$details['quantity'])); ?></td>
                                     </tr>
                                 <?php endif; ?>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -252,12 +253,7 @@
             </div>
             <div class="ps-shopping__footer">
                 <div class="row">
-                    <div class="col-12">
-                        <div class="ps-shopping__coupon">
-                            <input class="form-control ps-input" type="text" placeholder="Kupon-Code" style="width:50%">
-                            <button class="ps-btn ps-btn--primary" type="button">Coupon anwenden</button>
-                        </div>
-                    </div>
+                    
                     
                 </div>
             </div>

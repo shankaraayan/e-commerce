@@ -239,7 +239,7 @@ class FrontendController extends Controller
 
         if(!auth()->user()){
 
-            if(User::where('email',$request->email)->exists()) return redirect()->back()->with('error',"Please Login Your Account");
+            if(User::where('email',$request->email)->exists()) return redirect()->route('login.register')->with('error',"Please Login Your Account");
             $user = new User;
             $user->email = $request->email;
             $user->phone = $request->phone_number;

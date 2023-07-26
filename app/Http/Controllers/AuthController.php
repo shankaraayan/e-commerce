@@ -34,6 +34,7 @@ class AuthController extends Controller
             return redirect()->back()->with('signup_error','signup')->withErrors($validator)->withInput();
         }
         $user = new User;
+
         $user->email = $request->email;
 
         $user->password = Hash::make($request->password);

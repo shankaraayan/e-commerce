@@ -121,6 +121,7 @@ Route::name('admin.coupon.')->prefix('admin/coupon/')->middleware('isAdmin')->gr
     Route::get('edit/{id}', [CouponController::class, 'edit'])->name('edit');
     Route::post('update/{id}', [CouponController::class, 'update'])->name('update');
     Route::get('delete/{id}', [CouponController::class, 'delete'])->name('delete');
+
 });
 
 Route::name('admin.orders.')->prefix('admin/orders/')->middleware('isAdmin')->group(function () {
@@ -255,6 +256,7 @@ Route::get('/search', [FrontendController::class, 'searchData'])->name('search')
 Route::get('/email-view', [TestController::class, 'email_view']);
 
 
-
+Route::post('/coupon/apply',[CouponController::class,'apply_code'])->name('coupon.apply');
+Route::post('/coupon/remove',[CouponController::class,'code_remove'])->name('coupon.remove');
 
 Route::post('/admin/shipping/country/shipping_country_update', [ShippingController::class,'shippingPrice']);

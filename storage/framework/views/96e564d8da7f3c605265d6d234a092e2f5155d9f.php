@@ -77,8 +77,6 @@ unset($__errorArgs, $__bag); ?>
                                                         <?php endif; ?>
                                                     </div>
 
-
-
                                                     <div class="input-area mb-4">
                                                         <label for="price" class="form-label">Price</label>
                                                         <input  name="price" type="number" class="form-control" placeholder="e.g. 10" value=<?php echo e(old('price')); ?>>
@@ -134,7 +132,7 @@ unset($__errorArgs, $__bag); ?>
 
                                                     <div class="input-area mb-4 ">
                                                         <label for="default-picker" class=" form-label">Coupon Expire Date</label>
-                                                        <input name="expiry_date" class="form-control py-2 flatpickr flatpickr-input active" id="default-picker" value="" type="text" readonly="readonly" value="<?php echo e(old('expiry_date')); ?>">
+                                                        <input name="expiry_date" class="form-control py-2 flatpickr flatpickr-input active" id="default-picker"  type="date" value="<?php echo e(old('expiry_date')); ?>">
                                                     </div>
                                                     <div class="input-area mb-4">
                                                         <label for="status" class="form-label">Status</label>

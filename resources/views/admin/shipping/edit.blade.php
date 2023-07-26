@@ -1,6 +1,6 @@
 
 @extends('admin.layout.header')
- 
+
 @section('content')
 
 <div class="content-wrapper transition-all duration-150 ltr:ml-[248px] rtl:mr-[248px]" id="content_wrapper">
@@ -55,12 +55,12 @@
                                 <button type="submit" class="btn btn-primary">Update</button>
                             </div>
                         </form>
-                        
-                        
+
+
                       </div>
                     </div>
                   </div>
-               
+
                 </div>
 
               </div>

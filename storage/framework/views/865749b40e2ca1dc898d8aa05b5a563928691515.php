@@ -98,7 +98,7 @@
                             </td>
 
                             <td class="table-td "> <a href="<?php echo e(route('admin.shipping.country.list',$values->id)); ?>">
-                              <button class="btn inline-flex justify-center bg-slate-700 text-white rounded-[25px]" type="button">
+                              <button class="btn btn-sm inline-flex justify-center bg-slate-700 text-white rounded-[25px]" type="button">
                                View Country Shipping
                               </button>
                           </a> </td>
@@ -111,7 +111,7 @@
                               rounded-md outline-none text-current">
                                 <div class="relative bg-white rounded-lg shadow dark:bg-slate-700">
                                   <!-- Modal header -->
-                                  <div class="flex items-center justify-between p-5 border-b rounded-t dark:border-slate-600 bg-black-500">
+                                  <div class="flex items-center justify-between p-5 border-b rounded-t dark:border-slate-600 bg-slate-900">
                                     <h3 class="text-xl font-medium text-white dark:text-white capitalize">
                                       <?php echo e($values->name); ?>
 
@@ -136,8 +136,8 @@
                                         <input type="hidden" name="shipping_id" value="<?php echo e($values->id); ?>">
                                   </div>
                                   <!-- Modal footer -->
-                                  <div class="flex items-center justify-end p-6 space-x-2 border-t border-slate-200 rounded-b dark:border-slate-800">
-                                    <button type="submit" data-bs-dismiss="modal" class="btn inline-flex justify-center text-white bg-slate-500">Update</button>
+                                  <div class="flex items-center justify-end p-6 space-x-2 border-t border-slate-200 rounded-b dark:border-slate-700">
+                                    <button type="submit" data-bs-dismiss="modal" class="btn inline-flex justify-center text-white bg-slate-800">Update</button>
                                   </div>
                                 </div>
                               </div>

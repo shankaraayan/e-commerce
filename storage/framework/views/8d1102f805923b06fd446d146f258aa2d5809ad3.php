@@ -1,4 +1,5 @@
 <?php $__env->startSection('content'); ?>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
 <div class="content-wrapper transition-all duration-150 ltr:ml-[248px] rtl:mr-[248px]" id="content_wrapper">
     <div class="page-content">
       <div class="transition-all duration-150 container-fluid" id="page_layout">
@@ -30,6 +31,7 @@
               <header class=" card-header noborder">
                 <h4 class="card-title">Coupon List
                 </h4>
+                <p class="text-green-900" id="copy-message"></p>
                 <a href="<?php echo e(route('admin.coupon.add')); ?>"> <button type="button" class="btn bg-slate-800 text-white" style="float:right;"> New Coupon </button></a>
               </header>
               <div class="card-body px-6 pb-6">
@@ -62,40 +64,63 @@
                             <th scope="col" class=" table-th ">
                                 Action
                               </th>
+
                           </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
-
+                            <?php
+                                $x = 1;
+                            ?>
                             <?php $__currentLoopData = $coupons; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $coupon): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                             <tr>
 
-                                <td scope="col" class=" table-th ">
-                                    <?php echo e($coupon->id); ?>
+                                <td scope="col" class=" table-td ">
+                                    <?php echo e($x); ?>
 
                                 </td>
 
-                                <td scope="col" class=" table-th ">
+                                <td scope="col" class=" table-td ">
                                     <?php echo e($coupon->code); ?>
 
                                 </td>
-                                <td scope="col" class=" table-th ">
+                                <td scope="col" class=" table-td ">
                                     <?php echo e($coupon->appliable_on); ?>
 
                                 </td>
-                                <td scope="col" class=" table-th ">
+                                <td scope="col" class=" table-td ">
                                     <?php echo e($coupon->price); ?>
 
                                 </td>
-                                <td scope="col" class=" table-th ">
-                                    <?php echo e($coupon->status); ?>
+                                <td scope="col" class=" table-td ">
+                                    <?php if($coupon->status): ?>
+                                    <span class="badge bg-success-500 text-success-500 bg-opacity-30 capitalize">Active</span>
+                                    <?php endif; ?>
 
+                                    
                                 </td>
 
-                                <td scope="col" class=" table-th ">
-                                    Action
+                                <td scope="col" class=" table-td flex">
+                                    <a href="<?php echo e(route('admin.coupon.edit',$coupon->id)); ?>">  <button class="action-btn" type="button">
+                                        <iconify-icon icon="heroicons:pencil-square"></iconify-icon>
+                                    </button></a>
+
+                                    <button class="action-btn ml-3 copy-button" id="copyReferralButton"
+                                        data-referral="<?php echo e($coupon->code); ?>">
+                                        <iconify-icon icon="heroicons:clipboard-document-list"></iconify-icon>
+                                    </button>
+
+                                    <a href="<?php echo e(route('admin.coupon.delete',$coupon->id)); ?>">
+                                        <button class="action-btn ml-3" >
+                                            <iconify-icon icon="heroicons:trash"></iconify-icon>
+                                        </button>
+                                    </a>
                                 </td>
+
                             </tr>
+                            <?php
+                                $x++;
+                            ?>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
                       </table>
@@ -110,6 +135,29 @@
       </div>
     </div>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var copyButtons = document.querySelectorAll('.copy-button');
+        copyButtons.forEach(function(copyButton) {
+            var referralText = copyButton.getAttribute('data-referral');
+            new ClipboardJS(copyButton, {
+                text: function() {
+                    return referralText;
+                }
+            });
+            copyButton.addEventListener('click', function() {
+                const messageElement = document.getElementById('copy-message');
+                messageElement.textContent = 'Code copied!';
+                messageElement.style.opacity = 1;
+                setTimeout(function() {
+                    messageElement.style.opacity = 0;
+                }, 1000);
+            });
+        });
+    });
+</script>
+
 
   <?php $__env->stopSection(); ?>
 

@@ -15,6 +15,7 @@ class Coupon extends Model
         'user_id' => 'array',
         'exclude_category' => 'array',
         'exclude_product' => 'array',
+        'expiry_date' => 'date'
     ];
 
     protected $fillable = [

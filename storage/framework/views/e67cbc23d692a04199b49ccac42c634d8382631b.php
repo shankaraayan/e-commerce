@@ -3,16 +3,19 @@
 <?php
     if(session('cart')){
     $cart = session('cart');
+    // dd($cart);
     $lastCartItem = end($cart);
-    $session_country = $lastCartItem['shipping_country'];
+    $session_country = @$lastCartItem['shipping_country'];
     if($session_country == 0){
         $session_country ='';
     }
-    $session_shipping_class = (int)$lastCartItem['shipping_class'];
+    $session_shipping_class = (int)@$lastCartItem['shipping_class'];
     $shippingCountry =  shippingCountry()->where('shipping_id',$session_shipping_class);
     }else {
         return redirect()->back();
     }
+
+    // dd($cart);
 ?>
 
     <div class="ps-checkout">
@@ -35,11 +38,17 @@
                             <div class="ps-checkout__form">
                                 <h3 class="ps-checkout__heading">Angaben zur Rechnungsstellung</h3>
                                 <div class="row">
+                                    <div class="col-md-12 mb-4">
+                                        <div class="ps-shopping__coupon row">
+                                            <input class="form-control ps-input col-md-8" type="text" id="couponCode" name="couponCode" placeholder="Kupon-Code"  value="<?php echo e(old('couponCode') ?? @$lastCartItem['discount']['code'] ?? ''); ?>" >
+                                            <button onclick="couponApply()" id="couponButton" class="ps-btn ps-btn--primary col-md-4 m-0" type="button" >Coupon anwenden</button>
+                                        </div>
+                                    </div>
 
                                     <div class="col-12">
                                         <div class="ps-checkout__group">
                                             <label class="ps-checkout__label">Country</label>
-                                            <select value="<?php echo e(old('country')); ?>" class="ps-input country_shipping" name="country"
+                                            <select value="<?php echo e(old('country')); ?>" class="ps-input country_shipping" name="country" id="country"
                                                 data-select2-id="1" tabindex="-1" aria-hidden="true">
                                                 <option value="" >Wählen Sie ein Land / eine Region…</option>
                                                 <?php $__currentLoopData = $shippingCountry; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -450,7 +459,35 @@ unset($__errorArgs, $__bag); ?>
                                     <div class="ps-title">Zwischensumme</div>
                                     <div class="ps-product__price"><?php echo e(formatPrice(@$total)); ?></div>
                                 </div>
+                                <?php
+                                    $cartDiscount =  session('cart');
+                                    $cartDiscount = end($cartDiscount);
 
+                                    $discountValue = @$cartDiscount['discount']['discount_value'] ?? 0;
+                                    $discountType = @$cartDiscount['discount']['type'] ?? '';
+                                    $discountCode = @$cartDiscount['discount']['code'] ?? 'Not Applied';
+
+                                    if($discountType == 'flat'){
+                                        $discountPrice = formatPrice($discountValue);
+                                    }
+                                    else{
+                                        $discountPrice = $discountValue.'%';
+                                    }
+                                ?>
+
+                                <div class="ps-checkout__row">
+                                    <div class="ps-title">Discount (<?php echo e($discountCode ?? 'Not Applied'); ?>)
+                                        <?php if(!empty(@$cartDiscount['discount']['code'])): ?>
+
+                                        <div class="ps-title" style="font-size:12px"><a class="text-danger" href="/coupon/remove">Remove Coupon</a></div>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <div class="ps-product__price">
+                                        <?php echo e($discountPrice); ?>
+
+                                    </div>
+                                </div>
                                 <div class="ps-checkout__row">
                                     <div class="ps-title">Versand</div>
                                     <div class="ps-checkout__checkbox">
@@ -471,7 +508,21 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                                 <div class="ps-checkout__row">
                                     <div class="ps-title">Total</div>
-                                    <div class="ps-product__price"><?php echo e(formatPrice(@$total + $shipping_price)); ?></div>
+                                    <div class="ps-product__price">
+                                        <?php
+                                            if($discountType == 'flat'){
+                                                $afterDiscount = $total-$discountValue;
+                                            }
+                                            else{
+                                                $dis =  $total * ($discountValue)/100;
+                                                $afterDiscount = $total - $dis;
+                                            }
+                                        ?>
+                                        
+                                        <?php echo e(formatPrice(@$afterDiscount +  $shipping_price)); ?>
+
+                                        
+                                    </div>
                                 </div>
                                 <div class="ps-checkout__payment">
                                     <div class="direct-bank-method mb-15">
@@ -515,6 +566,44 @@ unset($__errorArgs, $__bag); ?>
             </div>
         </div>
     </div>
+
+    <script>
+        function couponApply() {
+           var couponCode = document.getElementById('couponCode').value;
+           var country = document.getElementById('country').value;
+
+           $.ajax({
+           url: "/coupon/apply",
+           method: 'post',
+           data: {
+                    "_token": "<?php echo e(csrf_token()); ?>",
+                    "code": couponCode,
+                    "country": country,
+                },
+                success: function(response) {
+                    const {message,status} = JSON.parse(response);
+
+                    if(status === "success"){
+                        console
+                        toastr.success(message);
+                    }else{
+                        toastr.error(message);
+                    }
+                    // console.log(response);
+
+                    setTimeout(function() {
+                    window.location.reload();
+                }, 2000);
+
+                },
+                error : function(err){
+                    console.log(err);
+                }
+            });
+       }
+
+    </script>
+
 
 <script>
   window.onload = function(){

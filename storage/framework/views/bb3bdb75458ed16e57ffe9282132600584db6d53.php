@@ -84,7 +84,7 @@
 
                             <td class="table-td ">
                                 <a href="<?php echo e(route('admin.orders.view',$values->id)); ?>" >
-                                    <button class="btn btn-small inline-flex justify-center text-white bg-slate-600">
+                                    <button class="btn btn-sm inline-flex justify-center text-white bg-slate-600">
                                         <span class="flex items-center">
                                             <iconify-icon class="text-xl" icon="ic:baseline-remove-red-eye"></iconify-icon>
                                         </span>

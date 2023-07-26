@@ -87,9 +87,10 @@
                             <td class="table-td "><?php echo e(shippingClass()->where('id',$values->shipping_class)->pluck('name')->first()); ?></td>
                             <td class="table-td ">
                                 <?php if($values->status == 1): ?>
-                                    <span class="badge bg-success-500 text-success-500 bg-opacity-30 capitalize">Active</span>
+                                    <span class="badge bg-success-500 text-success-500 bg-opacity-30">Active</span>
                               <?php else: ?>
-                                    <span class="badge bg-danger-500 text-danger-500 bg-opacity-30 capitalize">In-Active</span>
+                                    <span class="badge bg-danger-500 text-danger-500 bg-opacity-30">In active</span>
+
                               <?php endif; ?>
                             </td>
                             <td class="table-td ">

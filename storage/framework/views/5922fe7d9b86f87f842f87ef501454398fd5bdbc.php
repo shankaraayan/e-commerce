@@ -5,9 +5,6 @@
     <div class="transition-all duration-150 container-fluid" id="page_layout">
       <div id="content_layout">
 
-
-
-
         <!-- BEGIN: Breadcrumb -->
         <div class="mb-5">
           <ul class="m-0 p-0 list-none">
@@ -71,7 +68,7 @@
             </a>
           </div>
         </li>
-        
+
         </div>
         <!-- end single list -->
 
@@ -91,7 +88,7 @@
                     </a>
                 </div>
                 </li>
-                
+
           <li class="flex space-x-3 rtl:space-x-reverse">
             <div class="flex-none text-2xl text-slate-600 dark:text-slate-300">
               
@@ -116,15 +113,15 @@
                 Shipping Class
               </div>
               <a href="#" class="text-base text-slate-600 dark:text-slate-50">
-              
+
                  <?php echo e(shippingClass()->where('id',$product->shipping_class)->pluck('name')->first()); ?>
 
-              
+
               </a>
             </div>
           </li>
-         
-          
+
+
           </div>
 
 
@@ -138,7 +135,7 @@
                   Best Selling
                 </div>
                 <a href="#" class="text-base text-slate-600 dark:text-slate-50">
-                  <?php if($product->best_selling==1): ?> Yes <?php else: ?> No <?php endif; ?> 
+                  <?php if($product->best_selling==1): ?> Yes <?php else: ?> No <?php endif; ?>
                 </a>
               </div>
             </li>
@@ -152,7 +149,7 @@
                   Featured
                 </div>
                 <a href="#" class="text-base text-slate-600 dark:text-slate-50">
-                  <?php if($product->featured == 1): ?> Yes <?php else: ?> No <?php endif; ?> 
+                  <?php if($product->featured == 1): ?> Yes <?php else: ?> No <?php endif; ?>
                 </a>
               </div>
             </li>
@@ -165,7 +162,7 @@
                   Easy Peak Power
                 </div>
                 <a href="#" class="text-base text-slate-600 dark:text-slate-50">
-                  <?php if($product->easy_peak_power == 1): ?> Yes <?php else: ?> No <?php endif; ?> 
+                  <?php if($product->easy_peak_power == 1): ?> Yes <?php else: ?> No <?php endif; ?>
                 </a>
               </div>
             </li>
@@ -203,7 +200,7 @@
                   </a>
                 </div>
               </li>
-              
+
                   <li class="flex space-x-3 rtl:space-x-reverse">
                 <div class="flex-none text-2xl text-slate-600 dark:text-slate-300">
                   
@@ -255,4 +252,5 @@
 </div>
 </div>
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('admin.layout.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/customstegpearl/public_html/root/resources/views/admin/product/view.blade.php ENDPATH**/ ?>
