@@ -115,7 +115,7 @@
                               rounded-md outline-none text-current">
                                 <div class="relative bg-white rounded-lg shadow dark:bg-slate-700">
                                   <!-- Modal header -->
-                                  <div class="flex items-center justify-between p-5 border-b rounded-t dark:border-slate-600 bg-green-500">
+                                  <div class="flex items-center justify-between p-5 border-b rounded-t dark:border-slate-600 bg-slate-400">
                                     <h3 class="text-xl font-medium text-white dark:text-white capitalize">
                                       <?php echo e($values->name); ?>
 
@@ -158,7 +158,7 @@
                                   </div>
                                   <!-- Modal footer -->
                                   <div class="flex items-center justify-end p-6 space-x-2 border-t border-slate-200 rounded-b dark:border-slate-600">
-                                    <button type="submit" data-bs-dismiss="modal" class="btn inline-flex justify-center text-white bg-green-500">Update</button>
+                                    <button type="submit" data-bs-dismiss="modal" class="btn inline-flex justify-center text-white bg-green-300">Update</button>
                                   </div>
                                 </div>
                               </div>
