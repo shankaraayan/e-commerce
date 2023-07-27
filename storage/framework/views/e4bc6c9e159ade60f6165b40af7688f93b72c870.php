@@ -132,7 +132,7 @@
       rounded-md outline-none text-current">
         <div class="relative bg-white rounded-lg shadow dark:bg-slate-700">
           <!-- Modal header -->
-          <div class="flex items-center justify-between p-5 border-b rounded-t dark:border-slate-600 bg-slate-800">
+          <div class="flex items-center justify-between p-5 border-b rounded-t dark:border-slate-600 bg-info-600">
             <h3 class="text-xl font-medium text-white dark:text-white capitalize">
               Add Or Update Attribute types
             </h3>
@@ -169,7 +169,7 @@
             <button type="button"  data-bs-dismiss="modal"  class="btn inline-flex justify-center btn-danger rounded-[25px] rounded-full del-btn"  style="display: none">
                 Delete
              </button>
-            <button type="submit" id="createButton"  data-bs-dismiss="modal" class="btn inline-flex justify-center text-white bg-slate-800 create_btn">Create</button>
+            <button type="submit" id="createButton"  data-bs-dismiss="modal" class="btn inline-flex justify-center text-white bg-info-600 create_btn">Create</button>
             <button type="submit" id="updateButton"  data-bs-dismiss="modal" class="btn inline-flex justify-center text-white bg-green-500 create_btn" style="display:none">update</button>
 
           </div>

@@ -166,8 +166,12 @@ unset($__errorArgs, $__bag); ?>
                                             <label for="country" class="form-label">Country</label>
 
                                             <select required name="applicable_country[]" id="country" class="select2 form-control w-full mt-2 py-2" multiple="multiple">
-                                                <option value="all" class="inline-block font-Inter font-normal text-sm text-slate-600" <?php echo e(in_array('all', old('country', [])) ? 'selected' : ''); ?>>All</option>
-                                                
+                                                <option value="all" class="inline-block font-Inter font-normal text-sm text-slate-600"
+                                                    <?php echo e((in_array('all', $coupon->applicable_country) || old('country') === 'all') ? 'selected' : ''); ?>>
+                                                    All
+                                                </option>
+
+
 
                                                 <?php $__currentLoopData = $coupon->applicable_country; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <?php $__currentLoopData = $country; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $con): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

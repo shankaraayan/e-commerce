@@ -115,6 +115,16 @@
 
               </li>
 
+            <li class="<?php echo e(Request::is('admin/taxation/*') ? 'active' : ''); ?>">
+                <a href="<?php echo e(route('admin.taxation.list')); ?>" class="navItem">
+                    <span class="flex items-center">
+                    <iconify-icon class=" nav-icon" icon="heroicons-outline:cash"></iconify-icon>
+                    <span>Taxation</span>
+                    </span>
+                </a>
+
+              </li>
+
                 <li class="<?php echo e(Request::is('admin/orders/*') ? 'active' : ''); ?>">
               <a href="javascript:void(0)" class="navItem">
                 <span class="flex items-center">
@@ -145,6 +155,17 @@
               </li>
 
             </ul>
+          </li>
+          
+
+          <li class="<?php echo e(Request::is('admin/users/*') ? 'active' : ''); ?>">
+            <a href="<?php echo e(route('admin.users.list')); ?>" class="navItem">
+              <span class="flex items-center">
+            <iconify-icon class=" nav-icon" icon="heroicons:cog-8-tooth"></iconify-icon>
+            <span>Users</span>
+              </span>
+              <iconify-icon class="icon-arrow" style="color:white;" icon="heroicons-outline:chevron-right"></iconify-icon>
+            </a>
           </li>
       </div>
     </div>

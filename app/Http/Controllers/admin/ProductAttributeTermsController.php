@@ -41,7 +41,9 @@ class ProductAttributeTermsController extends Controller
 
             $image = $request->file('image');
             $filename = time() . '.' . $image->getClientOriginalExtension();
+
             $image->move(public_path('uploads'), $filename);
+
             $terms->image = $filename;
             // Save the filename or perform further operations
         }
@@ -64,9 +66,13 @@ class ProductAttributeTermsController extends Controller
         $input = $request->all();
         // dd($input);
         if($request->image){
+
             $image = $request->file('image');
+
             // Generate a unique filename with timestamp
             $filename = uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads'), $filename);
+
             // Save the image to the storage folder
             $input['image'] = $filename;
         }

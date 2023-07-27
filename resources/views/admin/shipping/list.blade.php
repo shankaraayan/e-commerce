@@ -100,7 +100,7 @@
                             </td>
 
                             <td class="table-td "> <a href="{{route('admin.shipping.country.list',$values->id)}}">
-                              <button class="btn btn-sm inline-flex justify-center bg-slate-700 text-white rounded-[25px]" type="button">
+                              <button class="btn inline-flex justify-center bg-slate-700 text-white rounded-[25px]" type="button">
                                View Country Shipping
                               </button>
                           </a> </td>
@@ -126,6 +126,7 @@
                                       <span class="sr-only">Close modal</span>
                                     </button>
                                   </div>
+
                                   <!-- Modal body -->
                                   <form action="{{route('admin.shipping.update')}}" method="post" enctype="multipart/form-data">
                                     @csrf
@@ -133,6 +134,12 @@
                                         <div class="input-area mb-4">
                                             <label for="name" class="form-label">Name</label>
                                             <input id="name" name="name" type="text" class="form-control" value="{{$values->name}}" required placeholder="Shipping Name">
+                                        </div>
+                                        <div class="input-area mb-4">
+                                            <label class="relative inline-flex h-6 w-[46px] items-center rounded-full transition-all duration-150 cursor-pointer">
+                                                <input onclick="(this.checked ? this.value=1 : this.value=0)" attribute_id="{{$values->id}}" name="status" value="{{$values->status}}" type="checkbox" {{ $values->status ==1 ? 'checked':'uncheked' }}  class="sr-only peer attribute_status">
+                                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none ring-0 rounded-full peer dark:bg-gray-900 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:z-10 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary-500"></div>
+                                            </label>
                                         </div>
                                         <input type="hidden" name="shipping_id" value="{{$values->id}}">
                                   </div>

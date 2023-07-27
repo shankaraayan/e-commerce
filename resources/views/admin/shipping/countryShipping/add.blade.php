@@ -46,24 +46,37 @@
                         <input type="hidden" name="shipping_id" value="{{$shippingId}}">
 
                         <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
-                          <div class="input-area mb-4">
+
+                            <div class="input-area mb-4">
+                                <label for="name" class="form-label">Country</label>
+
+                                <select name="country" class="form-control" required >
+                                    <option>Select Here</option>
+                                    @php
+                                        $country = country();
+                                    @endphp
+                                    @foreach ($country as $country)
+                                        <option value="{{$country->id}}">{{$country->country}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="input-area mb-4">
                             <label for="name" class="form-label">Country Short Code</label>
                             <input id="name" name="name" type="text" class="form-control" required placeholder="Country Code">
                         </div>
 
-                        <div class="input-area mb-4">
-                          <label for="name" class="form-label">Price</label>
-                          <input id="number" name="price" type="text" class="form-control" required placeholder="Shipping Price">
-                      </div>
+
                         </div>
 
 
                         <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
 
-                        <div class="input-area mb-4">
-                          <label for="name" class="form-label">Country</label>
-                          <input  name="country" type="text" class="form-control" required placeholder="Shipping Country">
-                      </div>
+                            <div class="input-area mb-4">
+                                <label for="name" class="form-label">Price</label>
+                                <input id="number" name="price" type="text" class="form-control" required placeholder="Shipping Price">
+                            </div>
+
                       <div class="input-area mb-4">
                         <label for="description" class="form-label">Status</label>
                         <select class="form-control" name="status">

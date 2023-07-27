@@ -16,6 +16,7 @@ class ProductAttributeController extends Controller
         $attribute = Attribute::with([
             'attributeTerms:id,attributes_id,attribute_term_name'
         ])->get();
+
         // dd($attribute);
         return view('admin.productAttributes.list',compact('attribute'));
     }

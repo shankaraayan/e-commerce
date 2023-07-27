@@ -2,11 +2,16 @@
 <div class="content-wrapper transition-all duration-150 ltr:ml-[248px] rtl:mr-[248px]" id="content_wrapper">
     <div class="page-content">
       <div class="transition-all duration-150 container-fluid" id="page_layout">
-        <div id="content_layout">
-
-
-
-
+        <div id="content_layout" class="fiexed top-0 right-0">
+         <div id="alert_status_update" style="width: 300px;display:none;" class="fixed flex-col top-0 right-0 flex gap-4 py-4">
+            <div class="py-[18px] px-6 font-normal font-Inter text-sm rounded-md bg-success-500 text-white dark:bg-success-500 dark:text-slate-300">
+                <div class="flex items-start space-x-3 rtl:space-x-reverse">
+                    <div class="flex-1">
+                     Status updated successfully !
+                    </div>
+                </div>
+            </div>
+         </div>
           <!-- BEGIN: Breadcrumb -->
           <div class="mb-5">
             <ul class="m-0 p-0 list-none">
@@ -25,7 +30,6 @@
             </ul>
           </div>
           <!-- END: BreadCrumb -->
-
 
           <div class=" space-y-5">
 
@@ -70,6 +74,7 @@
                           </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
+                            
                         <?php $__currentLoopData = $attribute; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$values): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                           <tr>
                             <td class="table-td"><?php echo e(++$key); ?></td>
@@ -77,17 +82,15 @@
 
                             <td class="table-td">
                                 <?php
-                                if (!empty($values->attribute_terms)) {
-                                    $attributeTermNames = implode(', ', $values->attribute_terms);
-                                } else {
                                     $attributeTermNames = '-';
-                                }
+
+                                    if (!empty($values->attributeTerms)) {
+                                        $attributeTermNames = $values->attributeTerms->pluck('attribute_term_name')->implode(', ');
+                                    }
                                 ?>
                                 <?php echo e($attributeTermNames); ?>
 
                             </td>
-
-
 
                             <td class="table-td ">
 
@@ -159,14 +162,13 @@
                        "status" : status
                    },
                    success : function(response){
+                    if(response){
+                        $("#alert_status_update").fadeIn();
+                        setTimeout(() => {
+                            $("#alert_status_update").fadeOut();
+                        }, 2000);
+                    }
                       console.log(response);
-                    //   if(response.checked){
-                    //       $(checkbox).attr('checked',"checked");
-                    //       $(checkbox).val(1);
-                    //   }else{
-                    //         $(checkbox).attr('checked',"unchecked");
-                    //         $(checkbox).val(0);
-                    //   }
                    },
                    error: function( error) {
                         console.log(error);

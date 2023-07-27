@@ -134,12 +134,14 @@ class AdminProductController extends Controller
     }
 
     public function update(ProductAdminRequest $request){
+
         //   dd($request->all());die;
         $options = is_array($request->options) ? implode(',', $request->options) : '';
         $dropdowns = is_array($request->dropdowns) ? implode(',', $request->dropdowns) : '';
 
 
         $editproduct = Product::find($request->productId);
+
         $editproduct->product_name = $request->product_name;
         $editproduct->attributes_id = $options;
         $editproduct->attributesTerms_id = $dropdowns;
@@ -160,7 +162,37 @@ class AdminProductController extends Controller
         $editproduct->subcategory_id = $request->subcategory;
         $editproduct->status = $request->status;
         $editproduct->sku = $request->sku;
+
+        if ($request->hasFile('images')) {
+            $images = $request->file('images');
+
+            foreach ($images as $image) {
+
+                $filename = uniqid() . '.' . $image->getClientOriginalExtension();
+
+                // Save the image to the storage folder
+                // $image->storeAs('public/images', $filename);
+
+                 $image->move(public_path('uploads'), $filename);
+
+                // Save the filename in the database
+                $imageModel = new ProductImages();
+                $imageModel->images = $filename;
+                $imageModel->product_id = $editproduct->id;
+                $imageModel->save();
+            }
+        }
+
+        if ($request->hasFile('thumb_image'))
+        {
+            $image = $request->file('thumb_image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads'), $filename);
+            $editproduct['thumb_image'] = $filename ?? '';// Save the filename or perform further operations
+        }
+
         $editproduct->save();
+
         return redirect()->route('admin.product.list')->with('success', 'Product Updated Sucessfully.');
         // $editproduct->product_name = $editproduct->product_name;
    }

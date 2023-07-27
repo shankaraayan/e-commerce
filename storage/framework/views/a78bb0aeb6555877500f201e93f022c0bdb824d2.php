@@ -43,24 +43,37 @@
                         <input type="hidden" name="shipping_id" value="<?php echo e($shippingId); ?>">
 
                         <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
-                          <div class="input-area mb-4">
+
+                            <div class="input-area mb-4">
+                                <label for="name" class="form-label">Country</label>
+
+                                <select name="country" class="form-control" required >
+                                    <option>Select Here</option>
+                                    <?php
+                                        $country = country();
+                                    ?>
+                                    <?php $__currentLoopData = $country; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($country->id); ?>"><?php echo e($country->country); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </select>
+                            </div>
+
+                            <div class="input-area mb-4">
                             <label for="name" class="form-label">Country Short Code</label>
                             <input id="name" name="name" type="text" class="form-control" required placeholder="Country Code">
                         </div>
 
-                        <div class="input-area mb-4">
-                          <label for="name" class="form-label">Price</label>
-                          <input id="number" name="price" type="text" class="form-control" required placeholder="Shipping Price">
-                      </div>
+
                         </div>
 
 
                         <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
 
-                        <div class="input-area mb-4">
-                          <label for="name" class="form-label">Country</label>
-                          <input  name="country" type="text" class="form-control" required placeholder="Shipping Country">
-                      </div>
+                            <div class="input-area mb-4">
+                                <label for="name" class="form-label">Price</label>
+                                <input id="number" name="price" type="text" class="form-control" required placeholder="Shipping Price">
+                            </div>
+
                       <div class="input-area mb-4">
                         <label for="description" class="form-label">Status</label>
                         <select class="form-control" name="status">

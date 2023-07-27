@@ -73,8 +73,6 @@
                               Action
                             </th>
 
-
-
                           </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
@@ -84,7 +82,13 @@
                             <td class="table-td"><?php echo e(++$key); ?></td>
                             <td class="table-td "><?php echo e($values->name); ?></td>
                             <td class="table-td "><?php echo e($values->price); ?></td>
-                            <td class="table-td "><?php echo e($values->country); ?></td>
+                            <td class="table-td ">
+                                <?php
+                                    $countryName = country()->where('id',$values->country)->pluck('country')->first();
+                                ?>
+                                <?php echo e($countryName); ?>
+
+                            </td>
                             <td class="table-td">
                               <?php if($values->status == 1): ?>
                                   <span class="badge bg-success-500 text-success-500 bg-opacity-30 capitalize">Active</span>
@@ -133,14 +137,32 @@
                                   <form action="<?php echo e(route('admin.shipping.country.update')); ?>" method="post" enctype="multipart/form-data">
                                     <?php echo csrf_field(); ?>
                                   <div class="p-6 space-y-4">
+
+                                    <div class="input-area mb-4">
+                                        <label for="name" class="form-label">Country</label>
+
+                                        <select name="country" class="form-control" required >
+                                            <option>Select Here</option>
+                                            <?php
+                                                $country = country();
+                                            ?>
+                                            <?php $__currentLoopData = $country; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <option value="<?php echo e($country->id); ?>" <?php if($country->id == $values->country): ?> selected <?php endif; ?>>
+
+                                                    <?php echo e($country->country); ?>
+
+                                                </option>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        </select>
+
+                                    </div>
+
+
                                           <div class="input-area mb-4">
                                               <label for="name" class="form-label">Country Short Code</label>
                                               <input id="name" name="name" type="text" class="form-control" value="<?php echo e($values->name); ?>" required placeholder="Country Short Code">
                                           </div>
-                                          <div class="input-area mb-4">
-                                            <label for="name" class="form-label">Country</label>
-                                            <input id="name" name="country" type="text" class="form-control" value="<?php echo e($values->country); ?>" required placeholder="Shipping Country">
-                                        </div>
+
                                         <div class="input-area mb-4">
                                           <label for="name" class="form-label">Price</label>
                                           <input id="name" name="price" type="text" class="form-control" value="<?php echo e($values->price); ?>" required placeholder="Shipping Price">

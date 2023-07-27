@@ -306,11 +306,15 @@
                                                         <option value="">Select Here...</option>
                                                         <?php
                                                             $shippingClass = shippingClass();
+
                                                         ?>
+
                                                         <?php $__currentLoopData = $shippingClass; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $shipping): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                            <?php if($shipping->status): ?>
                                                             <option value="<?php echo e($shipping->id); ?>"><?php echo e($shipping->name); ?>
 
                                                             </option>
+                                                            <?php endif; ?>
                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </select>
                                                 </div>
@@ -343,17 +347,21 @@
                                                 <span class="text-danger"><?php echo e($errors->first('type')); ?></span>
                                             <?php endif; ?>
                                         </div>
+
                                         <div id="variableOptions"
                                             style="display: none; max-height: 200px; overflow-y: auto;">
                                             <div class="input-area">
                                                 <label for="options" class="form-label">Variable Options*</label>
                                                 <?php $__currentLoopData = $attributes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $values): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <div>
-                                                        <input type="checkbox" class="myElement" name="options[]"
+
+                                                        <?php if($values->attribute_status==1): ?>
+                                                            <input type="checkbox" class="myElement" name="options[]"
                                                             value="<?php echo e($values->id); ?>"
                                                             data-type="<?php echo e($values->attribute_type); ?>"
                                                             onclick="handleCheckboxClick(this)">
-                                                        <label for="option1"><?php echo e($values->attribute_name); ?></label>
+                                                            <label for="option1"><?php echo e($values->attribute_name); ?></label>
+                                                        <?php endif; ?>
                                                     </div>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 

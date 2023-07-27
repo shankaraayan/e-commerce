@@ -19,6 +19,8 @@ use App\Http\Controllers\admin\OrderController;
 
 use App\Http\Controllers\admin\ShippingController;
 use App\Http\Controllers\admin\CouponController;
+use App\Http\Controllers\admin\UsersController;
+use App\Http\Controllers\admin\TaxController;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Address;
@@ -123,6 +125,17 @@ Route::name('admin.coupon.')->prefix('admin/coupon/')->middleware('isAdmin')->gr
     Route::get('delete/{id}', [CouponController::class, 'delete'])->name('delete');
 
 });
+
+
+// users
+Route::name('admin.users.')->prefix('admin/users/')->middleware('isAdmin')->group(function () {
+    Route::get('list', [UsersController::class, 'index'])->name('list');
+    Route::get('add', [UsersController::class, 'add'])->name('add');
+    Route::post('update/{id}', [UsersController::class, 'update'])->name('update');
+    Route::get('delete/{id}', [UsersController::class, 'delete'])->name('delete');
+
+});
+
 
 Route::name('admin.orders.')->prefix('admin/orders/')->middleware('isAdmin')->group(function () {
     Route::get('list', [OrderController::class, 'index'])->name('list');
@@ -238,6 +251,14 @@ Route::name('admin.settings.slider.')->prefix('admin/settings/slider')->middlewa
     Route::get('delete/{id}', [SettingController::class, 'delete_slider'])->name('delete');
 });
 
+Route::name('admin.taxation.')->prefix('admin/taxation')->middleware('isAdmin')->group(function(){
+    Route::get('list',[TaxController::class,'list'])->name('list');
+    Route::get('edit',[TaxController::class,'list'])->name('edit');
+    Route::get('add',[TaxController::class,'add_view'])->name('add');
+    Route::get('delete',[TaxController::class,'list'])->name('delete');
+    Route::post('store',[TaxController::class,'store'])->name('store');
+});
+
 // user
 Route::middleware(['auth'])->prefix('user')->group(function () {
     Route::get('dashboard', [ProfileController::class, 'index'])->name('user.dashboard');
@@ -257,6 +278,6 @@ Route::get('/email-view', [TestController::class, 'email_view']);
 
 
 Route::post('/coupon/apply',[CouponController::class,'apply_code'])->name('coupon.apply');
-Route::post('/coupon/remove',[CouponController::class,'code_remove'])->name('coupon.remove');
+Route::get('/coupon/remove',[CouponController::class,'code_remove'])->name('coupon.remove');
 
 Route::post('/admin/shipping/country/shipping_country_update', [ShippingController::class,'shippingPrice']);

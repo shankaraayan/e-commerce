@@ -141,11 +141,12 @@
                                             <label for="country" class="form-label">Country</label>
 
                                             <select required name="applicable_country[]" id="country" class="select2 form-control w-full mt-2 py-2" multiple="multiple">
-                                                <option value="all" class="inline-block font-Inter font-normal text-sm text-slate-600" {{ in_array('all', old('country', [])) ? 'selected' : '' }}>All</option>
-                                                {{-- @foreach ($country as $country)
-                                                $country[0]['id']
-                                                <option value="{{$country->id}}" class="inline-block font-Inter font-normal text-sm text-slate-600" {{ in_array($country->id,old('country', [])) ? 'selected' : '' }}>{{$country->country}}</option>
-                                                @endforeach --}}
+                                                <option value="all" class="inline-block font-Inter font-normal text-sm text-slate-600"
+                                                    {{ (in_array('all', $coupon->applicable_country) || old('country') === 'all') ? 'selected' : '' }}>
+                                                    All
+                                                </option>
+
+
 
                                                 @foreach ($coupon->applicable_country as $id)
                                                 @foreach ($country as $con)

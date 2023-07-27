@@ -11,6 +11,7 @@ class Country extends Model
 
     protected $fillable =[
         'country',
-        'city'
+        'short_code',
+        'vat_tax'
     ];
 }

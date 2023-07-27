@@ -30,9 +30,15 @@ class ShippingController extends Controller
         return redirect()->back()->with('success', 'Shipping Added Successfully');
     }
     public function update(Request $request){
+
         $saveShipping = Shipping::find($request->shipping_id);
         $saveShipping->name = $request->name;
-        $saveShipping->status = $request->status;
+        if($request->status == 1){
+            $saveShipping->status = 1;
+        }else{
+            $saveShipping->status = 0;
+        }
+
         $saveShipping->save();
 
         // return redirect()-back()->with('sucess','Shipping Add Sucessfully');
@@ -92,15 +98,19 @@ class ShippingController extends Controller
 
     public function shippingPrice(Request $request){
         $shippingCountry = $request->shipping_country;
-
+        // $shippingCountry = country()->where('id',$request->shipping_country)->pluck('id')->first();
         if ($shippingCountry) {
             $cart = session()->get('cart', []);
 
+            // $shipping_price = formatPrice(shippingCountry()->where('country',$shippingCountry)->pluck('price')->first());
+            // print_r($shipping_price);die;
+
             foreach($cart as $item){
                 $cart[$item['product_id']]['shipping_country'] = $shippingCountry;
+
             }
             $cart = session()->put('cart', $cart);
-            return $cart;
+            return json_encode($cart,true);
 
         }
         else {

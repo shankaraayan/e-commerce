@@ -110,6 +110,9 @@
                         <!-- Kartik -->
                         <div class="ps-section__carousel related_product_view">
                             <div class="main-image owl-carousel owl-loaded owl-drag" data-owl-loop="true" data-owl-auto="false" data-owl-nav="false" data-owl-dots="false">
+                                <div class="item">
+                                    <img src="<?php echo e(asset('root/public/uploads/' . $product->thumb_image)); ?>" alt="alt" />
+                                </div>
                                 <?php $__currentLoopData = $product->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="item">
                                     <img src="<?php echo e(asset('root/public/uploads/' . $image->images)); ?>" alt="alt" />
@@ -117,9 +120,14 @@
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                             <div class="gallery owl-carousel owl-loaded owl-drag" data-owl-loop="true" data-owl-auto="false" data-owl-nav="true" data-owl-dots="false" data-owl-item="4" data-owl-item-xs="2" data-owl-item-sm="3" data-owl-item-md="4" data-owl-item-lg="4" data-owl-item-xl="4">
+                                <div class="item" style="padding:10px;">
+                                    <img src="<?php echo e(asset('root/public/uploads/' . $product->thumb_image)); ?>" alt="alt" data-index="0" />
+                                </div>
                                 <?php $__currentLoopData = $product->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="item" style="padding:10px;">
-                                    <img src="<?php echo e(asset('root/public/uploads/' . $image->images)); ?>" alt="alt" data-index="<?php echo e($loop->index); ?>" />
+
+                                    <img src="<?php echo e(asset('root/public/uploads/' . $image->images)); ?>" alt="alt" data-index="<?php echo e($loop->index+1); ?>" />
+
                                 </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
@@ -178,6 +186,7 @@
                                                      <p class="ps-checkout__checkbox row p-4 ps-desc bg-light"><?php echo e($data->attribute_description); ?></p>
                                                     <div class="ps-checkout__checkbox row p-3">
                                                         <?php $__currentLoopData = $data->attributeTerms; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $keyss => $vales): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
                                                         <?php if($key == 0 && $data->attribute_type == 'panel'): ?>
                                                         <div class="form-check col-12 mb-3">
                                                             <input class="form-check-input"
@@ -193,6 +202,7 @@
                                                             <label class="form-check-label mx-2" for="var_radios<?php echo e($key); ?>_<?php echo e($keyss); ?>">
                                                                 <div class="row select_var_row p-3">
                                                                     <?php if(@$vales->image): ?>
+
                                                                         <div class="ps-section__thumbnail col-3">
                                                                             <img src="<?php echo e(asset('root/public/uploads/'.$vales->image)); ?>" alt="" width="100px">
                                                                         </div>
@@ -294,13 +304,10 @@
                                             $result = shippingCountry()->where('shipping_id',$product->shipping_class)->where('status',1);
                                         ?>
                                         <?php $__currentLoopData = $result; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <option value="<?php echo e($country->id); ?>"><?php echo e($country->country); ?></option>
+                                            <option value="<?php echo e($country->id); ?>"> <?php echo e(country()->where('id',$country->country)->pluck('country')->first()); ?> </option>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </select>
                                 </div>
-
-
-
                         </div>
                     </div>
                 </div>
@@ -312,7 +319,8 @@
                     </ul>
                     <div class="tab-content" id="productContent">
                         <div class="tab-pane fade show active" id="description-content" role="tabpanel" aria-labelledby="description-tab">
-                            <p class="ps-desc"><?php echo e($product->product_description); ?>.</p>
+                            <p class="ps-desc"></p>
+                            <?php echo $product->product_description  ?>
                         </div>
                         <div class="tab-pane fade" id="specification-content" role="tabpanel" aria-labelledby="specification-tab">
                             <table class="table ps-table ps-table--oriented">

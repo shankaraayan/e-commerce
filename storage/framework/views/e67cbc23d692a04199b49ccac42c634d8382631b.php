@@ -51,8 +51,9 @@
                                             <select value="<?php echo e(old('country')); ?>" class="ps-input country_shipping" name="country" id="country"
                                                 data-select2-id="1" tabindex="-1" aria-hidden="true">
                                                 <option value="" >Wählen Sie ein Land / eine Region…</option>
+
                                                 <?php $__currentLoopData = $shippingCountry; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                    <option <?php if($session_country == $country->id): ?> selected <?php endif; ?> value="<?php echo e($country->id); ?>"><?php echo e($country->country); ?> / <?php echo e(formatPrice($country->price)); ?></option>
+                                                    <option <?php if($session_country == $country->country): ?> selected <?php endif; ?> value="<?php echo e(country()->where('id',$country->country)->pluck('id')->first()); ?>"><?php echo e(country()->where('id',$country->country)->pluck('country')->first()); ?> / <?php echo e(formatPrice($country->price)); ?></option>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </select>
 
@@ -236,7 +237,7 @@ unset($__errorArgs, $__bag); ?>
                                                         data-select2-id="1" tabindex="-1" aria-hidden="true">
                                                         <option>Wählen Sie ein Land / eine Region…</option>
                                                         <?php $__currentLoopData = $shippingCountry; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                            <option <?php if($session_country == $country->id): ?> selected <?php endif; ?> value="<?php echo e($country->id); ?>"><?php echo e($country->country); ?> / <?php echo e(formatPrice($country->price)); ?></option>
+                                                            <option <?php if($session_country == $country->country): ?> selected <?php endif; ?> value="<?php echo e(country()->where('id',$country->country)->pluck('id')->first()); ?>"><?php echo e(country()->where('id',$country->country)->pluck('country')->first()); ?> / <?php echo e(formatPrice($country->price)); ?></option>
                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </select>
                                                     <?php $__errorArgs = ['district'];
@@ -455,73 +456,78 @@ unset($__errorArgs, $__bag); ?>
                                         <?php endif; ?>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 <?php endif; ?>
-                                <div class="ps-checkout__row">
-                                    <div class="ps-title">Zwischensumme</div>
-                                    <div class="ps-product__price"><?php echo e(formatPrice(@$total)); ?></div>
-                                </div>
-                                <?php
-                                    $cartDiscount =  session('cart');
-                                    $cartDiscount = end($cartDiscount);
-
-                                    $discountValue = @$cartDiscount['discount']['discount_value'] ?? 0;
-                                    $discountType = @$cartDiscount['discount']['type'] ?? '';
-                                    $discountCode = @$cartDiscount['discount']['code'] ?? 'Not Applied';
-
-                                    if($discountType == 'flat'){
-                                        $discountPrice = formatPrice($discountValue);
-                                    }
-                                    else{
-                                        $discountPrice = $discountValue.'%';
-                                    }
-                                ?>
-
-                                <div class="ps-checkout__row">
-                                    <div class="ps-title">Discount (<?php echo e($discountCode ?? 'Not Applied'); ?>)
-                                        <?php if(!empty(@$cartDiscount['discount']['code'])): ?>
-
-                                        <div class="ps-title" style="font-size:12px"><a class="text-danger" href="/coupon/remove">Remove Coupon</a></div>
-                                        <?php endif; ?>
+                                <div id="dynmicElChekout">
+                                    <div class="ps-checkout__row">
+                                        <div class="ps-title">Zwischensumme</div>
+                                        <div class="ps-product__price"><?php echo e(formatPrice(@$total)); ?></div>
                                     </div>
+                                    <?php
+                                        $cartDiscount =  session('cart');
+                                        $cartDiscount = end($cartDiscount);
 
-                                    <div class="ps-product__price">
-                                        <?php echo e($discountPrice); ?>
+                                        $discountValue = @$cartDiscount['discount']['discount_value'] ?? 0;
+                                        $discountType = @$cartDiscount['discount']['type'] ?? '';
+                                        $discountCode = @$cartDiscount['discount']['code'] ?? 'Not Applied';
 
-                                    </div>
-                                </div>
-                                <div class="ps-checkout__row">
-                                    <div class="ps-title">Versand</div>
-                                    <div class="ps-checkout__checkbox">
-                                        <div class="form-check">
-                                            
-                                            <label for="free-ship" id="shipping_price">
+                                        if($discountType == 'flat'){
+                                            $discountPrice = formatPrice($discountValue);
+                                        }
+                                        else{
+                                            $discountPrice = $discountValue.'%';
+                                        }
+                                    ?>
 
-                                                <?php
-                                                $shipping_country = $details['shipping_country'];
-                                                // dd($shipping_country);
-                                                ?>
-                                                <?php echo e(formatPrice($shipping_price = shippingCountry()->where('id',$shipping_country)->pluck('price')->first())); ?>
+                                <?php if(!empty(@$cartDiscount['discount']['code'])): ?>
+                                    <div class="ps-checkout__row">
+                                        <div class="ps-title">Discount (<?php echo e($discountCode ?? 'Not Applied'); ?>)
 
-                                            </label>
+                                            <div class="ps-title" style="font-size:12px"><a class="text-danger" href="/coupon/remove">Remove Coupon</a></div>
                                         </div>
 
-                                    </div>
-                                </div>
-                                <div class="ps-checkout__row">
-                                    <div class="ps-title">Total</div>
-                                    <div class="ps-product__price">
-                                        <?php
-                                            if($discountType == 'flat'){
-                                                $afterDiscount = $total-$discountValue;
-                                            }
-                                            else{
-                                                $dis =  $total * ($discountValue)/100;
-                                                $afterDiscount = $total - $dis;
-                                            }
-                                        ?>
-                                        
-                                        <?php echo e(formatPrice(@$afterDiscount +  $shipping_price)); ?>
+                                        <div class="ps-product__price">
+                                            <?php echo e($discountPrice); ?>
 
-                                        
+                                        </div>
+                                    </div>
+                                    <?php endif; ?>
+                                    <div class="ps-checkout__row">
+                                        <div class="ps-title">Versand</div>
+                                        <div class="ps-checkout__checkbox">
+                                            <div class="form-check">
+                                                
+                                                <label for="free-ship" id="shipping_price">
+
+                                                    <?php
+                                                    // dd($details);
+                                                    $shipping_country = $details['shipping_country'];
+
+                                                    // dd($shipping_country);
+                                                    ?>
+                                                    <?php echo e(formatPrice($shipping_price = shippingCountry()->where('country',$shipping_country)->pluck('price')->first())); ?>
+
+                                                    
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="ps-checkout__row">
+                                        <div class="ps-title">Total</div>
+                                        <div class="ps-product__price">
+                                            <?php
+                                                if($discountType == 'flat'){
+                                                    $afterDiscount = $total-$discountValue;
+                                                }
+                                                else{
+                                                    $dis =  $total * ($discountValue)/100;
+                                                    $afterDiscount = $total - $dis;
+                                                }
+                                            ?>
+                                            
+                                            <?php echo e(formatPrice(@$afterDiscount +  $shipping_price)); ?>
+
+                                            
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="ps-checkout__payment">
@@ -584,7 +590,7 @@ unset($__errorArgs, $__bag); ?>
                     const {message,status} = JSON.parse(response);
 
                     if(status === "success"){
-                        console
+
                         toastr.success(message);
                     }else{
                         toastr.error(message);
@@ -613,12 +619,17 @@ unset($__errorArgs, $__bag); ?>
     selectElement.onchange = function(e) {
 
        var id = e.target.value;
+    //    alert(id);
        document.querySelectorAll('.country_shipping').forEach(selectd =>{
              if( !selectd.value==""){
                  selectd.value = e.target.value;
 
              }
         });
+
+        // dynaic shipping mange
+
+        var dynmicElChekout = document.querySelector("#dynmicElChekout");
 
        $.ajax({
            url: "/admin/shipping/country/shipping_country_update",
@@ -628,7 +639,8 @@ unset($__errorArgs, $__bag); ?>
                     "shipping_country": id,
                 },
                 success: function(response) {
-                //    console.log(response)
+                    console.log(response);
+
                 window.location.reload();
                 },
                 error : function(err){

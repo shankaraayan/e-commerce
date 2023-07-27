@@ -353,10 +353,14 @@
                                                         <option value="">Select Here...</option>
                                                         @php
                                                             $shippingClass = shippingClass();
+
                                                         @endphp
+
                                                         @foreach ($shippingClass as $shipping)
+                                                            @if($shipping->status)
                                                             <option value="{{ $shipping->id }}">{{ $shipping->name }}
                                                             </option>
+                                                            @endif
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -390,17 +394,21 @@
                                                 <span class="text-danger">{{ $errors->first('type') }}</span>
                                             @endif
                                         </div>
+
                                         <div id="variableOptions"
                                             style="display: none; max-height: 200px; overflow-y: auto;">
                                             <div class="input-area">
                                                 <label for="options" class="form-label">Variable Options*</label>
                                                 @foreach ($attributes as $values)
                                                     <div>
-                                                        <input type="checkbox" class="myElement" name="options[]"
+
+                                                        @if ($values->attribute_status==1)
+                                                            <input type="checkbox" class="myElement" name="options[]"
                                                             value="{{ $values->id }}"
                                                             data-type="{{ $values->attribute_type }}"
                                                             onclick="handleCheckboxClick(this)">
-                                                        <label for="option1">{{ $values->attribute_name }}</label>
+                                                            <label for="option1">{{ $values->attribute_name }}</label>
+                                                        @endif
                                                     </div>
                                                 @endforeach
 

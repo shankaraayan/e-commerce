@@ -65,8 +65,7 @@ class CouponController extends Controller
         // return $request->country;
         if ($coupon) {
 
-             // return today();
-             if(today() > $coupon->expiry_date){
+            if(today() >= $coupon->expiry_date){
                 $response = ['message' => 'Coupon is already expired.','status' => 'faild',];
                     return json_encode($response);
             }
@@ -124,6 +123,27 @@ class CouponController extends Controller
             $response = ['message' => 'Coupon Not Found!','status' => 'faild',];
             return json_encode($response);
         }
+    }
+
+    public function code_remove()
+    {
+        $cart = session()->get('cart', []);
+
+        foreach ($cart as &$item) {
+            if (isset($item['product_id'])) {
+                $item['discount'] = [
+                    'code' => null,
+                    'type' => null,
+                    'discount_value' => null,
+                ];
+            }
+        }
+
+        session()->put('cart', $cart);
+
+        // dd(session('cart'));
+
+        return redirect()->back();
     }
 
     public function randomStr(){
