@@ -497,7 +497,7 @@
 
         var dynmicElChekout = document.querySelector("#dynmicElChekout");
 
-        shipping_update(dynmicElChekout);
+        shipping_update(id,dynmicElChekout);
     // shipping check
 
 
@@ -506,12 +506,13 @@
 $(document).ready(function(){
     $(".shipping_check").on('click',function(){
         var dynmicElChekout = document.querySelector("#dynmicElChekout");
+        var id = $(this).val();
 
         if ($(this).prop("checked")) {
             $("#shipping_conuntry").removeClass('country_shipping');
             $("#shipping_conuntry").addClass('bottom_shipping_country');
             $(".bottom_shipping_country").on('change',function(){
-                shipping_update(dynmicElChekout);
+                shipping_update(id,dynmicElChekout);
             });
          }
         else {
