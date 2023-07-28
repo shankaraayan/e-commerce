@@ -91,16 +91,11 @@
 
 
                                 <td scope="col" class=" table-td flex">
-                                    <a href="{{route('admin.taxation.edit',$tax->id)}}">  <button class="action-btn" type="button">
+                                    <a href="{{route('admin.taxation.edit',[$tax->id])}}">  <button class="action-btn" type="button">
                                         <iconify-icon icon="heroicons:pencil-square"></iconify-icon>
                                     </button></a>
 
-                                    <button class="action-btn ml-3 copy-button" id="copyReferralButton"
-                                        data-referral="{{ $tax->code }}">
-                                        <iconify-icon icon="heroicons:clipboard-document-list"></iconify-icon>
-                                    </button>
-
-                                    <a href="{{route('admin.taxation.delete',$tax->id)}}">
+                                    <a href="{{route('admin.taxation.delete',[$tax->id])}}">
                                         <button class="action-btn ml-3" >
                                             <iconify-icon icon="heroicons:trash"></iconify-icon>
                                         </button>

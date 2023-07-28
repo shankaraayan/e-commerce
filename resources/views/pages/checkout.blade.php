@@ -159,7 +159,7 @@
                                     <div class="col-12">
                                         <div class="ps-checkout__group">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="ship-address"
+                                                <input class="form-check-input shipping_check" type="checkbox" name="ship-address"
                                                     id="ship-address">
                                                 <label class="form-check-label" for="ship-address">Versand an eine andere
                                                     Adresse?</label>
@@ -172,7 +172,7 @@
                                             <div class="col-12">
                                                 <div class="ps-checkout__group">
                                                     <label class="ps-checkout__label">Country</label>
-                                                    <select value="{{ old('shipping_country') }}" class="ps-input country_shipping" name="shipping_country"
+                                                    <select value="{{ old('shipping_country') }}" class="ps-input country_shipping" id="shipping_conuntry" name="shipping_country"
                                                         data-select2-id="1" tabindex="-1" aria-hidden="true">
                                                         <option>Wählen Sie ein Land / eine Region…</option>
                                                         @foreach ($shippingCountry as $country)
@@ -353,7 +353,7 @@
                                         }
                                     @endphp
 
-                                @if(!empty(@$cartDiscount['discount']['code']))
+                                    @if(!empty(@$cartDiscount['discount']['code']))
                                     <div class="ps-checkout__row">
                                         <div class="ps-title">Discount ({{$discountCode ?? 'Not Applied'}})
 
@@ -497,7 +497,32 @@
 
         var dynmicElChekout = document.querySelector("#dynmicElChekout");
 
-       $.ajax({
+        shipping_update(dynmicElChekout);
+    // shipping check
+
+
+}
+
+$(document).ready(function(){
+    $(".shipping_check").on('click',function(){
+        var dynmicElChekout = document.querySelector("#dynmicElChekout");
+
+        if ($(this).prop("checked")) {
+            $("#shipping_conuntry").removeClass('country_shipping');
+            $("#shipping_conuntry").addClass('bottom_shipping_country');
+            $(".bottom_shipping_country").on('change',function(){
+                shipping_update(dynmicElChekout);
+            });
+         }
+        else {
+            $("#shipping_conuntry").removeClass('bottom_shipping_country');
+            $("#shipping_conuntry").addClass('country_shipping');
+        }
+    });
+})
+
+function shipping_update(){
+    $.ajax({
            url: "/admin/shipping/country/shipping_country_update",
            method: 'post',
            data: {
@@ -505,17 +530,52 @@
                     "shipping_country": id,
                 },
                 success: function(response) {
-                    console.log(response);
 
-                window.location.reload();
+                    console.log(response);
+                    // return false;
+                    $(dynmicElChekout).html(`
+                            <div class="ps-checkout__row">
+                                <div class="ps-title">Zwischensumme</div>
+                                <div class="ps-product__price">{{ formatPrice(@$total) }}</div>
+                            </div>
+
+                            <div class="ps-checkout__row d-none">
+                                <div class="ps-title">Discount
+
+                                    <div class="ps-title" style="font-size:12px"><a class="text-danger" href="/coupon/remove">Remove Coupon</a></div>
+                                </div>
+
+                                <div class="ps-product__price">
+                                    00.00
+                                </div>
+                            </div>
+
+                            <div class="ps-checkout__row">
+                                <div class="ps-title">Versand</div>
+                                <div class="ps-checkout__checkbox">
+                                    <div class="form-check">
+                                        <label for="free-ship" id="shipping_price">
+                                           ${response.shipping_price}
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="ps-checkout__row">
+                                <div class="ps-title">Total</div>
+                                <div class="ps-product__price">
+                                    ${response.total}
+                                </div>
+                            </div>
+                    `);
+
+                // window.location.reload();
                 },
                 error : function(err){
                     console.log(err);
                 }
             });
-
-
-      };
+        };
     });
 
 }

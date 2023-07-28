@@ -38,4 +38,29 @@ class TaxController extends Controller
         // dd($request->all());
         return redirect()->back();
     }
+
+    public function edit_view($id)
+    {
+        $taxation = Country::find($id);
+        return view('admin.tax.edit',compact('taxation'));
+    }
+
+    public function update(Request $request)
+    {
+        // $taxation = Country::find($request->id);
+
+        Country::where('id',$request->id)->update([
+            'vat_tax' => $request->vat_tax,
+            'country' => $request->country,
+            'short_code' => $request->short_code,
+        ]);
+
+        return redirect()->route('admin.taxation.list');
+    }
+
+    public function delete($id)
+    {
+        Country::find($id)->delete();
+        return redirect()->back();
+    }
 }

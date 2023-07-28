@@ -253,10 +253,11 @@ Route::name('admin.settings.slider.')->prefix('admin/settings/slider')->middlewa
 
 Route::name('admin.taxation.')->prefix('admin/taxation')->middleware('isAdmin')->group(function(){
     Route::get('list',[TaxController::class,'list'])->name('list');
-    Route::get('edit',[TaxController::class,'list'])->name('edit');
+    Route::get('edit/{id}',[TaxController::class,'edit_view'])->name('edit');
     Route::get('add',[TaxController::class,'add_view'])->name('add');
-    Route::get('delete',[TaxController::class,'list'])->name('delete');
+    Route::get('delete/{id}',[TaxController::class,'delete'])->name('delete');
     Route::post('store',[TaxController::class,'store'])->name('store');
+    Route::post('update',[TaxController::class,'update'])->name('update');
 });
 
 // user

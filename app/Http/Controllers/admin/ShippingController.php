@@ -102,16 +102,18 @@ class ShippingController extends Controller
         if ($shippingCountry) {
             $cart = session()->get('cart', []);
 
-            // $shipping_price = formatPrice(shippingCountry()->where('country',$shippingCountry)->pluck('price')->first());
-            // print_r($shipping_price);die;
-
+            $shipping_price = shippingCountry()->where('country',$shippingCountry)->pluck('price')->first();
+            $total = 0;
             foreach($cart as $item){
                 $cart[$item['product_id']]['shipping_country'] = $shippingCountry;
-
+                $total+= ($item['price']*$item['quantity']);
             }
-            $cart = session()->put('cart', $cart);
-            return json_encode($cart,true);
-
+            session()->put('cart',$cart);
+            $total = ($total+ $shipping_price);
+            return response()->json([
+                'shipping_price' => formatPrice($shipping_price),
+                'total' =>formatPrice($total)
+            ]);
         }
         else {
             return false;
