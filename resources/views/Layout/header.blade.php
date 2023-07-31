@@ -2,12 +2,14 @@
     <div class="ps-noti py-2">
         <div class="container">
             <div class="row">
-                <div class="col d-flex align-items-center">
-                    <!--<ul class="list-inline text-white">-->
-                    <!--    <li class="list-inline-item"><a href="#"><i class="fa fa-linkedin"></i></a></li>-->
-                    <!--</ul>-->
+                <div class="col d-flex align-items-center topleft_socialicons">
+                    <ul class="list-inline text-white">
+                     <li class="list-inline-item"><a class="ps-social__link linkedin" href="#"><i class="fa fa-linkedin fs-2"></i></a></li>
+                     <li class="list-inline-item"><a class="d-flex align-items-center justify-content-start" href="tel:4904042308603">Hotline : +49 (0) 40 4230 8603</a></li>
+                    </ul>
+
                 </div>
-                <div class="col d-flex align-items-center justify-content-end">
+                <div class="col d-flex align-items-center justify-content-end topright_userlogin">
                     <ul class="list-inline text-white">
                         <!--<li class="list-inline-item"><a href="#" class="font-weight-light">Über uns</a></li>-->
                         <!--<li class="list-inline-item">-->
@@ -39,10 +41,14 @@
             </div>
         </div>
     </div>
-    <div class="ps-header__top">
+    <div class="ps-header__top d-none">
         <div class="container">
-            <div class="ps-header__text"><strong><a href="tel:4904042308603"><i
-                class="icon-telephone fs-2 font-weight-bold"></i> : 49 (0) 40 4230 8603</a></strong>
+            <div class="row">
+                <div class="col-12">
+                    <div class="ps-header__text"><strong><a class="d-flex align-items-center justify-content-center" href="tel:4904042308603"><i
+                        class="icon-telephone fs-2 font-weight-bold mr-2"></i> : 49 (0) 40 4230 8603</a></strong>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -53,7 +59,7 @@
                 href="#"><i class="fa fa-bars"></i></a>
             <div class="ps-header__right">
                 <ul class="ps-header__icons">
-                    <li class="ps-header__item"><a href="{{ route('shop') }}"><i class="icon-bag2"></i></a></li>
+                    <li class="ps-header__item"><a href="{{ route('catalog') }}"><i class="icon-bag2"></i></a></li>
                     <li>
                         @auth
                             <a class="ps-header__item" href="{{ route('user.dashboard') }}"><i class="icon-user"></i></a>
@@ -95,40 +101,7 @@
                     <li><a class="ps-header__item" href="{{ url('cart') }}" id="cart-mini"><i class="icon-cart-empty"></i><span
                                 class="badge my_cart_count">{{ count((array) session('cart')) }}</span></a>
 
-                        {{-- <div class="ps-cart--mini"> --}}
-                            {{-- <ul class="ps-cart__items">
-                                <li class="ps-cart__item">
-                                    <div class="ps-product--mini-cart"><a class="ps-product__thumbnail"
-                                            href="product-default.html"><img
-                                                src="{{ asset('assets/img/products/055.jpg') }}" alt="alt" /></a>
-                                        <div class="ps-product__content"><a class="ps-product__name"
-                                                href="product-default.html">Somersung Sonic X2500 Pro White</a>
-                                            <p class="ps-product__meta"> <span class="ps-product__price">$399.99</span>
-                                            </p>
-                                        </div><a class="ps-product__remove" href="javascript: void(0)"><i
-                                                class="icon-cross"></i></a>
-                                    </div>
-                                </li>
-                                <li class="ps-cart__item">
-                                    <div class="ps-product--mini-cart"><a class="ps-product__thumbnail"
-                                            href="product-default.html"><img
-                                                src="{{ asset('assets/img/products/001.jpg') }}"
-                                                alt="alt" /></a>
-                                        <div class="ps-product__content"><a class="ps-product__name"
-                                                href="product-default.html">Digital Thermometer X30-Pro</a>
-                                            <p class="ps-product__meta"> <span
-                                                    class="ps-product__sale">$77.65</span><span
-                                                    class="ps-product__is-price">$80.65</span></p>
-                                        </div><a class="ps-product__remove" href="javascript: void(0)"><i
-                                                class="icon-cross"></i></a>
-                                    </div>
-                                </li>
-                            </ul>
-                            <div class="ps-cart__total"><span>Subtotal </span><span>$399</span></div>
-                            <div class="ps-cart__footer"><a class="ps-btn ps-btn--outline"
-                                    href="{{ url('cart') }}">View Cart</a><a class="ps-btn ps-btn--warning"
-                                      href="checkout.html">Checkout</a></div>
-                           </div> --}}
+
                     </li>
                 </ul>
                 <!-- <div class="ps-language-currency"><a class="ps-dropdown-value" href="javascript:void(0);" data-toggle="modal" data-target="#popupLanguage">English</a><a class="ps-dropdown-value" href="javascript:void(0);" data-toggle="modal" data-target="#popupCurrency">USD</a></div> -->
@@ -148,7 +121,7 @@
 
 
                             </div>
-                            <div class="ps-result__viewall"><a href="{{route('shop')}}">View all results</a>
+                            <div class="ps-result__viewall"><a href="{{route('catalog')}}">View all results</a>
                             </div>
                         </div>
                     </div>
@@ -158,24 +131,28 @@
     </div>
     <div class="ps-navigation">
         <div class="container">
-            <div class="ps-navigation__left">
-                <nav class="ps-main-menu">
-                    <ul class="menu">
-                        <li class="has-mega-menu"><a href="/">Home</a></li>
-                        <li class="has-mega-menu">
-                            <a href="{{route('shop')}}">Shop</a>
-                        </li>
-                       @foreach(headerCategories() as $cat)
-                        <li class="has-mega-menu"><a href="{{route('shop',$cat->slug)}}">{{$cat->name}}</a></li>
-                        @endforeach
+            <div class="row">
+                <div class="col-12">
+                    <div class="ps-navigation__left">
+                        <nav class="ps-main-menu">
+                            <ul class="menu">
+                                <li class="has-mega-menu"><a href="/">Home</a></li>
+                                <li class="has-mega-menu">
+                                    <a href="{{route('catalog')}}">Shop</a>
+                                </li>
+                               @foreach(headerCategories() as $cat)
+                                <li class="has-mega-menu"><a href="{{route('shop',$cat->slug)}}">{{$cat->name}}</a></li>
+                                @endforeach
 
-                        <!--<li class="has-mega-menu"><a href="javascript:void(0);">Blog</a></li>-->
-                        <!--<li class="has-mega-menu"><a href="contact-us.html">Contact</a></li>-->
-                    </ul>
-                </nav>
+                                <!--<li class="has-mega-menu"><a href="javascript:void(0);">Blog</a></li>-->
+                                <!--<li class="has-mega-menu"><a href="contact-us.html">Contact</a></li>-->
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
             </div>
-            <div class="ps-navigation__right"><strong><a href="tel:4904042308603"><i
-                            class="icon-telephone fs-2 font-weight-bold"></i> : 49 (0) 40 4230 8603</a></strong>
+            <div class="ps-navigation__right d-none"><strong><a class="d-flex align-items-center justify-content-end" href="tel:4904042308603"><i
+                            class="icon-telephone fs-2 font-weight-bold mr-2"></i> : 49 (0) 40 4230 8603</a></strong>
             </div>
         </div>
     </div>
@@ -183,8 +160,8 @@
 <header class="ps-header ps-header--1 ps-header--mobile">
     <div class="ps-noti">
         <div class="container">
-            <p class="m-0 text-white"><strong><a href="tel:4904042308603"><i
-                            class="icon-telephone fs-2 font-weight-bold"></i> : 49 (0) 40 4230 8603</a></strong>
+            <p class="m-0 text-white py-3"><strong><a class="d-flex align-items-center justify-content-center" href="tel:4904042308603"><i
+                            class="icon-telephone fs-2 font-weight-bold mr-2"></i> : 49 (0) 40 4230 8603</a></strong>
             </p>
         </div> </a>
     </div>

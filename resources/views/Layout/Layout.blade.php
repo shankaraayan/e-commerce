@@ -16,7 +16,8 @@
     <link rel="stylesheet" href="{{asset('assets/plugins/font-awesome/css/font-awesome.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/fonts/Linearicons/Font/demo-files/demo.css')}}">
     <link rel="preconnect" href="{{asset('assets/https://fonts.gstatic.com')}}">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Jost:400,500,600,700&amp;display=swap&amp;ver=1607580870')}}">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('assets/plugins/bootstrap4/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/plugins/owl-carousel/assets/owl.carousel.css')}}">
     <link rel="stylesheet" href="{{asset('assets/plugins/slick/slick/slick.css')}}">
@@ -51,7 +52,7 @@
         font-weight: 600;
         padding: 3px 18px;
         border-radius: 10px !important;
-        border: 1px solid #f0f2f5;  
+        border: 1px solid #f0f2f5;
         margin-bottom: 10px;
     }
     .ps-product__variations_sec .accordion .card-header{
@@ -105,7 +106,7 @@
     @include('Layout.footer')
 
     @include('includes.include')
-    
+
     <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.js"></script>
     <script src="{{asset('assets/plugins/popper.min.js')}}"></script>
     <script src="{{asset('assets/plugins/bootstrap4/js/bootstrap.min.js')}}"></script>

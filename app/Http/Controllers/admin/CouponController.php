@@ -108,10 +108,10 @@ class CouponController extends Controller
 
             $subtotal = 0;
             $coupon_data = [];
-
+            $cart_items = [];
             foreach ($cart as &$item) {
-                $tax = getTaxCountry((int)$request->country);
-
+                $tax = getTaxCountry((int)$item['shipping_country']);
+                $country = $item['shipping_country'];
                 $subtotal+= ($item['price']*$item['quantity'] + ($item['price'] * $tax['vat_tax'] /100 * $item['quantity']));
                 if (isset($item['product_id'])) {
                     $coupon_data =  $item['discount'] = [
@@ -119,12 +119,17 @@ class CouponController extends Controller
                         'type' => $coupon->appliable_on,
                         'discount_value' => $coupon->price,
                     ];
+                    // $item['price_with_tax'] =($item['price']*$item['quantity'] + (@$item['price'] * $tax['vat_tax'] /100 * @$item['quantity']) ) ;
+
                 }
+                 $item['price_with_tax'] = formatPrice( ($item['price']*$item['quantity'] + ($item['price'] * $tax['vat_tax'] /100 * $item['quantity'])));
+                 array_push($cart_items,$item);
 
             }
 
+            // print_r( $cart);die;
 
-            $shipping_price = shippingCountry()->where('country',$request->country)->pluck('price')->first();
+            $shipping_price = shippingCountry()->where('country',$country)->pluck('price')->first();
 
             if( $coupon_data['type']=="flat")
             {
@@ -138,14 +143,18 @@ class CouponController extends Controller
             }
 
             $data = [
+                "subtotal" => formatPrice($subtotal),
+                "cart" => $cart_items,
                 "shipping_price" => formatPrice($shipping_price),
                 "total" => formatPrice($total),
                 "discount_value" => $coupon_data['discount_value']!=="flat" ? $coupon_data['discount_value'].'%':$coupon_data['discount_value'].'',
                 "code"=>$coupon_data['code']
             ];
+            session()->put('cart', $cart);
+
             // print_r($data);die;
             $response = ['message' => 'Coupon Applied!','status' => 'success',"data"=>$data];
-            $cart = session()->put('cart', $cart);
+
             return json_encode($response);
         } else {
             $response = ['message' => 'Coupon Not Found!','status' => 'faild',];
@@ -167,28 +176,35 @@ class CouponController extends Controller
             }
         }
 
-         session()->put('cart', $cart);
-         $cart = session()->get('cart', []);
 
+         session()->put('cart', $cart);
          $shippingCountry = end($cart);
 
         // dd(session('cart'));
-            $total = 0;
+
+            $cart_items = [];
+            $subtotal = 0;
             foreach($cart as $item){
                 $tax = getTaxCountry((int)$shippingCountry['shipping_country']);
-                $total+= ($item['price']*$item['quantity'] + ($item['price'] * $tax['vat_tax'] /100 * $item['quantity']));
-
+                $subtotal += ($item['price']*$item['quantity'] + ($item['price'] * $tax['vat_tax'] /100 * $item['quantity']));
+                $item['price_with_tax'] = formatPrice( ($item['price']*$item['quantity'] + $item['price'] * $tax['vat_tax'] /100 * $item['quantity']));
+                array_push($cart_items,$item);
             }
             $shipping_price = shippingCountry()->where('country',$shippingCountry['shipping_country'])->pluck('price')->first();
 
-            $total = ($total+ $shipping_price);
+            $total = ($subtotal+ $shipping_price);
 
             $data = [
+                'subtotal' => formatPrice($subtotal),
+                'cart' => $cart_items,
                 'shipping_price' => formatPrice($shipping_price),
                 'total' =>formatPrice($total)
             ];
+
             $response = ['message' => 'Coupon removed!','status' => 'success',"data"=>$data];
+
             return json_encode($response);
+
         // return redirect()->back();
     }
 

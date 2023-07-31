@@ -144,7 +144,7 @@
                                         <div class="ps-product__row ps-product__subtotal">
                                             <div class="ps-product__label">Subtotal:</div>
                                             <div class="ps-product__value">
-                                                {{ formatPrice(@$details['price'] * @$details['quantity'] + (@$details['price'] * $tax['vat_tax'] ?? 0 /100 * @$details['quantity']) ) }}</div>
+                                                {{ formatPrice(@$details['price'] * @$details['quantity'] + (@$details['price'] * @$tax['vat_tax'] ?? 0 /100 * @$details['quantity']) ) }}</div>
                                         </div>
                                     </div>
                                 </div>

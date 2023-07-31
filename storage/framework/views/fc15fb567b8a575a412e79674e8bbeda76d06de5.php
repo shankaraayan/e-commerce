@@ -68,9 +68,7 @@
                             <th scope="col" class=" table-th ">
                               Action
                             </th>
-                            <th scope="col" class=" table-th ">
-                                Attribute Terms
-                              </th>
+
                           </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
@@ -78,7 +76,9 @@
                         <?php $__currentLoopData = $attribute; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$values): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                           <tr>
                             <td class="table-td"><?php echo e(++$key); ?></td>
-                            <td class="table-td "><?php echo e($values->attribute_name); ?></td>
+                            <td class="table-td ">
+                                <a style="color:rgb(20, 20, 229)" href="<?php echo e(route('admin.product.attribute_terms.add',$values->id)); ?>">   <?php echo e($values->attribute_name); ?> </a>
+                            </td>
 
                             <td class="table-td">
                                 <?php
@@ -120,9 +120,6 @@
                               </div>
                             </td>
 
-                            <td class="table-td ">
-                             <a href="<?php echo e(route('admin.product.attribute_terms.add',$values->id)); ?>">   <button class="btn text-white bg-slate-700" >Add Attribute Terms</button></a>
-                            </td>
                           </tr>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 

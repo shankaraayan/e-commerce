@@ -12,9 +12,9 @@
             </form>
             <div class="ps-search__result">
                 <div class="ps-search__item" id="search-results-mobile">
-                    
+
                 </div>
-                <div class="ps-result__viewall"><a class="text-center" href="<?php echo e(route('shop')); ?>">View all results</a>
+                <div class="ps-result__viewall"><a class="text-center" href="<?php echo e(route('catalog')); ?>">View all results</a>
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
         <?php else: ?>
             <a class="ps-header__item" href="<?php echo e(route('login.register')); ?>"><i class="icon-user"></i></a>
         <?php endif; ?>
-            
+
             </div>
         <!--<div class="ps-nav__item"><a href="wishlist.html"><i class="fa fa-heart-o"></i><span class="badge">3</span></a>-->
         <!--</div>-->
@@ -43,7 +43,7 @@
         <div class="ps-menu__content">
             <ul class="menu--mobile">
                 <li><a href="<?php echo e(route('homepage')); ?>">Home</a></li>
-                <li class="menu-item-has-children"><a href="<?php echo e(route('shop')); ?>">Shop</a></li>
+                <li class="menu-item-has-children"><a href="<?php echo e(route('catalog')); ?>">Shop</a></li>
                <?php $__currentLoopData = headerCategories(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <li class="has-mega-menu"><a href="<?php echo e(route('shop',$cat->slug)); ?>"><?php echo e($cat->name); ?></a></li>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -325,8 +325,8 @@
         </div>
     </div>
    
-    
-    
+
+
     <script>
 $(document).ready(function() {
     $('#mobile-keyword').keyup(function() {
@@ -339,13 +339,13 @@ $(document).ready(function() {
                 data: { keyword: keyword },
                 success: function(response) {
                     var dropdown = $('#search-results-mobile');
-            
+
                     dropdown.empty();
 
                     if (response.length > 0) {
                         response.slice(0, 4).map(function(item) {
                             let url = "<?php echo e(route('product.detail')); ?>/" + item.slug;
-                        
+
                             let imageUrl = "<?php echo e(asset('root/public/uploads/')); ?>/" + item.thumb_image;
                             console.log(url);
                             dropdown.append('<div class="ps-product ps-product--horizontal">' +
@@ -377,4 +377,5 @@ $(document).ready(function() {
 
 
 
-</script><?php /**PATH /home/customstegpearl/public_html/root/resources/views/includes/include.blade.php ENDPATH**/ ?>
+</script>
+<?php /**PATH /home/customstegpearl/public_html/root/resources/views/includes/include.blade.php ENDPATH**/ ?>

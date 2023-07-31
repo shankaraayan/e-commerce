@@ -1,6 +1,4 @@
-@extends('../Layout.Layout')
-
-@section("style")
+<?php $__env->startSection("style"); ?>
 <style>
 .menu--mobile>li{
     padding:5px 0px;
@@ -30,17 +28,17 @@
     }
     </style>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section("content")
+<?php $__env->startSection("content"); ?>
 
     <div class="ps-page">
 
         <div class="ps-categogy ps-categogy--separate">
             <div class="container">
                 <ul class="ps-breadcrumb">
-                    <li class="ps-breadcrumb__item"><a href="{{route('homepage')}}">Home</a></li>
-                    <li class="ps-breadcrumb__item active" aria-current="page">Shop</li>
+                    <li class="ps-breadcrumb__item"><a href="<?php echo e(route('homepage')); ?>">Home</a></li>
+                    <li class="ps-breadcrumb__item active" aria-current="page">Shop by Category</li>
                 </ul>
                 <!--<h1 class="ps-categogy__name mt-5">Shop</h1>-->
                 <div class="ps-categogy__content">
@@ -59,59 +57,25 @@
                                 <h4 class="ps-widget__title">Produkt-Kategorien</h4><a class="ps-block-control" href="#"><i class="fa fa-angle-down"></i></a>
                                 <div class="ps-widget__content ps-widget__category">
                                     <ul class="menu--mobile">
-                                        @if(!empty(@$Category))
-                                            @foreach($Category as $cat)
-                                                <li><a href="javascript:void(0);" id="{{$cat->id}}" onclick="categoryProduct(this.id);">{{ $cat->name }}</a>
-
-                                                    @if(count($cat->subcategories) > 0)
+                                        <?php if(!empty(@$Category)): ?>
+                                            <?php $__currentLoopData = $Category; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <li><a href="<?php echo e(route('shop',$cat->slug)); ?>" id="<?php echo e($cat->id); ?>" onclick="categoryProduct(this.id);"><?php echo e($cat->name); ?></a>
+                                                    <?php if(count($cat->subcategories) > 0): ?>
                                                     <ul class="menu--mobile new-li">
-                                                        @foreach($cat->subcategories as $subcat)
+                                                        <?php $__currentLoopData = $cat->subcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subcat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                             <li>
-                                                                <a href="javascript:void(0);" id="{{ $subcat->id }}" onclick="categoryProduct(this.id);">
+                                                                <a href="<?php echo e(route('shop', $subcat->slug)); ?>" id="<?php echo e($subcat->id); ?>" onclick="categoryProduct(this.id);">
                                                                     <i class="fa fa-arrow-right" ></i>
-                                                                    {{ $subcat->name }}</a>
+                                                                    <?php echo e($subcat->name); ?></a>
                                                             </li>
-                                                        @endforeach
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </ul>
-                                                @endif
-
+                                                <?php endif; ?>
                                                 </li>
 
-                                            @endforeach
-                                        @endif
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php endif; ?>
                                     </ul>
-                                </div>
-                            </div>
-
-                            <div class="ps-widget__block">
-                                <h4 class="ps-widget__title">Ähnliche Produkte</h4><a class="ps-block-control" href="#"><i class="fa fa-angle-down"></i></a>
-                                <div class="ps-widget__content">
-
-                                    @if(!empty(@$products))
-                                        @foreach($products as $key => $product)
-
-                                            @if($key == 5)
-                                                @break
-                                            @endif
-                                            <div class="ps-widget__item">
-                                                <div class="row no-gutters">
-                                                    <div class="col-4 pr-2">
-                                                        <div class="product_pics">
-                                                            <img src="{{asset('root/public/uploads/'.$product->thumb_image)}}" class="img-fluid" alt="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-8">
-                                                    <div class="product_info_rel">
-                                                        <p class="product_info_name ps-product__title">{{ $product->product_name }}</p>
-                                                        {{-- <div class="product_info_price">€{{formatPrice($product->price)}} - €{{formatPrice($product->sale_price)}}</div> --}}
-                                                        <div class="product_info_price">€{{formatPrice($product->sale_price)}}</div>
-                                                    </div>
-                                                </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    @endif
-
                                 </div>
                             </div>
 
@@ -120,60 +84,46 @@
                     </div>
                     <div class="ps-categogy__product">
                         <div class="row m-0 " id="responseContainer">
-                            @if(!empty(@$products))
-                                @foreach($products as $product)
+                            <?php if(!empty(@$catalog)): ?>
+                                <?php $__currentLoopData = $catalog; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <div class="col-12 col-lg-4 p-0">
                                         <div class="ps-product ps-product--standard">
-                                            <div class="ps-product__thumbnail"><a class="ps-product__image" href="{{route('product.detail',$product->slug)}}">
+                                            <div class="ps-product__thumbnail"><a class="ps-product__image" href="<?php echo e(route('shop',$product->slug)); ?>">
                                                     <figure>
-                                                        <img src="{{asset('root/public/uploads/'.$product->thumb_image)}}" alt="alt" class="img-fluid" />
-                                                        <img src="{{asset('root/public/uploads/'.$product->thumb_image)}}" class="img-fluid" alt="alt" />
+                                                        <img src="<?php echo e(asset('root/public/uploads/category/'.$product->image)); ?>" alt="alt" class="img-fluid" />
+                                                        <img src="<?php echo e(asset('root/public/uploads/category/'.$product->image)); ?>" class="img-fluid" alt="alt" />
                                                     </figure>
                                                 </a>
                                                 <div class="ps-product__actions">
                                                     <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="" data-original-title="Wishlist"><a href="#"><i class="fa fa-heart-o"></i></a></div>
-                                                    <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="" data-original-title="Quick view"><a href="javascript:void(0);" onclick="quicViewProducts( {{$product->id}} );"><i class="fa fa-search"></i></a></div>
+                                                    <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="" data-original-title="Quick view"><a href="javascript:void(0);" onclick="quicViewProducts( <?php echo e($product->id); ?> );"><i class="fa fa-search"></i></a></div>
                                                 </div>
                                                 <div class="ps-product__badge">
                                                     <div class="ps-badge ps-badge--hot">Hot</div>
                                                 </div>
                                             </div>
                                             <div class="ps-product__content">
-                                                <a class="ps-product__branch" href="{{route('product.detail',$product->slug)}}">{{ categories()->where('id',$product->categories)->pluck('name')->first();}}</a>
-                                                {{-- <span>,</span> <a class="ps-product__branch" href="#">Subcategory</a> --}}
 
-                                                <h5 class="ps-product__title" style="font-size:20px;min-height:auto;"><a href="{{route('product.detail',$product->slug)}}">{{$product->product_name}}</a></h5>
-                                                <div class="ps-product__meta">
-                                                    <span class="ps-product__price">{{formatPrice($product->sale_price)}}</span>
-                                                </div>
+                                                <h4 class="ps-product__title" style="font-size:20px;min-height:auto;"><a href="<?php echo e(route('shop',$product->slug)); ?>"><?php echo e($product->name); ?></a></h4>
 
-                                                {{-- <div class="ps-product__desc mb-4">
-                                                    <p>{{$product->slug}} </p>
-                                                </div> --}}
                                                 <div class="ps-product__actions ps-product__group-mobile d-block">
 
                                                     <div class="ps-product__cart d-block">
-                                                      @if($product->type !='variable')
-                                            <div class="add_to_cart_box"><a class="btn cart_btn d-block" href="javascript:void(0)" onclick="add_to_cart('{{ $product->id }}')">Add to cart</a>
-                                            </div>
-                                        @else
+
+
                                            <div class="add_to_cart_box">
-                                                <a class="btn cart_btn d-block" href="{{route('product.detail',$product->slug)}}">View</a>
+                                                <a class="btn cart_btn d-block" href="<?php echo e(route('shop',$product->slug)); ?>">View Cataloge</a>
                                             </div>
-                                        @endif
                                                     </div>
-
-                                                    <!-- <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="Wishlist"><a href="wishlist.html"><i class="fa fa-heart-o"></i></a></div> -->
-
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                @endforeach
-                           @endif
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                           <?php endif; ?>
 
                         </div>
-                        @if(count($products) > 9)
+                        <?php if(count($catalog) > 9): ?>
                             <div class="ps-pagination">
                                 <ul class="pagination">
                                     <li><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
@@ -183,7 +133,7 @@
                                     <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
                                 </ul>
                             </div>
-                        @endif
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -351,73 +301,8 @@
         <div class="ps-preloader-section ps-preloader-right"></div>
     </div>
 
-  @include('elements.add_to_cart')
+  <?php echo $__env->make('elements.add_to_cart', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
-  <script>
-    function categoryProduct(id) {
-        $.ajax({
-            url: '{{route('categories-product')}}',
-            method: 'GET',
-            data: { category_id: id },
-            success: function(response) {
-                var data = response.products;
-                $('#responseContainer').empty();
-                if (data.length > 0) {
-                    data.forEach(function(product) {
-                        // console.log(product);
-                        var categoryName = JSON.parse('{!! json_encode(htmlspecialchars(categories()->where('id', $product->categories)->pluck('name')->first())) !!}');
-                        var html = `<div class="col-12 col-lg-4 p-0">
-                                        <div class="ps-product ps-product--standard">
-                                            <div class="ps-product__thumbnail"><a class="ps-product__image" href="{{route('product.detail',$product->slug)}}">
-                                                    <figure><img src="{{asset('root/public/uploads/${product.thumb_image}')}}" alt="alt" class="img-fluid" /><img src="img/stegpearl/easy peak power.png" class="img-fluid" alt="alt" />
-                                                    </figure>
-                                                </a>
-                                                <div class="ps-product__actions">
-                                                    <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="" data-original-title="Wishlist"><a href="#"><i class="fa fa-heart-o"></i></a></div>
-                                                    <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="" data-original-title="Quick view"><a href="#" data-toggle="modal" data-target="#popupQuickview"><i class="fa fa-search"></i></a></div>
-                                                </div>
-                                                <div class="ps-product__badge">
-                                                    <div class="ps-badge ps-badge--hot">Hot</div>
-                                                </div>
-                                            </div>
-                                            <div class="ps-product__content">
-                                                <a class="ps-product__branch" href="#">${categoryName}</a>
-                                                {{-- <span>,</span> <a class="ps-product__branch" href="#">Subcategory</a> --}}
-
-                                                <h5 class="ps-product__title"><a href="{{route('product.detail',$product->slug)}}">${ product.product_name }</a></h5>
-                                                <div class="ps-product__meta">
-                                                    <span class="ps-product__price">€ <s>${ product.price }</s></span>
-                                                    <span class="ps-product__price">€ ${ product.sale_price }</span>
-                                                </div>
-
-                                                <div class="ps-product__desc mb-4">
-                                                    <p>${ product.slug } </p>
-                                                </div>
-                                                <div class="ps-product__actions ps-product__group-mobile d-block">
-
-                                                    <div class="ps-product__cart d-block">
-                                                    <a class="ps-btn ps-btn--warning w-100" href="#" data-toggle="modal" data-target="#popupAddcart">Add to cart</a>
-                                                    </div>
-
-                                                    <!-- <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="Wishlist"><a href="wishlist.html"><i class="fa fa-heart-o"></i></a></div> -->
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>`;
-                                $('#responseContainer').append(html);
-
-                    });
-                }else{
-                    var noProductHtml = '<div class="col-12"  style="height:500px">' +
-                        '<p>No product found</p>' +
-                        '</div>';
-                    $('#responseContainer').append(noProductHtml);
-                }
-            }
-        });
-    }
-</script>
 
     <!-- For Show and hide filter on shop page -->
     <script>
@@ -448,7 +333,7 @@
         function quicViewProducts(id){
             $("#popupQuickview").modal('show');
             $.ajax({
-                url: '{{route('products')}}', // Replace with the actual URL to your server endpoint
+                url: '<?php echo e(route('products')); ?>', // Replace with the actual URL to your server endpoint
                 method: 'GET',
                 data: { category_id: id },
                 success: function(response)
@@ -459,4 +344,6 @@
         }
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('../Layout.Layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/customstegpearl/public_html/root/resources/views/pages/catalog.blade.php ENDPATH**/ ?>

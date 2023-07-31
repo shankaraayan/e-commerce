@@ -1,3 +1,35 @@
+<?php $__env->startSection("style"); ?>
+<style>
+.menu--mobile>li{
+    padding:5px 0px;
+}
+    .new-li {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .new-li > li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .new-li > li > a {
+        color: #555;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+    }
+
+    .new-li > li > a > .fa {
+        /* Add your styles for the arrow here */
+        margin-right: 5px; /* Adjust the margin to control the space between arrow and text */
+        width: 10px; /* Adjust the width to make the arrow narrow */
+    }
+    </style>
+
+<?php $__env->stopSection(); ?>
+
 <?php $__env->startSection("content"); ?>
 
     <div class="ps-page">
@@ -13,7 +45,7 @@
                     <div class="ps-categogy__wrapper">
                         <div class="ps-categogy__filter"> <a href="#" id="collapse-filter"><i class="fa fa-filter"></i><i class="fa fa-times"></i>Filter</a></div>
 
-                        
+
                     </div>
                 </div>
             </div>
@@ -27,7 +59,21 @@
                                     <ul class="menu--mobile">
                                         <?php if(!empty(@$Category)): ?>
                                             <?php $__currentLoopData = $Category; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <li><a href="javascript:void(0);" id="<?php echo e($cat->id); ?>" onclick="categoryProduct(this.id);"><?php echo e($cat->name); ?></a> </li>
+                                                <li><a href="javascript:void(0);" id="<?php echo e($cat->id); ?>" onclick="categoryProduct(this.id);"><?php echo e($cat->name); ?></a>
+
+                                                    <?php if(count($cat->subcategories) > 0): ?>
+                                                    <ul class="menu--mobile new-li">
+                                                        <?php $__currentLoopData = $cat->subcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subcat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                            <li>
+                                                                <a href="javascript:void(0);" id="<?php echo e($subcat->id); ?>" onclick="categoryProduct(this.id);">
+                                                                    <i class="fa fa-arrow-right" ></i>
+                                                                    <?php echo e($subcat->name); ?></a>
+                                                            </li>
+                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                    </ul>
+                                                <?php endif; ?>
+
+                                                </li>
 
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         <?php endif; ?>
@@ -94,15 +140,12 @@
                                                 <a class="ps-product__branch" href="<?php echo e(route('product.detail',$product->slug)); ?>"><?php echo e(categories()->where('id',$product->categories)->pluck('name')->first()); ?></a>
                                                 
 
-                                                <h5 class="ps-product__title"><a href="<?php echo e(route('product.detail',$product->slug)); ?>"><?php echo e($product->product_name); ?></a></h5>
+                                                <h5 class="ps-product__title" style="font-size:20px;min-height:auto;"><a href="<?php echo e(route('product.detail',$product->slug)); ?>"><?php echo e($product->product_name); ?></a></h5>
                                                 <div class="ps-product__meta">
-
                                                     <span class="ps-product__price"><?php echo e(formatPrice($product->sale_price)); ?></span>
                                                 </div>
 
-                                                <div class="ps-product__desc mb-4">
-                                                    <p><?php echo e($product->slug); ?> </p>
-                                                </div>
+                                                
                                                 <div class="ps-product__actions ps-product__group-mobile d-block">
 
                                                     <div class="ps-product__cart d-block">

@@ -9,18 +9,25 @@ use App\Models\admin\Category;
 
 class ShopController extends Controller
 {
-    public function index($slug = null){
+
+    public function catalog(){
+        $Category = Category::where('parent_id','0')->get();
+        $catalog = Category::where('parent_id','0')->where('on_catalog','1')->get();
+        return view('pages.catalog',compact('Category','catalog'));
+    }
+
+    public function index($slug){
 
         $products = Product::with('categories')->get();
-        $Category = Category::all();
+        $Category = Category::where('parent_id','0')->get();
         $category_id = '';
         if($slug){
-
-            $category_id = $slug;
-             $products = Product::where('categories',$slug)->with('categories')->get();
+            $category_id = Category::where('slug',$slug)->pluck('id')->first();
+            // $category_id = $slug;
+             $products = Product::where('categories',$category_id)->with('categories')->get();
 
              if($products->count() === 0){
-                 return redirect()->back()->with('sucess','sdsa');
+                 return redirect()->back()->with('error','No Product Found.');
              }
         }
         // print_r($products->toArray());die;

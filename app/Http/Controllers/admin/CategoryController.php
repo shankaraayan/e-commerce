@@ -29,6 +29,7 @@ class CategoryController extends Controller
                 $category->description = $request->input('description');
                 // $category->parent_id = $request->input('parent_id');
                 $category->header = $request->heading;
+                $category->on_catalog = $request->on_catalog;
                 if ($request->category_image) {
                     $image = $request->file('category_image');
                     $filename = time() . '.' . $image->getClientOriginalExtension();
@@ -70,6 +71,7 @@ class CategoryController extends Controller
         $category->slug = $request->input('slug');
         $category->description = $request->input('description');
         $category->parent_id = $request->input('parent_cat');
+        $category->on_catalog = $request->input('on_catalog');
         $category->update();
         return redirect()->back()->with('success', 'Category Updated Successfully.');
     }

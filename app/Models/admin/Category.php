@@ -11,8 +11,12 @@ class Category extends Model
 {
     use HasFactory;
     use Sluggable;
-    
-    
+
+    public function subcategories()
+    {
+        return $this->hasMany(Category::class, 'parent_id');
+    }
+
     public function sluggable(): array
     {
         return [

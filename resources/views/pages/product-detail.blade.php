@@ -315,23 +315,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div>
-                                    <p>EAN: 4262426963932</p>
-                                    <p>Artikelnummer: CG-200WOMO-V-3</p>
-                                    <p>Kategorien: Balkonkraftwerk Marketing Produkt, Solar Komplettset Marketing Produkt</p>
-                                </div>
-                                <div class="mb-4">
-                                    <img src="https://campergold.net/wp-content/uploads/2023/01/pdf-scroll.jpg" alt="cat">
-                                </div>
-                                <div class="mb-4">
-                                    <img src="https://campergold.net/wp-content/uploads/2023/05/visa.png" alt="payment">
-                                </div>
-                                <div>
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
-                                    <a href="#"><i class="fa fa-instagram"></i></a>
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                </div>
+
                         </div>
                     </div>
                 </div>

@@ -2,12 +2,14 @@
     <div class="ps-noti py-2">
         <div class="container">
             <div class="row">
-                <div class="col d-flex align-items-center">
-                    <!--<ul class="list-inline text-white">-->
-                    <!--    <li class="list-inline-item"><a href="#"><i class="fa fa-linkedin"></i></a></li>-->
-                    <!--</ul>-->
+                <div class="col d-flex align-items-center topleft_socialicons">
+                    <ul class="list-inline text-white">
+                     <li class="list-inline-item"><a class="ps-social__link linkedin" href="#"><i class="fa fa-linkedin fs-2"></i></a></li>
+                     <li class="list-inline-item"><a class="d-flex align-items-center justify-content-start" href="tel:4904042308603">Hotline : +49 (0) 40 4230 8603</a></li>
+                    </ul>
+
                 </div>
-                <div class="col d-flex align-items-center justify-content-end">
+                <div class="col d-flex align-items-center justify-content-end topright_userlogin">
                     <ul class="list-inline text-white">
                         <!--<li class="list-inline-item"><a href="#" class="font-weight-light">Über uns</a></li>-->
                         <!--<li class="list-inline-item">-->
@@ -39,10 +41,14 @@
             </div>
         </div>
     </div>
-    <div class="ps-header__top">
+    <div class="ps-header__top d-none">
         <div class="container">
-            <div class="ps-header__text"><strong><a href="tel:4904042308603"><i
-                class="icon-telephone fs-2 font-weight-bold"></i> : 49 (0) 40 4230 8603</a></strong>
+            <div class="row">
+                <div class="col-12">
+                    <div class="ps-header__text"><strong><a class="d-flex align-items-center justify-content-center" href="tel:4904042308603"><i
+                        class="icon-telephone fs-2 font-weight-bold mr-2"></i> : 49 (0) 40 4230 8603</a></strong>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -53,7 +59,7 @@
                 href="#"><i class="fa fa-bars"></i></a>
             <div class="ps-header__right">
                 <ul class="ps-header__icons">
-                    <li class="ps-header__item"><a href="<?php echo e(route('shop')); ?>"><i class="icon-bag2"></i></a></li>
+                    <li class="ps-header__item"><a href="<?php echo e(route('catalog')); ?>"><i class="icon-bag2"></i></a></li>
                     <li>
                         <?php if(auth()->guard()->check()): ?>
                             <a class="ps-header__item" href="<?php echo e(route('user.dashboard')); ?>"><i class="icon-user"></i></a>
@@ -106,8 +112,7 @@ unset($__errorArgs, $__bag); ?>
                     <li><a class="ps-header__item" href="<?php echo e(url('cart')); ?>" id="cart-mini"><i class="icon-cart-empty"></i><span
                                 class="badge my_cart_count"><?php echo e(count((array) session('cart'))); ?></span></a>
 
-                        
-                            
+
                     </li>
                 </ul>
                 <!-- <div class="ps-language-currency"><a class="ps-dropdown-value" href="javascript:void(0);" data-toggle="modal" data-target="#popupLanguage">English</a><a class="ps-dropdown-value" href="javascript:void(0);" data-toggle="modal" data-target="#popupCurrency">USD</a></div> -->
@@ -127,7 +132,7 @@ unset($__errorArgs, $__bag); ?>
 
 
                             </div>
-                            <div class="ps-result__viewall"><a href="<?php echo e(route('shop')); ?>">View all results</a>
+                            <div class="ps-result__viewall"><a href="<?php echo e(route('catalog')); ?>">View all results</a>
                             </div>
                         </div>
                     </div>
@@ -137,24 +142,28 @@ unset($__errorArgs, $__bag); ?>
     </div>
     <div class="ps-navigation">
         <div class="container">
-            <div class="ps-navigation__left">
-                <nav class="ps-main-menu">
-                    <ul class="menu">
-                        <li class="has-mega-menu"><a href="/">Home</a></li>
-                        <li class="has-mega-menu">
-                            <a href="<?php echo e(route('shop')); ?>">Shop</a>
-                        </li>
-                       <?php $__currentLoopData = headerCategories(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <li class="has-mega-menu"><a href="<?php echo e(route('shop',$cat->slug)); ?>"><?php echo e($cat->name); ?></a></li>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            <div class="row">
+                <div class="col-12">
+                    <div class="ps-navigation__left">
+                        <nav class="ps-main-menu">
+                            <ul class="menu">
+                                <li class="has-mega-menu"><a href="/">Home</a></li>
+                                <li class="has-mega-menu">
+                                    <a href="<?php echo e(route('catalog')); ?>">Shop</a>
+                                </li>
+                               <?php $__currentLoopData = headerCategories(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <li class="has-mega-menu"><a href="<?php echo e(route('shop',$cat->slug)); ?>"><?php echo e($cat->name); ?></a></li>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                        <!--<li class="has-mega-menu"><a href="javascript:void(0);">Blog</a></li>-->
-                        <!--<li class="has-mega-menu"><a href="contact-us.html">Contact</a></li>-->
-                    </ul>
-                </nav>
+                                <!--<li class="has-mega-menu"><a href="javascript:void(0);">Blog</a></li>-->
+                                <!--<li class="has-mega-menu"><a href="contact-us.html">Contact</a></li>-->
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
             </div>
-            <div class="ps-navigation__right"><strong><a href="tel:4904042308603"><i
-                            class="icon-telephone fs-2 font-weight-bold"></i> : 49 (0) 40 4230 8603</a></strong>
+            <div class="ps-navigation__right d-none"><strong><a class="d-flex align-items-center justify-content-end" href="tel:4904042308603"><i
+                            class="icon-telephone fs-2 font-weight-bold mr-2"></i> : 49 (0) 40 4230 8603</a></strong>
             </div>
         </div>
     </div>
@@ -162,8 +171,8 @@ unset($__errorArgs, $__bag); ?>
 <header class="ps-header ps-header--1 ps-header--mobile">
     <div class="ps-noti">
         <div class="container">
-            <p class="m-0 text-white"><strong><a href="tel:4904042308603"><i
-                            class="icon-telephone fs-2 font-weight-bold"></i> : 49 (0) 40 4230 8603</a></strong>
+            <p class="m-0 text-white py-3"><strong><a class="d-flex align-items-center justify-content-center" href="tel:4904042308603"><i
+                            class="icon-telephone fs-2 font-weight-bold mr-2"></i> : 49 (0) 40 4230 8603</a></strong>
             </p>
         </div> </a>
     </div>

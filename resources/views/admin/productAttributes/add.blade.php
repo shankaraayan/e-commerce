@@ -91,6 +91,7 @@
                     <span class="text-danger">{{ $errors->first('attribute_description') }}</span>
                     @endif
                   </div>
+
                   <div class="input-area mb-5">
                         <label for="description" class="form-label">Status</label>
                         <div class="flex items-center mr-2 sm:mr-4 mt-2 space-x-2">

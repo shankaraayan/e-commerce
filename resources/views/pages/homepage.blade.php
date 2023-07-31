@@ -45,7 +45,7 @@
                 <div class="ps-promo mt-5 ps-section--category ps-section--latest ps-category--image mt-5">
                     <h3 class="ps-section__title">Beliebte Kategorien</h3>
                     <div class="row">
-                        @foreach(categories() as $cat)
+                        @foreach(categories()->where('parent_id','0') as $cat)
                             <div class="col-6 col-md-3 mb-2 px-1 p-0">
                                 <div class="ps-promo__item">
                                     <a class="ps-category__image ps-promo__banner" href="{{route('shop',$cat->slug)}}">

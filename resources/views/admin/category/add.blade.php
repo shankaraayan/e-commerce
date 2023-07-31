@@ -80,6 +80,10 @@
                                     <label for="description" class="form-label">Show on header ?</label>
                                     <input type="checkbox" name="heading" value="1">
                                 </div>
+                                <div class="input-area mb-4">
+                                    <label for="description" class="form-label">Show on Catalog Page ?</label>
+                                    <input type="checkbox" name="on_catalog" value="1">
+                                </div>
 
                             </div>
                             <div class="input-area mb-4">

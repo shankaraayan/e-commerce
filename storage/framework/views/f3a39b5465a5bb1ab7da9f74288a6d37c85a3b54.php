@@ -37,7 +37,7 @@
                 <div class="ps-promo mt-5 ps-section--category ps-section--latest ps-category--image mt-5">
                     <h3 class="ps-section__title">Beliebte Kategorien</h3>
                     <div class="row">
-                        <?php $__currentLoopData = categories(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <?php $__currentLoopData = categories()->where('parent_id','0'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <div class="col-6 col-md-3 mb-2 px-1 p-0">
                                 <div class="ps-promo__item">
                                     <a class="ps-category__image ps-promo__banner" href="<?php echo e(route('shop',$cat->slug)); ?>">

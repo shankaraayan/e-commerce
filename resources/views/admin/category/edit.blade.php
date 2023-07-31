@@ -56,7 +56,7 @@
                             @endphp
 
                             <select name="parent_cat" class="form-control">
-                                <option>Select</option>
+                                <option value="0">Select</option>
                                 @foreach ($result as $cat)
                                         <option value="{{$cat->id}}" @php
                                         $selectedID = $category->where('id',$category->parent_id)->pluck('id')->first();
@@ -81,6 +81,14 @@
                             </div>
                             <div class="input-area mb-4">
                                 <img width="100" src="{{asset('root/public/uploads/category/'.$category->image)}}" />
+                            </div>
+                            <div class="input-area mb-4">
+                                <label for="description" class="form-label">Show on Header Menu ?</label>
+                                <input type="checkbox" name="heading" value="1" {{ $category->header ? 'checked' : ''}}>
+                            </div>
+                            <div class="input-area mb-4">
+                                <label for="description" class="form-label">Show on Catalog Page ?</label>
+                                <input type="checkbox" name="on_catalog" value="1" {{ $category->on_catalog ? 'checked' : ''}}>
                             </div>
                             <div class="input-area mb-4">
                                 <button type="submit" class="btn btn-primary">Update</button>

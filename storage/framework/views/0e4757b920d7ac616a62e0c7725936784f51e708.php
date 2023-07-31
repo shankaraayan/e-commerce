@@ -53,7 +53,7 @@
                             ?>
 
                             <select name="parent_cat" class="form-control">
-                                <option>Select</option>
+                                <option value="0">Select</option>
                                 <?php $__currentLoopData = $result; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <option value="<?php echo e($cat->id); ?>" <?php
                                         $selectedID = $category->where('id',$category->parent_id)->pluck('id')->first();
@@ -79,6 +79,14 @@
                             </div>
                             <div class="input-area mb-4">
                                 <img width="100" src="<?php echo e(asset('root/public/uploads/category/'.$category->image)); ?>" />
+                            </div>
+                            <div class="input-area mb-4">
+                                <label for="description" class="form-label">Show on Header Menu ?</label>
+                                <input type="checkbox" name="heading" value="1" <?php echo e($category->header ? 'checked' : ''); ?>>
+                            </div>
+                            <div class="input-area mb-4">
+                                <label for="description" class="form-label">Show on Catalog Page ?</label>
+                                <input type="checkbox" name="on_catalog" value="1" <?php echo e($category->on_catalog ? 'checked' : ''); ?>>
                             </div>
                             <div class="input-area mb-4">
                                 <button type="submit" class="btn btn-primary">Update</button>

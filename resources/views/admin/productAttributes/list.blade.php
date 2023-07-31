@@ -70,9 +70,7 @@
                             <th scope="col" class=" table-th ">
                               Action
                             </th>
-                            <th scope="col" class=" table-th ">
-                                Attribute Terms
-                              </th>
+
                           </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
@@ -80,7 +78,9 @@
                         @foreach($attribute as $key=>$values)
                           <tr>
                             <td class="table-td">{{++$key}}</td>
-                            <td class="table-td ">{{$values->attribute_name}}</td>
+                            <td class="table-td ">
+                                <a style="color:rgb(20, 20, 229)" href="{{route('admin.product.attribute_terms.add',$values->id)}}">   {{$values->attribute_name}} </a>
+                            </td>
 
                             <td class="table-td">
                                 @php
@@ -121,9 +121,6 @@
                               </div>
                             </td>
 
-                            <td class="table-td ">
-                             <a href="{{route('admin.product.attribute_terms.add',$values->id)}}">   <button class="btn text-white bg-slate-700" >Add Attribute Terms</button></a>
-                            </td>
                           </tr>
                         @endforeach
 

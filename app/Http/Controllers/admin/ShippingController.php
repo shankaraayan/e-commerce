@@ -110,12 +110,13 @@ class ShippingController extends Controller
             $shipping_price = shippingCountry()->where('country',$shippingCountry)->pluck('price')->first();
 
             $subtotal = 0;
-
+            $cart_items = [];
             if($discount){
                 $discount_value = $discount['discount_value'];
                 $type = $discount['type'];
                 $code = $discount['code'];
                 foreach($cart as $item){
+
                     $cart[$item['product_id']]['shipping_country'] = $shippingCountry;
                     $tax = getTaxCountry((int)$shippingCountry);
                     if (isset($item['product_id'])) {
@@ -126,6 +127,8 @@ class ShippingController extends Controller
                             'discount_value' => $discount_value,
                         ];
                     }
+                    $item['price_with_tax'] = formatPrice( ($item['price']*$item['quantity'] + $item['price'] * $tax['vat_tax'] /100 * $item['quantity']));
+                    array_push($cart_items,$item);
                     $subtotal+= ($item['price']*$item['quantity'] + ($item['price'] * $tax['vat_tax'] /100 * $item['quantity']));
                 }
 
@@ -149,21 +152,26 @@ class ShippingController extends Controller
                 foreach($cart as $item){
                     $cart[$item['product_id']]['shipping_country'] = $shippingCountry;
                     $tax = getTaxCountry((int)$shippingCountry);
-                    $total += ($item['price']*$item['quantity'] + ($item['price'] * $tax['vat_tax'] /100 * $item['quantity']));
+                    $subtotal += ($item['price']*$item['quantity'] + ($item['price'] * $tax['vat_tax'] /100 * $item['quantity']));
+                    $total = ($subtotal+$shipping_price);
+                    $item['price_with_tax'] =  formatPrice(($item['price']*$item['quantity'] + $item['price'] * $tax['vat_tax'] /100 * $item['quantity']));
+                    array_push($cart_items,$item);
+
                 }
+
             }
 
             // print_r($total);die;
             session()->put('cart',$cart);
-
-
             // if($cart['discount'])
 
             return response()->json([
+                'cart'=>$cart_items,
+                'subtotal' => formatPrice($subtotal),
+                'total' =>formatPrice($total),
                 'coupon'=>@$discount['code'] ? true : false,
                 'type'=> @$type? $type :null,
                 'shipping_price' => formatPrice($shipping_price),
-                'total' =>formatPrice($total),
                 'discount_value'=> @$discount_value ? $discount_value : null
             ]);
         }

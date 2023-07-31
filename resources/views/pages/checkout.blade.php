@@ -86,6 +86,12 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    <script>
+                                        if(sessionStorage.getItem('selected')){
+                                            $("#country").val(sessionStorage.getItem('selected'));
+                                        }
+
+                                    </script>
 
                                     <div class="col-12">
                                             <div class="ps-checkout__group">
@@ -324,6 +330,7 @@
                                     <div class="ps-title">Produkt</div>
                                     <div class="ps-title">Zwischensumme</div>
                                 </div>
+                                <div id="dynmicElChekout">
                                 @php $total = 0 @endphp
                                 @if (session('cart'))
                                 {{-- @dd(session('cart')); --}}
@@ -331,10 +338,13 @@
 
                                         @php
                                             $tax = getTaxCountry((int)$details['shipping_country']);
+                                            // @dd($details);
                                             $total+=($details['price']*$details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity']) ) ;
                                         @endphp
+
                                         <!-- Product with variations -->
                                         @if ($details['type'] == 'variable')
+
                                             <div class="ps-checkout__row ps-product">
                                                 <div class="ps-product__name">{{ @$details['name'] }}</span><br>
                                                     @if (!empty(@$details['details']))
@@ -358,11 +368,12 @@
                                         @endif
                                     @endforeach
                                 @endif
+
                                 <div class="ps-checkout__row">
                                     <div class="ps-title">Zwischensumme</div>
                                     <div class="ps-product__price">{{ formatPrice(@$total) }}</div>
                                 </div>
-                                <div id="dynmicElChekout">
+
 
                                     @php
                                         $cartDiscount =  session('cart');
@@ -474,6 +485,7 @@
            var couponCode = document.getElementById('couponCode').value;
            var country = document.getElementById('country').value;
            var dynmicElChekout = document.querySelector("#dynmicElChekout");
+
            $.ajax({
                 url: "/coupon/apply",
                 method: 'post',
@@ -487,13 +499,40 @@
                     },
                     success: function(response) {
                         $(".loader").addClass("d-none");
-                        // console.log(response);
+                        console.log(response);
+
                         const {message,status,data} = JSON.parse(response);
-                        console.log(data);
+                        let product = data.cart.map((item, index) => {
+                            return `
+                            ${item.type === "variable" ? `
+                            <div class="ps-checkout__row ps-product">
+                                <div class="ps-product__name">${item.name}<span>x</span><span>${item.quantity}</span><br>
+                                    ${item.details ? item.details.map((val) => (
+                                    `<span>${val}</span><br>`
+                                    )).join('') : ''}
+                                </div>
+                                <div class="ps-product__price">
+                                    ${item.price_with_tax}
+                                </div>
+                            </div> `: `<div class="ps-checkout__row ps-product">
+                                <div class="ps-product__name">
+                                    ${item.name}<span>x</span><span>${item.quantity}</span>
+                                </div>
+                                <div class="ps-product__price">
+                                    ${item.price_with_tax}
+                                </div>
+                            </div> `}`;
+
+                        });
+                        // console.log(data);
 
                         if(status === "success"){
                             $(dynmicElChekout).html(`
-
+                                    ${product}
+                                    <div class="ps-checkout__row">
+                                        <div class="ps-title">Zwischensumme</div>
+                                        <div class="ps-product__price">${data.subtotal}</div>
+                                    </div>
                                     <div class="ps-checkout__row">
                                         <div class="ps-title">Discount
 
@@ -552,8 +591,10 @@
         var dynmicElChekout = document.querySelector("#dynmicElChekout");
         $("#country").on('change', function(){
             const id = $(this).val();
+            sessionStorage.setItem("selected", id);
             $("#shipping_conuntry").val($(this).val());
             shipping_update(id, dynmicElChekout);
+
         });
 
         $(".shipping_check").on('click', function () {
@@ -580,8 +621,39 @@
         },
         success: function (response) {
             $(".loader").addClass("d-none");
-        console.log(response);
+            const {cart} = response;
+        console.log(response.cart);
+
+        let product = cart.map((item, index) => {
+                return `
+                ${item.type === "variable" ? `
+                   <div class="ps-checkout__row ps-product">
+                    <div class="ps-product__name">${item.name}<span>x</span><span>${item.quantity}</span><br>
+                        ${item.details ? item.details.map((val) => (
+                        `<span>${val}</span><br>`
+                        )).join('') : ''}
+                    </div>
+                    <div class="ps-product__price">
+                        ${item.price_with_tax}
+                    </div>
+                </div> `: `<div class="ps-checkout__row ps-product">
+                    <div class="ps-product__name">
+                        ${item.name}<span>x</span><span>${item.quantity}</span>
+                    </div>
+                    <div class="ps-product__price">
+                        ${item.price_with_tax}
+                    </div>
+                </div> `}`;
+
+        });
+
+
         $(dynmicElChekout).html(`
+            ${product}
+            <div class="ps-checkout__row">
+                <div class="ps-title">Zwischensumme</div>
+                <div class="ps-product__price">${response.subtotal}</div>
+            </div>
             ${response.coupon ?
             `<div class="ps-checkout__row">
                 <div class="ps-title">Discount
@@ -630,10 +702,42 @@
         },
         success: function (response) {
             $(".loader").addClass("d-none");
+            // console.log(response);
+            // return false;
         var res = JSON.parse(response);
         const { data } = res;
+        console.log(data);
+        let product = data.cart.map((item, index) => {
+                return `
+                ${item.type === "variable" ? `
+                   <div class="ps-checkout__row ps-product">
+                    <div class="ps-product__name">${item.name}<span>x</span><span>${item.quantity}</span><br>
+                        ${item.details ? item.details.map((val) => (
+                        `<span>${val}</span><br>`
+                        )).join('') : ''}
+                    </div>
+                    <div class="ps-product__price">
+                        ${item.price_with_tax}
+                    </div>
+                </div> `: `<div class="ps-checkout__row ps-product">
+                    <div class="ps-product__name">
+                        ${item.name}<span>x</span><span>${item.quantity}</span>
+                    </div>
+                    <div class="ps-product__price">
+                        ${item.price_with_tax}
+                    </div>
+                </div> `}`;
+
+        });
+
+
         if (res.status === "success") {
             $(dynmicElChekout).html(`
+            ${product}
+            <div class="ps-checkout__row">
+                <div class="ps-title">Zwischensumme</div>
+                <div class="ps-product__price">${data.subtotal}</div>
+            </div>
             <div class="ps-checkout__row">
                 <div class="ps-title">Versand</div>
                 <div class="ps-checkout__checkbox">

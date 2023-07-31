@@ -67,7 +67,8 @@ Route::post('add_address/{id}', [ProfileController::class, 'add_address'])->name
 
 //shop
 
-Route::get('/shop/{id?}', [ShopController::class, 'index'])->name('shop');
+Route::get('/catalog', [ShopController::class, 'catalog'])->name('catalog');
+Route::get('/shop/{slug}', [ShopController::class, 'index'])->name('shop');
 Route::get('/categories-product', [ShopController::class, 'categoriesProduct'])->name('categories-product');
 Route::get('/get-subcategories', [CategoryController::class, 'getSubcategories'])->name('getSubcategories');
 
