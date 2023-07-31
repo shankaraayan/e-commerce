@@ -102,17 +102,69 @@ class ShippingController extends Controller
         if ($shippingCountry) {
             $cart = session()->get('cart', []);
 
-            $shipping_price = shippingCountry()->where('country',$shippingCountry)->pluck('price')->first();
-            $total = 0;
             foreach($cart as $item){
-                $cart[$item['product_id']]['shipping_country'] = $shippingCountry;
-                $total+= ($item['price']*$item['quantity']);
+
+                $discount = @$item['discount'];
             }
+
+            $shipping_price = shippingCountry()->where('country',$shippingCountry)->pluck('price')->first();
+
+            $subtotal = 0;
+
+            if($discount){
+                $discount_value = $discount['discount_value'];
+                $type = $discount['type'];
+                $code = $discount['code'];
+                foreach($cart as $item){
+                    $cart[$item['product_id']]['shipping_country'] = $shippingCountry;
+                    $tax = getTaxCountry((int)$shippingCountry);
+                    if (isset($item['product_id'])) {
+                        // print_r($item['discount']);die;
+                        $item['discount'] = [
+                            'code' => $code,
+                            'type' => $type,
+                            'discount_value' => $discount_value,
+                        ];
+                    }
+                    $subtotal+= ($item['price']*$item['quantity'] + ($item['price'] * $tax['vat_tax'] /100 * $item['quantity']));
+                }
+
+                if( $type=="flat")
+                {
+
+                    $afterDiscount =  ($subtotal - $discount_value);
+
+                    $total = ($subtotal-$afterDiscount)+$shipping_price;
+
+                }
+                else{
+                    // print_r(formatPrice($subtotal));die;
+                    $afterDiscount = $subtotal *  $discount_value/100;
+                    $total = ($subtotal-$afterDiscount)+$shipping_price;
+                }
+
+            }
+            else{
+                $total = 0;
+                foreach($cart as $item){
+                    $cart[$item['product_id']]['shipping_country'] = $shippingCountry;
+                    $tax = getTaxCountry((int)$shippingCountry);
+                    $total += ($item['price']*$item['quantity'] + ($item['price'] * $tax['vat_tax'] /100 * $item['quantity']));
+                }
+            }
+
+            // print_r($total);die;
             session()->put('cart',$cart);
-            $total = ($total+ $shipping_price);
+
+
+            // if($cart['discount'])
+
             return response()->json([
+                'coupon'=>@$discount['code'] ? true : false,
+                'type'=> @$type? $type :null,
                 'shipping_price' => formatPrice($shipping_price),
-                'total' =>formatPrice($total)
+                'total' =>formatPrice($total),
+                'discount_value'=> @$discount_value ? $discount_value : null
             ]);
         }
         else {

@@ -48,10 +48,11 @@ class ProductAttributeController extends Controller
 
     public function edit($id){
         $editAttribute = Attribute::where('id',$id)->first();
-        // dd($editAttribute);
-        $getpanelsss = AttributeTerm::get();
+
+        $attributeTerm = AttributeTerm::where('attributes_id',$id)->get();
+        // dd($attributeTerm);
         $attributeTypes = Attributetype::get();
-        return view('admin.productAttributes.edit',compact('editAttribute','getpanelsss','attributeTypes'));
+        return view('admin.productAttributes.edit',compact('editAttribute','attributeTerm','attributeTypes'));
     }
 
 

@@ -52,7 +52,7 @@
             <div class="card-body flex flex-col p-6">
               <header class="flex mb-5 items-center border-b border-slate-100 dark:border-slate-700 pb-5 -mx-6 px-6">
                 <div class="flex-1">
-                  <div class="card-title text-slate-900 dark:text-white">Add Attribute</div>
+                  <div class="card-title text-slate-900 dark:text-white">Edit Attribute</div>
                 </div>
               </header>
               <form action="<?php echo e(route('admin.product.attribute.update')); ?>" method="post" enctype="multipart/form-data">
@@ -66,8 +66,26 @@
                     <span class="text-danger"><?php echo e($errors->first('attribute_name')); ?></span>
                     <?php endif; ?>
                   </div>
+                  <?php
+                        $attrs = \App\Models\admin\AttributeTerm::get();
+                  ?>
+                  
+                  <input type="hidden" value="<?php echo e($editAttribute->id); ?>" name="attribute_id">
+                  <div class="input-area">
+                    <label for="attributeTerm" class="form-label">Select Attribute Terms*</label>
+                    <select name="attributeTerm" id="attributeTerm" class="select2 form-control w-full mt-2 py-2" multiple="multiple">
+                        <?php $__currentLoopData = $attributeTerm; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        
+                        <option selected value="<?php echo e($value->attributes_id); ?>" class=" inline-block font-Inter font-normal text-sm text-slate-600"><?php echo e($value->attribute_term_name); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                    <input type="hidden" value="<?php echo e($editAttribute->id); ?>" name="attribute_id">
+                        <?php $__currentLoopData = $attrs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attr): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <option value="<?php echo e($attr->id); ?>" class=" inline-block font-Inter font-normal text-sm text-slate-600"><?php echo e($attr->attribute_term_name); ?></option>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </select>
+
+                </div>
+
                   <div class="input-area">
                     <label for="description" class="form-label">Select Attribute Type*</label>
 

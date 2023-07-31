@@ -54,7 +54,7 @@
             <div class="card-body flex flex-col p-6">
               <header class="flex mb-5 items-center border-b border-slate-100 dark:border-slate-700 pb-5 -mx-6 px-6">
                 <div class="flex-1">
-                  <div class="card-title text-slate-900 dark:text-white">Add Attribute</div>
+                  <div class="card-title text-slate-900 dark:text-white">Edit Attribute</div>
                 </div>
               </header>
               <form action="{{route('admin.product.attribute.update')}}" method="post" enctype="multipart/form-data">
@@ -68,8 +68,26 @@
                     <span class="text-danger">{{ $errors->first('attribute_name') }}</span>
                     @endif
                   </div>
+                  @php
+                        $attrs = \App\Models\admin\AttributeTerm::get();
+                  @endphp
+                  {{-- @dd($attr); --}}
+                  <input type="hidden" value="{{$editAttribute->id}}" name="attribute_id">
+                  <div class="input-area">
+                    <label for="attributeTerm" class="form-label">Select Attribute Terms*</label>
+                    <select name="attributeTerm" id="attributeTerm" class="select2 form-control w-full mt-2 py-2" multiple="multiple">
+                        @foreach($attributeTerm as $value)
+                        {{-- @dd($value); --}}
+                        <option selected value="{{$value->attributes_id}}" class=" inline-block font-Inter font-normal text-sm text-slate-600">{{$value->attribute_term_name}}</option>
+                        @endforeach
 
-                    <input type="hidden" value="{{$editAttribute->id}}" name="attribute_id">
+                        @foreach ( $attrs as $attr )
+                            <option value="{{$attr->id}}" class=" inline-block font-Inter font-normal text-sm text-slate-600">{{$attr->attribute_term_name}}</option>
+                        @endforeach
+                    </select>
+
+                </div>
+
                   <div class="input-area">
                     <label for="description" class="form-label">Select Attribute Type*</label>
 

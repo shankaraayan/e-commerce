@@ -17,20 +17,26 @@
             <ul class="ps-shopping__list">
 
                 <?php $total = 0 ?>
-                        <?php if(session('cart')): ?>
-                            <?php $__currentLoopData = session('cart'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $details): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <?php if(session('cart')): ?>
+                    <?php $__currentLoopData = session('cart'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $details): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <?php
+                            $tax = getTaxCountry($details['shipping_country']);
 
-                             <?php @$shipping_country = (@$details['shipping_country']) ?>
+                            @$shipping_country = (@$details['shipping_country']);
 
-                            
-                                <?php $total+=(@$details['price']*@$details['quantity']); ?>
-                                <!-- Product with variations -->
-                                <?php if(@$details['type'] == 'variable'): ?>
-                                <li>
-                                    <div class="ps-product ps-product--wishlist">
-                                    <div class="ps-product__remove"><a href="javascript::void(0)" onclick="remove_to_cart(<?= $id ?>)"><i class="icon-trash2 text-danger"></i></a></div>
-                                    <div class="ps-product__thumbnail"><a class="ps-product__image" href="<?php echo e(route('product.detail', $details['slug'])); ?>">
-                                            <figure><img src="<?php echo e(asset('root/public/uploads/' . @$details['images'])); ?>" alt="alt">
+                            $total+=(@$details['price']*@$details['quantity']);
+                        ?>
+
+                        <?php if(@$details['type'] == 'variable'): ?>
+                            <li class="variable">
+                                <div class="ps-product ps-product--wishlist">
+                                    <div class="ps-product__remove"><a href="javascript::void(0)"
+                                            onclick="remove_to_cart(<?= $id ?>)"><i
+                                                class="icon-trash2 text-danger"></i></a></div>
+                                    <div class="ps-product__thumbnail"><a class="ps-product__image"
+                                            href="<?php echo e(route('product.detail', $details['slug'])); ?>">
+                                            <figure><img src="<?php echo e(asset('root/public/uploads/' . @$details['images'])); ?>"
+                                                    alt="alt">
                                             </figure>
                                         </a></div>
                                     <div class="ps-product__content">
@@ -45,7 +51,8 @@
                                         </h5>
                                         <div class="ps-product__row">
                                             <div class="ps-product__label">Price:</div>
-                                            <div class="ps-product__value"><span class="ps-product__price"><?php echo e(formatPrice(@$details['price'])); ?></span>
+                                            <div class="ps-product__value"><span
+                                                    class="ps-product__price"><?php echo e(formatPrice(@$details['price'])); ?></span>
                                             </div>
                                         </div>
                                         <div class="ps-product__row ps-product__stock">
@@ -61,41 +68,50 @@
                                             <div class="ps-product__label">Quantity:</div>
                                             <div class="ps-product__value" style="width:60%">
                                                 <div class="def-number-input number-input safari_only">
-                                                <button class="minus" onclick="QtyUpdate(<?= $id ?>,0)"><i
-                                                        class="icon-minus"></i></button>
-                                                <input class="quantity" step="1" min="1" id="qty<?= $id ?>"
-                                                    name="quantity" type="number" onchange="update_to_cart(<?= $id ?>)"
-                                                    name="qty[]" value="<?php echo e($details['quantity']); ?>"
-                                                    onkeypress="return isNumber(event)" size="4" placeholder=""
-                                                    inputmode="numeric">
-                                                <button class="plus" onclick="QtyUpdate(<?= $id ?>,1)"><i
-                                                        class="icon-plus"></i></button>
-                                            </div>
+                                                    <button class="minus" onclick="QtyUpdate(<?= $id ?>,0)"><i
+                                                            class="icon-minus"></i></button>
+                                                    <input class="quantity" step="1" min="1"
+                                                        id="qty<?= $id ?>" name="quantity" type="number"
+                                                        onchange="update_to_cart(<?= $id ?>)" name="qty[]"
+                                                        value="<?php echo e($details['quantity']); ?>"
+                                                        onkeypress="return isNumber(event)" size="4"
+                                                        placeholder="" inputmode="numeric">
+                                                    <button class="plus" onclick="QtyUpdate(<?= $id ?>,1)"><i
+                                                            class="icon-plus"></i></button>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="ps-product__row ps-product__subtotal">
                                             <div class="ps-product__label">Subtotal:</div>
-                                            <div class="ps-product__value"><?php echo e(formatPrice( @$details['price'] * $details['quantity'])); ?></div>
+                                            <div class="ps-product__value">
+                                                <?php echo e(formatPrice(@$details['price'] * $details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity']) )); ?></div>
                                         </div>
                                     </div>
                                 </div>
-                                </li>
-                                <?php else: ?>
-                                <li>
-                                    <div class="ps-product ps-product--wishlist">
+                            </li>
+                        <?php else: ?>
+                            <li>
+                                <div class="ps-product ps-product--wishlist">
 
-                                    <div class="ps-product__remove"><a href="javascript::void(0)" onclick="remove_to_cart(<?= $id ?>)"><i class="icon-trash2 text-danger"></i></a></div>
-                                    <div class="ps-product__thumbnail"><a class="ps-product__image" href="<?php echo e(route('product.detail', @$details['slug'])); ?>">
-                                            <figure><img src="<?php echo e(asset('root/public/uploads/' . @$details['images'])); ?>" alt="alt">
+                                    <div class="ps-product__remove"><a href="javascript::void(0)"
+                                            onclick="remove_to_cart(<?= $id ?>)"><i
+                                                class="icon-trash2 text-danger"></i></a></div>
+                                    <div class="ps-product__thumbnail"><a class="ps-product__image"
+                                            href="<?php echo e(route('product.detail', @$details['slug'])); ?>">
+                                            <figure><img
+                                                    src="<?php echo e(asset('root/public/uploads/' . @$details['images'])); ?>"
+                                                    alt="alt">
                                             </figure>
                                         </a></div>
                                     <div class="ps-product__content">
                                         <h5 class="ps-product__title d-block text-left">
-                                            <a href="<?php echo e(route('product.detail', @$details['slug'])); ?>"><span><?php echo e(@$details['name']); ?></span></a>
+                                            <a
+                                                href="<?php echo e(route('product.detail', @$details['slug'])); ?>"><span><?php echo e(@$details['name']); ?></span></a>
                                         </h5>
                                         <div class="ps-product__row">
                                             <div class="ps-product__label">Price:</div>
-                                            <div class="ps-product__value"><span class="ps-product__price"><?php echo e(formatPrice(@$details['price'])); ?></span>
+                                            <div class="ps-product__value"><span
+                                                    class="ps-product__price"><?php echo e(formatPrice(@$details['price'])); ?></span>
                                             </div>
                                         </div>
                                         <div class="ps-product__row ps-product__stock">
@@ -112,28 +128,30 @@
                                             <div class="ps-product__label">Quantity:</div>
                                             <div class="ps-product__value" style="width:60%">
                                                 <div class="def-number-input number-input safari_only">
-                                                <button class="minus" onclick="QtyUpdate(<?= $id ?>,0)"><i
-                                                        class="icon-minus"></i></button>
-                                                <input class="quantity" step="1" min="1" id="qty<?= $id ?>"
-                                                    name="quantity" type="number" onchange="update_to_cart(<?= $id ?>)"
-                                                    name="qty[]" value="<?php echo e(@$details['quantity']); ?>"
-                                                    onkeypress="return isNumber(event)" size="4" placeholder=""
-                                                    inputmode="numeric">
-                                                <button class="plus" onclick="QtyUpdate(<?= $id ?>,1)"><i
-                                                        class="icon-plus"></i></button>
-                                            </div>
+                                                    <button class="minus" onclick="QtyUpdate(<?= $id ?>,0)"><i
+                                                            class="icon-minus"></i></button>
+                                                    <input class="quantity" step="1" min="1"
+                                                        id="qty<?= $id ?>" name="quantity" type="number"
+                                                        onchange="update_to_cart(<?= $id ?>)" name="qty[]"
+                                                        value="<?php echo e(@$details['quantity']); ?>"
+                                                        onkeypress="return isNumber(event)" size="4"
+                                                        placeholder="" inputmode="numeric">
+                                                    <button class="plus" onclick="QtyUpdate(<?= $id ?>,1)"><i
+                                                            class="icon-plus"></i></button>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="ps-product__row ps-product__subtotal">
                                             <div class="ps-product__label">Subtotal:</div>
-                                            <div class="ps-product__value"><?php echo e(formatPrice( @$details['price'] * @$details['quantity'])); ?></div>
+                                            <div class="ps-product__value">
+                                                <?php echo e(formatPrice(@$details['price'] * @$details['quantity'] + (@$details['price'] * $tax['vat_tax'] ?? 0 /100 * @$details['quantity']) )); ?></div>
                                         </div>
                                     </div>
                                 </div>
-                                </li>
-                                <?php endif; ?>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                         <?php endif; ?>
+                            </li>
+                        <?php endif; ?>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <?php endif; ?>
             </ul>
             <div class="ps-shopping__table table-responsive">
                 <table class="table ps-table ps-table--product">
@@ -151,13 +169,15 @@
                         <?php $total = 0 ?>
                         <?php if(session('cart')): ?>
                             <?php $__currentLoopData = session('cart'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $details): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-
-                                <?php $total+=(@$details['price']*@$details['quantity']); ?>
+                                <?php
+                                    $tax = getTaxCountry($details['shipping_country']);
+                                    $total += @$details['price'] * @$details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity']);
+                                ?>
 
                                 <?php @$shipping_country = (@$details['shipping_country']) ?>
-                                <!-- Product with variations -->
+
                                 <?php if($details['type'] == 'variable'): ?>
-                                    <tr>
+                                    <tr class="variable_table">
                                         <td class="ps-product__remove"> <a href="javascript::void(0)"
                                                 onclick="remove_to_cart(<?= $id ?>)"><i
                                                     class="icon-trash2 text-danger"></i></a></td>
@@ -190,9 +210,10 @@
                                             <div class="def-number-input number-input safari_only">
                                                 <button class="minus" onclick="QtyUpdate(<?= $id ?>,0)"><i
                                                         class="icon-minus"></i></button>
-                                                <input class="quantity" step="1" min="1" id="qty<?= $id ?>"
-                                                    name="quantity" type="number" onchange="update_to_cart(<?= $id ?>)"
-                                                    name="qty[]" value="<?php echo e($details['quantity']); ?>"
+                                                <input class="quantity" step="1" min="1"
+                                                    id="qty<?= $id ?>" name="quantity" type="number"
+                                                    onchange="update_to_cart(<?= $id ?>)" name="qty[]"
+                                                    value="<?php echo e($details['quantity']); ?>"
                                                     onkeypress="return isNumber(event)" size="4" placeholder=""
                                                     inputmode="numeric">
                                                 <button class="plus" onclick="QtyUpdate(<?= $id ?>,1)"><i
@@ -200,7 +221,10 @@
                                             </div>
                                         </td>
                                         <td class="ps-product__subtotal">
-                                            <?php echo e(formatPrice( @$details['price'] * $details['quantity'])); ?></td>
+                                            <?php echo e(formatPrice(@$details['price'] * $details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity']))); ?>
+
+                                            <?php if($tax['vat_tax']): ?> <br><small style="font-size:10px;color:red;">(Tax Inclusive)</small> <?php endif; ?>
+                                        </td>
                                     </tr>
                                 <?php else: ?>
                                     <tr>
@@ -238,12 +262,13 @@
                                                     onkeypress="return isNumber(event)" inputmode="numeric">
                                                 <button class="plus" onclick="QtyUpdate(<?= $id ?>,1)"><i
                                                         class="icon-plus"></i></button>
-
-                                                
                                             </div>
                                         </td>
                                         <td class="ps-product__subtotal">
-                                            <?php echo e(formatPrice(@$details['price'] * @$details['quantity'])); ?></td>
+                                            <?php echo e(formatPrice(@$details['price'] * @$details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity']) )); ?>
+
+                                            <?php if($tax['vat_tax']): ?> <br><small style="font-size:10px;color:red;">(Tax Inclusive)</small> <?php endif; ?>
+                                        </td>
                                     </tr>
                                 <?php endif; ?>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -253,8 +278,7 @@
             </div>
             <div class="ps-shopping__footer">
                 <div class="row">
-                    
-                    
+
                 </div>
             </div>
         </div>
@@ -262,35 +286,37 @@
             <div class="ps-shopping__label">Warenkorb-Summen</div>
             <div class="ps-shopping__box">
                 <div class="ps-shopping__row">
-                    <div class="ps-shopping__label">Zwischensumme</div>
+                    <div class="ps-shopping__label">Zwischensumme
+                    </div>
                     <div class="ps-shopping__price"><?php echo e(formatPrice(@$total)); ?></div>
                 </div>
 
                 <div class="ps-shopping__row">
                     <div class="ps-shopping__label">Versand</div>
                     <div class="ps-shopping__price">
-                        <?php echo e(formatPrice($shipping_price = shippingCountry()->where('id',@$shipping_country)->pluck('price')->first())); ?>
+                        <?php echo e(formatPrice($shipping_price = shippingCountry()->where('country', @$shipping_country)->pluck('price')->first())); ?>
 
                     </div>
                 </div>
 
-               
+
 
                 <div class="ps-shopping__row">
-                    <div class="ps-shopping__label">Insgesamt</div>
-                    <div class="ps-shopping__price"><?php echo e(formatPrice(@$total+$shipping_price)); ?></div>
+                    <div class="ps-shopping__label">Insgesamt
+
+                    </div>
+                    <div class="ps-shopping__price"><?php echo e(formatPrice(@$total + $shipping_price)); ?></div>
                 </div>
                 <div class="ps-shopping__checkout">
-                    <?php if(count((array) session('cart'))>0): ?>
-                    <a class="ps-btn ps-btn--warning"
-                        href="<?php echo e(url('checkout')); ?>">Zur
-                        Kasse gehen</a>
+                    <?php if(count((array) session('cart')) > 0): ?>
+                        <a class="ps-btn ps-btn--warning" href="<?php echo e(url('checkout')); ?>">Zur
+                            Kasse gehen</a>
                     <?php else: ?>
-                    <a class="ps-btn ps-btn--disabled"
-                        href="javascript::void(0)">Zur
-                        Kasse gehen</a>
+                        <a class="ps-btn ps-btn--disabled" href="javascript::void(0)">Zur
+                            Kasse gehen</a>
                     <?php endif; ?>
-                        <a class="ps-shopping__link" href="<?php echo e(url('/')); ?>">Weiter zum Einkaufen</a></div>
+                    <a class="ps-shopping__link" href="<?php echo e(url('/')); ?>">Weiter zum Einkaufen</a>
+                </div>
             </div>
         </div>
     </div>

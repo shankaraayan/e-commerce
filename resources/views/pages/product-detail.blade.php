@@ -303,17 +303,34 @@
                                 </div>
                             </div>
 
-                                <div class="align-items-center mt-5">
-                                    <label class="for-label">Select Delivery Location</label>
+                                <div class="align-items-center mt-5 mb-4">
+                                    <label class="for-label">Lieferort auswählen</label>
                                     <select class="form-control" name="shipping_class" id="shipping_class">
-                                        <option value="0">Select Here...</option>
+
                                         @php
                                             $result = shippingCountry()->where('shipping_id',$product->shipping_class)->where('status',1);
                                         @endphp
                                         @foreach ($result as $country)
-                                            <option value="{{$country->id}}"> {{country()->where('id',$country->country)->pluck('country')->first()}} </option>
+                                            <option value="{{$country->country}}" > {{country()->where('id',$country->country)->pluck('country')->first()}} </option>
                                         @endforeach
                                     </select>
+                                </div>
+                                <div>
+                                    <p>EAN: 4262426963932</p>
+                                    <p>Artikelnummer: CG-200WOMO-V-3</p>
+                                    <p>Kategorien: Balkonkraftwerk Marketing Produkt, Solar Komplettset Marketing Produkt</p>
+                                </div>
+                                <div class="mb-4">
+                                    <img src="https://campergold.net/wp-content/uploads/2023/01/pdf-scroll.jpg" alt="cat">
+                                </div>
+                                <div class="mb-4">
+                                    <img src="https://campergold.net/wp-content/uploads/2023/05/visa.png" alt="payment">
+                                </div>
+                                <div>
+                                    <a href="#"><i class="fa fa-facebook"></i></a>
+                                    <a href="#"><i class="fa fa-twitter"></i></a>
+                                    <a href="#"><i class="fa fa-instagram"></i></a>
+                                    <a href="#"><i class="fa fa-facebook"></i></a>
                                 </div>
                         </div>
                     </div>

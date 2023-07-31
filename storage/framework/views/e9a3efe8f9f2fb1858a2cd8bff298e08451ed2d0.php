@@ -81,21 +81,13 @@
 
                                 <td class="table-td ">
                                 <div class="flex space-x-3 rtl:space-x-reverse">
-                                    <a href="#">
-                                    <button class="action-btn" onclick="return confirm('Are you sure you want to delete this Shipping?')" type="button">
+                                    <a href="view/<?php echo e($user->id); ?>">
+                                    <button class="action-btn" type="button">
                                         <iconify-icon icon="heroicons:eye"></iconify-icon>
                                     </button>
                                     </a>
-                                    <a href="#">
-                                        <button class="action-btn" onclick="return confirm('Are you sure you want to delete this Shipping?')" type="button">
-                                        <iconify-icon icon="heroicons:trash"></iconify-icon>
-                                        </button>
-                                    </a>
-                                    <a href="#">
-                                        <button class="action-btn" onclick="return confirm('Are you sure you want to delete this Shipping?')" type="button">
-                                        <iconify-icon icon="heroicons-solid:ban"></iconify-icon>
-                                        </button>
-                                    </a>
+
+
                                 </div>
                                 </td>
                             </tr>

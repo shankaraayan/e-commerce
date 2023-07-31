@@ -1,3 +1,20 @@
+<style>
+    .loader{
+        width: 100%;
+        height : 100%;
+        top : 0;
+        left : 0;
+        background : #fff;
+        z-index: 10000;
+        opacity: 0.5;
+        display: flex;
+        align-items: center;
+        justify-content: center
+    }
+    .loader i{
+        font-size: 60px;
+    }
+</style>
 <?php $__env->startSection('content'); ?>
 
 <?php
@@ -28,9 +45,21 @@
             <h3 class="ps-checkout__title"> Checkout</h3>
             <div class="ps-checkout__content">
                 <div class="ps-checkout__wapper">
-                    <p class="ps-checkout__text">Sie haben noch kein Konto? <a href="#">Zum Anmelden hier klicken</a>
-                    </p>
+                    <p class="ps-checkout__text m-4">Sie haben noch kein Konto? <a href="<?php echo e(route('login.register')); ?>">Zum Anmelden hier klicken</a></p>
+
+                        <div class="ps-shopping__coupon row mb-4">
+                            <div class="col-md-8">
+                                <div class="row px-4">
+                                    <input class="form-control ps-input col-md-8" type="text" id="couponCode" name="couponCode" placeholder="Kupon-Code"  value="<?php echo e(old('couponCode') ?? @$lastCartItem['discount']['code'] ?? ''); ?>" >
+                                    <button onclick="couponApply()" id="couponButton" class="ps-btn ps-btn--primary col-md-4 m-0" type="button" >Coupon anwenden</button>
+                                </div>
+
+                            </div>
+
+                        </div>
+
                 </div>
+
                 <form  method="post">
                     <?php echo csrf_field(); ?>
                     <div class="row">
@@ -38,17 +67,11 @@
                             <div class="ps-checkout__form">
                                 <h3 class="ps-checkout__heading">Angaben zur Rechnungsstellung</h3>
                                 <div class="row">
-                                    <div class="col-md-12 mb-4">
-                                        <div class="ps-shopping__coupon row">
-                                            <input class="form-control ps-input col-md-8" type="text" id="couponCode" name="couponCode" placeholder="Kupon-Code"  value="<?php echo e(old('couponCode') ?? @$lastCartItem['discount']['code'] ?? ''); ?>" >
-                                            <button onclick="couponApply()" id="couponButton" class="ps-btn ps-btn--primary col-md-4 m-0" type="button" >Coupon anwenden</button>
-                                        </div>
-                                    </div>
 
                                     <div class="col-12">
                                         <div class="ps-checkout__group">
                                             <label class="ps-checkout__label">Country</label>
-                                            <select value="<?php echo e(old('country')); ?>" class="ps-input country_shipping" name="country" id="country"
+                                            <select value="<?php echo e(old('country')); ?>" class="ps-input country_shipping"  name="country" id="country"
                                                 data-select2-id="1" tabindex="-1" aria-hidden="true">
                                                 <option value="" >Wählen Sie ein Land / eine Region…</option>
 
@@ -233,7 +256,7 @@ unset($__errorArgs, $__bag); ?>
                                             <div class="col-12">
                                                 <div class="ps-checkout__group">
                                                     <label class="ps-checkout__label">Country</label>
-                                                    <select value="<?php echo e(old('shipping_country')); ?>" class="ps-input country_shipping" id="shipping_conuntry" name="shipping_country"
+                                                    <select value="<?php echo e(old('shipping_country')); ?>" class="ps-input " id="shipping_conuntry" name="shipping_country"
                                                         data-select2-id="1" tabindex="-1" aria-hidden="true">
                                                         <option>Wählen Sie ein Land / eine Region…</option>
                                                         <?php $__currentLoopData = $shippingCountry; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -419,7 +442,7 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-4">
+                        <div class="col-12 col-lg-4 position-relative">
                             <div class="ps-checkout__order">
                                 <h3 class="ps-checkout__heading">Ihre Bestellung</h3>
                                 <div class="ps-checkout__row">
@@ -428,9 +451,13 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                                 <?php $total = 0 ?>
                                 <?php if(session('cart')): ?>
+                                
                                     <?php $__currentLoopData = session('cart'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $details): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-                                        <?php $total+=($details['price']*$details['quantity']); ?>
+                                        <?php
+                                            $tax = getTaxCountry((int)$details['shipping_country']);
+                                            $total+=($details['price']*$details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity']) ) ;
+                                        ?>
                                         <!-- Product with variations -->
                                         <?php if($details['type'] == 'variable'): ?>
                                             <div class="ps-checkout__row ps-product">
@@ -443,7 +470,7 @@ unset($__errorArgs, $__bag); ?>
                                                     <span>x</span><span><?php echo e($details['quantity']); ?></span>
                                                 </div>
                                                 <div class="ps-product__price">
-                                                    <?php echo e(formatPrice(@$details['price'] * $details['quantity'])); ?></div>
+                                                    <?php echo e(formatPrice(@$details['price'] * $details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity']))); ?></div>
                                             </div>
                                         <?php else: ?>
                                             <div class="ps-checkout__row ps-product">
@@ -451,16 +478,17 @@ unset($__errorArgs, $__bag); ?>
                                                     <?php echo e(@$details['name']); ?><span>x</span><span><?php echo e($details['quantity']); ?></span>
                                                 </div>
                                                 <div class="ps-product__price">
-                                                    <?php echo e(formatPrice(@$details['price'] * $details['quantity'])); ?></div>
+                                                    <?php echo e(formatPrice(@$details['price'] * $details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity']) )); ?></div>
                                             </div>
                                         <?php endif; ?>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 <?php endif; ?>
+                                <div class="ps-checkout__row">
+                                    <div class="ps-title">Zwischensumme</div>
+                                    <div class="ps-product__price"><?php echo e(formatPrice(@$total)); ?></div>
+                                </div>
                                 <div id="dynmicElChekout">
-                                    <div class="ps-checkout__row">
-                                        <div class="ps-title">Zwischensumme</div>
-                                        <div class="ps-product__price"><?php echo e(formatPrice(@$total)); ?></div>
-                                    </div>
+
                                     <?php
                                         $cartDiscount =  session('cart');
                                         $cartDiscount = end($cartDiscount);
@@ -481,7 +509,7 @@ unset($__errorArgs, $__bag); ?>
                                     <div class="ps-checkout__row">
                                         <div class="ps-title">Discount (<?php echo e($discountCode ?? 'Not Applied'); ?>)
 
-                                            <div class="ps-title" style="font-size:12px"><a class="text-danger" href="/coupon/remove">Remove Coupon</a></div>
+                                            <div class="ps-title" style="font-size:12px"><a class="text-danger" href="javascript:void(0);" onclick="remove_coupon()">Remove Coupon</a></div>
                                         </div>
 
                                         <div class="ps-product__price">
@@ -566,6 +594,9 @@ unset($__errorArgs, $__bag); ?>
                                     <?php endif; ?>
                                 </div>
                             </div>
+                            <div class="loader position-absolute d-none">
+                                <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -577,144 +608,197 @@ unset($__errorArgs, $__bag); ?>
         function couponApply() {
            var couponCode = document.getElementById('couponCode').value;
            var country = document.getElementById('country').value;
-
+           var dynmicElChekout = document.querySelector("#dynmicElChekout");
            $.ajax({
-           url: "/coupon/apply",
-           method: 'post',
-           data: {
-                    "_token": "<?php echo e(csrf_token()); ?>",
-                    "code": couponCode,
-                    "country": country,
-                },
-                success: function(response) {
-                    const {message,status} = JSON.parse(response);
+                url: "/coupon/apply",
+                method: 'post',
+                data: {
+                        "_token": "<?php echo e(csrf_token()); ?>",
+                        "code": couponCode,
+                        "country": country,
+                    },
+                    beforeSend : function(){
+                        $(".loader").removeClass("d-none");
+                    },
+                    success: function(response) {
+                        $(".loader").addClass("d-none");
+                        // console.log(response);
+                        const {message,status,data} = JSON.parse(response);
+                        console.log(data);
 
-                    if(status === "success"){
+                        if(status === "success"){
+                            $(dynmicElChekout).html(`
 
-                        toastr.success(message);
-                    }else{
-                        toastr.error(message);
+                                    <div class="ps-checkout__row">
+                                        <div class="ps-title">Discount
+
+                                            <div class="ps-title" style="font-size:12px"><a class="text-danger" onclick="remove_coupon()" href="javascript:void(0);">Remove Coupon</a></div>
+                                            </div>
+
+                                            <div class="ps-product__price">
+                                            ${data.discount_value}
+                                            </div>
+                                        </div>
+
+                                <div class="ps-checkout__row">
+                                    <div class="ps-title">Versand</div>
+                                    <div class="ps-checkout__checkbox">
+                                        <div class="form-check">
+                                            <label for="free-ship" id="shipping_price">
+                                                ${data.shipping_price}
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="ps-checkout__row">
+                                    <div class="ps-title">Total</div>
+                                    <div class="ps-product__price">
+                                    ${data.total}
+                                    </div>
+                                </div>
+                            `);
+                            toastr.success(message);
+                        }else{
+                            toastr.error(message);
+                        }
+                        // console.log(response);
+
+                    //     setTimeout(function() {
+                    //     window.location.reload();
+                    // }, 2000);
+
+                    },
+                    error : function(err){
+                        console.log(err);
                     }
-                    // console.log(response);
-
-                    setTimeout(function() {
-                    window.location.reload();
-                }, 2000);
-
-                },
-                error : function(err){
-                    console.log(err);
-                }
             });
        }
 
+
+
     </script>
 
-
 <script>
-  window.onload = function(){
 
-  const country_el = document.querySelectorAll('.country_shipping');
-  country_el.forEach(selectElement => {
-    selectElement.onchange = function(e) {
-
-       var id = e.target.value;
-    //    alert(id);
-       document.querySelectorAll('.country_shipping').forEach(selectd =>{
-             if( !selectd.value==""){
-                 selectd.value = e.target.value;
-
-             }
+      $(document).ready(function () {
+        const country_el = document.querySelectorAll('.country_shipping');
+        // country shipping
+        var dynmicElChekout = document.querySelector("#dynmicElChekout");
+        $("#country").on('change', function(){
+            const id = $(this).val();
+            $("#shipping_conuntry").val($(this).val());
+            shipping_update(id, dynmicElChekout);
         });
 
-        // dynaic shipping mange
+        $(".shipping_check").on('click', function () {
+            if ($(this).prop("checked")) {
+                $("#shipping_conuntry").on('change', function () {
+                var id = $(this).val();
+                console.log(id);
+                shipping_update(id, dynmicElChekout);
+                });
+            }
+        });
+      });
 
-        var dynmicElChekout = document.querySelector("#dynmicElChekout");
-
-        shipping_update(id,dynmicElChekout);
-    // shipping check
-
-
-}
-
-$(document).ready(function(){
-    $(".shipping_check").on('click',function(){
-        var dynmicElChekout = document.querySelector("#dynmicElChekout");
-        var id = $(this).val();
-
-        if ($(this).prop("checked")) {
-            $("#shipping_conuntry").removeClass('country_shipping');
-            $("#shipping_conuntry").addClass('bottom_shipping_country');
-            $(".bottom_shipping_country").on('change',function(){
-                shipping_update(id,dynmicElChekout);
-            });
-         }
-        else {
-            $("#shipping_conuntry").removeClass('bottom_shipping_country');
-            $("#shipping_conuntry").addClass('country_shipping');
+    function shipping_update(id, dynmicElChekout) {
+    $.ajax({
+        url: "/admin/shipping/country/shipping_country_update",
+        method: 'post',
+        data: {
+        "_token": "<?php echo e(csrf_token()); ?>",
+        "shipping_country": id,
+        },
+        beforeSend : function(){
+            $(".loader").removeClass("d-none");
+        },
+        success: function (response) {
+            $(".loader").addClass("d-none");
+        console.log(response);
+        $(dynmicElChekout).html(`
+            ${response.coupon ?
+            `<div class="ps-checkout__row">
+                <div class="ps-title">Discount
+                <div class="ps-title" style="font-size:12px">
+                    <a class="text-danger" href="javascript:void(0);" onclick="remove_coupon()">Remove Coupon</a>
+                </div>
+                </div>
+                <div class="ps-product__price">
+                ${response.discount_value} <span>${response.type !== 'flat' ? '%' : ''}</span>
+                </div>
+            </div>`
+            : ''}
+            <div class="ps-checkout__row">
+            <div class="ps-title">Versand</div>
+            <div class="ps-checkout__checkbox">
+                <div class="form-check">
+                <label for="free-ship" id="shipping_price">
+                    ${response.shipping_price}
+                </label>
+                </div>
+            </div>
+            </div>
+            <div class="ps-checkout__row">
+            <div class="ps-title">Total</div>
+            <div class="ps-product__price">
+                ${response.total}
+            </div>
+            </div>
+        `);
+        },
+        error: function (err) {
+        console.log(err);
         }
     });
-})
+    };
 
-function shipping_update(){
+    function remove_coupon() {
     $.ajax({
-           url: "/admin/shipping/country/shipping_country_update",
-           method: 'post',
-           data: {
-                    "_token": "<?php echo e(csrf_token()); ?>",
-                    "shipping_country": id,
-                },
-                success: function(response) {
-
-                    console.log(response);
-                    // return false;
-                    $(dynmicElChekout).html(`
-                            <div class="ps-checkout__row">
-                                <div class="ps-title">Zwischensumme</div>
-                                <div class="ps-product__price"><?php echo e(formatPrice(@$total)); ?></div>
-                            </div>
-
-                            <div class="ps-checkout__row d-none">
-                                <div class="ps-title">Discount
-
-                                    <div class="ps-title" style="font-size:12px"><a class="text-danger" href="/coupon/remove">Remove Coupon</a></div>
-                                </div>
-
-                                <div class="ps-product__price">
-                                    00.00
-                                </div>
-                            </div>
-
-                            <div class="ps-checkout__row">
-                                <div class="ps-title">Versand</div>
-                                <div class="ps-checkout__checkbox">
-                                    <div class="form-check">
-                                        <label for="free-ship" id="shipping_price">
-                                           ${response.shipping_price}
-                                        </label>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <div class="ps-checkout__row">
-                                <div class="ps-title">Total</div>
-                                <div class="ps-product__price">
-                                    ${response.total}
-                                </div>
-                            </div>
-                    `);
-
-                // window.location.reload();
-                },
-                error : function(err){
-                    console.log(err);
-                }
-            });
-        };
+        url: "coupon/remove",
+        method: 'get',
+        data: {
+        "_token": "<?php echo e(csrf_token()); ?>",
+        },
+        beforeSend : function(){
+            $(".loader").removeClass("d-none");
+        },
+        success: function (response) {
+            $(".loader").addClass("d-none");
+        var res = JSON.parse(response);
+        const { data } = res;
+        if (res.status === "success") {
+            $(dynmicElChekout).html(`
+            <div class="ps-checkout__row">
+                <div class="ps-title">Versand</div>
+                <div class="ps-checkout__checkbox">
+                <div class="form-check">
+                    <label for="free-ship" id="shipping_price">
+                    ${data.shipping_price}
+                    </label>
+                </div>
+                </div>
+            </div>
+            <div class="ps-checkout__row">
+                <div class="ps-title">Total</div>
+                <div class="ps-product__price">
+                ${data.total}
+                </div>
+            </div>
+            `);
+            toastr.success(res.message);
+        } else {
+            toastr.error(message);
+        }
+        },
+        error: function (err) {
+        console.log(err);
+        }
     });
-
 }
-</script>
+
+  </script>
+
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('../Layout.Layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/customstegpearl/public_html/root/resources/views/pages/checkout.blade.php ENDPATH**/ ?>

@@ -130,9 +130,10 @@ Route::name('admin.coupon.')->prefix('admin/coupon/')->middleware('isAdmin')->gr
 // users
 Route::name('admin.users.')->prefix('admin/users/')->middleware('isAdmin')->group(function () {
     Route::get('list', [UsersController::class, 'index'])->name('list');
-    Route::get('add', [UsersController::class, 'add'])->name('add');
-    Route::post('update/{id}', [UsersController::class, 'update'])->name('update');
-    Route::get('delete/{id}', [UsersController::class, 'delete'])->name('delete');
+    Route::get('view/{id}', [UsersController::class, 'view_user'])->name('view');
+    // Route::get('add', [UsersController::class, 'add'])->name('add');
+    // Route::post('update/{id}', [UsersController::class, 'update'])->name('update');
+    // Route::get('delete/{id}', [UsersController::class, 'delete'])->name('delete');
 
 });
 

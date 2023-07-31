@@ -48,4 +48,22 @@ use App\Models\Country;
     return $country;
  }
 
+ function getTaxCountry($id)
+ {
+    $result = Country::where('id',$id)->first();
+    return $result ;
+ }
+
+ function getShippingPrice($id)
+ {
+    $shippingClass = countryModel::where('id',$id)->first();
+    return $shippingClass;
+ }
+
+ function getCountrybyShippingCountry($id)
+ {
+    $result = getShippingPrice($id);
+    return getTaxCountry($result['country']);
+ }
+
 ?>

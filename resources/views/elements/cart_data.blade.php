@@ -17,20 +17,26 @@
             <ul class="ps-shopping__list">
 
                 @php $total = 0 @endphp
-                        @if (session('cart'))
-                            @foreach (session('cart') as $id => $details)
+                @if (session('cart'))
+                    @foreach (session('cart') as $id => $details)
+                        @php
+                            $tax = getTaxCountry($details['shipping_country']);
 
-                             @php @$shipping_country = (@$details['shipping_country']) @endphp
+                            @$shipping_country = (@$details['shipping_country']);
 
-                            {{-- {{dd($shipping_country)}} --}}
-                                @php $total+=(@$details['price']*@$details['quantity']); @endphp
-                                <!-- Product with variations -->
-                                @if (@$details['type'] == 'variable')
-                                <li>
-                                    <div class="ps-product ps-product--wishlist">
-                                    <div class="ps-product__remove"><a href="javascript::void(0)" onclick="remove_to_cart(<?= $id ?>)"><i class="icon-trash2 text-danger"></i></a></div>
-                                    <div class="ps-product__thumbnail"><a class="ps-product__image" href="{{ route('product.detail', $details['slug']) }}">
-                                            <figure><img src="{{ asset('root/public/uploads/' . @$details['images']) }}" alt="alt">
+                            $total+=(@$details['price']*@$details['quantity']);
+                        @endphp
+
+                        @if (@$details['type'] == 'variable')
+                            <li class="variable">
+                                <div class="ps-product ps-product--wishlist">
+                                    <div class="ps-product__remove"><a href="javascript::void(0)"
+                                            onclick="remove_to_cart(<?= $id ?>)"><i
+                                                class="icon-trash2 text-danger"></i></a></div>
+                                    <div class="ps-product__thumbnail"><a class="ps-product__image"
+                                            href="{{ route('product.detail', $details['slug']) }}">
+                                            <figure><img src="{{ asset('root/public/uploads/' . @$details['images']) }}"
+                                                    alt="alt">
                                             </figure>
                                         </a></div>
                                     <div class="ps-product__content">
@@ -45,7 +51,8 @@
                                         </h5>
                                         <div class="ps-product__row">
                                             <div class="ps-product__label">Price:</div>
-                                            <div class="ps-product__value"><span class="ps-product__price">{{ formatPrice(@$details['price']) }}</span>
+                                            <div class="ps-product__value"><span
+                                                    class="ps-product__price">{{ formatPrice(@$details['price']) }}</span>
                                             </div>
                                         </div>
                                         <div class="ps-product__row ps-product__stock">
@@ -61,41 +68,50 @@
                                             <div class="ps-product__label">Quantity:</div>
                                             <div class="ps-product__value" style="width:60%">
                                                 <div class="def-number-input number-input safari_only">
-                                                <button class="minus" onclick="QtyUpdate(<?= $id ?>,0)"><i
-                                                        class="icon-minus"></i></button>
-                                                <input class="quantity" step="1" min="1" id="qty<?= $id ?>"
-                                                    name="quantity" type="number" onchange="update_to_cart(<?= $id ?>)"
-                                                    name="qty[]" value="{{ $details['quantity'] }}"
-                                                    onkeypress="return isNumber(event)" size="4" placeholder=""
-                                                    inputmode="numeric">
-                                                <button class="plus" onclick="QtyUpdate(<?= $id ?>,1)"><i
-                                                        class="icon-plus"></i></button>
-                                            </div>
+                                                    <button class="minus" onclick="QtyUpdate(<?= $id ?>,0)"><i
+                                                            class="icon-minus"></i></button>
+                                                    <input class="quantity" step="1" min="1"
+                                                        id="qty<?= $id ?>" name="quantity" type="number"
+                                                        onchange="update_to_cart(<?= $id ?>)" name="qty[]"
+                                                        value="{{ $details['quantity'] }}"
+                                                        onkeypress="return isNumber(event)" size="4"
+                                                        placeholder="" inputmode="numeric">
+                                                    <button class="plus" onclick="QtyUpdate(<?= $id ?>,1)"><i
+                                                            class="icon-plus"></i></button>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="ps-product__row ps-product__subtotal">
                                             <div class="ps-product__label">Subtotal:</div>
-                                            <div class="ps-product__value">{{ formatPrice( @$details['price'] * $details['quantity']) }}</div>
+                                            <div class="ps-product__value">
+                                                {{ formatPrice(@$details['price'] * $details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity']) ) }}</div>
                                         </div>
                                     </div>
                                 </div>
-                                </li>
-                                @else
-                                <li>
-                                    <div class="ps-product ps-product--wishlist">
+                            </li>
+                        @else
+                            <li>
+                                <div class="ps-product ps-product--wishlist">
 
-                                    <div class="ps-product__remove"><a href="javascript::void(0)" onclick="remove_to_cart(<?= $id ?>)"><i class="icon-trash2 text-danger"></i></a></div>
-                                    <div class="ps-product__thumbnail"><a class="ps-product__image" href="{{ route('product.detail', @$details['slug']) }}">
-                                            <figure><img src="{{ asset('root/public/uploads/' . @$details['images']) }}" alt="alt">
+                                    <div class="ps-product__remove"><a href="javascript::void(0)"
+                                            onclick="remove_to_cart(<?= $id ?>)"><i
+                                                class="icon-trash2 text-danger"></i></a></div>
+                                    <div class="ps-product__thumbnail"><a class="ps-product__image"
+                                            href="{{ route('product.detail', @$details['slug']) }}">
+                                            <figure><img
+                                                    src="{{ asset('root/public/uploads/' . @$details['images']) }}"
+                                                    alt="alt">
                                             </figure>
                                         </a></div>
                                     <div class="ps-product__content">
                                         <h5 class="ps-product__title d-block text-left">
-                                            <a href="{{ route('product.detail', @$details['slug']) }}"><span>{{ @$details['name'] }}</span></a>
+                                            <a
+                                                href="{{ route('product.detail', @$details['slug']) }}"><span>{{ @$details['name'] }}</span></a>
                                         </h5>
                                         <div class="ps-product__row">
                                             <div class="ps-product__label">Price:</div>
-                                            <div class="ps-product__value"><span class="ps-product__price">{{ formatPrice(@$details['price']) }}</span>
+                                            <div class="ps-product__value"><span
+                                                    class="ps-product__price">{{ formatPrice(@$details['price']) }}</span>
                                             </div>
                                         </div>
                                         <div class="ps-product__row ps-product__stock">
@@ -112,28 +128,30 @@
                                             <div class="ps-product__label">Quantity:</div>
                                             <div class="ps-product__value" style="width:60%">
                                                 <div class="def-number-input number-input safari_only">
-                                                <button class="minus" onclick="QtyUpdate(<?= $id ?>,0)"><i
-                                                        class="icon-minus"></i></button>
-                                                <input class="quantity" step="1" min="1" id="qty<?= $id ?>"
-                                                    name="quantity" type="number" onchange="update_to_cart(<?= $id ?>)"
-                                                    name="qty[]" value="{{ @$details['quantity'] }}"
-                                                    onkeypress="return isNumber(event)" size="4" placeholder=""
-                                                    inputmode="numeric">
-                                                <button class="plus" onclick="QtyUpdate(<?= $id ?>,1)"><i
-                                                        class="icon-plus"></i></button>
-                                            </div>
+                                                    <button class="minus" onclick="QtyUpdate(<?= $id ?>,0)"><i
+                                                            class="icon-minus"></i></button>
+                                                    <input class="quantity" step="1" min="1"
+                                                        id="qty<?= $id ?>" name="quantity" type="number"
+                                                        onchange="update_to_cart(<?= $id ?>)" name="qty[]"
+                                                        value="{{ @$details['quantity'] }}"
+                                                        onkeypress="return isNumber(event)" size="4"
+                                                        placeholder="" inputmode="numeric">
+                                                    <button class="plus" onclick="QtyUpdate(<?= $id ?>,1)"><i
+                                                            class="icon-plus"></i></button>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="ps-product__row ps-product__subtotal">
                                             <div class="ps-product__label">Subtotal:</div>
-                                            <div class="ps-product__value">{{ formatPrice( @$details['price'] * @$details['quantity']) }}</div>
+                                            <div class="ps-product__value">
+                                                {{ formatPrice(@$details['price'] * @$details['quantity'] + (@$details['price'] * $tax['vat_tax'] ?? 0 /100 * @$details['quantity']) ) }}</div>
                                         </div>
                                     </div>
                                 </div>
-                                </li>
-                                @endif
-                            @endforeach
-                         @endif
+                            </li>
+                        @endif
+                    @endforeach
+                @endif
             </ul>
             <div class="ps-shopping__table table-responsive">
                 <table class="table ps-table ps-table--product">
@@ -151,13 +169,15 @@
                         @php $total = 0 @endphp
                         @if (session('cart'))
                             @foreach (session('cart') as $id => $details)
-
-                                @php $total+=(@$details['price']*@$details['quantity']); @endphp
+                                @php
+                                    $tax = getTaxCountry($details['shipping_country']);
+                                    $total += @$details['price'] * @$details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity']);
+                                @endphp
 
                                 @php @$shipping_country = (@$details['shipping_country']) @endphp
-                                <!-- Product with variations -->
+
                                 @if ($details['type'] == 'variable')
-                                    <tr>
+                                    <tr class="variable_table">
                                         <td class="ps-product__remove"> <a href="javascript::void(0)"
                                                 onclick="remove_to_cart(<?= $id ?>)"><i
                                                     class="icon-trash2 text-danger"></i></a></td>
@@ -190,9 +210,10 @@
                                             <div class="def-number-input number-input safari_only">
                                                 <button class="minus" onclick="QtyUpdate(<?= $id ?>,0)"><i
                                                         class="icon-minus"></i></button>
-                                                <input class="quantity" step="1" min="1" id="qty<?= $id ?>"
-                                                    name="quantity" type="number" onchange="update_to_cart(<?= $id ?>)"
-                                                    name="qty[]" value="{{ $details['quantity'] }}"
+                                                <input class="quantity" step="1" min="1"
+                                                    id="qty<?= $id ?>" name="quantity" type="number"
+                                                    onchange="update_to_cart(<?= $id ?>)" name="qty[]"
+                                                    value="{{ $details['quantity'] }}"
                                                     onkeypress="return isNumber(event)" size="4" placeholder=""
                                                     inputmode="numeric">
                                                 <button class="plus" onclick="QtyUpdate(<?= $id ?>,1)"><i
@@ -200,7 +221,9 @@
                                             </div>
                                         </td>
                                         <td class="ps-product__subtotal">
-                                            {{ formatPrice( @$details['price'] * $details['quantity']) }}</td>
+                                            {{ formatPrice(@$details['price'] * $details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity'])) }}
+                                            @if($tax['vat_tax']) <br><small style="font-size:10px;color:red;">(Tax Inclusive)</small> @endif
+                                        </td>
                                     </tr>
                                 @else
                                     <tr>
@@ -238,20 +261,12 @@
                                                     onkeypress="return isNumber(event)" inputmode="numeric">
                                                 <button class="plus" onclick="QtyUpdate(<?= $id ?>,1)"><i
                                                         class="icon-plus"></i></button>
-
-                                                {{-- <input type="button" value="-" class="minus btn_primary btn"
-                                                        onclick="QtyUpdate(<?= $id ?>,0)">
-                                                    <input type="number" id="qty<?= $id ?>" class="input-text cart_qty mx-1"
-                                                        step="1" min="1" onchange="update_to_cart(<?= $id ?>)"
-                                                        name="qty[]" value="{{ $details['quantity'] }}"
-                                                        onkeypress="return isNumber(event)" size="4" placeholder=""
-                                                        inputmode="numeric">
-                                                    <input type="button" value="+" class="plus btn_primary btn"
-                                                        onclick="QtyUpdate(<?= $id ?>,1)"> --}}
                                             </div>
                                         </td>
                                         <td class="ps-product__subtotal">
-                                            {{ formatPrice(@$details['price'] * @$details['quantity']) }}</td>
+                                            {{ formatPrice(@$details['price'] * @$details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity']) ) }}
+                                            @if($tax['vat_tax']) <br><small style="font-size:10px;color:red;">(Tax Inclusive)</small> @endif
+                                        </td>
                                     </tr>
                                 @endif
                             @endforeach
@@ -261,18 +276,7 @@
             </div>
             <div class="ps-shopping__footer">
                 <div class="row">
-                    {{-- <div class="col-12">
-                        <div class="ps-shopping__coupon">
-                            <input class="form-control ps-input" type="text" placeholder="Kupon-Code" style="width:50%">
-                            <button class="ps-btn ps-btn--primary" type="button">Coupon anwenden</button>
-                        </div>
-                    </div> --}}
-                    {{-- <div class="col-12 col-md-6">
-                        <div class="ps-shopping__button d-flex" >
-                            <button class="ps-btn ps-btn--primary" type="button">Alle löschen</button>
-                            <button class="ps-btn ps-btn--primary" type="button">Warenkorb aktualisieren</button>
-                        </div>
-                    </div> --}}
+
                 </div>
             </div>
         </div>
@@ -280,50 +284,36 @@
             <div class="ps-shopping__label">Warenkorb-Summen</div>
             <div class="ps-shopping__box">
                 <div class="ps-shopping__row">
-                    <div class="ps-shopping__label">Zwischensumme</div>
+                    <div class="ps-shopping__label">Zwischensumme
+                    </div>
                     <div class="ps-shopping__price">{{ formatPrice(@$total) }}</div>
                 </div>
 
                 <div class="ps-shopping__row">
                     <div class="ps-shopping__label">Versand</div>
                     <div class="ps-shopping__price">
-                        {{ formatPrice($shipping_price = shippingCountry()->where('id',@$shipping_country)->pluck('price')->first()) }}
+                        {{ formatPrice($shipping_price = shippingCountry()->where('country', @$shipping_country)->pluck('price')->first()) }}
                     </div>
                 </div>
 
-               {{--<div class="ps-shopping__text">Die Versandoptionen werden während des Bestellvorgangsaktualisiert.</div>
-                <a class="ps-shopping__toggle" href="javascript::void(0)">Versand</a>
-                <div class="ps-shopping__form">
-                    <div class="ps-shopping__group">
 
-                        <select class="js-example-basic-single select2-hidden-accessible" name="state"
-                            data-select2-id="1" tabindex="-1" aria-hidden="true">
-                            <option selected="" data-select2-id="3">Wählen Sie ein Land / eine Region…
-                            </option>
-                            <option>Afghanistan</option>
-                            <option>Åland Islands</option>
-                            <option>Albania</option>
-
-                        </select>
-                    </div>
-
-                </div> --}}
 
                 <div class="ps-shopping__row">
-                    <div class="ps-shopping__label">Insgesamt</div>
-                    <div class="ps-shopping__price">{{ formatPrice(@$total+$shipping_price) }}</div>
+                    <div class="ps-shopping__label">Insgesamt
+
+                    </div>
+                    <div class="ps-shopping__price">{{ formatPrice(@$total + $shipping_price) }}</div>
                 </div>
                 <div class="ps-shopping__checkout">
-                    @if(count((array) session('cart'))>0)
-                    <a class="ps-btn ps-btn--warning"
-                        href="{{ url('checkout') }}">Zur
-                        Kasse gehen</a>
+                    @if (count((array) session('cart')) > 0)
+                        <a class="ps-btn ps-btn--warning" href="{{ url('checkout') }}">Zur
+                            Kasse gehen</a>
                     @else
-                    <a class="ps-btn ps-btn--disabled"
-                        href="javascript::void(0)">Zur
-                        Kasse gehen</a>
+                        <a class="ps-btn ps-btn--disabled" href="javascript::void(0)">Zur
+                            Kasse gehen</a>
                     @endif
-                        <a class="ps-shopping__link" href="{{ url('/') }}">Weiter zum Einkaufen</a></div>
+                    <a class="ps-shopping__link" href="{{ url('/') }}">Weiter zum Einkaufen</a>
+                </div>
             </div>
         </div>
     </div>

@@ -111,9 +111,10 @@
                         <div class="col-12 col-md-6">
                             <p>Copyright © 2023 Stegpearl. Alle Rechte vorbehalten</p>
                         </div>
-                        <div class="col-12 col-md-6 text-right"><img src="<?php echo e(asset('assets/img/payment.png')); ?>" alt><img
+                        <div class="col-12 col-md-6 text-right"><img src="https://campergold.net/wp-content/uploads/elementor/thumbs/paypal-plus-logo-p6reqcckrq9vz2hup9uo8cw42gewnawmxylsyq0w62.png" alt><img
                                 class="payment-light" src="<?php echo e(asset('assets/img/payment-light.png')); ?>" alt></div>
                     </div>
                 </div>
             </div>
-        </footer><?php /**PATH /home/customstegpearl/public_html/root/resources/views/Layout/footer.blade.php ENDPATH**/ ?>
+        </footer>
+<?php /**PATH /home/customstegpearl/public_html/root/resources/views/Layout/footer.blade.php ENDPATH**/ ?>
