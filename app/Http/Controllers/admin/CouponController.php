@@ -157,7 +157,7 @@ class CouponController extends Controller
 
             return json_encode($response);
         } else {
-            $response = ['message' => 'Coupon Not Found!','status' => 'faild',];
+            $response = ['message' => 'Coupon Not Found!','status' => 'faild','data'=>null];
             return json_encode($response);
         }
     }
@@ -177,7 +177,7 @@ class CouponController extends Controller
         }
 
 
-         session()->put('cart', $cart);
+
          $shippingCountry = end($cart);
 
         // dd(session('cart'));
@@ -185,14 +185,16 @@ class CouponController extends Controller
             $cart_items = [];
             $subtotal = 0;
             foreach($cart as $item){
+                array_push($cart_items,$item);
                 $tax = getTaxCountry((int)$shippingCountry['shipping_country']);
                 $subtotal += ($item['price']*$item['quantity'] + ($item['price'] * $tax['vat_tax'] /100 * $item['quantity']));
                 $item['price_with_tax'] = formatPrice( ($item['price']*$item['quantity'] + $item['price'] * $tax['vat_tax'] /100 * $item['quantity']));
-                array_push($cart_items,$item);
+
             }
             $shipping_price = shippingCountry()->where('country',$shippingCountry['shipping_country'])->pluck('price')->first();
 
             $total = ($subtotal+ $shipping_price);
+
 
             $data = [
                 'subtotal' => formatPrice($subtotal),
@@ -200,7 +202,7 @@ class CouponController extends Controller
                 'shipping_price' => formatPrice($shipping_price),
                 'total' =>formatPrice($total)
             ];
-
+            session()->put('cart', $cart);
             $response = ['message' => 'Coupon removed!','status' => 'success',"data"=>$data];
 
             return json_encode($response);

@@ -12,6 +12,11 @@ class Product extends Model
     use Sluggable;
 
     protected $table = 'products';
+
+    protected $casts = [
+        'estimate_deliver_date' => 'date'
+    ];
+
     protected $fillable = [
         'product_name',
         'product_description',
@@ -37,6 +42,7 @@ class Product extends Model
         'status',
         'subcategory_id',
         'shipping_class',
+        'estimate_deliver_date',
 
     ];
 

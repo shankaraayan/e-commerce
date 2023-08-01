@@ -23,6 +23,7 @@ class ProductAttributeController extends Controller
 
     public function apiIndex(){
         $attribute = Attribute::with('attributeTerm')->get();
+
         return response()->json([
             "attributes" => $attribute,
         ]);
@@ -34,7 +35,6 @@ class ProductAttributeController extends Controller
 
     public function store(ProductRequest $request){
         $input = $request->all();
-        // dd($input);
         $input['attribute_status'] = $request->input('status') == null ? 0: 1 ;
         $attribute = Attribute::create($input);
         return back()->with('success', 'Attribute created successfully.');
@@ -42,6 +42,7 @@ class ProductAttributeController extends Controller
 
     public function view($id){
         $attribute = Attribute::find($id);
+
         return view('admin.productAttributes.view',compact('attribute'));
 
     }
@@ -99,7 +100,6 @@ class ProductAttributeController extends Controller
         $absdk = AttributeTerm::select('*')
         ->whereRaw("FIND_IN_SET('$panglwh', wh_range) > 0")
         ->get();
-
         return view('pages.product-detail',compact('absdk'));
     }
 

@@ -186,10 +186,10 @@
                                         </header>
 
                                         <div class="card-text h-full space-y-4">
-                                            <div class="grid xl:grid-cols-3 grid-cols-1 gap-6">
+                                            <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
 
                                                 <div class="input-area">
-                                                    <label for="name" class="form-label">Select Product
+                                                    <label for="name" class="form-label">Product
                                                         Category*</label>
                                                     <select class="form-control required" name="categories" id="category">
                                                         <option value="">Select Product Category</option>
@@ -204,7 +204,7 @@
                                                 </div>
 
                                                 <div class="input-area">
-                                                    <label for="name" class="form-label">Select Sub Category</label>
+                                                    <label for="name" class="form-label"> Sub Category</label>
                                                     <select class="form-control" name="subcategory" id="subcategory">
                                                         <option value="">Select Sub Category</option>
                                                     </select>
@@ -241,7 +241,7 @@
                                                         class="text-danger">{{ $errors->first('product_description') }}</span>
                                                 @endif
                                             </div>
-                                            <div class="grid xl:grid-cols-3 grid-cols-1 gap-6">
+                                            <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
                                                 <div class="input-area">
                                                     <label for="name" class="form-label">Product Price(Regular)*</label>
                                                     <input id="price" name="price" type="text" class="form-control required"
@@ -262,52 +262,7 @@
 
                                             </div>
 
-                                            {{-- <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
-                                            <div class="input-area">
-                                            <label for="name" class="form-label">Product Category*</label>
-                                            <label style="margin-right: 10px;">
-                                                <input type="checkbox" name="best_selling" value="1">
-                                                BEST SELLING
-                                                @if ($errors->has('best_selling'))
-                                                <span class="text-danger">{{ $errors->first('best_selling') }}</span>
-                                                @endif
-                                            </label>
 
-                                            <label style="margin-right: 10px;">
-                                                <input type="checkbox" name="featured" value="1">
-                                                FEATURED
-                                                @if ($errors->has('featured'))
-                                                <span class="text-danger">{{ $errors->first('featured') }}</span>
-                                                @endif
-                                            </label>
-
-                                            <label>
-                                                <input type="checkbox" name="easy_peak_power" value="1">
-                                                EASY PEAK POWER
-                                                @if ($errors->has('easy_peak_power'))
-                                                <span class="text-danger">{{ $errors->first('easy_peak_power') }}</span>
-                                                @endif
-                                            </label>
-
-                                            </div>
-                                            <div class="input-area">
-                                            <label for="name" class="form-label">Select Market Place*</label>
-                                            <label style="margin-right: 10px;">
-                                                <input type="checkbox" name="mp_option1" value="1">
-                                                Camper Gold
-                                            </label>
-
-                                            <label style="margin-right: 10px;">
-                                                <input type="checkbox" name="mp_option2" value="1">
-                                                Option 2
-                                            </label>
-
-                                            <label>
-                                                <input type="checkbox" name="mp_option3" value="1">
-                                                Option 3
-                                            </label>
-                                            </div>
-                                        </div> --}}
 
                                             <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
                                                 <div class="input-area">
@@ -381,10 +336,35 @@
 
                             <div class="w-2/5">
                                 <div class="card ">
+
+                                    <div class="grid xl:grid-cols-2 grid-cols-1 p-6">
+                                        <div class="input-area">
+                                            <label for="name" class="form-label">Estimate Delivery Date*</label>
+                                            <input id="estimate_deliver_date" name="estimate_deliver_date" type="date" class="form-control"
+                                                placeholder="estimate_deliver_date" required>
+                                            @if ($errors->has('estimate_deliver_date'))
+                                                <span class="text-danger">{{ $errors->first('estimate_deliver_date') }}</span>
+                                            @endif
+                                        </div>
+
+                                        {{-- <div class="input-area">
+                                            <label for="name" class="form-label">Sale Price(sale)*</label>
+                                            <input id="price" name="sale_price" type="text"
+                                                class="form-control required" placeholder="Price">
+                                            @if ($errors->has('sale_price'))
+                                                <span class="text-danger">{{ $errors->first('sale_price') }}</span>
+                                            @endif
+                                        </div> --}}
+
+                                    </div>
+
+
+
+
                                     <div class="card-body flex flex-col p-6">
                                         <div class="input-area" id="option_containrer">
                                             <label for="name" class="form-label">Product Type*</label>
-                                            <select class="form-control required" name="type"
+                                            <select class="form-control required" name="type" required
                                                 onchange="showOptions(this.value)">
                                                 <option value="">Select Product Type</option>
                                                 <option value="single">Single Product</option>

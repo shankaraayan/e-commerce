@@ -52,7 +52,7 @@ Register
                                 <div class="ps-form__group">
                                     <label class="ps-form__label">E-Mail Adresse *</label>
                                     <input class="form-control ps-form__input" type="email" name="email" value="{{old('email')}}">
-                                   
+
                                     @if(session()->has('signup_error'))
                                         @error('email')
                                             <span class="text-danger">{{ $message }}</span>
@@ -70,7 +70,7 @@ Register
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                      @endif
-                                    
+
                                     <p class="ps-form__text">Hinweis: Das Passwort sollte mindestens 8 Zeichen lang sein. Um es sicherer zu machen, verwenden Sie Groß- und Kleinbuchstaben, Zahlen und Symbole wie ! " ? $ % ^ & ).</p>
                                 </div>
                                 <div class="ps-form__submit">

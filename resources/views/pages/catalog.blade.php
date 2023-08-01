@@ -2,6 +2,11 @@
 
 @section("style")
 <style>
+    /* Custom CSS to reduce Laravel paginate icon size */
+svg {
+    width: 16px; /* Adjust the font size to your desired value */
+}
+
 .menu--mobile>li{
     padding:5px 0px;
 }
@@ -33,7 +38,9 @@
 @endsection
 
 @section("content")
-
+<div>
+    {{ request()->url() }}
+</div>
     <div class="ps-page">
 
         <div class="ps-categogy ps-categogy--separate">
@@ -46,8 +53,6 @@
                 <div class="ps-categogy__content">
                     <div class="ps-categogy__wrapper">
                         <div class="ps-categogy__filter"> <a href="#" id="collapse-filter"><i class="fa fa-filter"></i><i class="fa fa-times"></i>Filter</a></div>
-
-
                     </div>
                 </div>
             </div>
@@ -125,17 +130,12 @@
                            @endif
 
                         </div>
-                        @if(count($catalog) > 9)
-                            <div class="ps-pagination">
-                                <ul class="pagination">
-                                    <li><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
-                                </ul>
+
+                        <div class="ps-pagination">
+                                {{$catalog->links()}}
+
                             </div>
-                        @endif
+
                     </div>
                 </div>
             </div>

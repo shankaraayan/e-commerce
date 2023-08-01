@@ -110,15 +110,15 @@
                 </div>
                 <div class="input-area">
                     <label for="description" class="form-label">Attribute Term Html*</label>
-                    <textarea id="description" name="attribute_term_html" rows="5" class="form-control" placeholder="Type Here"></textarea>
+                    <textarea id="description" name="component_description" rows="5" class="form-control" placeholder="Type Here"></textarea>
                     <?php if($errors->has('attribute_term_description')): ?>
                     <span class="text-danger"><?php echo e($errors->first('attribute_term_html')); ?></span>
                   <?php endif; ?>
                   </div>
                   <div class="input-area">
                     <label for="" class="priority">Priority</label>
-                    <select  name="priority"  class="form-control">
-                        <option class="dark:bg-slate-700">Choose priority</option>
+                    <select  name="component_priority"  class="form-control">
+                        <option  value="0"  class="dark:bg-slate-700">Choose priority</option>
                         <option value="1" class="dark:bg-slate-700">1</option>
                         <option value="2" class="dark:bg-slate-700">2</option>
                         <option value="3" class="dark:bg-slate-700">3</option>

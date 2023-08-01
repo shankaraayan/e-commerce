@@ -96,6 +96,32 @@
                   <span class="text-danger">{{ $errors->first('attribute_term_description') }}</span>
                 @endif
                 </div>
+                <div class="input-area">
+                    <label for="description" class="form-label">Attribute Term Html*</label>
+                    <textarea id="description" name="component_description" rows="5" class="form-control" placeholder="Type Here">{{ @$attributeTerms->component_description }}</textarea>
+                    @if ($errors->has('attribute_term_description'))
+                    <span class="text-danger">{{ $errors->first('attribute_term_html') }}</span>
+                  @endif
+                  </div>
+                  <div class="input-area">
+                    <label for="" class="priority">Priority</label>
+                    <select  name="component_priority"  class="form-control">
+                        @if (!empty(@$attributeTerms->component_priority))
+                            <option selected value="{{@$attributeTerms->component_priority}}" class="dark:bg-slate-700">Choose priority</option>
+                        @endif
+                        <option value="0" class="dark:bg-slate-700">Choose priority</option>
+                        <option value="1" class="dark:bg-slate-700">1</option>
+                        <option value="2" class="dark:bg-slate-700">2</option>
+                        <option value="3" class="dark:bg-slate-700">3</option>
+                        <option value="4" class="dark:bg-slate-700">4</option>
+                        <option value="5" class="dark:bg-slate-700">5</option>
+                        <option value="6" class="dark:bg-slate-700">6</option>
+                        <option value="7" class="dark:bg-slate-700">7</option>
+                        <option value="8" class="dark:bg-slate-700">8</option>
+                        <option value="9" class="dark:bg-slate-700">9</option>
+                        <option value="10" class="dark:bg-slate-700">10</option>
+                    </select>
+                  </div>
                 <div class="input-area mb-5">
                   <label for="select" class="form-label">Image</label>
                   <input type="file" name="image">

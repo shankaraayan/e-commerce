@@ -88,6 +88,7 @@ class AdminProductController extends Controller
         $input['categories'] =$request->categories;
 
         $input['subcategory_id'] = $request->subcategory;
+        $input['estimate_deliver_date'] = $request->estimate_deliver_date;
         $input['attributes_id'] = implode(',', $selectedOptions);
         $input['attributesTerms_id'] = implode(',', $selectedOptionsTerms);
         // dd($input['attributesTerms_id']);
@@ -161,7 +162,8 @@ class AdminProductController extends Controller
         $editproduct->categories = $request->categories;
         $editproduct->subcategory_id = $request->subcategory;
         $editproduct->status = $request->status;
-        $editproduct->sku = $request->sku;
+        $editproduct->sku = $request->sku;;
+        $editproduct->estimate_deliver_date = $request->estimate_deliver_date;
 
         if ($request->hasFile('images')) {
             $images = $request->file('images');

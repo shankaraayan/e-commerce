@@ -13,6 +13,7 @@ use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\admin\SettingController;
 use App\Http\Controllers\admin\AdminProductController;
+use App\Http\Controllers\admin\CookieController;
 
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\OrderController;
@@ -195,6 +196,8 @@ Route::get('/orders', function () {
     return view('pages.orders.orders');
 });
 
+Route::get('term-html', [ProductController::class, 'term_html_components']);
+
 Route::get('/order/{id}', function () {
     return view('pages.orders.single-order');
 });
@@ -284,3 +287,10 @@ Route::post('/coupon/apply',[CouponController::class,'apply_code'])->name('coupo
 Route::get('/coupon/remove',[CouponController::class,'code_remove'])->name('coupon.remove');
 
 Route::post('/admin/shipping/country/shipping_country_update', [ShippingController::class,'shippingPrice']);
+
+Route::post('/set-cookie', 'CookieController@setCookie')->name('set.cookie');
+
+
+
+
+

@@ -18,11 +18,11 @@ class ProductAttributeTermsController extends Controller
     }
     public function add($id)
     {
+
         $attributeName = Attribute::select('attribute_name', 'id', 'attribute_type')->find($id);
         $attributesTerms = AttributeTerm::where('attributes_id', $id)->get();
-        $attributesTerms = AttributeTerm::where('attributes_id', $id)->get();
-        $attributesTermsWh = AttributeTerm::select('attribute_term_kWh_name')->get()->unique('attribute_term_kWh_name');
 
+        $attributesTermsWh = AttributeTerm::select('attribute_term_kWh_name')->get()->unique('attribute_term_kWh_name');
         return view('admin.attributeTerms.add', compact('attributeName', 'attributesTerms', 'attributesTermsWh'));
     }
 
@@ -36,6 +36,8 @@ class ProductAttributeTermsController extends Controller
         $terms->attribute_term_description = $request->attribute_term_description;
         $terms->attribute_term_kWh_name = $request->attribute_term_kWh_name;
         $terms->attribute_terms_status = $request->attribute_terms_status;
+        $terms->component_description = $request->component_description;
+        $terms->component_priority = $request->component_priority;
         $terms->wh_range = implode(',', $request['supported_wh'] ?? []);
          if ($request->hasFile('image')) {
 

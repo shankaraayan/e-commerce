@@ -12,19 +12,19 @@ class ShopController extends Controller
 
     public function catalog(){
         $Category = Category::where('parent_id','0')->get();
-        $catalog = Category::where('parent_id','0')->where('on_catalog','1')->get();
+        $catalog = Category::where('parent_id','0')->where('on_catalog','1')->paginate(15);
         return view('pages.catalog',compact('Category','catalog'));
     }
 
     public function index($slug){
 
-        $products = Product::with('categories')->get();
+        $products = Product::with('categories')->paginate(15);
         $Category = Category::where('parent_id','0')->get();
         $category_id = '';
         if($slug){
             $category_id = Category::where('slug',$slug)->pluck('id')->first();
             // $category_id = $slug;
-             $products = Product::where('categories',$category_id)->with('categories')->get();
+             $products = Product::where('categories',$category_id)->with('categories')->paginate(15);
 
              if($products->count() === 0){
                  return redirect()->back()->with('error','No Product Found.');

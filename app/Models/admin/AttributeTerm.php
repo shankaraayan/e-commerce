@@ -21,9 +21,11 @@ class AttributeTerm extends Model
         'attribute_term_description',
         'image',
         'attribute_term_kWh_name',
-        'supported_wh'        
+        'supported_wh',
+        'component_description',
+        'component_priority',
     ];
-    
+
     protected $table = 'attribute_terms';
 
 

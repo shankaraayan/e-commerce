@@ -184,10 +184,10 @@
                                         </header>
 
                                         <div class="card-text h-full space-y-4">
-                                            <div class="grid xl:grid-cols-3 grid-cols-1 gap-6">
+                                            <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
 
                                                 <div class="input-area">
-                                                    <label for="name" class="form-label">Select Product
+                                                    <label for="name" class="form-label">Product
                                                         Category*</label>
                                                     <select class="form-control required" name="categories" id="category">
                                                         <option value="">Select Product Category</option>
@@ -202,7 +202,7 @@
                                                 </div>
 
                                                 <div class="input-area">
-                                                    <label for="name" class="form-label">Select Sub Category</label>
+                                                    <label for="name" class="form-label"> Sub Category</label>
                                                     <select class="form-control" name="subcategory" id="subcategory">
                                                         <option value="">Select Sub Category</option>
                                                     </select>
@@ -239,7 +239,7 @@
                                                         class="text-danger"><?php echo e($errors->first('product_description')); ?></span>
                                                 <?php endif; ?>
                                             </div>
-                                            <div class="grid xl:grid-cols-3 grid-cols-1 gap-6">
+                                            <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
                                                 <div class="input-area">
                                                     <label for="name" class="form-label">Product Price(Regular)*</label>
                                                     <input id="price" name="price" type="text" class="form-control required"
@@ -260,7 +260,7 @@
 
                                             </div>
 
-                                            
+
 
                                             <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
                                                 <div class="input-area">
@@ -334,10 +334,28 @@
 
                             <div class="w-2/5">
                                 <div class="card ">
+
+                                    <div class="grid xl:grid-cols-2 grid-cols-1 p-6">
+                                        <div class="input-area">
+                                            <label for="name" class="form-label">Estimate Delivery Date*</label>
+                                            <input id="estimate_deliver_date" name="estimate_deliver_date" type="date" class="form-control"
+                                                placeholder="estimate_deliver_date" required>
+                                            <?php if($errors->has('estimate_deliver_date')): ?>
+                                                <span class="text-danger"><?php echo e($errors->first('estimate_deliver_date')); ?></span>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        
+
+                                    </div>
+
+
+
+
                                     <div class="card-body flex flex-col p-6">
                                         <div class="input-area" id="option_containrer">
                                             <label for="name" class="form-label">Product Type*</label>
-                                            <select class="form-control required" name="type"
+                                            <select class="form-control required" name="type" required
                                                 onchange="showOptions(this.value)">
                                                 <option value="">Select Product Type</option>
                                                 <option value="single">Single Product</option>

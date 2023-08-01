@@ -1,39 +1,40 @@
 <style>
-    .loader{
+    .loader {
         width: 100%;
-        height : 100%;
-        top : 0;
-        left : 0;
-        background : #fff;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: #fff;
         z-index: 10000;
         opacity: 0.5;
-        display: flex;
-        align-items: center;
-        justify-content: center
     }
-    .loader i{
+    .loader i {
+        position: relative;
+        top : 20%;
+        left : 50%;
         font-size: 60px;
     }
 </style>
+
 <?php $__env->startSection('content'); ?>
 
-<?php
-    if(session('cart')){
-    $cart = session('cart');
-    // dd($cart);
-    $lastCartItem = end($cart);
-    $session_country = @$lastCartItem['shipping_country'];
-    if($session_country == 0){
-        $session_country ='';
-    }
-    $session_shipping_class = (int)@$lastCartItem['shipping_class'];
-    $shippingCountry =  shippingCountry()->where('shipping_id',$session_shipping_class);
-    }else {
-        return redirect()->back();
-    }
+    <?php
+        if(session('cart')){
+        $cart = session('cart');
+        // dd($cart);
+        $lastCartItem = end($cart);
+        $session_country = @$lastCartItem['shipping_country'];
+        if($session_country == 0){
+            $session_country ='';
+        }
+        $session_shipping_class = (int)@$lastCartItem['shipping_class'];
+        $shippingCountry =  shippingCountry()->where('shipping_id',$session_shipping_class);
+        }else {
+            return redirect()->back();
+        }
 
-    // dd($cart);
-?>
+
+    ?>
 
     <div class="ps-checkout">
         <div class="container">
@@ -256,20 +257,38 @@ unset($__errorArgs, $__bag); ?>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12 ps-hidden" data-for="ship-address">
-                                        <div class="row">
+                                   <div class="col-12 ps-hidden" data-for="ship-address">
+                                            <div class="row">
+                                                <div class="col-12">
+            <div class="ps-checkout__group">
+                <label class="ps-checkout__label">Country</label>
+                <select value="<?php echo e(old('shipping_country')); ?>" class="ps-input" id="shipping_conuntry" name="shipping_country" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                    <option>Wählen Sie ein Land / eine Region…</option>
+                    <?php $__currentLoopData = $shippingCountry; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option <?php if($session_country == $country->country): ?> selected <?php endif; ?> value="<?php echo e(country()->where('id', $country->country)->pluck('id')->first()); ?>">
+                            <?php echo e(country()->where('id', $country->country)->pluck('country')->first()); ?> / <?php echo e(formatPrice($country->price)); ?>
+
+                        </option>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </select>
+                <?php $__errorArgs = ['district'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                    <span class="text-danger"><?php echo e($message); ?></span>
+                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+            </div>
+        </div>
 
                                             <div class="col-12">
                                                 <div class="ps-checkout__group">
-                                                    <label class="ps-checkout__label">Country</label>
-                                                    <select value="<?php echo e(old('shipping_country')); ?>" class="ps-input " id="shipping_conuntry" name="shipping_country"
-                                                        data-select2-id="1" tabindex="-1" aria-hidden="true">
-                                                        <option>Wählen Sie ein Land / eine Region…</option>
-                                                        <?php $__currentLoopData = $shippingCountry; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                            <option <?php if($session_country == $country->country): ?> selected <?php endif; ?> value="<?php echo e(country()->where('id',$country->country)->pluck('id')->first()); ?>"><?php echo e(country()->where('id',$country->country)->pluck('country')->first()); ?> / <?php echo e(formatPrice($country->price)); ?></option>
-                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                    </select>
-                                                    <?php $__errorArgs = ['district'];
+                                                    <label for="fullname" class="ps-checkout__label">Vollständiger Name <span class="text-danger">*</span></label>
+                                                    <input class="ps-input" type="text" name="shipping_fullname" value="<?php echo e(old('shipping_fullname')); ?>">
+                                                    <?php $__errorArgs = ['shipping_fullname'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -283,29 +302,9 @@ unset($__errorArgs, $__bag); ?>
                                             </div>
 
                                             <div class="col-12">
-                                                    <div class="ps-checkout__group">
-                                                        <label for="fullname" class="ps-checkout__label">Vollständiger
-                                                            Name <span class="text-danger">*</span></label>
-                                                        <input class="ps-input" type="text" name="shipping_fullname"
-                                                            value="<?php echo e(old('shipping_fullname')); ?>">
-                                                        <?php $__errorArgs = ['shipping_fullname'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                            <span class="text-danger"><?php echo e($message); ?></span>
-                                                        <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                                                    </div>
-                                                </div>
-                                            <div class="col-12">
                                                 <div class="ps-checkout__group">
-                                                    <label for="email" class="ps-checkout__label">E-Mail Adresse<span
-                                                            class="text-danger">*</span></label>
-                                                    <input class="ps-input" type="email" name="shipping_email"
-                                                        value="<?php echo e(old('shipping_email')); ?>">
+                                                    <label for="email" class="ps-checkout__label">E-Mail Adresse<span class="text-danger">*</span></label>
+                                                    <input class="ps-input" type="email" name="shipping_email" value="<?php echo e(old('shipping_email')); ?>">
                                                     <?php $__errorArgs = ['shipping_email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -321,10 +320,8 @@ unset($__errorArgs, $__bag); ?>
 
                                             <div class="col-12">
                                                 <div class="ps-checkout__group">
-                                                    <label for="company_name" class="ps-checkout__label">Firmenname
-                                                        (optional)<span class="text-danger">*</span></label>
-                                                    <input class="ps-input" type="text" name="shipping_company_name"
-                                                        value="<?php echo e(old('shipping_company_name')); ?>">
+                                                    <label for="company_name" class="ps-checkout__label">Firmenname (optional)<span class="text-danger">*</span></label>
+                                                    <input class="ps-input" type="text" name="shipping_company_name" value="<?php echo e(old('shipping_company_name')); ?>">
                                                     <?php $__errorArgs = ['shipping_company_name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -340,13 +337,8 @@ unset($__errorArgs, $__bag); ?>
 
                                             <div class="col-12">
                                                 <div class="ps-checkout__group">
-                                                    <label class="ps-checkout__label" for="billing_address1">Straße und
-                                                        Hausnummer
-                                                        <span class="text-danger">*</span></label>
-                                                    <input class="ps-input mb-3" type="text"
-                                                        placeholder="Hausnummer und Straßenname"
-                                                        name="shipping_billing_address1"
-                                                        value="<?php echo e(old('shipping_billing_address1')); ?>">
+                                                    <label class="ps-checkout__label" for="billing_address1">Straße und Hausnummer <span class="text-danger">*</span></label>
+                                                    <input class="ps-input mb-3" type="text" placeholder="Hausnummer und Straßenname" name="shipping_billing_address1" value="<?php echo e(old('shipping_billing_address1')); ?>">
                                                     <?php $__errorArgs = ['shipping_billing_address1'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -357,10 +349,7 @@ $message = $__bag->first($__errorArgs[0]); ?>
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                                                    <input class="ps-input" type="text"
-                                                        placeholder="Wohnung, Appartement, Einheit usw. (fakultativ)"
-                                                        name="shipping_billing_address2"
-                                                        value="<?php echo e(old('shipping_billing_address2')); ?>">
+                                                    <input class="ps-input" type="text" placeholder="Wohnung, Appartement, Einheit usw. (fakultativ)" name="shipping_billing_address2" value="<?php echo e(old('shipping_billing_address2')); ?>">
                                                     <?php $__errorArgs = ['shipping_billing_address2'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -371,18 +360,13 @@ $message = $__bag->first($__errorArgs[0]); ?>
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-
                                                 </div>
-
-
                                             </div>
+
                                             <div class="col-12 col-md-6">
                                                 <div class="ps-checkout__group">
-                                                    <label class="ps-checkout__label" for="shipping_city">Stadt /
-                                                        Ortschaft
-                                                        <span class="text-danger">*</span></label>
-                                                    <input class="ps-input" type="text" id="shipping_city"
-                                                        name="shipping_city" value="<?php echo e(old('shipping_city')); ?>">
+                                                    <label class="ps-checkout__label" for="shipping_city">Stadt / Ortschaft <span class="text-danger">*</span></label>
+                                                    <input class="ps-input" type="text" id="shipping_city" name="shipping_city" value="<?php echo e(old('shipping_city')); ?>">
                                                     <?php $__errorArgs = ['shipping_city'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -395,13 +379,11 @@ endif;
 unset($__errorArgs, $__bag); ?>
                                                 </div>
                                             </div>
+
                                             <div class="col-12 col-md-6">
                                                 <div class="ps-checkout__group">
-                                                    <label class="ps-checkout__label">Postleitzahl <span
-                                                            class="text-danger">*</span></label>
-                                                    <input class="ps-input"  type="number"
-                                                        id="shipping_postal_code" name="shipping_postal_code"
-                                                        value="<?php echo e(old('shipping_postal_code')); ?>">
+                                                    <label class="ps-checkout__label">Postleitzahl <span class="text-danger">*</span></label>
+                                                    <input class="ps-input" type="number" id="shipping_postal_code" name="shipping_postal_code" value="<?php echo e(old('shipping_postal_code')); ?>">
                                                     <?php $__errorArgs = ['shipping_postal_code'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -415,27 +397,25 @@ unset($__errorArgs, $__bag); ?>
                                                 </div>
                                             </div>
 
-                                            <div class="col-12">
-                                                <div class="ps-checkout__group">
-                                                    <label class="ps-checkout__label">Telefon <span
-                                                            class="text-danger">*</span></label>
-                                                    <input class="ps-input" type="number" id="shipping_phone_number"
-                                                        name="shipping_phone_number"
-                                                        value="<?php echo e(old('shipping_phone_number')); ?>">
-                                                    <?php $__errorArgs = ['shipping_phone_number'];
+        <div class="col-12">
+            <div class="ps-checkout__group">
+                <label class="ps-checkout__label">Telefon <span class="text-danger">*</span></label>
+                <input class="ps-input" type="number" id="shipping_phone_number" name="shipping_phone_number" value="<?php echo e(old('shipping_phone_number')); ?>">
+                <?php $__errorArgs = ['shipping_phone_number'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                                                        <span class="text-danger"><?php echo e($message); ?></span>
-                                                    <?php unset($message);
+                    <span class="text-danger"><?php echo e($message); ?></span>
+                <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                                                </div>
-                                            </div>
-                                        </div>
+            </div>
+        </div>
+    </div>
                                     </div>
+
                                     <div class="col-12">
                                         <div class="ps-checkout__group">
                                             <label class="ps-checkout__label" for="message">Bestellhinweise
@@ -616,9 +596,11 @@ unset($__errorArgs, $__bag); ?>
     </div>
 
     <script>
+
+        var country = document.getElementById('country').value;
         function couponApply() {
            var couponCode = document.getElementById('couponCode').value;
-           var country = document.getElementById('country').value;
+
            var dynmicElChekout = document.querySelector("#dynmicElChekout");
 
            $.ajax({
@@ -637,7 +619,10 @@ unset($__errorArgs, $__bag); ?>
                         console.log(response);
 
                         const {message,status,data} = JSON.parse(response);
-                        let product = data.cart.map((item, index) => {
+
+                        if(status === "success"){
+
+                            let product = data.cart.map((item, index) => {
                             return `
                             ${item.type === "variable" ? `
                             <div class="ps-checkout__row ps-product">
@@ -659,9 +644,6 @@ unset($__errorArgs, $__bag); ?>
                             </div> `}`;
 
                         });
-                        // console.log(data);
-
-                        if(status === "success"){
                             $(dynmicElChekout).html(`
                                     ${product}
                                     <div class="ps-checkout__row">
@@ -699,14 +681,9 @@ unset($__errorArgs, $__bag); ?>
                             `);
                             toastr.success(message);
                         }else{
+
                             toastr.error(message);
                         }
-                        // console.log(response);
-
-                    //     setTimeout(function() {
-                    //     window.location.reload();
-                    // }, 2000);
-
                     },
                     error : function(err){
                         console.log(err);
@@ -718,7 +695,8 @@ unset($__errorArgs, $__bag); ?>
 
     </script>
 
-<script>
+    <script>
+
 
       $(document).ready(function () {
         const country_el = document.querySelectorAll('.country_shipping');
@@ -732,13 +710,32 @@ unset($__errorArgs, $__bag); ?>
 
         });
 
+         if(sessionStorage.getItem("checkded")){
+             $('.shipping_check').prop("checked", true);
+             $(".ps-hidden").css('display',"block");
+             $("#shipping_conuntry").on('change', function () {
+                var id = $(this).val();
+
+                shipping_update(id, dynmicElChekout);
+            });
+        }
+
         $(".shipping_check").on('click', function () {
+
             if ($(this).prop("checked")) {
+                var id =  $("#shipping_conuntry").val();
+                shipping_update(id, dynmicElChekout);
+
+                sessionStorage.setItem("checkded","shipping" );
                 $("#shipping_conuntry").on('change', function () {
                 var id = $(this).val();
-                console.log(id);
+
                 shipping_update(id, dynmicElChekout);
                 });
+            }else{
+                sessionStorage.removeItem("checkded");
+               let id =  $("#country").val();
+               shipping_update(id, dynmicElChekout);
             }
         });
       });

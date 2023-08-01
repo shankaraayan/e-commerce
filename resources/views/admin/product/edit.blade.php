@@ -80,9 +80,9 @@
                         @csrf
                         @method('PUT')
                         <div class="card-text h-full space-y-4">
-                        <div class="grid xl:grid-cols-3 grid-cols-1 gap-6">
+                        <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
                             <div class="input-area">
-                                <label for="name" class="form-label">Select Product Category*</label>
+                                <label for="name" class="form-label"> Product Category*</label>
                                 <select class="form-control" name="categories" id="category">
                                     <option>Select Product Category</option>
                                     @foreach(categories() as $cat)
@@ -99,7 +99,7 @@
                             </div>
 
                             <div class="input-area">
-                                <label for="name" class="form-label">Select Sub Category</label>
+                                <label for="name" class="form-label"> Sub Category</label>
                                 <select class="form-control" name="subcategory" id="subcategory">
                                     <option value="">Select Sub Category</option>
                                     @foreach(categories()->where('parent_id',$editData->categories) as $subCat)
@@ -139,7 +139,7 @@
                             <span class="text-danger">{{ $errors->first('product_description') }}</span>
                             @endif
                         </div>
-                        <div class="grid xl:grid-cols-3 grid-cols-1 gap-6">
+                        <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
                             <div class="input-area">
                             <label for="name" class="form-label">Product Price(Regular)*</label>
                             <input id="price" name="price" type="text" value="{{$editData->price}}" class="form-control" placeholder="Price">
@@ -158,52 +158,6 @@
 
                         </div>
 
-                        {{--  <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
-                            <div class="input-area">
-                            <label for="name" class="form-label">Product Category*</label>
-                            <label style="margin-right: 10px;">
-                                <input type="checkbox" name="best_selling" value="1" @if($editData->best_selling == 1) checked @endif >
-                                BEST SELLING
-                                @if ($errors->has('best_selling'))
-                                <span class="text-danger">{{ $errors->first('best_selling') }}</span>
-                                @endif
-                            </label>
-
-                            <label style="margin-right: 10px;">
-                                <input type="checkbox" name="featured" value="1" @if($editData->featured == 1) checked @endif>
-                                FEATURED
-                                @if ($errors->has('featured'))
-                                <span class="text-danger">{{ $errors->first('featured') }}</span>
-                                @endif
-                            </label>
-
-                            <label>
-                                <input type="checkbox" name="easy_peak_power" value="1" @if($editData->easy_peak_power == 1) checked @endif>
-                                EASY PEAK POWER
-                                @if ($errors->has('easy_peak_power'))
-                                <span class="text-danger">{{ $errors->first('easy_peak_power') }}</span>
-                                @endif
-                            </label>
-
-                            </div>
-                            <div class="input-area">
-                            <label for="name" class="form-label">Select Market Place*</label>
-                            <label style="margin-right: 10px;">
-                                <input type="checkbox" name="mp_option1" value="1" @if($editData->mp_option1 == 1) checked @endif>
-                                Camper Gold
-                            </label>
-
-                            <label style="margin-right: 10px;">
-                                <input type="checkbox" name="mp_option2" value="1" @if($editData->mp_option2 == 1) checked @endif>
-                                Option 2
-                            </label>
-
-                            <label>
-                                <input type="checkbox" name="mp_option3" value="1" @if($editData->mp_option3 == 1) checked @endif>
-                                Option 3
-                            </label>
-                            </div>
-                        </div>--}}
 
                         <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
                             <div class="input-area">
@@ -273,6 +227,20 @@
           </div>
           <div class="w-3/5">
             <div class="card ">
+
+                <div class="grid xl:grid-cols-2 grid-cols-1 p-6">
+                    <div class="input-area">
+                        <label for="name" class="form-label">Estimate Delivery Date*</label>
+                        <input id="estimate_deliver_date" name="estimate_deliver_date" type="date" class="form-control"
+                            value="{{date('d/m/Y',strtotime($editData->estimate_deliver_date))}}" required>
+                            @if ($errors->has('estimate_deliver_date'))
+                                <span class="text-danger">{{ $errors->first('estimate_deliver_date') }}</span>
+                            @endif
+                    </div>
+
+                </div>
+
+
                 <div class="card-body flex flex-col p-6">
                     <div class="input-area">
                         <label for="name" class="form-label">Product Type*</label>

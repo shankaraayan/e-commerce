@@ -167,6 +167,7 @@
 
                             <div class="ps-product__variations_sec">
                                  <div class="accordion" id="accordionExample">
+
                                     <?php $__currentLoopData = $attributes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                                         <div class="card py-3">
@@ -197,7 +198,7 @@
                                                                 data-atr-name="<?php echo e($vales->attribute_term_name); ?>"
                                                                 data-atr-price="<?php echo e($vales->price); ?>"
                                                                 data-value="<?php echo e($vales->attribute_term_name); ?>,<?php echo e($vales->price); ?>,<?php echo e($vales->id); ?>"
-                                                                onclick="getData(<?php echo e($vales->id); ?>,<?php echo e($product->id); ?>,<?php echo e($key+1); ?>); saveValue(this, '<?php echo e($data->id); ?>','Panel','heading_Var<?php echo e($key); ?>')">
+                                                                onclick="getData(<?php echo e($vales->id); ?>,<?php echo e($product->id); ?>,<?php echo e($key+1); ?>); saveValue(this, '<?php echo e($data->id); ?>','Panel','heading_Var<?php echo e($key); ?>',<?php echo e($vales->id); ?>)">
 
                                                             <label class="form-check-label mx-2" for="var_radios<?php echo e($key); ?>_<?php echo e($keyss); ?>">
                                                                 <div class="row select_var_row p-3">
@@ -221,7 +222,7 @@
                                                         <?php else: ?>
                                                         <div class="form-check col-12 mb-3">
                                                             <input class="form-check-input" type="radio" name="var_radios<?php echo e($key); ?>" id="var_radios<?php echo e($key); ?>_<?php echo e($keyss); ?>" value="option<?php echo e($keyss); ?>" data-atr-price="<?php echo e($vales->price); ?>" data-atr-name="<?php echo e($vales->attribute_term_name); ?>"  data-value="<?php echo e($vales->attribute_term_name); ?>,<?php echo e($vales->price); ?>,<?php echo e($vales->id); ?>"
-                                                            onclick="saveValue(this, '<?php echo e($data->id); ?>','','heading_Var<?php echo e($key); ?>')">
+                                                            onclick="saveValue(this, '<?php echo e($data->id); ?>','','heading_Var<?php echo e($key); ?>',<?php echo e($vales->id); ?>)">
                                                             <label class="form-check-label mx-2" for="var_radios<?php echo e($key); ?>_<?php echo e($keyss); ?>">
                                                                 <div class="row select_var_row p-3">
                                                                      <?php if(@$vales->image): ?>
@@ -295,14 +296,16 @@
                                                     href="javascript:void(0)">ADD TO CART</a>
                                 </div>
                             </div>
-
+                                <div class="well">
+                                    <p>Estimate Shipping date <?php echo e(date('d-M-Y',strtotime(@$product->estimate_deliver_date) )); ?></p>
+                                </div>
                                 <div class="align-items-center mt-5 mb-4">
                                     <label class="for-label">Lieferort auswählen</label>
                                     <select class="form-control" name="shipping_class" id="shipping_class">
-
                                         <?php
                                             $result = shippingCountry()->where('shipping_id',$product->shipping_class)->where('status',1);
                                         ?>
+
                                         <?php $__currentLoopData = $result; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <option value="<?php echo e($country->country); ?>" > <?php echo e(country()->where('id',$country->country)->pluck('country')->first()); ?> </option>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -313,84 +316,11 @@
                     </div>
                 </div>
                 <div class="ps-product__content">
-                    <ul class="nav nav-tabs ps-tab-list" id="productContentTabs" role="tablist">
-                        <li class="nav-item" role="presentation"><a class="nav-link active" id="description-tab" data-toggle="tab" href="#description-content" role="tab" aria-controls="description-content" aria-selected="true">Description</a></li>
-                        <!--<li class="nav-item" role="presentation"><a class="nav-link" id="specification-tab" data-toggle="tab" href="#specification-content" role="tab" aria-controls="specification-content" aria-selected="false">Specification</a></li>-->
-                        <!--<li class="nav-item" role="presentation"><a class="nav-link" id="reviews-tab" data-toggle="tab" href="#reviews-content" role="tab" aria-controls="reviews-content" aria-selected="false">Reviews (5)</a></li>-->
-                    </ul>
-                    <div class="tab-content" id="productContent">
-                        <div class="tab-pane fade show active" id="description-content" role="tabpanel" aria-labelledby="description-tab">
-                            <p class="ps-desc"></p>
-                            <?php echo $product->product_description  ?>
-                        </div>
-                        <div class="tab-pane fade" id="specification-content" role="tabpanel" aria-labelledby="specification-tab">
-                            <table class="table ps-table ps-table--oriented">
-                                <tbody>
-                                    <tr>
-                                        <th class="ps-table__th">Higher memory bandwidth</th>
-                                        <td>1,544 MHz</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="ps-table__th">Higher pixel rate</th>
-                                        <td>74.1 GPixel/s</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="tab-pane fade" id="reviews-content" role="tabpanel" aria-labelledby="reviews-tab">
-                            <div class="ps-form--review">
-                                <div class="ps-form__title">Write a review</div>
-                                <div class="ps-form__desc">Your email address will not be published. Required fields are marked *</div>
-                                <form action="do_action" method="post">
-                                    <div class="row">
-                                        <div class="col-12 col-lg-4">
-                                            <label class="ps-form__label">Your rating *</label>
-                                            <div class="br-wrapper br-theme-fontawesome-stars"><select class="ps-rating--form" data-value="0" style="display: none;">
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                            </select><div class="br-widget"><a href="#" data-rating-value="1" data-rating-text="1"></a><a href="#" data-rating-value="2" data-rating-text="2"></a><a href="#" data-rating-value="3" data-rating-text="3"></a><a href="#" data-rating-value="4" data-rating-text="4"></a><a href="#" data-rating-value="5" data-rating-text="5"></a><div class="br-current-rating"></div></div></div>
-                                        </div>
-                                        <div class="col-6 col-lg-4">
-                                            <label class="ps-form__label">Name *</label>
-                                            <input class="form-control ps-form__input">
-                                        </div>
-                                        <div class="col-6 col-lg-4">
-                                            <label class="ps-form__label">Email *</label>
-                                            <input class="form-control ps-form__input">
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="ps-form__block">
-                                                <label class="ps-form__label">Your review *</label>
-                                                <textarea class="form-control ps-form__textarea"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 text-center">
-                                            <button class="btn ps-btn ps-btn--warning">Add Review</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="ps-product__tabreview">
-                                <div class="ps-review--product">
-                                    <div class="ps-review__row">
-                                        <div class="ps-review__avatar"><img src="img/avatar-review.jpg" alt="alt"></div>
-                                        <div class="ps-review__info">
-                                            <div class="ps-review__name">Mark J.</div>
-                                            <div class="ps-review__date">Oct 30, 2021</div>
-                                        </div>
-                                        <div class="ps-review__rating">
-                                            <div class="br-wrapper br-theme-fontawesome-stars">
-                                        <div class="ps-review__desc">
-                                            <p>Everything is perfect. I would recommend!</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
+
+                    <div class="container" id="html_component">
+                        
+
                 </div>
             </div>
             <section class="ps-section--deals py-5">
@@ -531,7 +461,7 @@ function formatPrice(price) {
 var isFirstIteration = true;
 var savedValues = {};
 
-function saveValue(element, attributeId, name = null,pids) {
+function saveValue(element, attributeId, name = null,pids,term_id) {
 
 var atr_name = element.getAttribute('data-atr-name');
 var atr_price = element.getAttribute('data-atr-price');
@@ -625,9 +555,8 @@ termIds: termIds.join(','),
 // Check if termsID is an array and add it to sessionData
 
 sessionStorage.setItem('sessionData', JSON.stringify(sessionData));
-
+html_components(term_id);
 // toggleAccordion(header)
-
 }
 
 function show_name(){
@@ -654,6 +583,7 @@ $.ajax({
     method: 'GET',
     data: { id: id, productid:idpro }, // Pass the ID as a parameter
     success: function(response) {
+        console.log(response)
     var users = response;
     var tableBody = $('#test');
     tableBody.empty();
@@ -663,7 +593,7 @@ $.ajax({
         let imageUrl = "<?php echo e(asset('root/public/uploads/')); ?>/" + user.image;
 
         tableBody.append(`
-            <div class="row select_var_row mx-0 p-2" onclick="highlightDiv(this);saveValue(this, '${user.attribute_id}','','heading_Var${sid}');" data-atr-name="${user.attribute_term_name}" data-atr-price="${user.price}" data-value="${user.attribute_term_name},${user.price},${user.id}">
+            <div class="row select_var_row mx-0 p-2" onclick="highlightDiv(this);saveValue(this, '${user.attribute_id}','','heading_Var${sid}',${id});" data-atr-name="${user.attribute_term_name}" data-atr-price="${user.price}" data-value="${user.attribute_term_name},${user.price},${user.id}">
                 ${user.image !== null ? `<div class="ps-section__thumbnail col-3">
                     <img src="${imageUrl}" alt="" width="100px">
                 </div>` : ""}
@@ -771,8 +701,37 @@ function checkSessionCount(productId, countAttributes) {
     }
 
 
+    // get attribute term html
+    function html_components(id){
+        let htmlComponent = $("#html_component");
+        let url = window.location.href;
+        const separator = .includes('?') ? '&' : '?';
+      // Append the key-value pair to the URL
+        let  url = url + separator + encodeURIComponent('id') + '=' + encodeURIComponent(id);
+        console.log(url);
+        return false;
+        $.ajax({
+            type: 'get',
+            url: '<?php echo e(url('/term-html')); ?>',
+            data: {
+                "_token": "<?php echo e(csrf_token()); ?>",
+                "id": id,
+            },
+            success : function(response){
+                console.log(response);
+                const {data} = response;
+                $(htmlComponent).append(response.component_description)
+            },
+            error : function(err){
+                console.log(err);
+            }
+        })
+    }
+
+
 </script>
 
-                <?php $__env->stopSection(); ?>
+
+<?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('../Layout.Layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/customstegpearl/public_html/root/resources/views/pages/product-detail.blade.php ENDPATH**/ ?>

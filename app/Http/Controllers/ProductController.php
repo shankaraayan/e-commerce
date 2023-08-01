@@ -59,4 +59,10 @@ class ProductController extends Controller
         $terms = AttributeTerm::where('attributes_id',$id)->get();
         return response()->json($terms);
     }
+
+    public function term_html_components(Request $request){
+        $id = $request->id;
+        $terms = AttributeTerm::find($id);
+        return ($terms);
+    }
 }

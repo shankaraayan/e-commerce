@@ -175,6 +175,7 @@
 
                             <div class="ps-product__variations_sec">
                                  <div class="accordion" id="accordionExample">
+
                                     @foreach ($attributes as $key => $data)
 
                                         <div class="card py-3">
@@ -204,7 +205,7 @@
                                                                 data-atr-name="{{ $vales->attribute_term_name }}"
                                                                 data-atr-price="{{ $vales->price }}"
                                                                 data-value="{{ $vales->attribute_term_name }},{{ $vales->price }},{{$vales->id}}"
-                                                                onclick="getData({{ $vales->id }},{{ $product->id }},{{ $key+1 }}); saveValue(this, '{{ $data->id }}','Panel','heading_Var{{$key}}')">
+                                                                onclick="getData({{ $vales->id }},{{ $product->id }},{{ $key+1 }}); saveValue(this, '{{ $data->id }}','Panel','heading_Var{{$key}}',{{$vales->id}})">
 
                                                             <label class="form-check-label mx-2" for="var_radios{{$key}}_{{$keyss}}">
                                                                 <div class="row select_var_row p-3">
@@ -228,7 +229,7 @@
                                                         @else
                                                         <div class="form-check col-12 mb-3">
                                                             <input class="form-check-input" type="radio" name="var_radios{{$key}}" id="var_radios{{$key}}_{{$keyss}}" value="option{{$keyss}}" data-atr-price="{{ $vales->price }}" data-atr-name="{{ $vales->attribute_term_name }}"  data-value="{{ $vales->attribute_term_name }},{{ $vales->price }},{{$vales->id}}"
-                                                            onclick="saveValue(this, '{{ $data->id }}','','heading_Var{{$key}}')">
+                                                            onclick="saveValue(this, '{{ $data->id }}','','heading_Var{{$key}}',{{$vales->id}})">
                                                             <label class="form-check-label mx-2" for="var_radios{{$key}}_{{$keyss}}">
                                                                 <div class="row select_var_row p-3">
                                                                      @if(@$vales->image)
@@ -302,14 +303,16 @@
                                                     href="javascript:void(0)">ADD TO CART</a>
                                 </div>
                             </div>
-
+                                <div class="well">
+                                    <p>Estimate Shipping date {{ date('d-M-Y',strtotime(@$product->estimate_deliver_date) )}}</p>
+                                </div>
                                 <div class="align-items-center mt-5 mb-4">
                                     <label class="for-label">Lieferort auswählen</label>
                                     <select class="form-control" name="shipping_class" id="shipping_class">
-
                                         @php
                                             $result = shippingCountry()->where('shipping_id',$product->shipping_class)->where('status',1);
                                         @endphp
+
                                         @foreach ($result as $country)
                                             <option value="{{$country->country}}" > {{country()->where('id',$country->country)->pluck('country')->first()}} </option>
                                         @endforeach
@@ -320,7 +323,7 @@
                     </div>
                 </div>
                 <div class="ps-product__content">
-                    <ul class="nav nav-tabs ps-tab-list" id="productContentTabs" role="tablist">
+                    {{-- <ul class="nav nav-tabs ps-tab-list" id="productContentTabs" role="tablist">
                         <li class="nav-item" role="presentation"><a class="nav-link active" id="description-tab" data-toggle="tab" href="#description-content" role="tab" aria-controls="description-content" aria-selected="true">Description</a></li>
                         <!--<li class="nav-item" role="presentation"><a class="nav-link" id="specification-tab" data-toggle="tab" href="#specification-content" role="tab" aria-controls="specification-content" aria-selected="false">Specification</a></li>-->
                         <!--<li class="nav-item" role="presentation"><a class="nav-link" id="reviews-tab" data-toggle="tab" href="#reviews-content" role="tab" aria-controls="reviews-content" aria-selected="false">Reviews (5)</a></li>-->
@@ -397,7 +400,73 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
+
+                    <div class="container" id="html_component">
+                        {{-- <div class="ps-promo mt-5 ps-category--image mt-5">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h2 class="ps-section__title text-center pb-5">Beliebte Kategorien</h2>
+                                </div>
+                                <div class="col-lg-6 col-md-12 col-12 mb-2">
+                                    <div class="ps-promo__item">
+                                        <a class="ps-category__image ps-promo__banner"
+                                        href="https://custom.stegpearl.in/shop/solar-komplettsysteme-2">
+                                        <img class="img-fluid"
+                                            src="https://custom.stegpearl.in/root/public/uploads/category/1688643950.jpg" alt="1688643950.jpg">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-12 col-12 mb-2">
+                                    <div class="ps-desc">
+                                        <h3 class="ps-section__title">Erleben Sie die Sonnenkraft auf innovative Art mit dem Balkonkraftwerk der Zukunft!</h3>
+                                        <div class="row">
+                                        <div class="col-12 col-md-6">
+                                            <div class="ps-block--about p-3">
+                                                <div class="ps-block__icon"><img decoding="async" width="200" height="200" src="https://i0.wp.com/epp.solar/wp-content/uploads/2023/07/Best-Quatlity.png?fit=200%2C200&amp;ssl=1" class="img-fluid" alt=""></div>
+                                                <h4 class="ps-block__title">Beste Qualität                  </h4>
+                                                <div class="ps-block__subtitle">Vertrauen Sie auf unschlagbare Leistung und Langlebigkeit, denn wir garantieren höchste Produktqualität und erstklassige Materialien.
+
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                            <div class="ps-block--about p-3">
+                                                <div class="ps-block__icon"><img decoding="async" width="256" height="256" src="https://i0.wp.com/epp.solar/wp-content/uploads/2023/07/Hot-Spot-free.png?fit=256%2C256&amp;ssl=1" class="img-fluid" alt=""></div>
+                                                <h4 class="ps-block__title">Hotspot frei:</h4>
+                                                <div class="ps-block__subtitle">Erleben Sie unterbrechungsfreie Solarenergie dank klarer und stabiler Verbindungen, sodass Sie stets volle Kraft aus der Sonne schöpfen können.
+
+
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                            <div class="ps-block--about p-3">
+                                                <div class="ps-block__icon"><img decoding="async" width="256" height="256" src="https://i0.wp.com/epp.solar/wp-content/uploads/2023/07/25-year-guarantee.png?fit=256%2C256&amp;ssl=1" class="img-fluid" alt=""></div>
+                                                <h4 class="ps-block__title">Plug & Play                  </h4>
+                                                <div class="ps-block__subtitle">Genießen Sie ein müheloses Installationsvergnügen und erleben Sie nahtlosen Solarbetrieb - ohne aufwendiges Setup!
+
+
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                            <div class="ps-block--about p-3">
+                                                <div class="ps-block__icon"><img decoding="async" width="256" height="256" src="https://i0.wp.com/epp.solar/wp-content/uploads/2023/07/Beste-Qualitat.png?fit=256%2C256&amp;ssl=1" class="img-fluid" alt=""></div>
+                                                <h4 class="ps-block__title">PERC Technologie</h4>
+                                                <div class="ps-block__subtitle">Setzen Sie auf innovative, optimierte Zelltechnologie und maximieren Sie so Ihre Energieproduktion - für eine umweltfreundliche Zukunft mit vollem Potenzial.
+
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            </div>
+                        </div> --}}
+
                 </div>
             </div>
             <section class="ps-section--deals py-5">
@@ -538,7 +607,7 @@ function formatPrice(price) {
 var isFirstIteration = true;
 var savedValues = {};
 
-function saveValue(element, attributeId, name = null,pids) {
+function saveValue(element, attributeId, name = null,pids,term_id) {
 
 var atr_name = element.getAttribute('data-atr-name');
 var atr_price = element.getAttribute('data-atr-price');
@@ -632,9 +701,8 @@ termIds: termIds.join(','),
 // Check if termsID is an array and add it to sessionData
 
 sessionStorage.setItem('sessionData', JSON.stringify(sessionData));
-
+html_components(term_id);
 // toggleAccordion(header)
-
 }
 
 function show_name(){
@@ -661,6 +729,7 @@ $.ajax({
     method: 'GET',
     data: { id: id, productid:idpro }, // Pass the ID as a parameter
     success: function(response) {
+        console.log(response)
     var users = response;
     var tableBody = $('#test');
     tableBody.empty();
@@ -670,7 +739,7 @@ $.ajax({
         let imageUrl = "{{ asset('root/public/uploads/') }}/" + user.image;
 
         tableBody.append(`
-            <div class="row select_var_row mx-0 p-2" onclick="highlightDiv(this);saveValue(this, '${user.attribute_id}','','heading_Var${sid}');" data-atr-name="${user.attribute_term_name}" data-atr-price="${user.price}" data-value="${user.attribute_term_name},${user.price},${user.id}">
+            <div class="row select_var_row mx-0 p-2" onclick="highlightDiv(this);saveValue(this, '${user.attribute_id}','','heading_Var${sid}',${id});" data-atr-name="${user.attribute_term_name}" data-atr-price="${user.price}" data-value="${user.attribute_term_name},${user.price},${user.id}">
                 ${user.image !== null ? `<div class="ps-section__thumbnail col-3">
                     <img src="${imageUrl}" alt="" width="100px">
                 </div>` : ""}
@@ -778,6 +847,35 @@ function checkSessionCount(productId, countAttributes) {
     }
 
 
+    // get attribute term html
+    function html_components(id){
+        let htmlComponent = $("#html_component");
+        let url = window.location.href;
+        const separator = .includes('?') ? '&' : '?';
+      // Append the key-value pair to the URL
+        let  url = url + separator + encodeURIComponent('id') + '=' + encodeURIComponent(id);
+        console.log(url);
+        return false;
+        $.ajax({
+            type: 'get',
+            url: '{{ url('/term-html') }}',
+            data: {
+                "_token": "{{ csrf_token() }}",
+                "id": id,
+            },
+            success : function(response){
+                console.log(response);
+                const {data} = response;
+                $(htmlComponent).append(response.component_description)
+            },
+            error : function(err){
+                console.log(err);
+            }
+        })
+    }
+
+
 </script>
 
-                @endsection
+
+@endsection

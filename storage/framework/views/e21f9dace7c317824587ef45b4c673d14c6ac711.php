@@ -1,5 +1,10 @@
 <?php $__env->startSection("style"); ?>
 <style>
+
+svg {
+    width: 16px; /* Adjust the font size to your desired value */
+}
+
 .menu--mobile>li{
     padding:5px 0px;
 }
@@ -31,6 +36,8 @@
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection("content"); ?>
+
+
 
     <div class="ps-page">
 
@@ -169,17 +176,11 @@
                            <?php endif; ?>
 
                         </div>
-                        <?php if(count($products) > 9): ?>
-                            <div class="ps-pagination">
-                                <ul class="pagination">
-                                    <li><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
-                                </ul>
-                            </div>
-                        <?php endif; ?>
+                        <div class="ps-pagination">
+                            <?php echo e($products->links()); ?>
+
+                        </div>
+
                     </div>
                 </div>
             </div>

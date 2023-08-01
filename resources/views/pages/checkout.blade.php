@@ -1,40 +1,41 @@
 @extends('../Layout.Layout')
 <style>
-    .loader{
+    .loader {
         width: 100%;
-        height : 100%;
-        top : 0;
-        left : 0;
-        background : #fff;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: #fff;
         z-index: 10000;
         opacity: 0.5;
-        display: flex;
-        align-items: center;
-        justify-content: center
     }
-    .loader i{
+    .loader i {
+        position: relative;
+        top : 20%;
+        left : 50%;
         font-size: 60px;
     }
 </style>
+
 @section('content')
 
-@php
-    if(session('cart')){
-    $cart = session('cart');
-    // dd($cart);
-    $lastCartItem = end($cart);
-    $session_country = @$lastCartItem['shipping_country'];
-    if($session_country == 0){
-        $session_country ='';
-    }
-    $session_shipping_class = (int)@$lastCartItem['shipping_class'];
-    $shippingCountry =  shippingCountry()->where('shipping_id',$session_shipping_class);
-    }else {
-        return redirect()->back();
-    }
+    @php
+        if(session('cart')){
+        $cart = session('cart');
+        // dd($cart);
+        $lastCartItem = end($cart);
+        $session_country = @$lastCartItem['shipping_country'];
+        if($session_country == 0){
+            $session_country ='';
+        }
+        $session_shipping_class = (int)@$lastCartItem['shipping_class'];
+        $shippingCountry =  shippingCountry()->where('shipping_id',$session_shipping_class);
+        }else {
+            return redirect()->back();
+        }
 
-    // dd($cart);
-@endphp
+
+    @endphp
 
     <div class="ps-checkout">
         <div class="container">
@@ -194,42 +195,39 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12 ps-hidden" data-for="ship-address">
-                                        <div class="row">
+                                   <div class="col-12 ps-hidden" data-for="ship-address">
+                                            <div class="row">
+                                                <div class="col-12">
+            <div class="ps-checkout__group">
+                <label class="ps-checkout__label">Country</label>
+                <select value="{{ old('shipping_country') }}" class="ps-input" id="shipping_conuntry" name="shipping_country" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                    <option>Wählen Sie ein Land / eine Region…</option>
+                    @foreach ($shippingCountry as $country)
+                        <option @if($session_country == $country->country) selected @endif value="{{country()->where('id', $country->country)->pluck('id')->first()}}">
+                            {{ country()->where('id', $country->country)->pluck('country')->first() }} / {{ formatPrice($country->price) }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('district')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+        </div>
 
                                             <div class="col-12">
                                                 <div class="ps-checkout__group">
-                                                    <label class="ps-checkout__label">Country</label>
-                                                    <select value="{{ old('shipping_country') }}" class="ps-input " id="shipping_conuntry" name="shipping_country"
-                                                        data-select2-id="1" tabindex="-1" aria-hidden="true">
-                                                        <option>Wählen Sie ein Land / eine Region…</option>
-                                                        @foreach ($shippingCountry as $country)
-                                                            <option @if($session_country == $country->country) selected @endif value="{{country()->where('id',$country->country)->pluck('id')->first()}}">{{country()->where('id',$country->country)->pluck('country')->first()}} / {{formatPrice($country->price)}}</option>
-                                                        @endforeach
-                                                    </select>
-                                                    @error('district')
+                                                    <label for="fullname" class="ps-checkout__label">Vollständiger Name <span class="text-danger">*</span></label>
+                                                    <input class="ps-input" type="text" name="shipping_fullname" value="{{ old('shipping_fullname') }}">
+                                                    @error('shipping_fullname')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
                                                 </div>
                                             </div>
 
                                             <div class="col-12">
-                                                    <div class="ps-checkout__group">
-                                                        <label for="fullname" class="ps-checkout__label">Vollständiger
-                                                            Name <span class="text-danger">*</span></label>
-                                                        <input class="ps-input" type="text" name="shipping_fullname"
-                                                            value="{{ old('shipping_fullname') }}">
-                                                        @error('shipping_fullname')
-                                                            <span class="text-danger">{{ $message }}</span>
-                                                        @enderror
-                                                    </div>
-                                                </div>
-                                            <div class="col-12">
                                                 <div class="ps-checkout__group">
-                                                    <label for="email" class="ps-checkout__label">E-Mail Adresse<span
-                                                            class="text-danger">*</span></label>
-                                                    <input class="ps-input" type="email" name="shipping_email"
-                                                        value="{{ old('shipping_email') }}">
+                                                    <label for="email" class="ps-checkout__label">E-Mail Adresse<span class="text-danger">*</span></label>
+                                                    <input class="ps-input" type="email" name="shipping_email" value="{{ old('shipping_email') }}">
                                                     @error('shipping_email')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
@@ -238,10 +236,8 @@
 
                                             <div class="col-12">
                                                 <div class="ps-checkout__group">
-                                                    <label for="company_name" class="ps-checkout__label">Firmenname
-                                                        (optional)<span class="text-danger">*</span></label>
-                                                    <input class="ps-input" type="text" name="shipping_company_name"
-                                                        value="{{ old('shipping_company_name') }}">
+                                                    <label for="company_name" class="ps-checkout__label">Firmenname (optional)<span class="text-danger">*</span></label>
+                                                    <input class="ps-input" type="text" name="shipping_company_name" value="{{ old('shipping_company_name') }}">
                                                     @error('shipping_company_name')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
@@ -250,67 +246,50 @@
 
                                             <div class="col-12">
                                                 <div class="ps-checkout__group">
-                                                    <label class="ps-checkout__label" for="billing_address1">Straße und
-                                                        Hausnummer
-                                                        <span class="text-danger">*</span></label>
-                                                    <input class="ps-input mb-3" type="text"
-                                                        placeholder="Hausnummer und Straßenname"
-                                                        name="shipping_billing_address1"
-                                                        value="{{ old('shipping_billing_address1') }}">
+                                                    <label class="ps-checkout__label" for="billing_address1">Straße und Hausnummer <span class="text-danger">*</span></label>
+                                                    <input class="ps-input mb-3" type="text" placeholder="Hausnummer und Straßenname" name="shipping_billing_address1" value="{{ old('shipping_billing_address1') }}">
                                                     @error('shipping_billing_address1')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
-                                                    <input class="ps-input" type="text"
-                                                        placeholder="Wohnung, Appartement, Einheit usw. (fakultativ)"
-                                                        name="shipping_billing_address2"
-                                                        value="{{ old('shipping_billing_address2') }}">
+                                                    <input class="ps-input" type="text" placeholder="Wohnung, Appartement, Einheit usw. (fakultativ)" name="shipping_billing_address2" value="{{ old('shipping_billing_address2') }}">
                                                     @error('shipping_billing_address2')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
-
                                                 </div>
-
-
                                             </div>
+
                                             <div class="col-12 col-md-6">
                                                 <div class="ps-checkout__group">
-                                                    <label class="ps-checkout__label" for="shipping_city">Stadt /
-                                                        Ortschaft
-                                                        <span class="text-danger">*</span></label>
-                                                    <input class="ps-input" type="text" id="shipping_city"
-                                                        name="shipping_city" value="{{ old('shipping_city') }}">
+                                                    <label class="ps-checkout__label" for="shipping_city">Stadt / Ortschaft <span class="text-danger">*</span></label>
+                                                    <input class="ps-input" type="text" id="shipping_city" name="shipping_city" value="{{ old('shipping_city') }}">
                                                     @error('shipping_city')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
                                                 </div>
                                             </div>
+
                                             <div class="col-12 col-md-6">
                                                 <div class="ps-checkout__group">
-                                                    <label class="ps-checkout__label">Postleitzahl <span
-                                                            class="text-danger">*</span></label>
-                                                    <input class="ps-input"  type="number"
-                                                        id="shipping_postal_code" name="shipping_postal_code"
-                                                        value="{{ old('shipping_postal_code') }}">
+                                                    <label class="ps-checkout__label">Postleitzahl <span class="text-danger">*</span></label>
+                                                    <input class="ps-input" type="number" id="shipping_postal_code" name="shipping_postal_code" value="{{ old('shipping_postal_code') }}">
                                                     @error('shipping_postal_code')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
                                                 </div>
                                             </div>
 
-                                            <div class="col-12">
-                                                <div class="ps-checkout__group">
-                                                    <label class="ps-checkout__label">Telefon <span
-                                                            class="text-danger">*</span></label>
-                                                    <input class="ps-input" type="number" id="shipping_phone_number"
-                                                        name="shipping_phone_number"
-                                                        value="{{ old('shipping_phone_number') }}">
-                                                    @error('shipping_phone_number')
-                                                        <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
-                                                </div>
-                                            </div>
-                                        </div>
+        <div class="col-12">
+            <div class="ps-checkout__group">
+                <label class="ps-checkout__label">Telefon <span class="text-danger">*</span></label>
+                <input class="ps-input" type="number" id="shipping_phone_number" name="shipping_phone_number" value="{{ old('shipping_phone_number') }}">
+                @error('shipping_phone_number')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+        </div>
+    </div>
                                     </div>
+
                                     <div class="col-12">
                                         <div class="ps-checkout__group">
                                             <label class="ps-checkout__label" for="message">Bestellhinweise
@@ -481,9 +460,11 @@
     </div>
 
     <script>
+
+        var country = document.getElementById('country').value;
         function couponApply() {
            var couponCode = document.getElementById('couponCode').value;
-           var country = document.getElementById('country').value;
+
            var dynmicElChekout = document.querySelector("#dynmicElChekout");
 
            $.ajax({
@@ -502,7 +483,10 @@
                         console.log(response);
 
                         const {message,status,data} = JSON.parse(response);
-                        let product = data.cart.map((item, index) => {
+
+                        if(status === "success"){
+
+                            let product = data.cart.map((item, index) => {
                             return `
                             ${item.type === "variable" ? `
                             <div class="ps-checkout__row ps-product">
@@ -524,9 +508,6 @@
                             </div> `}`;
 
                         });
-                        // console.log(data);
-
-                        if(status === "success"){
                             $(dynmicElChekout).html(`
                                     ${product}
                                     <div class="ps-checkout__row">
@@ -564,14 +545,9 @@
                             `);
                             toastr.success(message);
                         }else{
+
                             toastr.error(message);
                         }
-                        // console.log(response);
-
-                    //     setTimeout(function() {
-                    //     window.location.reload();
-                    // }, 2000);
-
                     },
                     error : function(err){
                         console.log(err);
@@ -583,7 +559,8 @@
 
     </script>
 
-<script>
+    <script>
+
 
       $(document).ready(function () {
         const country_el = document.querySelectorAll('.country_shipping');
@@ -597,13 +574,32 @@
 
         });
 
+         if(sessionStorage.getItem("checkded")){
+             $('.shipping_check').prop("checked", true);
+             $(".ps-hidden").css('display',"block");
+             $("#shipping_conuntry").on('change', function () {
+                var id = $(this).val();
+
+                shipping_update(id, dynmicElChekout);
+            });
+        }
+
         $(".shipping_check").on('click', function () {
+
             if ($(this).prop("checked")) {
+                var id =  $("#shipping_conuntry").val();
+                shipping_update(id, dynmicElChekout);
+
+                sessionStorage.setItem("checkded","shipping" );
                 $("#shipping_conuntry").on('change', function () {
                 var id = $(this).val();
-                console.log(id);
+
                 shipping_update(id, dynmicElChekout);
                 });
+            }else{
+                sessionStorage.removeItem("checkded");
+               let id =  $("#country").val();
+               shipping_update(id, dynmicElChekout);
             }
         });
       });

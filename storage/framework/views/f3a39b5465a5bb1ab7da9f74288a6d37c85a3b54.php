@@ -35,7 +35,7 @@
         <div class="ps-home__content">
             <div class="container">
                 <div class="ps-promo mt-5 ps-section--category ps-section--latest ps-category--image mt-5">
-                    <h3 class="ps-section__title">Beliebte Kategorien</h3>
+                    <h2 class="ps-section__title">Beliebte Kategorien</h2>
                     <div class="row">
                         <?php $__currentLoopData = categories()->where('parent_id','0'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <div class="col-6 col-md-3 mb-2 px-1 p-0">
@@ -53,7 +53,7 @@
 
             <section class="ps-section--latest mt-5">
                 <div class="container">
-                    <h3 class="ps-section__title">Bestseller-Produkte</h3>
+                    <h2 class="ps-section__title">Bestseller-Produkte</h2>
                     <div class="ps-section__carousel pt-4">
                         <div class="owl-carousel" data-owl-auto="false" data-owl-loop="true" data-owl-speed="13000"
                             data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="4" data-owl-item-xs="1"
@@ -119,10 +119,13 @@
                 </div>
 
             </section>
+
+
+
             <div class="container">
                 <section class="ps-section--deals">
                     <div class="ps-section__header">
-                        <h3 class="ps-section__title">Die besten Deals der Woche!</h3>
+                        <h2 class="ps-section__title">Die besten Deals der Woche!</h2>
                     </div>
                     <div class="ps-section__carousel border-0">
                         <div class="owl-carousel" data-owl-auto="false" data-owl-loop="true" data-owl-speed="13000"

@@ -95,7 +95,8 @@
 
                                     <div class="ps-product__remove"><a href="javascript::void(0)"
                                             onclick="remove_to_cart(<?= $id ?>)"><i
-                                                class="icon-trash2 text-danger"></i></a></div>
+                                                class="icon-trash2 text-danger"></i></a>
+                                    </div>
                                     <div class="ps-product__thumbnail"><a class="ps-product__image"
                                             href="{{ route('product.detail', @$details['slug']) }}">
                                             <figure><img
@@ -157,12 +158,13 @@
                 <table class="table ps-table ps-table--product">
                     <thead>
                         <tr>
-                            <th class="ps-product__remove"></th>
+
                             <th class="ps-product__thumbnail"></th>
                             <th class="ps-product__name">Name des Produkts</th>
                             <th class="ps-product__meta">Preis pro Einheit</th>
                             <th class="ps-product__quantity">Menge</th>
                             <th class="ps-product__subtotal">Zwischensumme</th>
+                            <th class="ps-product__remove"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -171,6 +173,10 @@
                             @foreach (session('cart') as $id => $details)
                                 @php
                                     $tax = getTaxCountry($details['shipping_country']);
+                                    if(empty($tax)){
+                                        $tax['vat_tax'] = 0;
+                                    }
+
                                     $total += @$details['price'] * @$details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity']);
                                 @endphp
 
@@ -178,9 +184,7 @@
 
                                 @if ($details['type'] == 'variable')
                                     <tr class="variable_table">
-                                        <td class="ps-product__remove"> <a href="javascript::void(0)"
-                                                onclick="remove_to_cart(<?= $id ?>)"><i
-                                                    class="icon-trash2 text-danger"></i></a></td>
+
                                         <td class="ps-product__thumbnail"><a class="ps-product__image"
                                                 href="{{ route('product.detail', @$details['slug']) }}">
                                                 <figure><img
@@ -224,12 +228,13 @@
                                             {{ formatPrice(@$details['price'] * $details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity'])) }}
                                             @if($tax['vat_tax']) <br><small style="font-size:10px;color:red;">(Tax Inclusive)</small> @endif
                                         </td>
+                                        <td class="ps-product__remove"> <a href="javascript::void(0)" onclick="remove_to_cart(<?= $id ?>)">
+                                            <i class="icon-trash2 text-danger"></i></a>
+                                        </td>
                                     </tr>
                                 @else
                                     <tr>
-                                        <td class="ps-product__remove"> <a href="javascript::void(0)"
-                                                onclick="remove_to_cart(<?= $id ?>)"><i
-                                                    class="icon-trash2 text-danger"></i></a></td>
+
                                         <td class="ps-product__thumbnail"><a class="ps-product__image"
                                                 href="{{ route('product.detail', @$details['slug']) }}">
                                                 <figure><img
@@ -266,6 +271,11 @@
                                         <td class="ps-product__subtotal">
                                             {{ formatPrice(@$details['price'] * @$details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity']) ) }}
                                             @if($tax['vat_tax']) <br><small style="font-size:10px;color:red;">(Tax Inclusive)</small> @endif
+                                        </td>
+                                        <td class="ps-product__remove">
+                                            <a href="javascript::void(0)" onclick="remove_to_cart(<?= $id ?>)">
+                                                <i class="icon-trash2 text-danger"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endif

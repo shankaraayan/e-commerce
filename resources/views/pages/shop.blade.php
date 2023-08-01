@@ -2,6 +2,11 @@
 
 @section("style")
 <style>
+
+svg {
+    width: 16px; /* Adjust the font size to your desired value */
+}
+
 .menu--mobile>li{
     padding:5px 0px;
 }
@@ -33,6 +38,8 @@
 @endsection
 
 @section("content")
+
+
 
     <div class="ps-page">
 
@@ -173,17 +180,10 @@
                            @endif
 
                         </div>
-                        @if(count($products) > 9)
-                            <div class="ps-pagination">
-                                <ul class="pagination">
-                                    <li><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
-                                    <li class="active"><a href="#">1</a></li>
-                                    <li><a href="#">2</a></li>
-                                    <li><a href="#">3</a></li>
-                                    <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
-                                </ul>
-                            </div>
-                        @endif
+                        <div class="ps-pagination">
+                            {{$products->links()}}
+                        </div>
+
                     </div>
                 </div>
             </div>

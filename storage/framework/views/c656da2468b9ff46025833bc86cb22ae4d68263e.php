@@ -64,7 +64,7 @@ unset($__errorArgs, $__bag); ?>
                                 <div class="ps-form__group">
                                     <label class="ps-form__label">E-Mail Adresse *</label>
                                     <input class="form-control ps-form__input" type="email" name="email" value="<?php echo e(old('email')); ?>">
-                                   
+
                                     <?php if(session()->has('signup_error')): ?>
                                         <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -96,7 +96,7 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                                      <?php endif; ?>
-                                    
+
                                     <p class="ps-form__text">Hinweis: Das Passwort sollte mindestens 8 Zeichen lang sein. Um es sicherer zu machen, verwenden Sie Groß- und Kleinbuchstaben, Zahlen und Symbole wie ! " ? $ % ^ & ).</p>
                                 </div>
                                 <div class="ps-form__submit">
