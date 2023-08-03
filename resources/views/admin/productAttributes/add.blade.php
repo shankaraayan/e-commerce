@@ -57,13 +57,13 @@
               </header>
             <div class="card-body flex flex-col p-6">
 
-              <form action="{{route('admin.product.attribute.store')}}" method="post" >
+              <form id="multipleValidation" action="{{route('admin.product.attribute.store')}}" method="post" >
                 @csrf
                 <div class="card-text h-full space-y-4">
                   <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
                   <div class="input-area">
                     <label for="name" class="form-label">Attribute Name*</label>
-                    <input id="name" name="attribute_name" type="text" class="form-control" placeholder="Attribute Name">
+                    <input id="name" name="attribute_name" type="text" class="form-control" placeholder="Attribute Name" required="required">
                     @if ($errors->has('attribute_name'))
                     <span class="text-danger">{{ $errors->first('attribute_name') }}</span>
                     @endif
@@ -71,8 +71,8 @@
 
                   <div class="input-area">
                     <label for="description" class="form-label">Select Attribute Type*</label>
-                    <select id="select" name="attribute_type" class="form-control">
-                      <option class="dark:bg-slate-700">Select</option>
+                    <select id="select" name="attribute_type" class="form-control" required="required">
+                      <option value="" class="dark:bg-slate-700">Select</option>
                       @foreach($attributeTypes as $value)
                       <option value="{{$value->name}}" class="dark:bg-slate-700">{{$value->name}}</option>
                       @endforeach
@@ -86,7 +86,7 @@
                   <div class="input-area">
                     <label for="description" class="form-label">Attribute Description*</label>
                     <textarea id="description" name="attribute_description" rows="5" class="form-control"
-                      placeholder="Type Here"></textarea>
+                      placeholder="Type Here" required="required"></textarea>
                     @if ($errors->has('attribute_description'))
                     <span class="text-danger">{{ $errors->first('attribute_description') }}</span>
                     @endif

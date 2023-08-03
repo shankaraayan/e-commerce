@@ -338,8 +338,8 @@
                                     <div class="grid xl:grid-cols-2 grid-cols-1 p-6">
                                         <div class="input-area">
                                             <label for="name" class="form-label">Estimate Delivery Date*</label>
-                                            <input id="estimate_deliver_date" name="estimate_deliver_date" type="date" class="form-control"
-                                                placeholder="estimate_deliver_date" required>
+                                            <input id="estimate_deliver_date" name="estimate_deliver_date" type="date" class="form-control required"
+                                                placeholder="estimate_deliver_date">
                                             <?php if($errors->has('estimate_deliver_date')): ?>
                                                 <span class="text-danger"><?php echo e($errors->first('estimate_deliver_date')); ?></span>
                                             <?php endif; ?>

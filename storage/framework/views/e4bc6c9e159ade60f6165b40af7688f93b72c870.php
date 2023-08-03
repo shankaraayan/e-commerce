@@ -55,13 +55,13 @@
               </header>
             <div class="card-body flex flex-col p-6">
 
-              <form action="<?php echo e(route('admin.product.attribute.store')); ?>" method="post" >
+              <form id="multipleValidation" action="<?php echo e(route('admin.product.attribute.store')); ?>" method="post" >
                 <?php echo csrf_field(); ?>
                 <div class="card-text h-full space-y-4">
                   <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
                   <div class="input-area">
                     <label for="name" class="form-label">Attribute Name*</label>
-                    <input id="name" name="attribute_name" type="text" class="form-control" placeholder="Attribute Name">
+                    <input id="name" name="attribute_name" type="text" class="form-control" placeholder="Attribute Name" required="required">
                     <?php if($errors->has('attribute_name')): ?>
                     <span class="text-danger"><?php echo e($errors->first('attribute_name')); ?></span>
                     <?php endif; ?>
@@ -69,8 +69,8 @@
 
                   <div class="input-area">
                     <label for="description" class="form-label">Select Attribute Type*</label>
-                    <select id="select" name="attribute_type" class="form-control">
-                      <option class="dark:bg-slate-700">Select</option>
+                    <select id="select" name="attribute_type" class="form-control" required="required">
+                      <option value="" class="dark:bg-slate-700">Select</option>
                       <?php $__currentLoopData = $attributeTypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                       <option value="<?php echo e($value->name); ?>" class="dark:bg-slate-700"><?php echo e($value->name); ?></option>
                       <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -84,7 +84,7 @@
                   <div class="input-area">
                     <label for="description" class="form-label">Attribute Description*</label>
                     <textarea id="description" name="attribute_description" rows="5" class="form-control"
-                      placeholder="Type Here"></textarea>
+                      placeholder="Type Here" required="required"></textarea>
                     <?php if($errors->has('attribute_description')): ?>
                     <span class="text-danger"><?php echo e($errors->first('attribute_description')); ?></span>
                     <?php endif; ?>

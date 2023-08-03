@@ -127,21 +127,21 @@
 @endphp   
 @if(empty($cookieValue))
 <div class="disclaimer-bar" id="disclaimerBar">
-    <div class="d-flex align-items-center justify-content-between">
-    <div>
-        <p>This is a disclaimer. Click to close.</p>
+    <div class="d-lg-flex align-items-center justify-content-between">
+    <div class="cookie_text_data text-left">
+        <p>Wir verwenden Cookies auf unserer Website, um Ihnen die relevanteste Erfahrung zu bieten, indem wir uns an Ihre Vorlieben erinnern und Besuche wiederholen. Durch Klicken auf "Akzeptieren" stimmen Sie der Verwendung ALLER Cookies zu.</p>
     </div>
-    <div class="d-flex align-items-center justify-content-between">
-        <span class="detail-btn" data-toggle="modal" data-target="#exampleModal" ><u>Ideas</u></span>
-        <span class="accept-btn mr-3" onclick="setCookieViaAjax()">Accept</span>
-        <span class="close-btn" onclick="closeDisclaimer()">Close</span>
+    <div class="d-flex align-items-center justify-content-end">
+        <span class="detail-btn btn mr-1 fs-5" data-toggle="modal" data-target="#arky_cookies_Modal" ><u>Einstellungen</u></span>
+        <span class="accept-btn mr-3 btn fs-5" onclick="setCookieViaAjax()">Akzeptieren</span>
+        <span class="close-btn btn fs-5" onclick="closeDisclaimer()">Schließen</span>
     </div>
 </div>
 </div>
 @endif
 <!-- The Modal -->
-<div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal" id="arky_cookies_Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel" style="font-family: inherit;font-size: 16px;margin-bottom: 15px;margin: 10px 0;">Overview of data protection</h5>
@@ -150,13 +150,13 @@
           </button>
         </div>
         <div class="modal-body">
-          <p style="font-family: inherit;font-size: 12px;margin-bottom: 15px;margin: 10px 0;">
+          <p style="font-family: inherit;font-size: 12px;margin-bottom: 15px;margin: 0 0 12px 0;">
             This website uses cookies to improve your experience as you navigate through the website. Out of these, the cookies that are categorized as necessary are stored on your browser as they are essential for the working of basic functionalities of the website. We also use third-party cookies to help us analyze and understand how you use this website. These cookies are only stored in your browser with your consent. You also have the option to refuse these cookies. However, opting out of some of these cookies may impact your browsing experience.
         </p>
 
-        <div class="">
-        <div id="cookies_accordion">
-            <div class="card">
+        <div class="cookies_data_modal">
+            <div id="cookies_accordion">
+            <div class="card mb-2">
                 <div class="card-header" id="headingOne">
                 <div class="mb-0 d-flex align-items-center justify-content-between">
                     <div class="w-100">
@@ -186,7 +186,7 @@
                 </div>
                 </div>
             </div>
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-header" id="headingOne">
                 <div class="mb-0 d-flex align-items-center justify-content-between">
                     <div class="w-100">
@@ -216,7 +216,7 @@
                 </div>
                 </div>
             </div>
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-header" id="headingOne">
                 <div class="mb-0 d-flex align-items-center justify-content-between">
                     <div class="w-100">
@@ -246,7 +246,7 @@
                 </div>
                 </div>
             </div>
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-header" id="headingOne">
                 <div class="mb-0 d-flex align-items-center justify-content-between">
                     <div class="w-100">
@@ -276,7 +276,7 @@
                 </div>
                 </div>
             </div>
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-header" id="headingOne">
                 <div class="mb-0 d-flex align-items-center justify-content-between">
                     <div class="w-100">
@@ -306,7 +306,7 @@
                 </div>
                 </div>
             </div>
-            <div class="card">
+            <div class="card mb-2">
                 <div class="card-header" id="headingOne">
                 <div class="mb-0 d-flex align-items-center justify-content-between">
                     <div class="w-100">
@@ -337,7 +337,6 @@
                 </div>
             </div>
         </div>
-
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -347,6 +346,7 @@
 
     </div>
   </div>
+</div>
 
    
 

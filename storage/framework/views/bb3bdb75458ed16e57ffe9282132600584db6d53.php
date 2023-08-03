@@ -58,6 +58,9 @@
                               Status
                             </th>
                             <th scope="col" class=" table-th ">
+                              Order Date
+                            </th>
+                            <th scope="col" class=" table-th ">
                               Action
                             </th>
                           </tr>
@@ -79,9 +82,12 @@
                             <td class="table-td "><?php echo e($billing['fullname']); ?></td>
                              <td class="table-td ">
                                 <span class="badge bg-primary-500 text-primary-500 bg-opacity-30 capitalize"><?php echo e($values->status); ?></span>
-                                
+                              
                             </td>
+                            <td>
+                                <?php echo e(date('d-M-Y',strtotime($values['created_at']))); ?>
 
+                            </td>
                             <td class="table-td ">
                                 <a href="<?php echo e(route('admin.orders.view',$values->id)); ?>" >
                                     <button class="btn btn-sm inline-flex justify-center text-white bg-slate-600">

@@ -120,18 +120,14 @@
 
         /* Styles for the disclaimer bar */
         .disclaimer-bar {
-            background: #0c3273;
+            background: #335080;
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            /* background-color: #f0f0f0; */
-            padding: 10px;
+             padding: 10px;
             text-align: center;
             display: block;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
             z-index: 111;
         }
 
@@ -143,9 +139,7 @@
         .detail-btn{
             cursor: pointer;
             color: #fff;
-            padding: 5px 20px;
-
-        }
+         }
         .accept-btn {
             cursor: pointer;
             padding: 5px 20px;

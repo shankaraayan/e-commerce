@@ -56,15 +56,22 @@ svg {
 
                 ?>
                 
-            <a href="#" data-sort="low_to_high">Sort Low to High</a>
-            <a href="#" data-sort="high_to_low">Sort High to Low</a>
+                
 
                 <div class="ps-categogy__content">
                     <div class="ps-categogy__wrapper">
                         <div class="ps-categogy__filter"> <a href="#" id="collapse-filter"><i class="fa fa-filter"></i><i class="fa fa-times"></i>Filter</a></div>
-
-
-                    </div>
+                        <div class="ps-categogy__sort">
+                         <div class="dropdown d-inline-block arky_sort_dropdown">
+                          <a class="btn dropdown-toggle fs-4 shadow-none" type="button" id="sort_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sort by</a>
+                            <div class="dropdown-menu p-2" aria-labelledby="sort_dropdown">
+                             <a class="dropdown-item" href="#" data-sort="popularity">Popularity</a>
+                             <a class="dropdown-item" href="#" data-sort="low_to_high">Low to High</a>
+                             <a class="dropdown-item" href="#" data-sort="high_to_low">High to Low</a>
+                            </div>
+                         </div> 
+                        </div>
+                     </div>
                 </div>
             </div>
             <div class="ps-categogy__main">
@@ -464,7 +471,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 data: { category: lastSegment,shortBy: sortValue},
                 success: function(response)
                 {
-                    console.log(response);
                 var data = response.products;
                 $('#responseContainer').empty();
                 if (data.length > 0) {

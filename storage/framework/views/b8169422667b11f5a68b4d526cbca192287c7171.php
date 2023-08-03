@@ -50,13 +50,13 @@
                   <div class="card-title text-slate-900 dark:text-white"><?php echo e($attributeName->attribute_name); ?> Attribute Terms</div>
                 </div>
               </header>
-              <form action="<?php echo e(route('admin.product.attribute_terms.store')); ?>" method="post" enctype="multipart/form-data">
+              <form id="multipleValidation" action="<?php echo e(route('admin.product.attribute_terms.store')); ?>" method="post" enctype="multipart/form-data">
                 <?php echo csrf_field(); ?>
               <div class="card-text h-full space-y-4">
                 <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
                 <div class="input-area">
                   <label for="name" class="form-label">Attribute Terms Name*</label>
-                  <input id="attribute_term_name" name="attribute_term_name" type="text" class="form-control" placeholder="Attribute Term Name">
+                  <input id="attribute_term_name" name="attribute_term_name" type="text" class="form-control" placeholder="Attribute Term Name" required="required">
                   <?php if($errors->has('attribute_term_name')): ?>
                     <span class="text-danger"><?php echo e($errors->first('attribute_term_name')); ?></span>
                   <?php endif; ?>
@@ -64,7 +64,7 @@
                 <?php if($attributeName->attribute_type=='panel'): ?>
                 <div class="input-area">
                   <label for="name" class="form-label">kWh*</label>
-                  <input id="attribute_term_kWh_name" name="attribute_term_kWh_name" type="text" class="form-control" placeholder="kWh" required>
+                  <input id="attribute_term_kWh_name" name="attribute_term_kWh_name" type="text" class="form-control" placeholder="kWh" required="required">
                   <?php if($errors->has('attribute_term_kWh_name')): ?>
                     <span class="text-danger"><?php echo e($errors->first('attribute_term_kWh_name')); ?></span>
                   <?php endif; ?>
@@ -77,7 +77,7 @@
                   <?php $__currentLoopData = $attributesTermsWh; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                   <?php if(isset($value->attribute_term_kWh_name)): ?>
                   <label>
-                    <input type="checkbox" name="supported_wh[]" value="<?php echo e($value->attribute_term_kWh_name); ?>">
+                    <input type="checkbox" name="supported_wh[]" value="<?php echo e($value->attribute_term_kWh_name); ?>" required="required">
                     <?php echo e($value->attribute_term_kWh_name); ?>
 
                   </label>
@@ -95,7 +95,7 @@
                 <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
                 <div class="input-area">
                   <label for="name" class="form-label">Price*</label>
-                  <input id="price" name="price" type="text" class="form-control" placeholder="price">
+                  <input id="price" name="price" type="text" class="form-control" placeholder="price" required="required">
                   <?php if($errors->has('price')): ?>
                     <span class="text-danger"><?php echo e($errors->first('price')); ?></span>
                   <?php endif; ?>
@@ -103,14 +103,14 @@
                 </div>
                 <div class="input-area">
                   <label for="description" class="form-label">Attribute Term Description*</label>
-                  <textarea id="description" name="attribute_term_description" rows="5" class="form-control" placeholder="Type Here"></textarea>
+                  <textarea id="description" name="attribute_term_description" rows="5" class="form-control" placeholder="Type Here" required="required"></textarea>
                   <?php if($errors->has('attribute_term_description')): ?>
                   <span class="text-danger"><?php echo e($errors->first('attribute_term_description')); ?></span>
                 <?php endif; ?>
                 </div>
                 <div class="input-area">
                     <label for="description" class="form-label">Attribute Term Html*</label>
-                    <textarea id="description" name="component_description" rows="5" class="form-control" placeholder="Type Here"></textarea>
+                    <textarea id="description" name="component_description" rows="5" class="form-control" placeholder="Type Here" required="required"></textarea>
                     <?php if($errors->has('attribute_term_description')): ?>
                     <span class="text-danger"><?php echo e($errors->first('attribute_term_html')); ?></span>
                   <?php endif; ?>
@@ -134,7 +134,7 @@
 
                 <div class="input-area mb-5">
                   <label for="select" class="form-label">Image</label>
-                  <input type="file" name="image">
+                  <input type="file" name="image" required="required">
                 </div>
                 <div class="input-area mb-5">
                   <label for="select" class="form-label">Status</label>

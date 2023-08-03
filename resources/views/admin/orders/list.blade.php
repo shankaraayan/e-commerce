@@ -60,6 +60,9 @@
                               Status
                             </th>
                             <th scope="col" class=" table-th ">
+                              Order Date
+                            </th>
+                            <th scope="col" class=" table-th ">
                               Action
                             </th>
                           </tr>
@@ -81,11 +84,11 @@
                             <td class="table-td ">{{$billing['fullname']}}</td>
                              <td class="table-td ">
                                 <span class="badge bg-primary-500 text-primary-500 bg-opacity-30 capitalize">{{$values->status}}</span>
-                                {{-- <button class="badge bg-success-500 text-white capitalize" type="button">
-                                    {{$values->status}}
-                                </button> --}}
+                              
                             </td>
-
+                            <td>
+                                {{date('d-M-Y',strtotime($values['created_at']))}}
+                            </td>
                             <td class="table-td ">
                                 <a href="{{route('admin.orders.view',$values->id)}}" >
                                     <button class="btn btn-sm inline-flex justify-center text-white bg-slate-600">

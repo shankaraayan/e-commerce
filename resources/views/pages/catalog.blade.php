@@ -51,6 +51,7 @@ svg {
                 <div class="ps-categogy__content">
                     <div class="ps-categogy__wrapper">
                         <div class="ps-categogy__filter"> <a href="#" id="collapse-filter"><i class="fa fa-filter"></i><i class="fa fa-times"></i>Filter</a></div>
+                        
                     </div>
                 </div>
             </div>

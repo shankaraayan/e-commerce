@@ -41,19 +41,24 @@ class ShopController extends Controller
             $category_id = Category::where('slug',$request->category)->pluck('id')->first();
             // return $category_id;
         }
-        else{   
+        else{
             $category_id  = $request->category_id;
         }
-
+        
         $products = Product::where('categories',$category_id)->orWhere('subcategory_id',$category_id);
-        // return $request->all();
-            if($request->shortBy == 'high_to_low'){
-                $products = $products->orderBy('price','DESC');
-            }else{
-                $products = $products->orderBy('price','ASC');
-            }
-            $products = $products->get();
 
+        if($request->shortBy == 'high_to_low'){
+            $products = $products->orderBy('price','DESC');
+        }
+        
+        if($request->shortBy == 'low_to_high'){
+            $products = $products->orderBy('price','ASC');
+        }
+        // return $request->shortBy;
+        if($request->shortBy == 'popularity'){
+            $products =  $products->where('best_selling',1);
+        }
+        $products = $products->get();
         return response()->json(['products'=>$products]);
     }
 

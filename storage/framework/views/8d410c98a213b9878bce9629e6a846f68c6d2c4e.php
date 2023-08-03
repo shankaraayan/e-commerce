@@ -5,9 +5,6 @@
     <div class="transition-all duration-150 container-fluid" id="page_layout">
       <div id="content_layout">
 
-
-
-
         <!-- BEGIN: Breadcrumb -->
         <div class="mb-5">
           <ul class="m-0 p-0 list-none">
@@ -71,72 +68,13 @@
                 <li class="flex space-x-3 rtl:space-x-reverse">
                     <div class="flex-1">
                         <div class="uppercase text-xl text-slate-600 dark:text-slate-300 mb-1">
-                        Order Id
+                        Order Date
                         </div>
                         <a href="#" class="text-base text-slate-400 dark:text-slate-50">
-                        <?php echo e($orders->order_id); ?>
+                        <?php echo e(date('d-M-Y', strtotime($orders->created_at) )); ?>
 
                         </a>
                     </div>
-                </li>
-            </div>
-        </ul>
-
-        <ul class="list space-y-8 mb-8">
-            <div class="grid xl:grid-cols-3 grid-cols-1 gap-6">
-                <li class="flex space-x-3 rtl:space-x-reverse">
-                  <div class="flex-1">
-                    <div class="uppercase text-lg text-slate-600 dark:text-slate-300 mb-1 ">
-                      Shipping Address
-                    </div>
-                    <a href="#" class="text-base text-slate-400 dark:text-slate-50">
-                      <div id="shipping_address"></div>
-                      
-                      <?php
-                          $shipping = $orders->shipping_address;
-                      ?>
-
-                      <script>
-                          var shipping = <?php echo json_encode($shipping, 15, 512) ?>; // Convert PHP data to a JSON object
-                          shipping = JSON.parse(shipping);
-
-                          for(key in shipping){
-                              console.log(key);
-                              const el = `
-                                  <p  class="text-slate-600 mb-1 capitalize"> <strong>${key.split('_')[1]}</strong> : ${shipping[key] == null ? '': shipping[key]} </p>
-                              `;
-                              $('#shipping_address').append(el);
-                          }
-                      </script>
-                    </a>
-                  </div>
-                </li>
-                <!-- end single list -->
-                <li class="flex space-x-3 rtl:space-x-reverse">
-                      <div class="flex-1">
-                      <div class="uppercase text-lg text-slate-600 dark:text-slate-300 mb-1">
-                          Billing Address
-                      </div>
-                      <a href="#" class="text-base text-slate-400 dark:text-slate-50">
-                          <div id="billing_address"></div>
-                          
-                          <?php
-                              $billing = $orders->billing_details;
-                          ?>
-
-                          <script>
-                              var billing = <?php echo json_encode($billing, 15, 512) ?>; // Convert PHP data to a JSON object
-                              billing = JSON.parse(billing);
-
-                              for(key in billing){
-                                  const el = `
-                                      <p class="text-slate-600 mb-1 capitalize"> <strong class="text-zinc-500">${key}</strong> :  ${billing[key] == null ? '': billing[key]} </p>
-                                  `;
-                                  $('#billing_address').append(el);
-                              }
-                          </script>
-                      </a>
-                      </div>
                 </li>
             </div>
         </ul>
@@ -178,15 +116,55 @@
               </div>
             </li>
             </div>
-
        </ul>
+
+<ul class="list space-y-8 mb-8">
+            <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
+                <li class="flex space-x-3 rtl:space-x-reverse">
+                  <div class="flex-1">
+                    <div class="uppercase text-lg text-slate-600 dark:text-slate-300 mb-1 ">
+                      Shipping Address
+                    </div>
+                    <a href="#" class="text-base text-slate-400 dark:text-slate-50">
+                      <div id="shipping_address"></div>
+                      
+                      <?php
+                        $shipping = json_decode($orders->shipping_address,true);
+                        //dd($shipping);
+                        if($shipping['shipping_fullname'] == null){
+                            $shipping = json_decode($orders->billing_details,true);
+                        }
+                      ?>
+
+                        <?php echo str_replace(', ,',', ',implode(', ',$shipping)); ?>
+
+                    </a>
+                  </div>
+                </li>
+                <!-- end single list -->
+                <li class="flex space-x-3 rtl:space-x-reverse">
+                      <div class="flex-1">
+                      <div class="uppercase text-lg text-slate-600 dark:text-slate-300 mb-1">
+                          Billing Address
+                      </div>
+                      <a href="#" class="text-base text-slate-400 dark:text-slate-50">
+                          <div id="billing_address"></div>
+                          
+                          <?php
+                              $billing = json_decode($orders->billing_details,true);
+                          ?>
+                            <?php echo str_replace(', ,',', ',implode(', ',$billing)); ?>
+
+                      </a>
+                      </div>
+                </li>
+            </div>
+        </ul>
+
     </div>
   </div>
 </div>
 
-
-
-<!--order summery-->
 
 <div class="lg:col-span-4 col-span-12 mb-5">
   <div class="card h-full">
@@ -214,25 +192,84 @@
                                     Quantity
                                   </th>
                                    <th scope="col" class=" table-th ">
-                                    Totals
+                                    Totals (Include VAT)
                                   </th>
+                                   
 
                                 </tr>
                               </thead>
                               <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
 
-                                <tr class="even:bg-slate-50 dark:even:bg-slate-700">
-                                  <td class="table-td"><?php if($productDetails && count($productDetails) > 0): ?>
-                                    <?php echo e($productDetails[0]->product_name); ?>
+                            <?php
+                            $productDetailsArray = json_decode($orders['product_details'], true);
+                            //dd($productDetailsArray);
+                            ?>
 
-                                    <?php else: ?>
-                                        N/A
-                                    <?php endif; ?>
+                            <?php $__currentLoopData = $productDetailsArray; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <tr class="even:bg-slate-50 dark:even:bg-slate-700">
+                                  <td class="table-td">
+                                    <?php echo e($product['product_name']); ?>
+
+                                  
                                   </td>
-                                  <td class="table-td">€12000</td>
-                                  <td class="table-td ">1</td>
-                                  <td class="table-td ">€15000</td>
+                                  <td class="table-td"><?php echo e(formatPrice($product['price'])); ?></td>
+                                  <td class="table-td "><?php echo e($product['quantity']); ?></td>
+
+                                <?php
+
+                                    $product['price_with_tax'] = unforamtPrice($product['price_with_tax']);
+                                    if(isset($product['discount']) && $product['discount']['type'] == 'flat'){
+                                        $total = $product['price_with_tax'] * $product['quantity'] ;
+                                    }
+                                    else{
+                                        $total = $product['price_with_tax'] * $product['quantity'];
+                                    }
+                                
+                                    
+                                ?>
+
+                                  <td class="table-td "><?php echo e((formatPrice($total))); ?></td>
+                                  
                                 </tr>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                                    <tr class="even:bg-slate-50 dark:even:bg-slate-700">
+                                        <td class="table-td" colspan="2" ></td>
+                                            <td class="table-td" >
+                                                Total Product Price <br>(Tax Inclusive)
+                                            <td class="table-td">
+                                        <?php
+                                                $fianlPrice = 0;
+                                                foreach($productDetailsArray as $product){
+                                                    $fianlPrice += (unforamtPrice($product['price_with_tax']) * $product['quantity']);
+                                                }
+                                        ?>
+                                        <?php echo e(formatPrice($fianlPrice)); ?>
+
+                                        </td>
+                                    </tr>
+                                    <tr class="even:bg-slate-50 dark:even:bg-slate-700">
+                                        <td class="table-td" colspan="2" ></td>
+                                            <td class="table-td" >
+                                                Shippment Price
+                                            <td class="table-td">
+                                        <?php
+                                        $productDetailsArray = end($productDetailsArray);
+                                        ?>
+                                        <?php echo e(formatPrice($productDetailsArray['shipping_price'])); ?>
+
+                                        </td>
+                                    </tr>
+                                    <tr class="even:bg-slate-50 dark:even:bg-slate-700">
+                                        <td class="table-td" colspan="2" ></td>
+                                            <td class="table-td" >
+                                                Total
+                                            <td class="table-td">
+                                       
+                                        <?php echo e(formatPrice($fianlPrice + $productDetailsArray['shipping_price'])); ?>
+
+                                        </td>
+                                    </tr>
 
                               </tbody>
                             </table>

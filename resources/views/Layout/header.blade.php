@@ -35,10 +35,10 @@
                             <a href="{{ route('user.dashboard') }}"  class="btn dropdown-toggle" type="button" id="loginuser_dropdown" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }}</a>
                             <div class="dropdown-menu dropdown-menu-right p-4" aria-labelledby="loginuser_dropdown">
-                                <a class="dropdown-item user_link" href="#">Dashboard</a>
-                                <a class="dropdown-item user_link" href="#">Profile</a>
-                                <a class="dropdown-item user_link" href="#">Orders</a>
-                                <a class="dropdown-item user_link" href="#">Address</a>
+                                <a class="dropdown-item user_link" href="{{ route('user.dashboard') }}">Dashboard</a>
+                                <a class="dropdown-item user_link" href="{{ route('user.account') }}">Profile</a>
+                                <a class="dropdown-item user_link" href="{{ route('user.orders') }}">Orders</a>
+                                <a class="dropdown-item user_link" href="{{ route('user.address') }}">Address</a>
                                 <a href="{{ route('logout') }}" class="user_link">
                                     <i class="fa fa-sign-in mr-1"></i>
                                     <span>Logout</span>

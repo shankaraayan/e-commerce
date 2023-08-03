@@ -76,14 +76,14 @@
                       <div class="card-title text-slate-900 dark:text-white">Basic Attribute</div>
                     </div>
                   </header>
-                    <form action="{{route('admin.product.update')}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route('admin.product.update')}}" method="post" enctype="multipart/form-data" id="multipleValidation">
                         @csrf
                         @method('PUT')
                         <div class="card-text h-full space-y-4">
                         <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
                             <div class="input-area">
                                 <label for="name" class="form-label"> Product Category*</label>
-                                <select class="form-control" name="categories" id="category">
+                                <select class="form-control" name="categories" id="category" required="required" >
                                     <option>Select Product Category</option>
                                     @foreach(categories() as $cat)
                                     <option value="{{ $cat->id }}" {{ $cat->id == $editData->categories ? 'selected' : '' }}>
@@ -115,7 +115,7 @@
 
                             <div class="input-area">
                             <label for="name" class="form-label">Product Name*</label>
-                            <input id="product_name" name="product_name" type="text" value="{{$editData->product_name}}" class="form-control" placeholder="Product Name">
+                            <input id="product_name" name="product_name" type="text" value="{{$editData->product_name}}" class="form-control" placeholder="Product Name" required="required">
                             @if ($errors->has('product_name'))
                             <span class="text-danger">{{ $errors->first('product_name') }}</span>
                             @endif
@@ -125,7 +125,7 @@
                             <input type="hidden" value="{{$editData->id}}" name="productId">
                             <div class="input-area">
                             <label for="name" class="form-label">SKU*</label>
-                            <input type="text" class="form-control" value="{{$editData->sku}}" name="sku">
+                            <input type="text" class="form-control" value="{{$editData->sku}}" name="sku" required="required">
 
                             @if ($errors->has('sku'))
                             <span class="text-danger">{{ $errors->first('sku') }}</span>
@@ -134,7 +134,7 @@
                         </div>
                         <div class="input-area">
                             <label for="description" class="form-label">Product Description*</label>
-                            <textarea id="product_description" name="product_description" rows="5" class="form-control" placeholder="Type Here">{{$editData->product_description}}</textarea>
+                            <textarea id="product_description" name="product_description" rows="5" class="form-control" placeholder="Type Here" required="required">{{$editData->product_description}}</textarea>
                             @if ($errors->has('product_description'))
                             <span class="text-danger">{{ $errors->first('product_description') }}</span>
                             @endif
@@ -142,7 +142,7 @@
                         <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
                             <div class="input-area">
                             <label for="name" class="form-label">Product Price(Regular)*</label>
-                            <input id="price" name="price" type="text" value="{{$editData->price}}" class="form-control" placeholder="Price">
+                            <input id="price" name="price" type="text" value="{{$editData->price}}" class="form-control" placeholder="Price" required="required">
                             @if ($errors->has('price'))
                             <span class="text-danger">{{ $errors->first('price') }}</span>
                             @endif
@@ -150,7 +150,7 @@
 
                             <div class="input-area">
                             <label for="name" class="form-label">Sale Price(sale)*</label>
-                            <input id="price" name="sale_price" type="text" value="{{$editData->sale_price}}" class="form-control" placeholder="Price">
+                            <input id="price" name="sale_price" type="text" value="{{$editData->sale_price}}" class="form-control" placeholder="Price" required="required">
                             @if ($errors->has('sale_price'))
                             <span class="text-danger">{{ $errors->first('sale_price') }}</span>
                             @endif
@@ -174,7 +174,7 @@
                             <div class="input-area">
                                 <label for="name" class="form-label">Product Image*</label>
                                 <label>
-                                    <input type="file" name="images[]" multiple>
+                                    <input type="file" name="images[]" multiple >
                                     @if ($errors->has('images'))
                                     <span class="text-danger">{{ $errors->first('images') }}</span>
                                     @endif
@@ -204,7 +204,7 @@
 
                             <div class="input-area mb-5">
                                 <label for="select" class="form-label">Product Shipping Class*</label>
-                                <select name="shipping" class="form-control">
+                                <select name="shipping" class="form-control" required="required">
                                 <option>Select Here...</option>
                                 @php
                                     $shippingClass = shippingClass();
@@ -244,7 +244,7 @@
                 <div class="card-body flex flex-col p-6">
                     <div class="input-area">
                         <label for="name" class="form-label">Product Type*</label>
-                        <select class="form-control" name="type" onchange="showOptions(this.value)">
+                        <select class="form-control" name="type" onchange="showOptions(this.value)" required="required">
                             <option>Select Product Type</option>
                             <option @if($editData->type == 'single') selected @endif value="single">Single Product</option>
 
@@ -289,7 +289,7 @@
 
                                     <div class="dropdown-container">
                                         <label for="" class="dropdown-label">Dropdown * {{$attribute->attribute_name}}</label>
-                                        <select id="dropdown-{{$attribute->id}}" name="dropdowns[]" class="select2 dropdown-select" multiple >
+                                        <select id="dropdown-{{$attribute->id}}" name="dropdowns[]" class="select2 dropdown-select" multiple>
                                             <option value="">
                                             <b>Select an option</b></option>
                                             @foreach($attributesTerms->where('attributes_id',$attribute_id) as $subAttributes)
@@ -356,12 +356,14 @@
 		    selectedOptions[checkbox.value] = [];
 		}
 		const dropdownHTML = `
-		<div class="dropdown-container">
-			<label for="${dropdownId}" class="dropdown-label">${attribute_name}*</label>
-			<select id="${dropdownId}" name="dropdowns[]" class="select2  dropdown-select" multiple onchange="updateSelectedOptions(this)">
-			<option value=""><b>Select an option</b></option>
-			</select>
-		</div>
+		    <div class="dropdown-container">
+                <label for="${dropdownId}" class="dropdown-label">${attribute_name}*</label>
+                <select required id="${dropdownId}" name="dropdowns[]" class="select2 dropdown-select" multiple onchange="updateSelectedOptions(this)">
+                    <option value="" selected disabled><b>Select an option</b></option>
+                    <!-- Add your other options here -->
+                </select>
+            </div>
+
 		`;
 
 		dropdownContainer.insertAdjacentHTML('beforeend', dropdownHTML);

@@ -19,15 +19,10 @@ class ProductController extends Controller
         if (!empty($request->all())) {
             
             $terms = $request->all();
-            
-           $components = [];
-
-            foreach ($terms as $term) {
-                $component_description = AttributeTerm::where('id', $term)->pluck('component_description');
-                if ($component_description->isNotEmpty()) {
-                    $components[] = $component_description[0]; // Pluck returns a collection, so we access the first element
-                }
-            }
+            $components = [];
+            $termIds = array_values($terms);
+    
+            $components = AttributeTerm::whereIn('id', $termIds)->get();
             
             $product = Product::with('images','categories')->where('slug',$slug)->first();
             if(!$product){
@@ -37,14 +32,7 @@ class ProductController extends Controller
             $attributeTermsIds = explode(',', $product->attributesTerms_id);
            
             $products = Product::where('slug','<>',$slug)->get();
-            // Retrieve the attributes using the IDs
-            // $attributes = Attribute::with('attributeTerms')->whereIn('id', $attributeIds)->get();
-    
-            // $attributes = Attribute::with(['attributeTerms' => function ($query) use ($attributeTermsIds) {
-            //     $query->whereIn('id', $attributeTermsIds);
-            // }])
-            // ->whereIn('id', $attributeIds)
-            // ->get();
+           
             $attributes = Attribute::with(['attributeTerms' => function ($query) use ($attributeTermsIds) {
                 $query->whereIn('id', $attributeTermsIds);
             }])
@@ -72,6 +60,9 @@ class ProductController extends Controller
                 $query->whereIn('id', $attributeTermsIds);
             }])
             ->whereIn('id', $attributeIds)
+            ->whereHas('attributeTerms', function ($query) use ($attributeTermsIds) {
+                $query->whereIn('id', $attributeTermsIds);
+            })
             ->get();
             return view('pages.product-detail', compact('product', 'attributes','products'));
         }
@@ -108,8 +99,12 @@ class ProductController extends Controller
     }
 
     public function term_html_components(Request $request){
-        $id = $request->id;
-        $terms = AttributeTerm::find($id);
-        return ($terms);
+      
+        $ids = $request->ids;
+        $components = [];
+        foreach($ids as $id){
+            $components[] = AttributeTerm::find($id);
+        }
+        return $components;
     }
 }

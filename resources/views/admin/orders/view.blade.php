@@ -1,14 +1,11 @@
 @extends('admin.layout.header')
 
 @section('content')
-
+{{-- @dd($orders); --}}
 <div class="content-wrapper transition-all duration-150 ltr:ml-[248px] rtl:mr-[248px]" id="content_wrapper">
   <div class="page-content">
     <div class="transition-all duration-150 container-fluid" id="page_layout">
       <div id="content_layout">
-
-
-
 
         <!-- BEGIN: Breadcrumb -->
         <div class="mb-5">
@@ -71,71 +68,12 @@
                 <li class="flex space-x-3 rtl:space-x-reverse">
                     <div class="flex-1">
                         <div class="uppercase text-xl text-slate-600 dark:text-slate-300 mb-1">
-                        Order Id
+                        Order Date
                         </div>
                         <a href="#" class="text-base text-slate-400 dark:text-slate-50">
-                        {{$orders->order_id}}
+                        {{ date('d-M-Y', strtotime($orders->created_at) ) }}
                         </a>
                     </div>
-                </li>
-            </div>
-        </ul>
-
-        <ul class="list space-y-8 mb-8">
-            <div class="grid xl:grid-cols-3 grid-cols-1 gap-6">
-                <li class="flex space-x-3 rtl:space-x-reverse">
-                  <div class="flex-1">
-                    <div class="uppercase text-lg text-slate-600 dark:text-slate-300 mb-1 ">
-                      Shipping Address
-                    </div>
-                    <a href="#" class="text-base text-slate-400 dark:text-slate-50">
-                      <div id="shipping_address"></div>
-                      {{-- {{$orders->shipping_address}} --}}
-                      @php
-                          $shipping = $orders->shipping_address;
-                      @endphp
-
-                      <script>
-                          var shipping = @json($shipping); // Convert PHP data to a JSON object
-                          shipping = JSON.parse(shipping);
-
-                          for(key in shipping){
-                              console.log(key);
-                              const el = `
-                                  <p  class="text-slate-600 mb-1 capitalize"> <strong>${key.split('_')[1]}</strong> : ${shipping[key] == null ? '': shipping[key]} </p>
-                              `;
-                              $('#shipping_address').append(el);
-                          }
-                      </script>
-                    </a>
-                  </div>
-                </li>
-                <!-- end single list -->
-                <li class="flex space-x-3 rtl:space-x-reverse">
-                      <div class="flex-1">
-                      <div class="uppercase text-lg text-slate-600 dark:text-slate-300 mb-1">
-                          Billing Address
-                      </div>
-                      <a href="#" class="text-base text-slate-400 dark:text-slate-50">
-                          <div id="billing_address"></div>
-                          {{-- @dd($orders->billing_details); --}}
-                          @php
-                              $billing = $orders->billing_details;
-                          @endphp
-
-                          <script>
-                              var billing = @json($billing); // Convert PHP data to a JSON object
-                              billing = JSON.parse(billing);
-
-                              for(key in billing){
-                                  const el = `
-                                      <p class="text-slate-600 mb-1 capitalize"> <strong class="text-zinc-500">${key}</strong> :  ${billing[key] == null ? '': billing[key]} </p>
-                                  `;
-                                  $('#billing_address').append(el);
-                              }
-                          </script>
-                      </a>
-                      </div>
                 </li>
             </div>
         </ul>
@@ -175,31 +113,53 @@
               </div>
             </li>
             </div>
-
        </ul>
+
+<ul class="list space-y-8 mb-8">
+            <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
+                <li class="flex space-x-3 rtl:space-x-reverse">
+                  <div class="flex-1">
+                    <div class="uppercase text-lg text-slate-600 dark:text-slate-300 mb-1 ">
+                      Shipping Address
+                    </div>
+                    <a href="#" class="text-base text-slate-400 dark:text-slate-50">
+                      <div id="shipping_address"></div>
+                      {{-- {{$orders->shipping_address}} --}}
+                      @php
+                        $shipping = json_decode($orders->shipping_address,true);
+                        //dd($shipping);
+                        if($shipping['shipping_fullname'] == null){
+                            $shipping = json_decode($orders->billing_details,true);
+                        }
+                      @endphp
+
+                        {!! str_replace(', ,',', ',implode(', ',$shipping)) !!}
+                    </a>
+                  </div>
+                </li>
+                <!-- end single list -->
+                <li class="flex space-x-3 rtl:space-x-reverse">
+                      <div class="flex-1">
+                      <div class="uppercase text-lg text-slate-600 dark:text-slate-300 mb-1">
+                          Billing Address
+                      </div>
+                      <a href="#" class="text-base text-slate-400 dark:text-slate-50">
+                          <div id="billing_address"></div>
+                          {{-- @dd($orders->billing_details); --}}
+                          @php
+                              $billing = json_decode($orders->billing_details,true);
+                          @endphp
+                            {!! str_replace(', ,',', ',implode(', ',$billing)) !!}
+                      </a>
+                      </div>
+                </li>
+            </div>
+        </ul>
+
     </div>
   </div>
 </div>
 
-{{-- <div class="card-text h-full space-x-3">
-
-    <span class="badge bg-primary-500 text-primary-500 bg-opacity-30 capitalize">primary</span>
-
-    <span class="badge bg-secondary-500 text-secondary-500 bg-opacity-30 capitalize">secondary</span>
-
-    <span class="badge bg-info-500 text-info-500 bg-opacity-30 capitalize">info</span>
-
-    <span class="badge bg-success-500 text-success-500 bg-opacity-30 capitalize">success</span>
-
-    <span class="badge bg-warning-500 text-warning-500 bg-opacity-30 capitalize">warning</span>
-
-    <span class="badge bg-danger-500 text-danger-500 bg-opacity-30 capitalize">danger</span>
-
-    <span class="badge bg-slate-900 text-slate-900 dark:text-slate-200 bg-opacity-30 capitalize">dark</span>
-
-  </div> --}}
-
-<!--order summery-->
 
 <div class="lg:col-span-4 col-span-12 mb-5">
   <div class="card h-full">
@@ -227,24 +187,83 @@
                                     Quantity
                                   </th>
                                    <th scope="col" class=" table-th ">
-                                    Totals
+                                    Totals (Include VAT)
                                   </th>
+                                   {{-- <th scope="col" class=" table-th ">
+                                    Order Date
+                                  </th> --}}
 
                                 </tr>
                               </thead>
                               <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
 
+                            @php
+                            $productDetailsArray = json_decode($orders['product_details'], true);
+                            //dd($productDetailsArray);
+                            @endphp
+
+                            @foreach($productDetailsArray as $product)
                                 <tr class="even:bg-slate-50 dark:even:bg-slate-700">
-                                  <td class="table-td">@if ($productDetails && count($productDetails) > 0)
-                                    {{ $productDetails[0]->product_name }}
-                                    @else
-                                        N/A
-                                    @endif
+                                  <td class="table-td">
+                                    {{ $product['product_name'] }}
+                                  
                                   </td>
-                                  <td class="table-td">€12000</td>
-                                  <td class="table-td ">1</td>
-                                  <td class="table-td ">€15000</td>
+                                  <td class="table-td">{{formatPrice($product['price'])}}</td>
+                                  <td class="table-td ">{{$product['quantity']}}</td>
+
+                                @php
+
+                                    $product['price_with_tax'] = unforamtPrice($product['price_with_tax']);
+                                    
+                                    if(isset($product['discount']) && $product['discount']['type'] == 'flat'){
+                                        $total = $product['price_with_tax'] * $product['quantity'] ;
+                                    }
+                                    else{
+                                        $total = $product['price_with_tax'] * $product['quantity'];
+                                    }
+                                
+                                    
+                                @endphp
+
+                                  <td class="table-td ">{{ (formatPrice($total)) }}</td>
+                                  {{-- <td class="table-td ">{{date('d-M-Y',strtotime($orders['created_at']))}}</td> --}}
                                 </tr>
+                            @endforeach
+
+                                    <tr class="even:bg-slate-50 dark:even:bg-slate-700">
+                                        <td class="table-td" colspan="2" ></td>
+                                            <td class="table-td" >
+                                                Total Product Price <br>(Tax Inclusive)
+                                            <td class="table-td">
+                                        @php
+                                                $fianlPrice = 0;
+                                                foreach($productDetailsArray as $product){
+                                                    $fianlPrice += (unforamtPrice($product['price_with_tax']) * $product['quantity']);
+                                                }
+                                        @endphp
+                                        {{formatPrice($fianlPrice)}}
+                                        </td>
+                                    </tr>
+                                    <tr class="even:bg-slate-50 dark:even:bg-slate-700">
+                                        <td class="table-td" colspan="2" ></td>
+                                            <td class="table-td" >
+                                                Shippment Price
+                                            <td class="table-td">
+                                        @php
+                                        $productDetailsArray = end($productDetailsArray);
+                                        @endphp
+                                        {{formatPrice($productDetailsArray['shipping_price'])}}
+                                        </td>
+                                    </tr>
+                                    <tr class="even:bg-slate-50 dark:even:bg-slate-700">
+                                        <td class="table-td" colspan="2" ></td>
+                                            <td class="table-td" >
+                                                Total
+                                            <td class="table-td">
+                                       
+                                        {{formatPrice($fianlPrice + $productDetailsArray['shipping_price'])}}
+                                        </td>
+                                    </tr>
 
                               </tbody>
                             </table>

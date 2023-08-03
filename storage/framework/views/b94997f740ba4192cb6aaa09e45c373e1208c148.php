@@ -51,14 +51,14 @@
                 </div>
               </header>
 
-              <form action="<?php echo e(route('admin.product.attribute_terms.update',[$attributeTerms->id])); ?>" method="post" enctype="multipart/form-data">
+              <form id="multipleValidation" action="<?php echo e(route('admin.product.attribute_terms.update',[$attributeTerms->id])); ?>" method="post" enctype="multipart/form-data">
                 <?php echo csrf_field(); ?>
                 <input type="hidden" name="attributes_id" value="<?php echo e($attributeTerms->attributes_id); ?>">
               <div class="card-text h-full space-y-4">
                 <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
                 <div class="input-area">
                   <label for="name" class="form-label">Attribute Terms Name*</label>
-                  <input id="attribute_term_name" name="attribute_term_name" type="text" class="form-control" placeholder="Attribute Term Name" value="<?php echo e($attributeTerms->attribute_term_name); ?>">
+                  <input id="attribute_term_name" name="attribute_term_name" type="text" class="form-control" placeholder="Attribute Term Name" value="<?php echo e($attributeTerms->attribute_term_name); ?>" required="required">
                   <?php if($errors->has('attribute_term_name')): ?>
                     <span class="text-danger"><?php echo e($errors->first('attribute_term_name')); ?></span>
                   <?php endif; ?>
@@ -66,7 +66,7 @@
 
                 <div class="input-area">
                   <label for="name" class="form-label">kWh*</label>
-                  <input id="attribute_term_kWh_name" name="attribute_term_kWh_name" type="text" class="form-control" placeholder="kWh" value="<?php echo e($attributeTerms->attribute_term_kWh_name); ?>" required>
+                  <input id="attribute_term_kWh_name" name="attribute_term_kWh_name" type="text" class="form-control" placeholder="kWh" value="<?php echo e($attributeTerms->attribute_term_kWh_name); ?>" required="required">
                   <?php if($errors->has('attribute_term_kWh_name')): ?>
                     <span class="text-danger"><?php echo e($errors->first('attribute_term_kWh_name')); ?></span>
                   <?php endif; ?>
@@ -77,8 +77,8 @@
                 <input type="hidden" name="id" value="<?php echo e($attributeTerms->id); ?>"/>
                 <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
                 <div class="input-area">
-                  <label for="name" class="form-label">Price*</label>
-                  <input id="price" name="price" type="text" class="form-control" placeholder="price" value="<?php echo e($attributeTerms->price); ?>">
+                  <label for="name" class="form-label" required="required">Price*</label>
+                  <input id="price" name="price" type="text" class="form-control" placeholder="price" value="<?php echo e($attributeTerms->price); ?>" required="required">
                   <?php if($errors->has('price')): ?>
                     <span class="text-danger"><?php echo e($errors->first('price')); ?></span>
                   <?php endif; ?>
@@ -86,14 +86,14 @@
                 </div>
                 <div class="input-area">
                   <label for="description" class="form-label">Attribute Term Description*</label>
-                  <textarea id="description" name="attribute_term_description" rows="5" class="form-control" ><?php echo e($attributeTerms->attribute_term_description); ?></textarea>
+                  <textarea id="description" name="attribute_term_description" rows="5" class="form-control" required="required" ><?php echo e($attributeTerms->attribute_term_description); ?></textarea>
                   <?php if($errors->has('attribute_term_description')): ?>
                   <span class="text-danger"><?php echo e($errors->first('attribute_term_description')); ?></span>
                 <?php endif; ?>
                 </div>
                 <div class="input-area">
                     <label for="description" class="form-label">Attribute Term Html*</label>
-                    <textarea id="description" name="component_description" rows="5" class="form-control" placeholder="Type Here"><?php echo e(@$attributeTerms->component_description); ?></textarea>
+                    <textarea id="description" name="component_description" rows="5" class="form-control" placeholder="Type Here" required="required"><?php echo e(@$attributeTerms->component_description); ?></textarea>
                     <?php if($errors->has('attribute_term_description')): ?>
                     <span class="text-danger"><?php echo e($errors->first('attribute_term_html')); ?></span>
                   <?php endif; ?>

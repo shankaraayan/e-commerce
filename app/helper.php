@@ -13,6 +13,14 @@ use App\Models\Country;
       return '€' . $formattedPrice;
    }
 
+   function unforamtPrice($price){
+      $price = str_replace('€','',$price);
+      $price = str_replace(',','.',$price);
+
+      // $unformattedPrice = str_replace('.', '', str_replace(',', '.', $price));
+      $price = floor(floatval($price));
+      return  $price;
+   }
 
    function headerCategories()
    {

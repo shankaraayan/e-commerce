@@ -384,6 +384,7 @@ class FrontendController extends Controller
     // order save json product_details with component
     public function find_product_details()
     {
+       
 
         if (session('cart')) {
 
@@ -414,6 +415,12 @@ class FrontendController extends Controller
                             $product_details['attribute_terms'] = $attributes_all;
                         }
                     }
+                    if(isset($details['discount'])){
+                        $product_details['discount'] = $details['discount'];
+                    }
+                    $tax = getTaxCountry((int)$details['shipping_country']);
+                    $product_details['vat_tax'] = $tax['vat_tax'];
+                    $product_details['tax_price'] = @$details['price'] * $tax['vat_tax'] /100 ;
 
                     $product_details['product_id'] = $product['id'];
                     $product_details['product_name'] = $product['product_name'];
@@ -424,13 +431,15 @@ class FrontendController extends Controller
                     $product_details['type'] = $product['type'];
                     $product_details['total_price'] = ($attribute_price + $details['price']) * $details['quantity'];
                     $product_details['shipping_country'] = $details['shipping_country'];
-                    $product_details['shipping_price'] = shippingCountry()->where('id',$details['shipping_country'])->pluck('price')->first();
-
+                    $product_details['shipping_price'] = shippingCountry()->where('country',$details['shipping_country'])->pluck('price')->first();
+                    
+                    $product_details['price_with_tax'] = $details['price_with_tax'] ?? ($product_details['price'] + $product_details['tax_price']);
                     // dd($product_details);
 
                     $all_product_details[] = $product_details;
                 }
             }
+            // dd($all_product_details);
             return json_encode($all_product_details);
         }
         return false;

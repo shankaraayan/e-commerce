@@ -55,13 +55,13 @@
                   <div class="card-title text-slate-900 dark:text-white">{{$attributeName->attribute_name}} Attribute Terms</div>
                 </div>
               </header>
-              <form action="{{route('admin.product.attribute_terms.store')}}" method="post" enctype="multipart/form-data">
+              <form id="multipleValidation" action="{{route('admin.product.attribute_terms.store')}}" method="post" enctype="multipart/form-data">
                 @csrf
               <div class="card-text h-full space-y-4">
                 <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
                 <div class="input-area">
                   <label for="name" class="form-label">Attribute Terms Name*</label>
-                  <input id="attribute_term_name" name="attribute_term_name" type="text" class="form-control" placeholder="Attribute Term Name">
+                  <input id="attribute_term_name" name="attribute_term_name" type="text" class="form-control" placeholder="Attribute Term Name" required="required">
                   @if ($errors->has('attribute_term_name'))
                     <span class="text-danger">{{ $errors->first('attribute_term_name') }}</span>
                   @endif
@@ -69,7 +69,7 @@
                 @if($attributeName->attribute_type=='panel')
                 <div class="input-area">
                   <label for="name" class="form-label">kWh*</label>
-                  <input id="attribute_term_kWh_name" name="attribute_term_kWh_name" type="text" class="form-control" placeholder="kWh" required>
+                  <input id="attribute_term_kWh_name" name="attribute_term_kWh_name" type="text" class="form-control" placeholder="kWh" required="required">
                   @if ($errors->has('attribute_term_kWh_name'))
                     <span class="text-danger">{{ $errors->first('attribute_term_kWh_name') }}</span>
                   @endif
@@ -82,7 +82,7 @@
                   @foreach ($attributesTermsWh as $value)
                   @if(isset($value->attribute_term_kWh_name))
                   <label>
-                    <input type="checkbox" name="supported_wh[]" value="{{ $value->attribute_term_kWh_name }}">
+                    <input type="checkbox" name="supported_wh[]" value="{{ $value->attribute_term_kWh_name }}" required="required">
                     {{ $value->attribute_term_kWh_name }}
                   </label>
                   @endif
@@ -99,7 +99,7 @@
                 <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
                 <div class="input-area">
                   <label for="name" class="form-label">Price*</label>
-                  <input id="price" name="price" type="text" class="form-control" placeholder="price">
+                  <input id="price" name="price" type="text" class="form-control" placeholder="price" required="required">
                   @if ($errors->has('price'))
                     <span class="text-danger">{{ $errors->first('price') }}</span>
                   @endif
@@ -107,14 +107,14 @@
                 </div>
                 <div class="input-area">
                   <label for="description" class="form-label">Attribute Term Description*</label>
-                  <textarea id="description" name="attribute_term_description" rows="5" class="form-control" placeholder="Type Here"></textarea>
+                  <textarea id="description" name="attribute_term_description" rows="5" class="form-control" placeholder="Type Here" required="required"></textarea>
                   @if ($errors->has('attribute_term_description'))
                   <span class="text-danger">{{ $errors->first('attribute_term_description') }}</span>
                 @endif
                 </div>
                 <div class="input-area">
                     <label for="description" class="form-label">Attribute Term Html*</label>
-                    <textarea id="description" name="component_description" rows="5" class="form-control" placeholder="Type Here"></textarea>
+                    <textarea id="description" name="component_description" rows="5" class="form-control" placeholder="Type Here" required="required"></textarea>
                     @if ($errors->has('attribute_term_description'))
                     <span class="text-danger">{{ $errors->first('attribute_term_html') }}</span>
                   @endif
@@ -138,7 +138,7 @@
 
                 <div class="input-area mb-5">
                   <label for="select" class="form-label">Image</label>
-                  <input type="file" name="image">
+                  <input type="file" name="image" required="required">
                 </div>
                 <div class="input-area mb-5">
                   <label for="select" class="form-label">Status</label>

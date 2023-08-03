@@ -6,7 +6,9 @@
         font-size: 18px;
         font-weight: 700;
     }
-
+    .bg-gray {
+        background-color: #d7d7d724;
+    }
     .ps-product__variations_sec .accordion .card{
         background-color: white;
         color: var(--blue-color);
@@ -217,7 +219,7 @@
                                                                         </div>
                                                                     @endif
                                                                     <div class="col-9 align-middle">
-                                                                        <h3 class="ps-section__title py-2">{{$vales->attribute_term_name}}</h3>
+                                                                        <h3 class="ps-section__title py-2">{{$vales->attribute_term_name}}  <small>{{formatPrice($vales->price)}}</small></h3>
                                                                         <p class="ps-desc">{{$vales->attribute_term_description}}</p>
                                                                     </div>
                                                                 </div>
@@ -334,127 +336,37 @@
                                     <div class="col-12">
                                         <h3 class="ps-section__title text-center pb-5">Lieferumfang</h2>
                                     </div>
-                                    <div class="col-12 col-md-6 col-lg-3">
-                                        <div class="ps-block--about p-3">
-                                            <div class="ps-block__icon"><img decoding="async" src="https://ik.imagekit.io/rawapxbm9/all-images-06-02_aVAN5oJ-y.webp?updatedAt=1691035450330"
-                                                    class="img-fluid w-50" alt=""></div>
-                                            <h4 class="ps-block__title"><strong>Solarmodul</strong></h4>
-                                            <div class="ps-block__subtitle">2x EPP 380 Watt HIEFF Monokristallin Solarmodul Schwarz Rahmen<br>
-                                                (EPP-380W-B)
-                                            </div>
-                                        </div>
+                                    <div class="row" id="short_des_html">
+                                        @if(!empty($components))
+                                            @foreach($components as $component)   
+                                                <div class="col-12 col-md-6 col-lg-3">
+                                                    <div class="ps-block--about p-3">
+                                                        <div class="ps-block__icon"><img decoding="async" src="{{asset('root/public/uploads/'.$component->image)}}"
+                                                                class="img-fluid w-50" alt=""></div>
+                                                        <h4 class="ps-block__title"><strong>{{$component->attribute_term_name}}</strong></h4>
+                                                        <div class="ps-block__subtitle">
+                                                            {{$component->attribute_term_description}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        @endif
                                     </div>
-                                    <div class="col-12 col-md-6 col-lg-3">
-                                        <div class="ps-block--about p-3">
-                                            <div class="ps-block__icon"><img decoding="async" src="https://ik.imagekit.io/rawapxbm9/inverter_9ufwMxMYy.webp?updatedAt=1691035450281"
-                                                    class="img-fluid w-50" alt=""></div>
-                                            <h4 class="ps-block__title"><strong>Mikrowechselrichter</strong></h4>
-                                            <div class="ps-block__subtitle">
-                                                1x Hoymiles 800W Mikrowechselrichter
-                                                (HM-800)
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-6 col-lg-3">
-                                        <div class="ps-block--about p-3">
-                                            <div class="ps-block__icon"><img decoding="async" src="https://ik.imagekit.io/rawapxbm9/image_2023_08_02T10_46_37_600Z_HBg3tqibL.webp?updatedAt=1691035450309"
-                                                    class="img-fluid w-50" alt=""></div>
-                                                    <h4 class="ps-block__title"><strong>Schukostecker</strong></h4>
-                                            <div class="ps-block__subtitle">
-                                                1x 10 Meter + Schukostecker
-                                                (EPP-KBL-STKR-10)
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-md-6 col-lg-3">
-                                        <div class="ps-block--about p-3">
-                                            <div class="ps-block__icon"><img decoding="async" src="https://ik.imagekit.io/rawapxbm9/all-images-06-05-1_dQTh2iWbi.webp?updatedAt=1691035450351"
-                                                    class="img-fluid w-50" alt=""></div>
-                                                    <h4 class="ps-block__title"><strong>AC-Anschluss–Buchse</strong></h4>
-                                            <div class="ps-block__subtitle">
-                                                1x Hoymiles AC-Anschluss–Buchse
-                                                (HM-AC-B)
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
+                                    
                                 </div>
                             </div>
                         </div>
                     </section>
-                    
                     <div class="container" id="html_component">
-                        {{-- <div class="ps-promo mt-5 ps-category--image mt-5">
-                            <div class="row">
-                                <div class="col-12">
-                                    <h2 class="ps-section__title text-center pb-5">Beliebte Kategorien</h2>
-                                </div>
-                                <div class="col-lg-6 col-md-12 col-12 mb-2">
-                                    <div class="ps-promo__item">
-                                        <a class="ps-category__image ps-promo__banner"
-                                        href="https://custom.stegpearl.in/shop/solar-komplettsysteme-2">
-                                        <img class="img-fluid"
-                                            src="https://custom.stegpearl.in/root/public/uploads/category/1688643950.jpg" alt="1688643950.jpg">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-12 col-12 mb-2">
-                                    <div class="ps-desc">
-                                        <h3 class="ps-section__title">Erleben Sie die Sonnenkraft auf innovative Art mit dem Balkonkraftwerk der Zukunft!</h3>
-                                        <div class="row">
-                                        <div class="col-12 col-md-6">
-                                            <div class="ps-block--about p-3">
-                                                <div class="ps-block__icon"><img decoding="async" width="200" height="200" src="https://i0.wp.com/epp.solar/wp-content/uploads/2023/07/Best-Quatlity.png?fit=200%2C200&amp;ssl=1" class="img-fluid" alt=""></div>
-                                                <h4 class="ps-block__title">Beste Qualität                  </h4>
-                                                <div class="ps-block__subtitle">Vertrauen Sie auf unschlagbare Leistung und Langlebigkeit, denn wir garantieren höchste Produktqualität und erstklassige Materialien.
-
-                                                </div>
-                                            </div>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                            <div class="ps-block--about p-3">
-                                                <div class="ps-block__icon"><img decoding="async" width="256" height="256" src="https://i0.wp.com/epp.solar/wp-content/uploads/2023/07/Hot-Spot-free.png?fit=256%2C256&amp;ssl=1" class="img-fluid" alt=""></div>
-                                                <h4 class="ps-block__title">Hotspot frei:</h4>
-                                                <div class="ps-block__subtitle">Erleben Sie unterbrechungsfreie Solarenergie dank klarer und stabiler Verbindungen, sodass Sie stets volle Kraft aus der Sonne schöpfen können.
-
-
-                                                </div>
-                                            </div>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                            <div class="ps-block--about p-3">
-                                                <div class="ps-block__icon"><img decoding="async" width="256" height="256" src="https://i0.wp.com/epp.solar/wp-content/uploads/2023/07/25-year-guarantee.png?fit=256%2C256&amp;ssl=1" class="img-fluid" alt=""></div>
-                                                <h4 class="ps-block__title">Plug & Play                  </h4>
-                                                <div class="ps-block__subtitle">Genießen Sie ein müheloses Installationsvergnügen und erleben Sie nahtlosen Solarbetrieb - ohne aufwendiges Setup!
-
-
-                                                </div>
-                                            </div>
-                                            </div>
-                                            <div class="col-12 col-md-6">
-                                            <div class="ps-block--about p-3">
-                                                <div class="ps-block__icon"><img decoding="async" width="256" height="256" src="https://i0.wp.com/epp.solar/wp-content/uploads/2023/07/Beste-Qualitat.png?fit=256%2C256&amp;ssl=1" class="img-fluid" alt=""></div>
-                                                <h4 class="ps-block__title">PERC Technologie</h4>
-                                                <div class="ps-block__subtitle">Setzen Sie auf innovative, optimierte Zelltechnologie und maximieren Sie so Ihre Energieproduktion - für eine umweltfreundliche Zukunft mit vollem Potenzial.
-
-                                                </div>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                            </div>
-                        </div> --}}
-                        
-                        @if(!empty(@$components))
-                           @foreach($components as $component)
-                    
-                               {!! $component !!}
-                           @endforeach
+                   
+                        @if(!empty($components))
+                            @foreach($components as $component)
+                                        
+                                {!! $component->component_description !!}
+                            @endforeach
                         @endif
-
-                </div>
+                    </div>
             </div>
             <section class="ps-section--deals py-5">
                 <div class="ps-section__header">
@@ -496,7 +408,6 @@
                                                                      <a class="btn cart_btn d-block" href="{{route('product.detail',$value->slug)}}">View</a>
                                                                  </div>
                                                              @endif
-
 
                                                     </div>
                                                 </div>
@@ -602,7 +513,11 @@ atr_price = formatPrice(atr_price);
 
 
 $("#" + pids).find("small").remove();
-$("#" + pids).append(`<small>${atr_name}</small> <small class="text-danger mr-5 font-weight-bold pl-2">${atr_price}</small>`);
+
+if(atr_price!='€0.00'){
+    $("#" + pids).append(`<small>${atr_name}</small> <small class="text-danger mr-5 font-weight-bold pl-2">${atr_price}</small>`);
+}
+
 
 // console.log('col');
     // alert('ok');
@@ -624,7 +539,7 @@ var totalPriceDiv = document.getElementById('totalPrice');
 
 
 if (name === 'Panel') {
-    console.log('success');
+ 
     // Clear saved values when "panel" attribute is selected
     savedValues = {};
     $("#html_component").html(''); 
@@ -647,9 +562,9 @@ if (name === 'Panel') {
  }
 
 if (attributeId in savedValues) {
+   
 // Replace existing values
 savedValues[attributeId].name = attributeTermName;
-savedValues[attributeId].price = attributeTermPrice;
 savedValues[attributeId].price = attributeTermPrice;
 savedValues[attributeId].termid = attributeTermID;
 
@@ -666,7 +581,6 @@ savedValues[attributeId] = {
 
 var attributeIds = Object.keys(savedValues);
 var count = attributeIds.length;
-
 
 // Update nameDiv
 var names = Object.values(savedValues).map(function(item) {
@@ -699,23 +613,23 @@ totalPriceDiv.textContent = '€' + priceDiv.textContent;
 var totalPrice = parseFloat(priceDiv.textContent);
 var sessionData = {
 product_id: {{ $product->id }},
-
+prices : prices.join(','),
 termIds: termIds.join(','),
 names : names.join(','),
 };
 
 // Check if termsID is an array and add it to sessionData
 
-sessionStorage.setItem('sessionData', JSON.stringify(sessionData));
+let session = sessionStorage.setItem('sessionData', JSON.stringify(sessionData));
 
-html_components(term_id,term_name);
+html_components(session);
 // toggleAccordion(header)
 }
 
 function show_name(){
     $('.select_var_row').each(function(){
         $(this).click(function(){
-            console.log(this);
+            // console.log(this);
             let title = this.querySelector('.ps-section__title');
             let parent = this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
             let child = parent.children[0];
@@ -736,7 +650,7 @@ $.ajax({
     method: 'GET',
     data: { id: id, productid:idpro }, // Pass the ID as a parameter
     success: function(response) {
-        console.log(response)
+        // console.log(response)
     var users = response;
     var tableBody = $('#test');
     tableBody.empty();
@@ -855,36 +769,77 @@ function checkSessionCount(productId, countAttributes) {
 
 
     // get attribute term html
-    function html_components(id,term_name){
-        let htmlComponent = $("#html_component");
-
-        const url = new URL(window.location.href);
-        term_name = term_name.toLowerCase().split(" ").join("-");
-
-        // Remove any existing occurrences of the parameter
-        const params = new URLSearchParams(url.search);
-        params.delete(term_name);
-
-        // Add the new parameter
-        params.append(term_name, id);
-
-        // Update the search part of the URL with the updated parameters
-        url.search = params.toString();
-
-        // Use pushState to update the URL without reloading the page
-        window.history.pushState({ path: url.href }, '', url.href);
+    function html_components(session){
         
+        const data = sessionStorage.getItem('sessionData');
+        let {termIds,prices,names} = JSON.parse(data);
+        
+        const url = new URL(window.location.href);
+
+        // Create an empty URLSearchParams object
+        const emptySearchParams = new URLSearchParams();
+
+        // Update the search params of the URL with the empty URLSearchParams
+        url.search = emptySearchParams.toString();
+
+        // Update the URL in the browser's history without reloading the page
+        window.history.pushState({ path: url.pathname }, '', url.pathname);
+
+        names = names.split(",");
+        termIds = termIds.split(",");
+
+        termIds.map((item,index)=>{
+            
+           let term_name =  names[index].toLowerCase().split(" ").join("-");
+            // Remove any existing occurrences of the parameter
+            const params = new URLSearchParams(url.search);
+            params.delete(term_name);
+
+            // Add the new parameter
+            params.append(term_name, item);
+
+            // Update the search part of the URL with the updated parameters
+            url.search = params.toString();
+
+            // Use pushState to update the URL without reloading the page
+            window.history.pushState({ path: url.href }, '', url.href);
+        });
+     
+        let ids = termIds;
+        let short_des_div = document.querySelector("#short_des_html");
+        let htmlComponentDiv = $("#html_component");
         $.ajax({
             type: 'get',
             url: '{{ url('/term-html') }}',
             data: {
                 "_token": "{{ csrf_token() }}",
-                "id": id,
+                "ids": ids,
             },
             success : function(response){
-                console.log(response);
-                const {data} = response;
-                $(htmlComponent).append(response.component_description)
+                // console.log(response);
+                let short_des_html = '';
+                let htmlComponent = '';
+                response.map((item, index) => {
+                    // Generate the HTML for each response item
+                    let short_des = `
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div class="ps-block--about p-3">
+                            <div class="ps-block__icon"><img decoding="async" src="{{ asset('root/public/uploads') }}/${item.image}" class="img-fluid w-50" alt=""></div>
+                            <h4 class="ps-block__title"><strong>${item.attribute_term_name}</strong></h4>
+                            <div class="ps-block__subtitle">
+                                ${item.attribute_term_description}
+                            </div>
+                        </div>
+                    </div>`;
+                    console.log(item.price);
+                    if(item.price!=0){
+                        short_des_html += short_des;
+                    }
+                    htmlComponent += item.component_description;
+                });
+                console.log(short_des_html);
+                $(short_des_div).html(short_des_html);
+                $(htmlComponentDiv).html(htmlComponent);
             },
             error : function(err){
                 console.log(err);
@@ -899,18 +854,34 @@ function checkSessionCount(productId, countAttributes) {
         const url = window.location.href;
         const search = new URL(window.location.href);
         if(search.search){
+            $("#totalPrice").css('display',"none");
             let paramString = url.split('?')[1];
             paramString = paramString.split("&");
             let firstQueryId = paramString[0].split("=")[1];
             // console.log(firstQueryId);
             // let queryString = new URLSearchParams(paramString);
-            const data = sessionStorage.getItem('sessionData');
-            const {termIds} = JSON.parse(data);
-            let terms =  termIds.split(",");
+            if(sessionStorage.getItem('sessionData')){
+                const data = sessionStorage.getItem('sessionData');
+                const {termIds,prices,names} = JSON.parse(data);
+                let terms =  termIds.split(",");
+                let price = prices.split(",");
+                let name = names.split(",");
+                terms.map((item,index)=>{
 
-            terms.map((item,index)=>{
-                $(".term-select-"+item).css("border-color","red");
-            })
+                    $(".term-select-"+item).css("border-color","red");
+                    let el = $(".term-select-"+item);
+                    el = el[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+                    let card_header_inner = el.querySelector(".card_header_inner");
+                    // console.log(card_header_inner);
+                    const ps = card_header_inner.parentElement;
+                    if(price[index]!=0){
+                        $(ps).append(`<small>${name[index]} </small> <small class="ml-2 text-danger">${formatPrice(price[index])}</small>`)
+                    }
+                    
+                   
+                })
+            }
+            
             
         }
        
@@ -919,13 +890,20 @@ function checkSessionCount(productId, countAttributes) {
     // update after page load attribute set name
     $(document).ready(function(){
         var nameDiv = document.getElementById('nameDiv');
-        var sessionData = sessionStorage.getItem('sessionData');
-        let {names} = JSON.parse(sessionData);
-        names = names.split(",").join(' + ');
-        nameDiv.textContent = names;
+        if(sessionStorage.getItem('sessionData')){
+            var sessionData = sessionStorage.getItem('sessionData');
+            let {names} = JSON.parse(sessionData);
+            names = names.split(",").join(' + ');
+            nameDiv.textContent = names;
+        }else{
+            $("#html_component").html(''); 
+            // reset url
+            let url = new URL(window.location.href);
+            window.history.pushState({ path: url.pathname }, '', url.pathname);
+        }
+        
     });
 
 </script>
-
 
 @endsection
