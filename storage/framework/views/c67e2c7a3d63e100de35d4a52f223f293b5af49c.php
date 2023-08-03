@@ -106,7 +106,7 @@
             <div class="ps-product--detail ps-product--full">
                 <div class="row">
                     <div class="col-12 col-xl-5 col-lg-5 col-md-6">
-
+                        
                         <!-- Kartik -->
                         <div class="ps-section__carousel related_product_view">
                             <div class="main-image owl-carousel owl-loaded owl-drag" data-owl-loop="true" data-owl-auto="false" data-owl-nav="false" data-owl-dots="false">
@@ -133,7 +133,7 @@
                             </div>
                         </div>
                             <!-- Kartik -->
-
+                            
                         <div class="ps-product--gallery">
                             <!-- <div class="ps-product__thumbnail">
                                 <?php $__currentLoopData = $product->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -167,7 +167,7 @@
 
                             <div class="ps-product__variations_sec">
                                  <div class="accordion" id="accordionExample">
-
+                                    
                                     <?php $__currentLoopData = $attributes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                                         <div class="card py-3">
@@ -186,6 +186,7 @@
                                                 <div class="card-body">
                                                      <p class="ps-checkout__checkbox row p-4 ps-desc bg-light"><?php echo e($data->attribute_description); ?></p>
                                                     <div class="ps-checkout__checkbox row p-3">
+                                                        
                                                         <?php $__currentLoopData = $data->attributeTerms; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $keyss => $vales): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                                                         <?php if($key == 0 && $data->attribute_type == 'panel'): ?>
@@ -198,10 +199,10 @@
                                                                 data-atr-name="<?php echo e($vales->attribute_term_name); ?>"
                                                                 data-atr-price="<?php echo e($vales->price); ?>"
                                                                 data-value="<?php echo e($vales->attribute_term_name); ?>,<?php echo e($vales->price); ?>,<?php echo e($vales->id); ?>"
-                                                                onclick="getData(<?php echo e($vales->id); ?>,<?php echo e($product->id); ?>,<?php echo e($key+1); ?>); saveValue(this, '<?php echo e($data->id); ?>','Panel','heading_Var<?php echo e($key); ?>',<?php echo e($vales->id); ?>)">
+                                                                onclick="getData(<?php echo e($vales->id); ?>,<?php echo e($product->id); ?>,<?php echo e($key+1); ?>); saveValue(this, '<?php echo e($data->id); ?>','Panel','heading_Var<?php echo e($key); ?>',<?php echo e($vales->id); ?>,'<?php echo e($data->attribute_name); ?>')">
 
                                                             <label class="form-check-label mx-2" for="var_radios<?php echo e($key); ?>_<?php echo e($keyss); ?>">
-                                                                <div class="row select_var_row p-3">
+                                                                <div class="row select_var_row p-3 term-select-<?php echo e($vales->id); ?>">
                                                                     <?php if(@$vales->image): ?>
 
                                                                         <div class="ps-section__thumbnail col-3">
@@ -222,9 +223,9 @@
                                                         <?php else: ?>
                                                         <div class="form-check col-12 mb-3">
                                                             <input class="form-check-input" type="radio" name="var_radios<?php echo e($key); ?>" id="var_radios<?php echo e($key); ?>_<?php echo e($keyss); ?>" value="option<?php echo e($keyss); ?>" data-atr-price="<?php echo e($vales->price); ?>" data-atr-name="<?php echo e($vales->attribute_term_name); ?>"  data-value="<?php echo e($vales->attribute_term_name); ?>,<?php echo e($vales->price); ?>,<?php echo e($vales->id); ?>"
-                                                            onclick="saveValue(this, '<?php echo e($data->id); ?>','','heading_Var<?php echo e($key); ?>',<?php echo e($vales->id); ?>)">
+                                                            onclick="saveValue(this, '<?php echo e($data->id); ?>','','heading_Var<?php echo e($key); ?>',<?php echo e($vales->id); ?>,'<?php echo e($data->attribute_name); ?>')">
                                                             <label class="form-check-label mx-2" for="var_radios<?php echo e($key); ?>_<?php echo e($keyss); ?>">
-                                                                <div class="row select_var_row p-3">
+                                                                <div class="row select_var_row p-3 term-select-<?php echo e($vales->id); ?>">
                                                                      <?php if(@$vales->image): ?>
                                                                         <div class="ps-section__thumbnail col-3">
                                                                             <img src="<?php echo e(asset('root/public/uploads/'.$vales->image)); ?>" alt="" width="100px">
@@ -316,10 +317,74 @@
                     </div>
                 </div>
                 <div class="ps-product__content">
+                    <section class="pro_des panel p-5">
+                        <div class="container">
+                            <div class="ps-promo mt-5 ps-category--image mt-5">
+                                <div class="col-12">
+                                    <h2 class="ps-section__title text-center pb-5">800 W / 600 W Balkonkraftwerk – Upgradebar 800W Photovoltaik Stecker Solaranlage</h2>
+                                </div>
+                                <div class="row bg-gray rounded p-5">
+                                    <div class="col-12">
+                                        <h3 class="ps-section__title text-center pb-5">Lieferumfang</h2>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-3">
+                                        <div class="ps-block--about p-3">
+                                            <div class="ps-block__icon"><img decoding="async" src="https://ik.imagekit.io/rawapxbm9/all-images-06-02_aVAN5oJ-y.webp?updatedAt=1691035450330"
+                                                    class="img-fluid w-50" alt=""></div>
+                                            <h4 class="ps-block__title"><strong>Solarmodul</strong></h4>
+                                            <div class="ps-block__subtitle">2x EPP 380 Watt HIEFF Monokristallin Solarmodul Schwarz Rahmen<br>
+                                                (EPP-380W-B)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-3">
+                                        <div class="ps-block--about p-3">
+                                            <div class="ps-block__icon"><img decoding="async" src="https://ik.imagekit.io/rawapxbm9/inverter_9ufwMxMYy.webp?updatedAt=1691035450281"
+                                                    class="img-fluid w-50" alt=""></div>
+                                            <h4 class="ps-block__title"><strong>Mikrowechselrichter</strong></h4>
+                                            <div class="ps-block__subtitle">
+                                                1x Hoymiles 800W Mikrowechselrichter
+                                                (HM-800)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-3">
+                                        <div class="ps-block--about p-3">
+                                            <div class="ps-block__icon"><img decoding="async" src="https://ik.imagekit.io/rawapxbm9/image_2023_08_02T10_46_37_600Z_HBg3tqibL.webp?updatedAt=1691035450309"
+                                                    class="img-fluid w-50" alt=""></div>
+                                                    <h4 class="ps-block__title"><strong>Schukostecker</strong></h4>
+                                            <div class="ps-block__subtitle">
+                                                1x 10 Meter + Schukostecker
+                                                (EPP-KBL-STKR-10)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-3">
+                                        <div class="ps-block--about p-3">
+                                            <div class="ps-block__icon"><img decoding="async" src="https://ik.imagekit.io/rawapxbm9/all-images-06-05-1_dQTh2iWbi.webp?updatedAt=1691035450351"
+                                                    class="img-fluid w-50" alt=""></div>
+                                                    <h4 class="ps-block__title"><strong>AC-Anschluss–Buchse</strong></h4>
+                                            <div class="ps-block__subtitle">
+                                                1x Hoymiles AC-Anschluss–Buchse
+                                                (HM-AC-B)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                     
-
                     <div class="container" id="html_component">
                         
+                        
+                        <?php if(!empty(@$components)): ?>
+                           <?php $__currentLoopData = $components; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $component): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    
+                               <?php echo $component; ?>
+
+                           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        <?php endif; ?>
 
                 </div>
             </div>
@@ -461,7 +526,7 @@ function formatPrice(price) {
 var isFirstIteration = true;
 var savedValues = {};
 
-function saveValue(element, attributeId, name = null,pids,term_id) {
+function saveValue(element, attributeId, name = null,pids,term_id,term_name) {
 
 var atr_name = element.getAttribute('data-atr-name');
 var atr_price = element.getAttribute('data-atr-price');
@@ -491,8 +556,27 @@ var totalPriceDiv = document.getElementById('totalPrice');
 
 
 if (name === 'Panel') {
-savedValues = {}; // Clear saved values when "panel" attribute is selected
-}
+    console.log('success');
+    // Clear saved values when "panel" attribute is selected
+    savedValues = {};
+    $("#html_component").html(''); 
+    // reset url
+    let url = new URL(window.location.href);
+ 
+    term_name = term_name.toLowerCase().split(" ").join("-");
+    // Remove any existing occurrences of the parameter
+    const params = new URLSearchParams(url.search);
+    params.delete(term_name);
+
+    // Add the new parameter
+    params.append(term_name, term_id);
+
+    // Update the search part of the URL with the updated parameters
+    url.search = params.toString();
+
+    // Use pushState to update the URL without reloading the page
+    window.history.pushState({ path: url.pathname }, '', url.pathname);
+ }
 
 if (attributeId in savedValues) {
 // Replace existing values
@@ -549,13 +633,14 @@ var sessionData = {
 product_id: <?php echo e($product->id); ?>,
 
 termIds: termIds.join(','),
-
+names : names.join(','),
 };
 
 // Check if termsID is an array and add it to sessionData
 
 sessionStorage.setItem('sessionData', JSON.stringify(sessionData));
-html_components(term_id);
+
+html_components(term_id,term_name);
 // toggleAccordion(header)
 }
 
@@ -593,7 +678,7 @@ $.ajax({
         let imageUrl = "<?php echo e(asset('root/public/uploads/')); ?>/" + user.image;
 
         tableBody.append(`
-            <div class="row select_var_row mx-0 p-2" onclick="highlightDiv(this);saveValue(this, '${user.attribute_id}','','heading_Var${sid}',${id});" data-atr-name="${user.attribute_term_name}" data-atr-price="${user.price}" data-value="${user.attribute_term_name},${user.price},${user.id}">
+            <div class="row select_var_row mx-0 p-2 term-select-${id}}" onclick="highlightDiv(this);saveValue(this, '${user.attribute_id}','','heading_Var${sid}',${id},'${user.attribute__name}');" data-atr-name="${user.attribute_term_name}" data-atr-price="${user.price}" data-value="${user.attribute_term_name},${user.price},${user.id}">
                 ${user.image !== null ? `<div class="ps-section__thumbnail col-3">
                     <img src="${imageUrl}" alt="" width="100px">
                 </div>` : ""}
@@ -625,7 +710,6 @@ function highlightDiv(element) {
 
    function add_to_cart(id) {
     var product_details = sessionStorage.getItem('sessionData');
-
     var shippingClassSelect = document.getElementById('shipping_class');
     var shippingCountry = shippingClassSelect.value;
     // console.log(shippingCountry);
@@ -644,12 +728,13 @@ function highlightDiv(element) {
             success: function(response) {
 
                 response = JSON.parse(response);
+                
                 if (response.status == true) {
-                    console.log(response);
+                    
                     $(".my_cart_count").text(response.data);
                     toastr.success(response.message);
                 } else {
-                    console.log(response);
+                    
                     toastr.warning(response.message);
                 }
             }
@@ -682,17 +767,17 @@ accordion.classList.toggle('active');
 function checkSessionCount(productId, countAttributes) {
         var nameDiv = document.getElementById('nameDiv');
         var values = nameDiv.innerHTML;
-
         var plusCount = 0;
-
+            console.log(values);
             for (var i = 0; i < values.length; i++) {
-            if (values[i] === '+') {
-                plusCount++;
-            }
+                if (values[i] === '+') {
+                    plusCount++;
+                }
             }
       var sessionData = sessionStorage.getItem('sessionData');
-
+            // console.log(sessionData);
         if (plusCount+1 < countAttributes) {
+            // console.log(countAttributes);
           toastr.error("Please select all attribute combinations!!");
         } else {
             add_to_cart(productId);
@@ -702,14 +787,25 @@ function checkSessionCount(productId, countAttributes) {
 
 
     // get attribute term html
-    function html_components(id){
+    function html_components(id,term_name){
         let htmlComponent = $("#html_component");
-        let url = window.location.href;
-        const separator = .includes('?') ? '&' : '?';
-      // Append the key-value pair to the URL
-        let  url = url + separator + encodeURIComponent('id') + '=' + encodeURIComponent(id);
-        console.log(url);
-        return false;
+
+        const url = new URL(window.location.href);
+        term_name = term_name.toLowerCase().split(" ").join("-");
+
+        // Remove any existing occurrences of the parameter
+        const params = new URLSearchParams(url.search);
+        params.delete(term_name);
+
+        // Add the new parameter
+        params.append(term_name, id);
+
+        // Update the search part of the URL with the updated parameters
+        url.search = params.toString();
+
+        // Use pushState to update the URL without reloading the page
+        window.history.pushState({ path: url.href }, '', url.href);
+        
         $.ajax({
             type: 'get',
             url: '<?php echo e(url('/term-html')); ?>',
@@ -728,6 +824,38 @@ function checkSessionCount(productId, countAttributes) {
         })
     }
 
+
+    // opend components code
+
+    $(document).ready(function(){
+        const url = window.location.href;
+        const search = new URL(window.location.href);
+        if(search.search){
+            let paramString = url.split('?')[1];
+            paramString = paramString.split("&");
+            let firstQueryId = paramString[0].split("=")[1];
+            // console.log(firstQueryId);
+            // let queryString = new URLSearchParams(paramString);
+            const data = sessionStorage.getItem('sessionData');
+            const {termIds} = JSON.parse(data);
+            let terms =  termIds.split(",");
+
+            terms.map((item,index)=>{
+                $(".term-select-"+item).css("border-color","red");
+            })
+            
+        }
+       
+    })
+
+    // update after page load attribute set name
+    $(document).ready(function(){
+        var nameDiv = document.getElementById('nameDiv');
+        var sessionData = sessionStorage.getItem('sessionData');
+        let {names} = JSON.parse(sessionData);
+        names = names.split(",").join(' + ');
+        nameDiv.textContent = names;
+    });
 
 </script>
 

@@ -16,30 +16,48 @@ class ShopController extends Controller
         return view('pages.catalog',compact('Category','catalog'));
     }
 
-    public function index($slug){
-
+    public function index(Request $request, $slug){
+        // return $request->all();
         $products = Product::with('categories')->paginate(15);
         $Category = Category::where('parent_id','0')->get();
         $category_id = '';
+
         if($slug){
             $category_id = Category::where('slug',$slug)->pluck('id')->first();
-            // $category_id = $slug;
-             $products = Product::where('categories',$category_id)->with('categories')->paginate(15);
 
+            $products = Product::where('categories',$category_id)->with('categories')->paginate(15);
              if($products->count() === 0){
                  return redirect()->back()->with('error','No Product Found.');
              }
         }
-        // print_r($products->toArray());die;
         return view('pages.shop',compact('products','category_id','Category'));
 
     }
 
 
     public function categoriesProduct(Request $request){
+        $category_id  = '';
+        if($request->category){
+            $category_id = Category::where('slug',$request->category)->pluck('id')->first();
+            // return $category_id;
+        }
+        else{   
+            $category_id  = $request->category_id;
+        }
 
-        $products = Product::where('categories',$request->category_id)->orWhere('subcategory_id',$request->category_id)->get();
+        $products = Product::where('categories',$category_id)->orWhere('subcategory_id',$category_id);
+        // return $request->all();
+            if($request->shortBy == 'high_to_low'){
+                $products = $products->orderBy('price','DESC');
+            }else{
+                $products = $products->orderBy('price','ASC');
+            }
+            $products = $products->get();
+
         return response()->json(['products'=>$products]);
     }
 
 }
+
+
+

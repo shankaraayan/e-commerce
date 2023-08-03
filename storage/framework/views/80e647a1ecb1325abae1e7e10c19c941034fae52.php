@@ -36,10 +36,7 @@ svg {
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection("content"); ?>
-<div>
-    <?php echo e(request()->url()); ?>
 
-</div>
     <div class="ps-page">
 
         <div class="ps-categogy ps-categogy--separate">

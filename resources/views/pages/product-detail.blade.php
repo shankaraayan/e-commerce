@@ -108,7 +108,7 @@
             <div class="ps-product--detail ps-product--full">
                 <div class="row">
                     <div class="col-12 col-xl-5 col-lg-5 col-md-6">
-
+                        
                         <!-- Kartik -->
                         <div class="ps-section__carousel related_product_view">
                             <div class="main-image owl-carousel owl-loaded owl-drag" data-owl-loop="true" data-owl-auto="false" data-owl-nav="false" data-owl-dots="false">
@@ -135,7 +135,7 @@
                             </div>
                         </div>
                             <!-- Kartik -->
-
+                            
                         <div class="ps-product--gallery">
                             <!-- <div class="ps-product__thumbnail">
                                 @foreach ($product->images as $image)
@@ -175,7 +175,7 @@
 
                             <div class="ps-product__variations_sec">
                                  <div class="accordion" id="accordionExample">
-
+                                    
                                     @foreach ($attributes as $key => $data)
 
                                         <div class="card py-3">
@@ -193,6 +193,7 @@
                                                 <div class="card-body">
                                                      <p class="ps-checkout__checkbox row p-4 ps-desc bg-light">{{$data->attribute_description}}</p>
                                                     <div class="ps-checkout__checkbox row p-3">
+                                                        
                                                         @foreach ($data->attributeTerms as $keyss => $vales)
 
                                                         @if ($key == 0 && $data->attribute_type == 'panel')
@@ -205,10 +206,10 @@
                                                                 data-atr-name="{{ $vales->attribute_term_name }}"
                                                                 data-atr-price="{{ $vales->price }}"
                                                                 data-value="{{ $vales->attribute_term_name }},{{ $vales->price }},{{$vales->id}}"
-                                                                onclick="getData({{ $vales->id }},{{ $product->id }},{{ $key+1 }}); saveValue(this, '{{ $data->id }}','Panel','heading_Var{{$key}}',{{$vales->id}})">
+                                                                onclick="getData({{ $vales->id }},{{ $product->id }},{{ $key+1 }}); saveValue(this, '{{ $data->id }}','Panel','heading_Var{{$key}}',{{$vales->id}},'{{$data->attribute_name}}')">
 
                                                             <label class="form-check-label mx-2" for="var_radios{{$key}}_{{$keyss}}">
-                                                                <div class="row select_var_row p-3">
+                                                                <div class="row select_var_row p-3 term-select-{{$vales->id}}">
                                                                     @if(@$vales->image)
 
                                                                         <div class="ps-section__thumbnail col-3">
@@ -229,9 +230,9 @@
                                                         @else
                                                         <div class="form-check col-12 mb-3">
                                                             <input class="form-check-input" type="radio" name="var_radios{{$key}}" id="var_radios{{$key}}_{{$keyss}}" value="option{{$keyss}}" data-atr-price="{{ $vales->price }}" data-atr-name="{{ $vales->attribute_term_name }}"  data-value="{{ $vales->attribute_term_name }},{{ $vales->price }},{{$vales->id}}"
-                                                            onclick="saveValue(this, '{{ $data->id }}','','heading_Var{{$key}}',{{$vales->id}})">
+                                                            onclick="saveValue(this, '{{ $data->id }}','','heading_Var{{$key}}',{{$vales->id}},'{{$data->attribute_name}}')">
                                                             <label class="form-check-label mx-2" for="var_radios{{$key}}_{{$keyss}}">
-                                                                <div class="row select_var_row p-3">
+                                                                <div class="row select_var_row p-3 term-select-{{$vales->id}}">
                                                                      @if(@$vales->image)
                                                                         <div class="ps-section__thumbnail col-3">
                                                                             <img src="{{asset('root/public/uploads/'.$vales->image)}}" alt="" width="100px">
@@ -323,85 +324,64 @@
                     </div>
                 </div>
                 <div class="ps-product__content">
-                    {{-- <ul class="nav nav-tabs ps-tab-list" id="productContentTabs" role="tablist">
-                        <li class="nav-item" role="presentation"><a class="nav-link active" id="description-tab" data-toggle="tab" href="#description-content" role="tab" aria-controls="description-content" aria-selected="true">Description</a></li>
-                        <!--<li class="nav-item" role="presentation"><a class="nav-link" id="specification-tab" data-toggle="tab" href="#specification-content" role="tab" aria-controls="specification-content" aria-selected="false">Specification</a></li>-->
-                        <!--<li class="nav-item" role="presentation"><a class="nav-link" id="reviews-tab" data-toggle="tab" href="#reviews-content" role="tab" aria-controls="reviews-content" aria-selected="false">Reviews (5)</a></li>-->
-                    </ul>
-                    <div class="tab-content" id="productContent">
-                        <div class="tab-pane fade show active" id="description-content" role="tabpanel" aria-labelledby="description-tab">
-                            <p class="ps-desc"></p>
-                            @php echo $product->product_description  @endphp
-                        </div>
-                        <div class="tab-pane fade" id="specification-content" role="tabpanel" aria-labelledby="specification-tab">
-                            <table class="table ps-table ps-table--oriented">
-                                <tbody>
-                                    <tr>
-                                        <th class="ps-table__th">Higher memory bandwidth</th>
-                                        <td>1,544 MHz</td>
-                                    </tr>
-                                    <tr>
-                                        <th class="ps-table__th">Higher pixel rate</th>
-                                        <td>74.1 GPixel/s</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="tab-pane fade" id="reviews-content" role="tabpanel" aria-labelledby="reviews-tab">
-                            <div class="ps-form--review">
-                                <div class="ps-form__title">Write a review</div>
-                                <div class="ps-form__desc">Your email address will not be published. Required fields are marked *</div>
-                                <form action="do_action" method="post">
-                                    <div class="row">
-                                        <div class="col-12 col-lg-4">
-                                            <label class="ps-form__label">Your rating *</label>
-                                            <div class="br-wrapper br-theme-fontawesome-stars"><select class="ps-rating--form" data-value="0" style="display: none;">
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                            </select><div class="br-widget"><a href="#" data-rating-value="1" data-rating-text="1"></a><a href="#" data-rating-value="2" data-rating-text="2"></a><a href="#" data-rating-value="3" data-rating-text="3"></a><a href="#" data-rating-value="4" data-rating-text="4"></a><a href="#" data-rating-value="5" data-rating-text="5"></a><div class="br-current-rating"></div></div></div>
-                                        </div>
-                                        <div class="col-6 col-lg-4">
-                                            <label class="ps-form__label">Name *</label>
-                                            <input class="form-control ps-form__input">
-                                        </div>
-                                        <div class="col-6 col-lg-4">
-                                            <label class="ps-form__label">Email *</label>
-                                            <input class="form-control ps-form__input">
-                                        </div>
-                                        <div class="col-12">
-                                            <div class="ps-form__block">
-                                                <label class="ps-form__label">Your review *</label>
-                                                <textarea class="form-control ps-form__textarea"></textarea>
+                    <section class="pro_des panel p-5">
+                        <div class="container">
+                            <div class="ps-promo mt-5 ps-category--image mt-5">
+                                <div class="col-12">
+                                    <h2 class="ps-section__title text-center pb-5">800 W / 600 W Balkonkraftwerk – Upgradebar 800W Photovoltaik Stecker Solaranlage</h2>
+                                </div>
+                                <div class="row bg-gray rounded p-5">
+                                    <div class="col-12">
+                                        <h3 class="ps-section__title text-center pb-5">Lieferumfang</h2>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-3">
+                                        <div class="ps-block--about p-3">
+                                            <div class="ps-block__icon"><img decoding="async" src="https://ik.imagekit.io/rawapxbm9/all-images-06-02_aVAN5oJ-y.webp?updatedAt=1691035450330"
+                                                    class="img-fluid w-50" alt=""></div>
+                                            <h4 class="ps-block__title"><strong>Solarmodul</strong></h4>
+                                            <div class="ps-block__subtitle">2x EPP 380 Watt HIEFF Monokristallin Solarmodul Schwarz Rahmen<br>
+                                                (EPP-380W-B)
                                             </div>
                                         </div>
-                                        <div class="col-12 text-center">
-                                            <button class="btn ps-btn ps-btn--warning">Add Review</button>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-3">
+                                        <div class="ps-block--about p-3">
+                                            <div class="ps-block__icon"><img decoding="async" src="https://ik.imagekit.io/rawapxbm9/inverter_9ufwMxMYy.webp?updatedAt=1691035450281"
+                                                    class="img-fluid w-50" alt=""></div>
+                                            <h4 class="ps-block__title"><strong>Mikrowechselrichter</strong></h4>
+                                            <div class="ps-block__subtitle">
+                                                1x Hoymiles 800W Mikrowechselrichter
+                                                (HM-800)
+                                            </div>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
-                            <div class="ps-product__tabreview">
-                                <div class="ps-review--product">
-                                    <div class="ps-review__row">
-                                        <div class="ps-review__avatar"><img src="img/avatar-review.jpg" alt="alt"></div>
-                                        <div class="ps-review__info">
-                                            <div class="ps-review__name">Mark J.</div>
-                                            <div class="ps-review__date">Oct 30, 2021</div>
+                                    <div class="col-12 col-md-6 col-lg-3">
+                                        <div class="ps-block--about p-3">
+                                            <div class="ps-block__icon"><img decoding="async" src="https://ik.imagekit.io/rawapxbm9/image_2023_08_02T10_46_37_600Z_HBg3tqibL.webp?updatedAt=1691035450309"
+                                                    class="img-fluid w-50" alt=""></div>
+                                                    <h4 class="ps-block__title"><strong>Schukostecker</strong></h4>
+                                            <div class="ps-block__subtitle">
+                                                1x 10 Meter + Schukostecker
+                                                (EPP-KBL-STKR-10)
+                                            </div>
                                         </div>
-                                        <div class="ps-review__rating">
-                                            <div class="br-wrapper br-theme-fontawesome-stars">
-                                        <div class="ps-review__desc">
-                                            <p>Everything is perfect. I would recommend!</p>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-3">
+                                        <div class="ps-block--about p-3">
+                                            <div class="ps-block__icon"><img decoding="async" src="https://ik.imagekit.io/rawapxbm9/all-images-06-05-1_dQTh2iWbi.webp?updatedAt=1691035450351"
+                                                    class="img-fluid w-50" alt=""></div>
+                                                    <h4 class="ps-block__title"><strong>AC-Anschluss–Buchse</strong></h4>
+                                            <div class="ps-block__subtitle">
+                                                1x Hoymiles AC-Anschluss–Buchse
+                                                (HM-AC-B)
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div> --}}
-
+                    </section>
+                    
                     <div class="container" id="html_component">
                         {{-- <div class="ps-promo mt-5 ps-category--image mt-5">
                             <div class="row">
@@ -466,6 +446,13 @@
                             </div>
                             </div>
                         </div> --}}
+                        
+                        @if(!empty(@$components))
+                           @foreach($components as $component)
+                    
+                               {!! $component !!}
+                           @endforeach
+                        @endif
 
                 </div>
             </div>
@@ -607,7 +594,7 @@ function formatPrice(price) {
 var isFirstIteration = true;
 var savedValues = {};
 
-function saveValue(element, attributeId, name = null,pids,term_id) {
+function saveValue(element, attributeId, name = null,pids,term_id,term_name) {
 
 var atr_name = element.getAttribute('data-atr-name');
 var atr_price = element.getAttribute('data-atr-price');
@@ -637,8 +624,27 @@ var totalPriceDiv = document.getElementById('totalPrice');
 
 
 if (name === 'Panel') {
-savedValues = {}; // Clear saved values when "panel" attribute is selected
-}
+    console.log('success');
+    // Clear saved values when "panel" attribute is selected
+    savedValues = {};
+    $("#html_component").html(''); 
+    // reset url
+    let url = new URL(window.location.href);
+ 
+    term_name = term_name.toLowerCase().split(" ").join("-");
+    // Remove any existing occurrences of the parameter
+    const params = new URLSearchParams(url.search);
+    params.delete(term_name);
+
+    // Add the new parameter
+    params.append(term_name, term_id);
+
+    // Update the search part of the URL with the updated parameters
+    url.search = params.toString();
+
+    // Use pushState to update the URL without reloading the page
+    window.history.pushState({ path: url.pathname }, '', url.pathname);
+ }
 
 if (attributeId in savedValues) {
 // Replace existing values
@@ -695,13 +701,14 @@ var sessionData = {
 product_id: {{ $product->id }},
 
 termIds: termIds.join(','),
-
+names : names.join(','),
 };
 
 // Check if termsID is an array and add it to sessionData
 
 sessionStorage.setItem('sessionData', JSON.stringify(sessionData));
-html_components(term_id);
+
+html_components(term_id,term_name);
 // toggleAccordion(header)
 }
 
@@ -739,7 +746,7 @@ $.ajax({
         let imageUrl = "{{ asset('root/public/uploads/') }}/" + user.image;
 
         tableBody.append(`
-            <div class="row select_var_row mx-0 p-2" onclick="highlightDiv(this);saveValue(this, '${user.attribute_id}','','heading_Var${sid}',${id});" data-atr-name="${user.attribute_term_name}" data-atr-price="${user.price}" data-value="${user.attribute_term_name},${user.price},${user.id}">
+            <div class="row select_var_row mx-0 p-2 term-select-${id}}" onclick="highlightDiv(this);saveValue(this, '${user.attribute_id}','','heading_Var${sid}',${id},'${user.attribute__name}');" data-atr-name="${user.attribute_term_name}" data-atr-price="${user.price}" data-value="${user.attribute_term_name},${user.price},${user.id}">
                 ${user.image !== null ? `<div class="ps-section__thumbnail col-3">
                     <img src="${imageUrl}" alt="" width="100px">
                 </div>` : ""}
@@ -771,7 +778,6 @@ function highlightDiv(element) {
 
    function add_to_cart(id) {
     var product_details = sessionStorage.getItem('sessionData');
-
     var shippingClassSelect = document.getElementById('shipping_class');
     var shippingCountry = shippingClassSelect.value;
     // console.log(shippingCountry);
@@ -790,12 +796,13 @@ function highlightDiv(element) {
             success: function(response) {
 
                 response = JSON.parse(response);
+                
                 if (response.status == true) {
-                    console.log(response);
+                    
                     $(".my_cart_count").text(response.data);
                     toastr.success(response.message);
                 } else {
-                    console.log(response);
+                    
                     toastr.warning(response.message);
                 }
             }
@@ -828,17 +835,17 @@ accordion.classList.toggle('active');
 function checkSessionCount(productId, countAttributes) {
         var nameDiv = document.getElementById('nameDiv');
         var values = nameDiv.innerHTML;
-
         var plusCount = 0;
-
+            console.log(values);
             for (var i = 0; i < values.length; i++) {
-            if (values[i] === '+') {
-                plusCount++;
-            }
+                if (values[i] === '+') {
+                    plusCount++;
+                }
             }
       var sessionData = sessionStorage.getItem('sessionData');
-
+            // console.log(sessionData);
         if (plusCount+1 < countAttributes) {
+            // console.log(countAttributes);
           toastr.error("Please select all attribute combinations!!");
         } else {
             add_to_cart(productId);
@@ -848,14 +855,25 @@ function checkSessionCount(productId, countAttributes) {
 
 
     // get attribute term html
-    function html_components(id){
+    function html_components(id,term_name){
         let htmlComponent = $("#html_component");
-        let url = window.location.href;
-        const separator = .includes('?') ? '&' : '?';
-      // Append the key-value pair to the URL
-        let  url = url + separator + encodeURIComponent('id') + '=' + encodeURIComponent(id);
-        console.log(url);
-        return false;
+
+        const url = new URL(window.location.href);
+        term_name = term_name.toLowerCase().split(" ").join("-");
+
+        // Remove any existing occurrences of the parameter
+        const params = new URLSearchParams(url.search);
+        params.delete(term_name);
+
+        // Add the new parameter
+        params.append(term_name, id);
+
+        // Update the search part of the URL with the updated parameters
+        url.search = params.toString();
+
+        // Use pushState to update the URL without reloading the page
+        window.history.pushState({ path: url.href }, '', url.href);
+        
         $.ajax({
             type: 'get',
             url: '{{ url('/term-html') }}',
@@ -874,6 +892,38 @@ function checkSessionCount(productId, countAttributes) {
         })
     }
 
+
+    // opend components code
+
+    $(document).ready(function(){
+        const url = window.location.href;
+        const search = new URL(window.location.href);
+        if(search.search){
+            let paramString = url.split('?')[1];
+            paramString = paramString.split("&");
+            let firstQueryId = paramString[0].split("=")[1];
+            // console.log(firstQueryId);
+            // let queryString = new URLSearchParams(paramString);
+            const data = sessionStorage.getItem('sessionData');
+            const {termIds} = JSON.parse(data);
+            let terms =  termIds.split(",");
+
+            terms.map((item,index)=>{
+                $(".term-select-"+item).css("border-color","red");
+            })
+            
+        }
+       
+    })
+
+    // update after page load attribute set name
+    $(document).ready(function(){
+        var nameDiv = document.getElementById('nameDiv');
+        var sessionData = sessionStorage.getItem('sessionData');
+        let {names} = JSON.parse(sessionData);
+        names = names.split(",").join(' + ');
+        nameDiv.textContent = names;
+    });
 
 </script>
 

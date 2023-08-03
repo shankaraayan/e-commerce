@@ -49,6 +49,9 @@
                             <th scope="col" class=" table-th ">
                               Image
                             </th>
+                            <th scope="col" class=" table-th ">
+                              Location
+                            </th>
 
                             <th scope="col" class=" table-th ">
                               Url
@@ -66,13 +69,19 @@
 
                               <tr>
                             <td class="table-td"><?php echo e(++$key); ?></td>
+                            
                             <td class="table-td ">
-                                <?php if(@$slider->desktop): ?>
-                                    <img width="150" src="<?php echo e(asset('root/public/uploads/sliders/desktop/'.$slider->slider)); ?>" />
-                                <?php else: ?>
-                                    <img width="150" src="<?php echo e(asset('root/public/uploads/sliders/phone/'.$slider->slider)); ?>" />
-                                <?php endif; ?>
 
+                                    <img width="150" src="<?php echo e(asset('root/public/uploads/sliders/phone/'.$slider->phone)); ?>" />
+                               
+
+                            </td>
+                            <td class="table-td">
+                            <?php if(@$slider->global_banner == '0'): ?>
+                               Slider
+                            <?php else: ?>
+                                Global Banner
+                            <?php endif; ?>
                             </td>
                             <td class="table-td "><?php echo e($slider->slider_url); ?></td>
                            <td class="table-td">

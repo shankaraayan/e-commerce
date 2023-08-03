@@ -48,6 +48,17 @@ svg {
                     <li class="ps-breadcrumb__item active" aria-current="page">Shop</li>
                 </ul>
                 <!--<h1 class="ps-categogy__name mt-5">Shop</h1>-->
+                <?php
+                    
+                    $currentUri = $_SERVER['REQUEST_URI'];
+                    $segments = explode('/', $currentUri);
+                    $lastSegment = end($segments);
+
+                ?>
+                
+            <a href="#" data-sort="low_to_high">Sort Low to High</a>
+            <a href="#" data-sort="high_to_low">Sort High to Low</a>
+
                 <div class="ps-categogy__content">
                     <div class="ps-categogy__wrapper">
                         <div class="ps-categogy__filter"> <a href="#" id="collapse-filter"><i class="fa fa-filter"></i><i class="fa fa-times"></i>Filter</a></div>
@@ -149,6 +160,7 @@ svg {
 
                                                 <h5 class="ps-product__title" style="font-size:20px;min-height:auto;"><a href="<?php echo e(route('product.detail',$product->slug)); ?>"><?php echo e($product->product_name); ?></a></h5>
                                                 <div class="ps-product__meta">
+                                                    <span class="ps-product__price"><s><?php echo e(formatPrice($product->price)); ?></s></span>
                                                     <span class="ps-product__price"><?php echo e(formatPrice($product->sale_price)); ?></span>
                                                 </div>
 
@@ -383,8 +395,8 @@ svg {
 
                                                 <h5 class="ps-product__title"><a href="<?php echo e(route('product.detail',$product->slug)); ?>">${ product.product_name }</a></h5>
                                                 <div class="ps-product__meta">
-                                                    <span class="ps-product__price">€ <s>${ product.price }</s></span>
-                                                    <span class="ps-product__price">€ ${ product.sale_price }</span>
+                                                    <span class="ps-product__price"><s>€${ product.price }</s></span>
+                                                    <span class="ps-product__price">€${ product.sale_price }</span>
                                                 </div>
 
                                                 <div class="ps-product__desc mb-4">
@@ -415,6 +427,107 @@ svg {
         });
     }
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const sortLinks = document.querySelectorAll('a[data-sort]');
+
+    sortLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const sortValue = this.getAttribute('data-sort');
+                updateSortQueryParams(sortValue);
+            });
+        });
+
+    function updateSortQueryParams(sortValue) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentSortValue = urlParams.get('orderBy');
+        
+        if (currentSortValue !== sortValue) {
+            urlParams.set('orderBy', sortValue);
+        } else {
+            urlParams.delete('orderBy');
+        }
+        const baseUrl = window.location.origin + window.location.pathname;
+        const newUrl = baseUrl + '?' + urlParams.toString();
+        window.history.pushState({}, '', newUrl);
+        updateDisplayedProducts(sortValue);
+    }
+    function updateDisplayedProducts(sortValue) {
+        var url = "<?php echo e(request()->url()); ?>";
+        var segments = url.split('/');
+        var lastSegment =  segments[segments.length - 1];
+         $.ajax({
+                url: '<?php echo e(route('categories-product')); ?>',
+                method: 'GET',
+                data: { category: lastSegment,shortBy: sortValue},
+                success: function(response)
+                {
+                    console.log(response);
+                var data = response.products;
+                $('#responseContainer').empty();
+                if (data.length > 0) {
+                    data.forEach(function(product) {
+                        // console.log(product);
+                        var categoryName = JSON.parse('<?php echo json_encode(htmlspecialchars(categories()->where('id', $product->categories)->pluck('name')->first())); ?>');
+                        var html = `<div class="col-12 col-lg-4 p-0">
+                                        <div class="ps-product ps-product--standard">
+                                            <div class="ps-product__thumbnail"><a class="ps-product__image" href="<?php echo e(route('product.detail',$product->slug)); ?>">
+                                                    <figure><img src="<?php echo e(asset('root/public/uploads/${product.thumb_image}')); ?>" alt="alt" class="img-fluid" /><img src="img/stegpearl/easy peak power.png" class="img-fluid" alt="alt" />
+                                                    </figure>
+                                                </a>
+                                                <div class="ps-product__actions">
+                                                    <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="" data-original-title="Wishlist"><a href="#"><i class="fa fa-heart-o"></i></a></div>
+                                                    <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="" data-original-title="Quick view"><a href="#" data-toggle="modal" data-target="#popupQuickview"><i class="fa fa-search"></i></a></div>
+                                                </div>
+                                                <div class="ps-product__badge">
+                                                    <div class="ps-badge ps-badge--hot">Hot</div>
+                                                </div>
+                                            </div>
+                                            <div class="ps-product__content">
+                                                <a class="ps-product__branch" href="#">${categoryName}</a>
+                                                
+
+                                                <h5 class="ps-product__title"><a href="<?php echo e(route('product.detail',$product->slug)); ?>">${ product.product_name }</a></h5>
+                                                <div class="ps-product__meta">
+                                                    <span class="ps-product__price"><s>€${ product.price }</s></span>
+                                                    <span class="ps-product__price">€${ product.sale_price }</span>
+                                                </div>
+
+                                                <div class="ps-product__desc mb-4">
+                                                    <p>${ product.slug } </p>
+                                                </div>
+                                                <div class="ps-product__actions ps-product__group-mobile d-block">
+
+                                                    <div class="ps-product__cart d-block">
+                                                    <a class="ps-btn ps-btn--warning w-100" href="#" data-toggle="modal" data-target="#popupAddcart">Add to cart</a>
+                                                    </div>
+
+                                                    <!-- <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="Wishlist"><a href="wishlist.html"><i class="fa fa-heart-o"></i></a></div> -->
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`;
+                                $('#responseContainer').append(html);
+
+                    });
+                }else{
+                    var noProductHtml = '<div class="col-12"  style="height:500px">' +
+                        '<p>No product found</p>' +
+                        '</div>';
+                    $('#responseContainer').append(noProductHtml);
+                }
+                    
+                }
+            });
+        
+    }
+
+});
+</script>
+
 
     <!-- For Show and hide filter on shop page -->
     <script>

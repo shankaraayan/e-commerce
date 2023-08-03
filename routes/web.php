@@ -288,7 +288,7 @@ Route::get('/coupon/remove',[CouponController::class,'code_remove'])->name('coup
 
 Route::post('/admin/shipping/country/shipping_country_update', [ShippingController::class,'shippingPrice']);
 
-Route::post('/set-cookie', 'CookieController@setCookie')->name('set.cookie');
+Route::post('/set-cookie', [CookieController::class,'setCookie'])->name('set.cookie');
 
 
 

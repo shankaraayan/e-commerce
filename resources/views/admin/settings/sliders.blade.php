@@ -51,6 +51,9 @@
                             <th scope="col" class=" table-th ">
                               Image
                             </th>
+                            <th scope="col" class=" table-th ">
+                              Location
+                            </th>
 
                             <th scope="col" class=" table-th ">
                               Url
@@ -68,13 +71,19 @@
 
                               <tr>
                             <td class="table-td">{{++$key}}</td>
+                            
                             <td class="table-td ">
-                                @if(@$slider->desktop)
-                                    <img width="150" src="{{asset('root/public/uploads/sliders/desktop/'.$slider->slider)}}" />
-                                @else
-                                    <img width="150" src="{{asset('root/public/uploads/sliders/phone/'.$slider->slider)}}" />
-                                @endif
 
+                                    <img width="150" src="{{asset('root/public/uploads/sliders/phone/'.$slider->phone)}}" />
+                               
+
+                            </td>
+                            <td class="table-td">
+                            @if(@$slider->global_banner == '0')
+                               Slider
+                            @else
+                                Global Banner
+                            @endif
                             </td>
                             <td class="table-td ">{{$slider->slider_url}}</td>
                            <td class="table-td">

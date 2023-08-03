@@ -122,6 +122,10 @@
 
 
 
+@php
+    $cookieValue = request()->cookie('disclaimer');
+@endphp   
+@if(empty($cookieValue))
 <div class="disclaimer-bar" id="disclaimerBar">
     <div class="d-flex align-items-center justify-content-between">
     <div>
@@ -134,7 +138,7 @@
     </div>
 </div>
 </div>
-
+@endif
 <!-- The Modal -->
 <div class="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -149,15 +153,202 @@
           <p style="font-family: inherit;font-size: 12px;margin-bottom: 15px;margin: 10px 0;">
             This website uses cookies to improve your experience as you navigate through the website. Out of these, the cookies that are categorized as necessary are stored on your browser as they are essential for the working of basic functionalities of the website. We also use third-party cookies to help us analyze and understand how you use this website. These cookies are only stored in your browser with your consent. You also have the option to refuse these cookies. However, opting out of some of these cookies may impact your browsing experience.
         </p>
+
+        <div class="">
+        <div id="cookies_accordion">
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                <div class="mb-0 d-flex align-items-center justify-content-between">
+                    <div class="w-100">
+                    <a class="btn btn-link d-block fs-4 text-left" data-toggle="collapse" data-target="#cookies_collapseOne" aria-expanded="true" aria-controls="cookies_collapseOne">Functional</a>
+                    </div>
+                    <!-- <div class="cookies_sec_tgl d-flex align-items-center justify-content-between">
+                        <span class="cookies_status fs-5 mr-1">Activate</span>
+                        <label class="toggle">
+                        <input type="checkbox" checked hidden>
+                        <span class="circle"></span>
+                    </label>
+                    </div> -->
+
+                    <!-- HTML code -->
+                    <div class="cookies_sec_tgl d-flex align-items-center justify-content-between">
+                        <span id="cookiesStatus" class="cookies_status fs-5 mr-1">Activate</span>
+                        <label class="toggle">
+                            <input type="checkbox" checked hidden>
+                            <span class="circle"></span>
+                        </label>
+                    </div>
+                </div>
+                </div>
+                <div id="cookies_collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#cookies_accordion">
+                <div class="card-body">
+                    <p class="mb-0 fs-5">Functional cookies help perform certain functions, such as B. Sharing content of the website on social media platforms, collecting feedback and other functions provided by third parties.</p>
+                </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                <div class="mb-0 d-flex align-items-center justify-content-between">
+                    <div class="w-100">
+                    <a class="btn btn-link d-block fs-4 text-left" data-toggle="collapse" data-target="#cookies_collapseTwo" aria-expanded="true" aria-controls="cookies_collapseOne">Leistungs</a>
+                    </div>
+                    <!-- <div class="cookies_sec_tgl d-flex align-items-center justify-content-between">
+                        <span class="cookies_status fs-5 mr-1">Activate</span>
+                        <label class="toggle">
+                        <input type="checkbox" checked hidden>
+                        <span class="circle"></span>
+                    </label>
+                    </div> -->
+
+                    <!-- HTML code -->
+                    <div class="cookies_sec_tgl d-flex align-items-center justify-content-between">
+                        <span id="cookiesStatus" class="cookies_status fs-5 mr-1">Activate</span>
+                        <label class="toggle">
+                            <input type="checkbox" checked hidden>
+                            <span class="circle"></span>
+                        </label>
+                    </div>
+                </div>
+                </div>
+                <div id="cookies_collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#cookies_accordion">
+                <div class="card-body">
+                    <p class="mb-0 fs-5">Leistungs-Cookies werden verwendet, um die wichtigsten Leistungsindizes der Website zu verstehen und zu analysieren, was dazu beiträgt, den Besuchern ein besseres Nutzererlebnis zu bieten.</p>
+                </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                <div class="mb-0 d-flex align-items-center justify-content-between">
+                    <div class="w-100">
+                    <a class="btn btn-link d-block fs-4 text-left" data-toggle="collapse" data-target="#cookies_collapseThree" aria-expanded="true" aria-controls="cookies_collapseOne">Analytische</a>
+                    </div>
+                    <!-- <div class="cookies_sec_tgl d-flex align-items-center justify-content-between">
+                        <span class="cookies_status fs-5 mr-1">Activate</span>
+                        <label class="toggle">
+                        <input type="checkbox" checked hidden>
+                        <span class="circle"></span>
+                    </label>
+                    </div> -->
+
+                    <!-- HTML code -->
+                    <div class="cookies_sec_tgl d-flex align-items-center justify-content-between">
+                        <span id="cookiesStatus" class="cookies_status fs-5 mr-1">Activate</span>
+                        <label class="toggle">
+                            <input type="checkbox" checked hidden>
+                            <span class="circle"></span>
+                        </label>
+                    </div>
+                </div>
+                </div>
+                <div id="cookies_collapseThree" class="collapse" aria-labelledby="headingOne" data-parent="#cookies_accordion">
+                <div class="card-body">
+                    <p class="mb-0 fs-5">Analytische Cookies werden verwendet, um zu verstehen, wie Besucher mit der Website interagieren. Diese Cookies helfen bei der Bereitstellung von Informationen über die Anzahl der Besucher, die Absprungrate, die Verkehrsquelle usw.</p>
+                </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                <div class="mb-0 d-flex align-items-center justify-content-between">
+                    <div class="w-100">
+                    <a class="btn btn-link d-block fs-4 text-left" data-toggle="collapse" data-target="#cookies_collapseFour" aria-expanded="true" aria-controls="cookies_collapseOne">Anzeige</a>
+                    </div>
+                    <!-- <div class="cookies_sec_tgl d-flex align-items-center justify-content-between">
+                        <span class="cookies_status fs-5 mr-1">Activate</span>
+                        <label class="toggle">
+                        <input type="checkbox" checked hidden>
+                        <span class="circle"></span>
+                    </label>
+                    </div> -->
+
+                    <!-- HTML code -->
+                    <div class="cookies_sec_tgl d-flex align-items-center justify-content-between">
+                        <span id="cookiesStatus" class="cookies_status fs-5 mr-1">Activate</span>
+                        <label class="toggle">
+                            <input type="checkbox" checked hidden>
+                            <span class="circle"></span>
+                        </label>
+                    </div>
+                </div>
+                </div>
+                <div id="cookies_collapseFour" class="collapse" aria-labelledby="headingOne" data-parent="#cookies_accordion">
+                <div class="card-body">
+                    <p class="mb-0 fs-5">Werbe-Cookies werden verwendet, um Besuchern relevante Werbung und Marketing-Kampagnen anzubieten. Diese Cookies verfolgen Besucher auf verschiedenen Websites und sammeln Informationen, um maßgeschneiderte Werbung zu liefern.</p>
+                </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                <div class="mb-0 d-flex align-items-center justify-content-between">
+                    <div class="w-100">
+                    <a class="btn btn-link d-block fs-4 text-left" data-toggle="collapse" data-target="#cookies_collapseFive" aria-expanded="true" aria-controls="cookies_collapseOne">Andere</a>
+                    </div>
+                    <!-- <div class="cookies_sec_tgl d-flex align-items-center justify-content-between">
+                        <span class="cookies_status fs-5 mr-1">Activate</span>
+                        <label class="toggle">
+                        <input type="checkbox" checked hidden>
+                        <span class="circle"></span>
+                    </label>
+                    </div> -->
+
+                    <!-- HTML code -->
+                    <div class="cookies_sec_tgl d-flex align-items-center justify-content-between">
+                        <span id="cookiesStatus" class="cookies_status fs-5 mr-1">Activate</span>
+                        <label class="toggle">
+                            <input type="checkbox" checked hidden>
+                            <span class="circle"></span>
+                        </label>
+                    </div>
+                </div>
+                </div>
+                <div id="cookies_collapseFive" class="collapse" aria-labelledby="headingOne" data-parent="#cookies_accordion">
+                <div class="card-body">
+                    <p class="mb-0 fs-5">Andere nicht kategorisierte Cookies sind solche, die noch analysiert werden und noch nicht in eine Kategorie eingeordnet wurden.</p>
+                </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header" id="headingOne">
+                <div class="mb-0 d-flex align-items-center justify-content-between">
+                    <div class="w-100">
+                    <a class="btn btn-link d-block fs-4 text-left" data-toggle="collapse" data-target="#cookies_collapseSix" aria-expanded="true" aria-controls="cookies_collapseOne">Notwendige</a>
+                    </div>
+                    <!-- <div class="cookies_sec_tgl d-flex align-items-center justify-content-between">
+                        <span class="cookies_status fs-5 mr-1">Activate</span>
+                        <label class="toggle">
+                        <input type="checkbox" checked hidden>
+                        <span class="circle"></span>
+                    </label>
+                    </div> -->
+
+                    <!-- HTML code -->
+                    <div class="cookies_sec_tgl d-flex align-items-center justify-content-between">
+                        <span id="cookiesStatus" class="cookies_status fs-5 mr-1">Activate</span>
+                        <label class="toggle">
+                            <input type="checkbox" checked hidden>
+                            <span class="circle"></span>
+                        </label>
+                    </div>
+                </div>
+                </div>
+                <div id="cookies_collapseSix" class="collapse" aria-labelledby="headingOne" data-parent="#cookies_accordion">
+                <div class="card-body">
+                    <p class="mb-0 fs-5">Notwendige Cookies sind für das ordnungsgemäße Funktionieren der Website unbedingt erforderlich. Diese Cookies gewährleisten grundlegende Funktionalitäten und Sicherheitsmerkmale der Website, anonym.</p>
+                </div>
+                </div>
+            </div>
+        </div>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save and Accept</button>
+          <button type="button" class="btn btn-primary" onclick="setCookieViaAjax()">Save and Accept</button>
         </div>
       </div>
+
     </div>
   </div>
 
+   
 
 <script>
     function closeDisclaimer() {
@@ -166,23 +357,26 @@
     }
 
     function setCookieViaAjax() {
+    var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     fetch('/set-cookie', {
         method: 'POST',
         headers: {
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken,
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify({}),
+        body: JSON.stringify({ /* Your JSON data here */ }),
     })
-        .then(response => response.text())
-        .then(data => {
-        console.log(data); // You can handle the response here (optional)
-        })
-        .catch(error => {
+    .then(response => response.text())
+    .then(data => {
+      if(data != ''){
+        closeDisclaimer();
+        $("#exampleModal").modal('hide');
+      }
+    })
+    .catch(error => {
         console.error('Error:', error);
-        });
-    }
-
+    });
+}
 </script>
 

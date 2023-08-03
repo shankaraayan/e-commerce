@@ -38,9 +38,7 @@ svg {
 @endsection
 
 @section("content")
-<div>
-    {{ request()->url() }}
-</div>
+
     <div class="ps-page">
 
         <div class="ps-categogy ps-categogy--separate">

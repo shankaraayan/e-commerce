@@ -54,7 +54,7 @@
                             <div class="input-area mb-4">
                                 <label for="select" class="form-label">Choose Screen</label>
                                 <div class="flex items-center space-x-7 flex-wrap">
-                                    <div class="primary-radio">
+                                    {{-- <div class="primary-radio">
                                         <label class="flex items-center cursor-pointer">
                                             <input type="radio" class="hidden" name="screen" value="desktop" checked="checked" />
                                             <span class="flex-none bg-white dark:bg-slate-500 rounded-full border inline-flex ltr:mr-2 rtl:ml-2 relative transition-all duration-150 h-[16px] w-[16px] border-slate-400 dark:border-slate-600 dark:ring-slate-700"></span>
@@ -67,13 +67,35 @@
                                             <span class="flex-none bg-white dark:bg-slate-500 rounded-full border inline-flex ltr:mr-2 rtl:ml-2 relative transition-all duration-150 h-[16px] w-[16px] border-slate-400 dark:border-slate-600 dark:ring-slate-700"></span>
                                             <span class="text-secondary-500 text-sm leading-6 capitalize">Phone</span>
                                         </label>
+                                    </div> --}}
+                                    <div class="primary-radio">
+                                        <label class="flex items-center cursor-pointer">
+                                            <input type="radio" class="hidden" name="screen" value="global_banner"  />
+                                            <span class="flex-none bg-white dark:bg-slate-500 rounded-full border inline-flex ltr:mr-2 rtl:ml-2 relative transition-all duration-150 h-[16px] w-[16px] border-slate-400 dark:border-slate-600 dark:ring-slate-700"></span>
+                                            <span class="text-secondary-500 text-sm leading-6 capitalize">Global Banner</span>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
                             <div class="input-area mb-4">
                                 <div class="filegroup">
                                     <label>
-                                        <input name="slider" type="file" class=" w-full hidden" name="basic" required>
+                                      <span class="text-secondary-500 text-sm leading-6 capitalize">Phone Banner</span>
+                                        <input name="phone" type="file" class=" w-full hidden"  required>
+                                        <span class="w-full h-[40px] file-control flex items-center custom-class">
+                                        <span class="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
+                                        <span class="text-slate-400">Choose a file or drop it here...</span>
+                                        </span>
+                                        <span class="file-name flex-none cursor-pointer border-l px-4 border-slate-200 dark:border-slate-700 h-full inline-flex items-center bg-slate-100 dark:bg-slate-900 text-slate-600 dark:text-slate-400 text-sm rounded-tr rounded-br font-normal">Browse</span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="input-area mb-4">
+                                <div class="filegroup">
+                                    <label>
+                                      <span class="text-secondary-500 text-sm leading-6 capitalize">Desktop Banner</span>
+                                        <input name="desktop" type="file" class=" w-full hidden"  required>
                                         <span class="w-full h-[40px] file-control flex items-center custom-class">
                                         <span class="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
                                         <span class="text-slate-400">Choose a file or drop it here...</span>

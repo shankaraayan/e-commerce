@@ -8,27 +8,29 @@
             <div class="owl-carousel" data-owl-auto="true" data-owl-loop="true" data-owl-speed="8000" data-owl-gap="0"
                 data-owl-nav="true" data-owl-dots="true" data-owl-item="1" data-owl-item-xs="1" data-owl-item-sm="1"
                 data-owl-item-md="1" data-owl-item-lg="1" data-owl-duration="1000" data-owl-mousedrag="on">
-                <div class="ps-banner">
-                    <picture>
-                        <source media="(min-width:768px)" srcset="<?php echo e(asset('assets/img/stegpearl/stegpearl_slide_2.jpg')); ?>" class="img-fluid">
-                        <img src="<?php echo e(asset('assets/img/stegpearl/mobile_banner_1.jpg')); ?>" alt="Stegpearl" class="img-fluid">
-                    </picture>
-                </div>
-                <div class="ps-banner">
-                    <picture>
-                        <source media="(min-width:768px)" srcset="<?php echo e(asset('assets/img/stegpearl/slide_2-min.jpg')); ?>"
-                            class="img-fluid">
-                        <img src="<?php echo e(asset('assets/img/stegpearl/mobile_banner_2.jpg')); ?>" alt="Stegpearl" class="img-fluid">
-                    </picture>
-                </div>
+               
+               
                 
-                <div class="ps-banner">
-                    <picture>
-                        <source media="(min-width:768px)" srcset="<?php echo e(asset('assets/img/stegpearl/slide_4-min.jpg')); ?>"
-                            class="img-fluid">
-                        <img src="<?php echo e(asset('assets/img/stegpearl/mobile_banner_3.jpg')); ?>" alt="Stegpearl" class="img-fluid">
-                    </picture>
-                </div>
+                
+                <?php if(!empty($sliders)): ?>
+                    <?php $__currentLoopData = $sliders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $values): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                       
+                            <!-- Image for desktop -->
+                            <div class="ps-banner">
+                                <picture>
+                                    <source media="(min-width: 768px)" srcset="<?php echo e(asset('root/public/uploads/sliders/desktop/' . $values['desktop'])); ?>" class="img-fluid">
+                                    <img src="<?php echo e(asset('root/public/uploads/sliders/phone/' . $values['phone'])); ?>" alt="Stegpearl" class="img-fluid">
+                                </picture>
+                            </div>
+
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                <?php endif; ?>
+
+
+
+                
+
+
             </div>
         </section>
 

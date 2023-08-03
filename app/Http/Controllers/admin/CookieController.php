@@ -11,12 +11,14 @@ class CookieController extends Controller
     public function setCookie(Request $request)
     {
         $cookieName = 'disclaimer';
-        $cookieValue = 'Hello, this is my cookie!';
-        $cookieDuration = 30; // Cookie will be valid for 30 days
+        $cookieValue = 'Disclaimer accepted on website.';
+        $cookieDuration = 60*24; //*minutes
 
+        // Create a new response with the cookie
         $response = new Response('Cookie set successfully');
-        $response->withCookie(cookie($cookieName, $cookieValue, $cookieDuration));
+        $response->cookie($cookieName, $cookieValue, $cookieDuration);
 
         return $response;
+
     }
 }

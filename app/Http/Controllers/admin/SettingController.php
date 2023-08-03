@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\admin\Slider;
 use App\Models\admin\Address;
 use App\Http\Request\SliderRequest;
+use Illuminate\Support\Facades\Redirect;
 
 class SettingController extends Controller
 {
@@ -22,32 +23,33 @@ class SettingController extends Controller
     }
 
     public function upload(Request $request){
-
-        if($request->image){
-
-
-            $image = $request->file('slider');
+        if($request){
+            
             $slider = new Slider;
-
-            // Generate a unique filename with timestamp
-            $filename = uniqid() . '.' . $image->getClientOriginalExtension();
-            // Save the image to the storage folder
-            if($request->screen=="deskotp"){
-                $image->move(public_path('uploads/sliders/desktop'), $filename);
-                $slider->desktop = 1;
+            if($request->screen=="global_banner"){
+                $slider->global_banner = 1;
             }
-
-            if($request->screen=="phone"){
-                $image->move(public_path('uploads/sliders/phone'), $filename);
-                $slider->phone = 1;
-            }
-
-            $slider->slider_url = $request->slider_url;
-            $slider->slider = $filename;
             $slider->status = $request->status;
+            $slider->slider_url = $request->slider_url;
+            
+            if($request->phone){
+                $image = $request->file('phone');
+                $filename = uniqid() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('uploads/sliders/phone'), $filename);
+                $slider->phone = $filename;
+                // return redirect()->route('admin.settings.slider.list')->with('success', 'Slider uploaded successfully.');
+            }
+            
+            if($request->desktop){
+                $image = $request->file('desktop');
+                $filename = uniqid() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('uploads/sliders/desktop'), $filename);
+                $slider->desktop = $filename;
+            }
+            
             $slider->save();
-            return redirect()->route('admin.settings.slider.list')->with('success', 'Slider uploaded successfully.');
-        }
+        return redirect()->route('admin.settings.slider.list')->with('success', 'Slider uploaded successfully.');
+    }
         else{
             return redirect()->back()->withErrors($request->errors())->withInput();
         }
@@ -65,34 +67,19 @@ class SettingController extends Controller
 
         $slider = Slider::find($id);
 
-        if($request->slider){
-            $image = $request->file('slider');
-
-            // Generate a unique filename with timestamp
+        if($request->phone){
+            $image = $request->file('phone');
             $filename = uniqid() . '.' . $image->getClientOriginalExtension();
-
-            // Save the image to the storage folder
-             if($request->screen=="deskotp"){
-                $image->move(public_path('uploads/sliders/desktop/'), $filename);
-                $slider->desktop = 1;
-            }
-
-            if($request->screen=="phone"){
-                $image->move(public_path('uploads/sliders/phone/'), $filename);
-                $slider->phone = 1;
-            }
-
-            if(@$slider->desktop){
-                $file_path = public_path('uploads/sliders/desktop/'.$slider->slider);
-            }
-
-            if(@$slider->phone){
-                $file_path = public_path('uploads/sliders/phone/'.$slider->slider);
-            }
-
-             unlink($file_path);
-
-            $slider->slider = $filename;
+            $image->move(public_path('uploads/sliders/phone'), $filename);
+            $slider->phone = $filename;
+            // return redirect()->route('admin.settings.slider.list')->with('success', 'Slider uploaded successfully.');
+        }
+        
+        if($request->desktop){
+            $image = $request->file('desktop');
+            $filename = uniqid() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/sliders/desktop'), $filename);
+            $slider->desktop = $filename;
         }
 
         $slider->slider_url = $request->slider_url;
@@ -110,7 +97,7 @@ class SettingController extends Controller
         if(@$slider->phone){
             $file_path = public_path('uploads/sliders/phone/'.$slider->slider);
         }
-
+        
         unlink($file_path);
         $slider->delete();
         return redirect()->route('admin.settings.slider.list')->with('success', 'Slider deleted successfully.');

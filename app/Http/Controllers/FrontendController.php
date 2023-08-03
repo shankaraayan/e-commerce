@@ -23,7 +23,8 @@ class FrontendController extends Controller
     public function index()
     {
         $products = Product::all();
-        $sliders = Slider::all();
+        $sliders = Slider::where('global_banner', '0')->get();
+        // dd($sliders);
         return view('pages.homepage', compact('products', 'sliders'));
     }
 
