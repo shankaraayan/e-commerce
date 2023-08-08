@@ -43,6 +43,7 @@ class Product extends Model
         'subcategory_id',
         'shipping_class',
         'estimate_deliver_date',
+        'quantity',
 
     ];
 

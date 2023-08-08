@@ -221,11 +221,8 @@ Route::get('product-terms', [ProductController::class, 'attributeTerms'])->name(
 Route::get('product-terms-admin/{id?}', [ProductController::class, 'attributeTermsAdmin'])->name('product.admin.attributeTerms');
 
 
-
-
-// Route::get('/', [FrontendController::class, 'index']);
 Route::post('/add-to-cart', [FrontendController::class, 'addToCart']);
-Route::post('/add_to_wishlist/{id}', [FrontendController::class, 'add_to_wishlist']);
+Route::get('/add_to_wishlist/{id}', [FrontendController::class, 'add_to_wishlist']);
 Route::get('/get_all_cart_value', [FrontendController::class, 'get_all_cart_value']);
 Route::post('/remove_from_cart', [FrontendController::class, 'remove']);
 Route::post('/update_cart_value', [FrontendController::class, 'update_cart_value']);
@@ -289,6 +286,8 @@ Route::get('/coupon/remove',[CouponController::class,'code_remove'])->name('coup
 Route::post('/admin/shipping/country/shipping_country_update', [ShippingController::class,'shippingPrice']);
 
 Route::post('/set-cookie', [CookieController::class,'setCookie'])->name('set.cookie');
+
+Route::get('/quick-view', [ProductController::class,'quick_view_products'])->name('quick.view');
 
 
 

@@ -187,6 +187,15 @@
                                             <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
 
                                                 <div class="input-area">
+                                                    <label for="name" class="form-label">Is Solar Product</label>
+                                                    <input type="radio" value="1" name="solar_product"> Yes
+                                                    <?php if($errors->has('solar_product')): ?>
+                                                        <span class="text-danger"><?php echo e($errors->first('solar_product')); ?></span>
+                                                    <?php endif; ?>
+                                                </div>
+
+
+                                                <div class="input-area">
                                                     <label for="name" class="form-label">Product
                                                         Category*</label>
                                                     <select class="form-control required" name="categories" id="category">
@@ -227,6 +236,13 @@
 
                                                     <?php if($errors->has('sku')): ?>
                                                         <span class="text-danger"><?php echo e($errors->first('sku')); ?></span>
+                                                    <?php endif; ?>
+                                                </div>
+                                                  <div class="input-area">
+                                                    <label for="name" class="form-label">Product Quantity*</label>
+                                                    <input type="number" class="form-control required" name="quantity">
+                                                    <?php if($errors->has('quantity')): ?>
+                                                        <span class="text-danger"><?php echo e($errors->first('quantity')); ?></span>
                                                     <?php endif; ?>
                                                 </div>
                                             </div>

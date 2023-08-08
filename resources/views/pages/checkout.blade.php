@@ -44,17 +44,30 @@
                 <li class="ps-breadcrumb__item" aria-current="page">Cart</li>
                 <li class="ps-breadcrumb__item active" aria-current="page">Checkout</li>
             </ul>
-            <h3 class="ps-checkout__title"> Checkout</h3>
+            
+            {{-- <h3 class="ps-checkout__title"> Checkout</h3>  --}}
             <div class="ps-checkout__content">
                 <div class="ps-checkout__wapper">
                     <p class="ps-checkout__text m-4">Sie haben noch kein Konto? <a href="{{route('login.register')}}">Zum Anmelden hier klicken</a></p>
 
                         <div class="ps-shopping__coupon row mb-4">
                             <div class="col-md-8">
-                                <div class="row px-4">
-                                    <input class="form-control ps-input col-md-8" type="text" id="couponCode" name="couponCode" placeholder="Kupon-Code"  value="{{old('couponCode') ?? @$lastCartItem['discount']['code'] ?? ''}}" >
-                                    <button onclick="couponApply()" id="couponButton" class="ps-btn ps-btn--primary col-md-4 m-0" type="button" >Coupon anwenden</button>
+                                 <p class="ps-checkout__text m-4">Haben Sie einen Gutschein? <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"> Klicken Sie hier, um Ihren Code einzugeben</a></p>
+                                 
+                                <div class="collapse" id="collapseExample">
+                                      <div class="card card-body shadow-sm">
+                                       <div class="row px-4">
+                                            <div class="col-md-7 mb-md-0 mb-4">
+                                                <input class="form-control ps-input" type="text" id="couponCode" name="couponCode" placeholder="Kupon-Code"  value="{{old('couponCode') ?? @$lastCartItem['discount']['code'] ?? ''}}" >
+                                            </div>
+                                            <div class="col-md-1"></div>
+                                            <div class="col-md-4 mb-md-0 mb-4">
+                                                <button onclick="couponApply()" id="couponButton" class="ps-btn ps-btn--primary m-0" type="button" >Coupon anwenden</button>
+                                            </div>
+                                        </div>
+                                      </div>
                                 </div>
+                                
 
                             </div>
 
@@ -69,10 +82,21 @@
                             <div class="ps-checkout__form">
                                 <h3 class="ps-checkout__heading">Angaben zur Rechnungsstellung</h3>
                                 <div class="row">
+                                    
+                                    <div class="col-12">
+                                            <div class="ps-checkout__group">
+                                                <label for="fullname" class="ps-checkout__label">Vollständiger Name <span class="text-danger">*</span></label>
+                                                <input class="ps-input" type="text" name="fullname"
+                                                    value="{{ old('fullname') }}">
+                                                @error('fullname')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                    </div>
 
                                     <div class="col-12">
                                         <div class="ps-checkout__group">
-                                            <label class="ps-checkout__label">Country</label>
+                                            <label class="ps-checkout__label">Country <span class="text-danger">*</span></label>
                                             <select value="{{ old('country') }}" class="ps-input country_shipping"  name="country" id="country"
                                                 data-select2-id="1" tabindex="-1" aria-hidden="true">
                                                 <option value="" >Wählen Sie ein Land / eine Region…</option>
@@ -94,17 +118,7 @@
 
                                     </script>
 
-                                    <div class="col-12">
-                                            <div class="ps-checkout__group">
-                                                <label for="fullname" class="ps-checkout__label">Vollständiger Name <span
-                                                        class="text-danger">*</span></label>
-                                                <input class="ps-input" type="text" name="fullname"
-                                                    value="{{ old('fullname') }}">
-                                                @error('fullname')
-                                                    <span class="text-danger">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                    </div>
+                                    
                                     <div class="col-12">
                                         <div class="ps-checkout__group">
                                             <label for="email" class="ps-checkout__label">E-Mail Adresse<span
@@ -190,39 +204,39 @@
                                             <div class="form-check">
                                                 <input class="form-check-input shipping_check" type="checkbox" name="ship-address"
                                                     id="ship-address">
-                                                <label class="form-check-label" for="ship-address">Versand an eine andere
-                                                    Adresse?</label>
+                                                <label class="form-check-label" for="ship-address">Versand an eine andereAdresse?</label>
                                             </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-12">
+                                        <div class="ps-checkout__group">
+                                            <label for="fullname" class="ps-checkout__label">Vollständiger Name <span class="text-danger">*</span></label>
+                                            <input class="ps-input" type="text" name="shipping_fullname" value="{{ old('shipping_fullname') }}">
+                                            @error('shipping_fullname')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                    <div class="col-12 ps-hidden" data-for="ship-address">
                                             <div class="row">
                                                 <div class="col-12">
-            <div class="ps-checkout__group">
-                <label class="ps-checkout__label">Country</label>
-                <select value="{{ old('shipping_country') }}" class="ps-input" id="shipping_conuntry" name="shipping_country" data-select2-id="1" tabindex="-1" aria-hidden="true">
-                    <option>Wählen Sie ein Land / eine Region…</option>
-                    @foreach ($shippingCountry as $country)
-                        <option @if($session_country == $country->country) selected @endif value="{{country()->where('id', $country->country)->pluck('id')->first()}}">
-                            {{ country()->where('id', $country->country)->pluck('country')->first() }} / {{ formatPrice($country->price) }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('district')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
-            </div>
-        </div>
+                                        <div class="ps-checkout__group">
+                                            <label class="ps-checkout__label">Country  <span class="text-danger">*</span></label>
+                                            <select value="{{ old('shipping_country') }}" class="ps-input" id="shipping_conuntry" name="shipping_country" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                                <option>Wählen Sie ein Land / eine Region…</option>
+                                                @foreach ($shippingCountry as $country)
+                                                    <option @if($session_country == $country->country) selected @endif value="{{country()->where('id', $country->country)->pluck('id')->first()}}">
+                                                        {{ country()->where('id', $country->country)->pluck('country')->first() }} / {{ formatPrice($country->price) }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            @error('district')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                     </div>
 
-                                            <div class="col-12">
-                                                <div class="ps-checkout__group">
-                                                    <label for="fullname" class="ps-checkout__label">Vollständiger Name <span class="text-danger">*</span></label>
-                                                    <input class="ps-input" type="text" name="shipping_fullname" value="{{ old('shipping_fullname') }}">
-                                                    @error('shipping_fullname')
-                                                        <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
-                                                </div>
-                                            </div>
 
                                             <div class="col-12">
                                                 <div class="ps-checkout__group">
@@ -314,10 +328,10 @@
                                 @if (session('cart'))
                                 {{-- @dd(session('cart')); --}}
                                     @foreach (session('cart') as $id => $details)
-
                                         @php
                                             $tax = getTaxCountry((int)$details['shipping_country']);
-                                            // @dd($details);
+
+
                                             $total+=($details['price']*$details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity']) ) ;
                                         @endphp
 
@@ -569,7 +583,7 @@
         $("#country").on('change', function(){
             const id = $(this).val();
             sessionStorage.setItem("selected", id);
-            $("#shipping_conuntry").val($(this).val());
+            // $("#shipping_conuntry").val($(this).val());
             shipping_update(id, dynmicElChekout);
 
         });

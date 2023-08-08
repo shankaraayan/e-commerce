@@ -777,9 +777,4 @@ $(document).ready(function() {
         }
     });
 });
-
-
-
-
-
 </script>

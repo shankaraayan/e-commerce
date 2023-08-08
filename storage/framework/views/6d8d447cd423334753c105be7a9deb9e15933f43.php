@@ -136,7 +136,8 @@ unset($__errorArgs, $__bag); ?>
                 </ul>
                 <!-- <div class="ps-language-currency"><a class="ps-dropdown-value" href="javascript:void(0);" data-toggle="modal" data-target="#popupLanguage">English</a><a class="ps-dropdown-value" href="javascript:void(0);" data-toggle="modal" data-target="#popupCurrency">USD</a></div> -->
                 <div class="ps-header__search">
-                    <form action="do_action" method="post">
+                    <form >
+                    
                         <div class="ps-search-table">
                             <div class="input-group">
                                 <input class="form-control ps-input" type="text" placeholder="Producten zoeken"
@@ -219,7 +220,9 @@ unset($__errorArgs, $__bag); ?>
     $(document).ready(function() {
         $('#keyword').keyup(function() {
             var keyword = $(this).val();
-
+                $('form').on('submit', function(event) {
+                    event.preventDefault();
+                });
             if (keyword.length >= 2) {
                 $.ajax({
                     url: '<?php echo e(route('search')); ?>',
@@ -248,7 +251,7 @@ unset($__errorArgs, $__bag); ?>
                                     '" alt="alt" /></figure>' +
                                     '</a></div>' +
                                     '<div class="ps-product__content">' +
-                                    '<h5 class="ps-product__title"><a>' + item
+                                    '<h5 class="ps-product__title"><a href="/product-detail/'+ item.slug+'">' + item
                                     .product_name + '</a></h5>' +
                                     '<p class="ps-product__desc">Study history up to 30 days Up to 5 users simultaneously Has HEALTH certificate</p>' +
                                     '<div class="ps-product__meta"><span class="ps-product__price">' +

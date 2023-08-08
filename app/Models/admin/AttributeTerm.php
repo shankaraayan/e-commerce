@@ -24,6 +24,8 @@ class AttributeTerm extends Model
         'supported_wh',
         'component_description',
         'component_priority',
+        'sku',
+        'quantity',
     ];
 
     protected $table = 'attribute_terms';

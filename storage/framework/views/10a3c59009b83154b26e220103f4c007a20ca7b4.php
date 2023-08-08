@@ -17,7 +17,8 @@
     <link rel="stylesheet" href="<?php echo e(asset('assets/plugins/font-awesome/css/font-awesome.min.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('assets/fonts/Linearicons/Font/demo-files/demo.css')); ?>">
     <link rel="preconnect" href="<?php echo e(asset('assets/https://fonts.gstatic.com')); ?>">
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://db.onlinewebfonts.com/c/72c37e84edf1d13a13a5d774056621b5?family=Riona+Sans+W01+Bold" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet"> -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo e(asset('assets/plugins/bootstrap4/css/bootstrap.min.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('assets/plugins/owl-carousel/assets/owl.carousel.css')); ?>">
@@ -36,17 +37,17 @@
             border: none !important;
             background: transparent !important;
         }
-.well{
-    margin:16px 0px;
-    border-radius: 25px;
-    background: rgb(238, 238, 238);
-    padding:12px 16px;
-
-}
-.well p{
-    margin:0;
-    padding:0;
-}
+        .well{
+            margin:16px 0px;
+            border-radius: 25px;
+            background: rgb(238, 238, 238);
+            padding:12px 16px;
+        
+        }
+        .well p{
+            margin:0;
+            padding:0;
+        }
         .customer_dashboard .nav-pills .nav-link.active,
         .customer_dashboard .nav-pills .show>.nav-link {
             color: #fff;
@@ -102,6 +103,9 @@
         .ps-product__variations_sec .select_var_row {
             background: #f0f2f5;
 
+        }
+        .ps-search--result{
+            z-index:1000
         }
 
         .ps-product__variations_sec input[type=radio]:checked+label>.select_var_row {

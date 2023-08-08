@@ -33,6 +33,8 @@ class ProductAttributeTermsController extends Controller
         $terms->attribute_term_name = $request->attribute_term_name;
         $terms->attributes_id = $request->attributes_id;
         $terms->price = $request->price;
+        $terms->sku = $request->sku;
+        $terms->quantity = $request->quantity;
         $terms->attribute_term_description = $request->attribute_term_description;
         $terms->attribute_term_kWh_name = $request->attribute_term_kWh_name;
         $terms->attribute_terms_status = $request->attribute_terms_status;

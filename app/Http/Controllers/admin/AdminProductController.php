@@ -28,7 +28,6 @@ class AdminProductController extends Controller
     {
         $attributes = Attribute::get();
         $attributesTerms = AttributeTerm::where('attribute_type','panel')->get();
-        // dd($attributesTerms);
         return view('admin.product.add',compact('attributes','attributesTerms'));
     }
 
@@ -40,23 +39,15 @@ class AdminProductController extends Controller
             'price' => 'required',
             'shipping' => 'required',
         ]);
-
         if ($validator->fails()) {
-
-            // $request->session()->flash('error', 'Validation failed');
-
             return response()->json([
                 'message' => 'Validation failed',
                 'input_errors' => $validator->errors(),
                 'status' => false,
             ], 422);
-
-
         }
-
         $array = json_decode($request->selectedOptions, true);
         $values = [];
-        // dd($request->all());
         if(!empty($array))
         {
             foreach ($array as $subArray)
@@ -64,56 +55,32 @@ class AdminProductController extends Controller
                 $values = array_merge($values, $subArray);
             }
         }
-
-
         $input = $request->all();
-
         if ($request->hasFile('thumb_image'))
         {
             $image = $request->file('thumb_image');
             $filename = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('uploads'), $filename);
-
-            // Save the filename or perform further operations
         }
-
         $input['thumb_image'] = $filename ?? '';
         $input['type'] = $request->type;
         $input['status'] = $request->status;
-
         $selectedOptions = $request->input('options', []);
-
         $selectedOptionsTerms = $request->input('optionTerms', []);
-        // dd($request->$selectedOptionsTerms);
         $input['categories'] =$request->categories;
-
         $input['subcategory_id'] = $request->subcategory;
         $input['estimate_deliver_date'] = $request->estimate_deliver_date;
         $input['attributes_id'] = implode(',', $selectedOptions);
         $input['attributesTerms_id'] = implode(',', $selectedOptionsTerms);
-        // dd($input['attributesTerms_id']);
-
         $input['shipping_class'] = $request->shipping;
-        // dd($input);
-
+        $input['quantity'] = $request->quantity;
+        $input['solar_product'] = $request->solar_product;
         $product = Product::create($input);
-
-        //  $attributes = Attribute::where('id',$request->options->id)->get();
-        //  dd($request->options );
-
         if ($request->hasFile('images')) {
             $images = $request->file('images');
-
             foreach ($images as $image) {
-
                 $filename = uniqid() . '.' . $image->getClientOriginalExtension();
-
-                // Save the image to the storage folder
-                // $image->storeAs('public/images', $filename);
-
-                 $image->move(public_path('uploads'), $filename);
-
-                // Save the filename in the database
+                $image->move(public_path('uploads'), $filename);
                 $imageModel = new ProductImages();
                 $imageModel->images = $filename;
                 $imageModel->product_id = $product->id;
@@ -121,28 +88,21 @@ class AdminProductController extends Controller
             }
         }
         return response()->json(['message' => 'Product Uploaded Successfully']);
-        // return redirect()->route('admin.product.list')->with('success', 'Product Added Sucessfully.');
     }
 
     public function edit($id){
         $attributes = Attribute::get();
         $attributesTerms = AttributeTerm::get();
-        // dd($attributesTerms);
         $editData = Product::find($id);
-        // dd($editData);
         $productImages = ProductImages::where('product_id',$id)->get();
         return view('admin.product.edit',compact('editData','productImages','attributes','attributesTerms'));
     }
 
-    public function update(ProductAdminRequest $request){
-
-        //   dd($request->all());die;
+    public function update(ProductAdminRequest $request)
+    {
         $options = is_array($request->options) ? implode(',', $request->options) : '';
         $dropdowns = is_array($request->dropdowns) ? implode(',', $request->dropdowns) : '';
-
-
         $editproduct = Product::find($request->productId);
-
         $editproduct->product_name = $request->product_name;
         $editproduct->attributes_id = $options;
         $editproduct->attributesTerms_id = $dropdowns;
@@ -162,41 +122,30 @@ class AdminProductController extends Controller
         $editproduct->categories = $request->categories;
         $editproduct->subcategory_id = $request->subcategory;
         $editproduct->status = $request->status;
-        $editproduct->sku = $request->sku;;
+        $editproduct->sku = $request->sku;
+        $editproduct->quantity = $request->quantity;
         $editproduct->estimate_deliver_date = $request->estimate_deliver_date;
-
+        $editproduct->solar_product = $request->solar_product;
         if ($request->hasFile('images')) {
             $images = $request->file('images');
-
             foreach ($images as $image) {
-
                 $filename = uniqid() . '.' . $image->getClientOriginalExtension();
-
-                // Save the image to the storage folder
-                // $image->storeAs('public/images', $filename);
-
-                 $image->move(public_path('uploads'), $filename);
-
-                // Save the filename in the database
+                $image->move(public_path('uploads'), $filename);
                 $imageModel = new ProductImages();
                 $imageModel->images = $filename;
                 $imageModel->product_id = $editproduct->id;
                 $imageModel->save();
             }
         }
-
         if ($request->hasFile('thumb_image'))
         {
             $image = $request->file('thumb_image');
             $filename = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('uploads'), $filename);
-            $editproduct['thumb_image'] = $filename ?? '';// Save the filename or perform further operations
+            $editproduct['thumb_image'] = $filename ?? '';
         }
-
         $editproduct->save();
-
         return redirect()->route('admin.product.list')->with('success', 'Product Updated Sucessfully.');
-        // $editproduct->product_name = $editproduct->product_name;
    }
 
     public function view($id){

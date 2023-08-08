@@ -225,6 +225,7 @@
                                             </div>
                                         </td>
                                         <td class="ps-product__subtotal">
+                                            
                                             <?php echo e(formatPrice(@$details['price'] * $details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity']))); ?>
 
                                             <?php if($tax['vat_tax']): ?> <br><small style="font-size:10px;color:red;">(Tax Inclusive)</small> <?php endif; ?>
@@ -269,7 +270,11 @@
                                                         class="icon-plus"></i></button>
                                             </div>
                                         </td>
+                                        
                                         <td class="ps-product__subtotal">
+
+                                            
+
                                             <?php echo e(formatPrice(@$details['price'] * @$details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity']) )); ?>
 
                                             <?php if($tax['vat_tax']): ?> <br><small style="font-size:10px;color:red;">(Tax Inclusive)</small> <?php endif; ?>

@@ -212,21 +212,10 @@
                                   <td class="table-td ">{{$product['quantity']}}</td>
 
                                 @php
-
                                     $product['price_with_tax'] = unforamtPrice($product['price_with_tax']);
-                                    
-                                    if(isset($product['discount']) && $product['discount']['type'] == 'flat'){
-                                        $total = $product['price_with_tax'] * $product['quantity'] ;
-                                    }
-                                    else{
-                                        $total = $product['price_with_tax'] * $product['quantity'];
-                                    }
-                                
-                                    
+                                    $total = $product['price_with_tax'] * $product['quantity'] ;
                                 @endphp
-
                                   <td class="table-td ">{{ (formatPrice($total)) }}</td>
-                                  {{-- <td class="table-td ">{{date('d-M-Y',strtotime($orders['created_at']))}}</td> --}}
                                 </tr>
                             @endforeach
 
@@ -242,6 +231,30 @@
                                                 }
                                         @endphp
                                         {{formatPrice($fianlPrice)}}
+                                        </td>
+                                    </tr>
+
+                                    @php   
+                                        $discount = end($productDetailsArray);
+
+                                        if(isset($discount['discount']) && $discount['discount']['type'] == 'flat'){
+                                            $discountPrice = $discount['discount']['discount_value'] . " ".$discount['discount']['type'] . " OFF";
+                                        }
+                                        elseif(isset($discount['discount']) && $discount['discount']['type'] == 'Percentage'){
+                                            $discountPrice = $discount['discount']['discount_value'] . " ". " %OFF";
+                                        }
+                                        else{
+                                            $discountPrice = '0';
+                                        }
+                                    @endphp
+                                    
+                                    <tr class="even:bg-slate-50 dark:even:bg-slate-700">
+                                        <td class="table-td" colspan="2" ></td>
+                                            <td class="table-td" >
+                                                Discount ({{$discount['discount']['code'] ?? 'N/A'}})
+                                            <td class="table-td">
+                                        
+                                        {!! $discountPrice !!}
                                         </td>
                                     </tr>
                                     <tr class="even:bg-slate-50 dark:even:bg-slate-700">
@@ -260,8 +273,18 @@
                                             <td class="table-td" >
                                                 Total
                                             <td class="table-td">
-                                       
-                                        {{formatPrice($fianlPrice + $productDetailsArray['shipping_price'])}}
+                                       @php
+                                            if(isset($discount['discount']) && $discount['discount']['type'] == 'flat'){
+                                            $fianlPrice = $fianlPrice - $discount['discount']['discount_value'];
+                                            }
+                                            elseif(isset($discount['discount']) && $discount['discount']['type'] == 'Percentage'){
+                                                $fianlPrice = $fianlPrice - ($fianlPrice * $discount['discount']['discount_value'] / 100 );
+                                            }
+                                            else{
+                                                $fianlPrice = $fianlPrice;
+                                            }
+                                       @endphp
+                                        {{formatPrice($fianlPrice  + $productDetailsArray['shipping_price'])}}
                                         </td>
                                     </tr>
 
@@ -269,7 +292,7 @@
                             </table>
                           </div>
                         </div>
-                      </div>
+                     </div>
                     </div>
                   </div>
   </div>

@@ -189,6 +189,15 @@
                                             <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
 
                                                 <div class="input-area">
+                                                    <label for="name" class="form-label">Is Solar Product</label>
+                                                    <input type="radio" value="1" name="solar_product"> Yes
+                                                    @if ($errors->has('solar_product'))
+                                                        <span class="text-danger">{{ $errors->first('solar_product') }}</span>
+                                                    @endif
+                                                </div>
+
+
+                                                <div class="input-area">
                                                     <label for="name" class="form-label">Product
                                                         Category*</label>
                                                     <select class="form-control required" name="categories" id="category">
@@ -229,6 +238,13 @@
 
                                                     @if ($errors->has('sku'))
                                                         <span class="text-danger">{{ $errors->first('sku') }}</span>
+                                                    @endif
+                                                </div>
+                                                  <div class="input-area">
+                                                    <label for="name" class="form-label">Product Quantity*</label>
+                                                    <input type="number" class="form-control required" name="quantity">
+                                                    @if ($errors->has('quantity'))
+                                                        <span class="text-danger">{{ $errors->first('quantity') }}</span>
                                                     @endif
                                                 </div>
                                             </div>

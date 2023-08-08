@@ -372,10 +372,5 @@ $(document).ready(function() {
         }
     });
 });
-
-
-
-
-
 </script>
 <?php /**PATH /home/customstegpearl/public_html/root/resources/views/includes/include.blade.php ENDPATH**/ ?>

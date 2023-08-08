@@ -104,6 +104,23 @@
                     <span class="text-danger">{{ $errors->first('price') }}</span>
                   @endif
                 </div>
+                
+                <div class="input-area">
+                  <label for="name" class="form-label">SKU*</label>
+                  <input id="sku" name="sku" type="text" class="form-control" placeholder="sku" required="required">
+                  @if ($errors->has('sku'))
+                    <span class="text-danger">{{ $errors->first('sku') }}</span>
+                  @endif
+                </div>
+
+                <div class="input-area">
+                  <label for="name" class="form-label">Quantity*</label>
+                  <input id="quantity" name="quantity" type="text" class="form-control" placeholder="quantity" required="required">
+                  @if ($errors->has('quantity'))
+                    <span class="text-danger">{{ $errors->first('quantity') }}</span>
+                  @endif
+                </div>
+
                 </div>
                 <div class="input-area">
                   <label for="description" class="form-label">Attribute Term Description*</label>
@@ -202,6 +219,12 @@
                                   <th scope="col" class=" table-th ">
                                     Attribute Term Name
                                   </th>
+                                  <th scope="col" class=" table-th ">
+                                    SKU
+                                  </th>
+                                  <th scope="col" class=" table-th ">
+                                    Quantity
+                                  </th>
 
                                   <th scope="col" class=" table-th ">
                                     WH
@@ -223,6 +246,8 @@
                                 <tr>
                                   <td class="table-td">{{++$key}}</td>
                                   <td class="table-td ">{{$values->attribute_term_name}}</td>
+                                  <td class="table-td ">{{$values->sku}}</td>
+                                  <td class="table-td ">{{$values->quantity}}</td>
                                   <td class="table-td ">{{$values->attribute_term_kWh_name}}</td>
 
                                   <td class="table-td ">{{$values->price}}</td>

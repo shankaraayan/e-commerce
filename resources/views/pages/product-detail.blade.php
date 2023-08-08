@@ -1,7 +1,7 @@
 @extends('../Layout.Layout')
 
 @section("content")
-<style>
+<style> 
     .ps-product--detail .ps-product__price {
         font-size: 18px;
         font-weight: 700;
@@ -25,15 +25,16 @@
 
     .ps-product__variations_sec .select_var_row {
         background: transparent!important;
-        border: 2px solid #e1e1e1;
+        border: 1px solid #e1e1e1;
     }
 
     .ps-product__variations_sec .accordion .card:not(:first-of-type):not(:last-of-type) {
         border-radius: 10px !important;
         border: 1px solid #f0f2f5;
     }
-    .ps-section__content h3.ps-section__title {
-        margin-bottom: 0px;
+     .ps-section__title {
+        margin-bottom: 0px !important;
+        font-size: 18px !important;
     }
     .form-check .form-check-label::before {
         display: none;
@@ -51,16 +52,22 @@
 
     }
     .ps-product__variations_sec input[type=radio]:checked+label>.select_var_row {
-        border: 2px solid #075095 !important;
+        border: 2px solid #f3b222 !important;
         border-radius: 15px;
     }
+   
 
     .ps-product__variations_sec .select_var_row {
         border-radius: 15px;
     }
-
+    .bg-light {
+         background-color: #f7f8f9 !important;
+    }
     .ps-desc{
-         border-radius: 15px;
+         border-radius: 13px;
+         font-size:15px !important;
+         color :#8994b1 !important;
+         text-align: justify;
      }
 
     .ps-product__variations_sec input[type=radio] {
@@ -98,20 +105,14 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
 
-
 <div class="ps-page--product4 mt-5">
     <div class="container">
-        <!--<ul class="ps-breadcrumb">-->
-        <!--    <li class="ps-breadcrumb__item"><a href="index.html">Home</a></li>-->
-        <!--    <li class="ps-breadcrumb__item"><a href="category-grid-dark.html">Higiene</a></li>-->
-        <!--    <li class="ps-breadcrumb__item active" aria-current="page">Face masks</li>-->
-        <!--</ul>-->
+       
         <div class="ps-page__content">
             <div class="ps-product--detail ps-product--full">
                 <div class="row">
-                    <div class="col-12 col-xl-5 col-lg-5 col-md-6">
-                        
-                        <!-- Kartik -->
+                    <div class="col-12 col-xl-6 col-md-5">
+
                         <div class="ps-section__carousel related_product_view">
                             <div class="main-image owl-carousel owl-loaded owl-drag" data-owl-loop="true" data-owl-auto="false" data-owl-nav="false" data-owl-dots="false">
                                 <div class="item">
@@ -156,7 +157,8 @@
                             </div> -->
                         </div>
                     </div>
-                    <div class="col-12 col-xl-7 col-lg-7 col-md-6">
+                   
+                    <div class="col-12 col-xl-6 col-md-7">
                         <div class="ps-product__info">
 
                             <div class="ps-product__branch"><a href="#">@if(isset($product->categories->name)) {{$product->categories->name}} @endif</a></div>
@@ -174,13 +176,13 @@
                             </div>
                             <h5 class="mb-4 text-dark" id="nameDiv" style="display: none;"></h5>
                             <div id="priceDiv" style="display: none;"></div>
-
+                            @if($product->type == 'variable')
                             <div class="ps-product__variations_sec">
                                  <div class="accordion" id="accordionExample">
                                     
                                     @foreach ($attributes as $key => $data)
 
-                                        <div class="card py-3">
+                                        <div class="card py-3 border-bottom">
                                             <div class="card-header p-0" id="heading_Var{{$key}}" data-toggle="collapse" data-target="#collapse_var_{{$key}}" aria-expanded="true" aria-controls="collapse_var_{{$key}}">
                                                     <div class="card_header_inner pr-5" style="display:inline-block">
                                                             <a href="javascript:void(0)">
@@ -193,9 +195,10 @@
 
                                             <div id="collapse_var_{{$key}}" class="collapse{{$key == 0 ? ' show' : ''}}" aria-labelledby="heading_Var{{$key}}" data-parent="#accordionExample">
                                                 <div class="card-body">
-                                                     <p class="ps-checkout__checkbox row p-4 ps-desc bg-light">{{$data->attribute_description}}</p>
+                                                     <p class="ps-checkout__checkbox row p-4 ps-desc bg-light">
+                                                         {{$data->attribute_description}}</p>
                                                     <div class="ps-checkout__checkbox row p-3">
-                                                        
+                                                  
                                                         @foreach ($data->attributeTerms as $keyss => $vales)
 
                                                         @if ($key == 0 && $data->attribute_type == 'panel')
@@ -207,7 +210,7 @@
                                                                 value="option{{$keyss}}"
                                                                 data-atr-name="{{ $vales->attribute_term_name }}"
                                                                 data-atr-price="{{ $vales->price }}"
-                                                                data-value="{{ $vales->attribute_term_name }},{{ $vales->price }},{{$vales->id}}"
+                                                                data-value="{{ $vales->attribute_term_name }},{{ $vales->price }},{{$vales->id}},{{$data->attribute_name}}"
                                                                 onclick="getData({{ $vales->id }},{{ $product->id }},{{ $key+1 }}); saveValue(this, '{{ $data->id }}','Panel','heading_Var{{$key}}',{{$vales->id}},'{{$data->attribute_name}}')">
 
                                                             <label class="form-check-label mx-2" for="var_radios{{$key}}_{{$keyss}}">
@@ -218,20 +221,20 @@
                                                                             <img src="{{asset('root/public/uploads/'.$vales->image)}}" alt="" width="100px">
                                                                         </div>
                                                                     @endif
-                                                                    <div class="col-9 align-middle">
-                                                                        <h3 class="ps-section__title py-2">{{$vales->attribute_term_name}}  <small>{{formatPrice($vales->price)}}</small></h3>
-                                                                        <p class="ps-desc">{{$vales->attribute_term_description}}</p>
+                                                                    <div class="align-middle {{ @$vales->image ? 'col-9' : 'col-12' }}">
+                                                                        <h3 class="ps-section__title py-2 d-flex justify-content-between">
+                                                                            {{ $vales->attribute_term_name }} <small style="color:#f3b222;">{{ formatPrice($vales->price) }}</small>
+                                                                        </h3>
+                                                                        <p class="ps-desc">{{ $vales->attribute_term_description }}</p>
                                                                     </div>
+
                                                                 </div>
                                                             </label>
                                                         </div>
                                                         @elseif($key == 1 && $data->attribute_type == 'inverter')
+                                                          
                                                         <div class="form-check p-0 col-12 mb-3" id="test">
-
-                                                        </div>
-                                                        @else
-                                                        <div class="form-check col-12 mb-3">
-                                                            <input class="form-check-input" type="radio" name="var_radios{{$key}}" id="var_radios{{$key}}_{{$keyss}}" value="option{{$keyss}}" data-atr-price="{{ $vales->price }}" data-atr-name="{{ $vales->attribute_term_name }}"  data-value="{{ $vales->attribute_term_name }},{{ $vales->price }},{{$vales->id}}"
+                                                             <input class="form-check-input" type="radio" name="var_radios{{$key}}" id="var_radios{{$key}}_{{$keyss}}" value="option{{$keyss}}" data-atr-price="{{ $vales->price }}" data-atr-name="{{ $vales->attribute_term_name }}"  data-value="{{ $vales->attribute_term_name }},{{ $vales->price }},{{$vales->id}},{{$data->attribute_name}}"
                                                             onclick="saveValue(this, '{{ $data->id }}','','heading_Var{{$key}}',{{$vales->id}},'{{$data->attribute_name}}')">
                                                             <label class="form-check-label mx-2" for="var_radios{{$key}}_{{$keyss}}">
                                                                 <div class="row select_var_row p-3 term-select-{{$vales->id}}">
@@ -240,8 +243,31 @@
                                                                             <img src="{{asset('root/public/uploads/'.$vales->image)}}" alt="" width="100px">
                                                                         </div>
                                                                     @endif
-                                                                    <div class="col-9 align-middle">
-                                                                        <h3 class="ps-section__title py-2">{{$vales->attribute_term_name}}</h3>
+                                                                    <div class="align-middle {{ @$vales->image ? 'col-9' : 'col-12' }}">
+                                                                        <h3 class="ps-section__title py-2 d-flex justify-content-between">
+                                                                            {{ $vales->attribute_term_name }} <small style="color:#f3b222;">{{ formatPrice($vales->price) }}</small>
+                                                                        </h3>
+                                                                        <p class="ps-desc">{{$vales->attribute_term_description}}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                        @else
+                                                        
+                                                        <div class="form-check col-12 mb-3">
+                                                            <input class="form-check-input" type="radio" name="var_radios{{$key}}" id="var_radios{{$key}}_{{$keyss}}" value="option{{$keyss}}" data-atr-price="{{ $vales->price }}" data-atr-name="{{ $vales->attribute_term_name }}"  data-value="{{ $vales->attribute_term_name }},{{ $vales->price }},{{$vales->id}},{{$data->attribute_name}}"
+                                                            onclick="saveValue(this, '{{ $data->id }}','','heading_Var{{$key}}',{{$vales->id}},'{{$data->attribute_name}}')">
+                                                            <label class="form-check-label mx-2" for="var_radios{{$key}}_{{$keyss}}">
+                                                                <div class="row select_var_row p-3 term-select-{{$vales->id}}">
+                                                                     @if(@$vales->image)
+                                                                        <div class="ps-section__thumbnail col-3">
+                                                                            <img src="{{asset('root/public/uploads/'.$vales->image)}}" alt="" width="100px">
+                                                                        </div>
+                                                                    @endif
+                                                                    <div class="align-middle {{ @$vales->image ? 'col-9' : 'col-12' }}">
+                                                                       <h3 class="ps-section__title py-2 d-flex justify-content-between">
+                                                                            {{ $vales->attribute_term_name }} <small style="color:#f3b222;">{{ formatPrice($vales->price) }}</small>
+                                                                        </h3>
                                                                         <p class="ps-desc">{{$vales->attribute_term_description}}</p>
                                                                     </div>
                                                                 </div>
@@ -263,7 +289,7 @@
                                     @endforeach
                                  </div>
                             </div>
-
+                            @endif
 
                             <div class="ps-product__quantity">
                                 @if($product['type'] != 'variable')
@@ -330,12 +356,9 @@
                         <div class="container">
                             <div class="ps-promo mt-5 ps-category--image mt-5">
                                 <div class="col-12">
-                                    <h2 class="ps-section__title text-center pb-5">800 W / 600 W Balkonkraftwerk – Upgradebar 800W Photovoltaik Stecker Solaranlage</h2>
+                                    {{--<h2 class="ps-section__title text-center pb-5">800 W / 600 W Balkonkraftwerk – Upgradebar 800W Photovoltaik Stecker Solaranlage</h2>--}}
                                 </div>
-                                <div class="row bg-gray rounded p-5">
-                                    <div class="col-12">
-                                        <h3 class="ps-section__title text-center pb-5">Lieferumfang</h2>
-                                    </div>
+                                <div class="row bg-gray rounded p-5 {{@$components ? '':'d-none'}}">
                                     <div class="row" id="short_des_html">
                                         @if(!empty($components))
                                             @foreach($components as $component)   
@@ -352,8 +375,6 @@
                                             @endforeach
                                         @endif
                                     </div>
-                                    
-                                    
                                 </div>
                             </div>
                         </div>
@@ -503,10 +524,26 @@ function formatPrice(price) {
 
 
 var isFirstIteration = true;
-var savedValues = {};
+var savedValues;
 
-function saveValue(element, attributeId, name = null,pids,term_id,term_name) {
+if (sessionStorage.getItem('savedValues')) {
+    savedValues = JSON.parse(sessionStorage.getItem('savedValues'));
+    console.log(savedValues);
+} else {
+    savedValues = {};
+}
 
+
+function saveValue(element, attributeId, name = null,pids,term_id,attribute_name) {
+
+ var id = parseInt(pids.split("heading_Var")[1]);
+ var collapse_id = "collapse_var_"+id;
+
+  $("#"+collapse_id).collapse('toggle');
+   id++;
+  
+  $("#"+"collapse_var_"+id).addClass('show');
+ 
 var atr_name = element.getAttribute('data-atr-name');
 var atr_price = element.getAttribute('data-atr-price');
 atr_price = formatPrice(atr_price);
@@ -515,7 +552,7 @@ atr_price = formatPrice(atr_price);
 $("#" + pids).find("small").remove();
 
 if(atr_price!='€0.00'){
-    $("#" + pids).append(`<small>${atr_name}</small> <small class="text-danger mr-5 font-weight-bold pl-2">${atr_price}</small>`);
+    $("#" + pids).append(`<small>${atr_name}</small> <small class="mr-5 font-weight-bold pl-2"  style="color:#f3b222;">${atr_price}</small>`);
 }
 
 
@@ -531,6 +568,7 @@ var values = value.split(',');
 var attributeTermName = values[0];
 var attributeTermPrice = parseFloat(values[1]); // Parse price as a float
 var attributeTermID = parseFloat(values[2]); // Parse price as a float
+var attributeName = values[3];
 
 
 var nameDiv = document.getElementById('nameDiv');
@@ -546,13 +584,13 @@ if (name === 'Panel') {
     // reset url
     let url = new URL(window.location.href);
  
-    term_name = term_name.toLowerCase().split(" ").join("-");
+   attribute_name = attribute_name.toLowerCase().split(" ").join("-");
     // Remove any existing occurrences of the parameter
     const params = new URLSearchParams(url.search);
-    params.delete(term_name);
+    params.delete(attribute_name);
 
     // Add the new parameter
-    params.append(term_name, term_id);
+    params.append(attribute_name, term_id);
 
     // Update the search part of the URL with the updated parameters
     url.search = params.toString();
@@ -567,19 +605,22 @@ if (attributeId in savedValues) {
 savedValues[attributeId].name = attributeTermName;
 savedValues[attributeId].price = attributeTermPrice;
 savedValues[attributeId].termid = attributeTermID;
+savedValues[attributeId].attribute = attributeName;
 
-
-} else {
-// Add new values
-savedValues[attributeId] = {
-  name: attributeTermName,
-  price: attributeTermPrice,
-  termid:attributeTermID
-
-};
+} 
+else {
+    // Add new values
+    savedValues[attributeId] = {
+      name: attributeTermName,
+      price: attributeTermPrice,
+      termid:attributeTermID,
+      attribute : attributeName
+    };
 }
+sessionStorage.setItem('savedValues',JSON.stringify(savedValues));
 
 var attributeIds = Object.keys(savedValues);
+
 var count = attributeIds.length;
 
 // Update nameDiv
@@ -597,6 +638,9 @@ var termIds = Object.values(savedValues).map(function(item) {
 return item.termid;
 });
 
+var attributeName = Object.values(savedValues).map(function(item) {
+return item.attribute;
+});
 
 // Update priceDiv
 var prices = Object.values(savedValues).map(function(item) {
@@ -611,11 +655,14 @@ totalPriceDiv.textContent = '€' + priceDiv.textContent;
 
 // Save values in session
 var totalPrice = parseFloat(priceDiv.textContent);
+
 var sessionData = {
 product_id: {{ $product->id }},
 prices : prices.join(','),
 termIds: termIds.join(','),
 names : names.join(','),
+attribute : attributeName.join(',')
+
 };
 
 // Check if termsID is an array and add it to sessionData
@@ -650,8 +697,7 @@ $.ajax({
     method: 'GET',
     data: { id: id, productid:idpro }, // Pass the ID as a parameter
     success: function(response) {
-        // console.log(response)
-    var users = response;
+    var users = response.related_terms;
     var tableBody = $('#test');
     tableBody.empty();
 
@@ -660,7 +706,7 @@ $.ajax({
         let imageUrl = "{{ asset('root/public/uploads/') }}/" + user.image;
 
         tableBody.append(`
-            <div class="row select_var_row mx-0 p-2 term-select-${id}}" onclick="highlightDiv(this);saveValue(this, '${user.attribute_id}','','heading_Var${sid}',${id},'${user.attribute__name}');" data-atr-name="${user.attribute_term_name}" data-atr-price="${user.price}" data-value="${user.attribute_term_name},${user.price},${user.id}">
+            <div class="row select_var_row mx-0 p-2 term-select-${id}}" onclick="highlightDiv(this);saveValue(this, '${user.attribute_id}','','heading_Var${sid}',${id},'${user.attribute__name}');" data-atr-name="${user.attribute_term_name}" data-atr-price="${user.price}" data-value="${user.attribute_term_name},${user.price},${user.id},${response.arribute_name}">
                 ${user.image !== null ? `<div class="ps-section__thumbnail col-3">
                     <img src="${imageUrl}" alt="" width="100px">
                 </div>` : ""}
@@ -679,8 +725,8 @@ $.ajax({
 }
 
     },
-    error: function(xhr, status, error) {
-
+    error: function(error) {
+        console.log(error);
     }
 });
 }
@@ -750,7 +796,7 @@ function checkSessionCount(productId, countAttributes) {
         var nameDiv = document.getElementById('nameDiv');
         var values = nameDiv.innerHTML;
         var plusCount = 0;
-            console.log(values);
+            
             for (var i = 0; i < values.length; i++) {
                 if (values[i] === '+') {
                     plusCount++;
@@ -772,8 +818,7 @@ function checkSessionCount(productId, countAttributes) {
     function html_components(session){
         
         const data = sessionStorage.getItem('sessionData');
-        let {termIds,prices,names} = JSON.parse(data);
-        
+        let {termIds,prices,attribute} = JSON.parse(data);
         const url = new URL(window.location.href);
 
         // Create an empty URLSearchParams object
@@ -785,22 +830,24 @@ function checkSessionCount(productId, countAttributes) {
         // Update the URL in the browser's history without reloading the page
         window.history.pushState({ path: url.pathname }, '', url.pathname);
 
-        names = names.split(",");
+        attribute = attribute.split(",");
         termIds = termIds.split(",");
-
+        
         termIds.map((item,index)=>{
             
-           let term_name =  names[index].toLowerCase().split(" ").join("-");
+           let attr_name =  attribute[index].toLowerCase().split(" ").join("-");
+        //   console.log(term_name);
             // Remove any existing occurrences of the parameter
             const params = new URLSearchParams(url.search);
-            params.delete(term_name);
-
+            // params.delete(attr_name);
+           
             // Add the new parameter
-            params.append(term_name, item);
+           
+            params.append(attr_name, item);
 
             // Update the search part of the URL with the updated parameters
             url.search = params.toString();
-
+           
             // Use pushState to update the URL without reloading the page
             window.history.pushState({ path: url.href }, '', url.href);
         });
@@ -816,6 +863,7 @@ function checkSessionCount(productId, countAttributes) {
                 "ids": ids,
             },
             success : function(response){
+                $(".bg-gray").removeClass("d-none");
                 // console.log(response);
                 let short_des_html = '';
                 let htmlComponent = '';
@@ -831,13 +879,13 @@ function checkSessionCount(productId, countAttributes) {
                             </div>
                         </div>
                     </div>`;
-                    console.log(item.price);
+                    
                     if(item.price!=0){
                         short_des_html += short_des;
                     }
                     htmlComponent += item.component_description;
                 });
-                console.log(short_des_html);
+                // console.log(short_des_html);
                 $(short_des_div).html(short_des_html);
                 $(htmlComponentDiv).html(htmlComponent);
             },
@@ -861,21 +909,23 @@ function checkSessionCount(productId, countAttributes) {
             // console.log(firstQueryId);
             // let queryString = new URLSearchParams(paramString);
             if(sessionStorage.getItem('sessionData')){
-                const data = sessionStorage.getItem('sessionData');
+                const data = sessionStorage.getItem('sessionData')
+      
                 const {termIds,prices,names} = JSON.parse(data);
+            
                 let terms =  termIds.split(",");
                 let price = prices.split(",");
                 let name = names.split(",");
                 terms.map((item,index)=>{
 
-                    $(".term-select-"+item).css("border-color","red");
+                    $(".term-select-"+item).css("border-color","#f3b222");
                     let el = $(".term-select-"+item);
                     el = el[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
                     let card_header_inner = el.querySelector(".card_header_inner");
                     // console.log(card_header_inner);
                     const ps = card_header_inner.parentElement;
                     if(price[index]!=0){
-                        $(ps).append(`<small>${name[index]} </small> <small class="ml-2 text-danger">${formatPrice(price[index])}</small>`)
+                        $(ps).append(`<small>${name[index]} </small> <small class="ml-2" style="color:#f3b222;">${formatPrice(price[index])}</small>`)
                     }
                     
                    
@@ -897,6 +947,7 @@ function checkSessionCount(productId, countAttributes) {
             nameDiv.textContent = names;
         }else{
             $("#html_component").html(''); 
+             $(".bg-gray").addClass("d-none");
             // reset url
             let url = new URL(window.location.href);
             window.history.pushState({ path: url.pathname }, '', url.pathname);

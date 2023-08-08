@@ -43,17 +43,30 @@
                 <li class="ps-breadcrumb__item" aria-current="page">Cart</li>
                 <li class="ps-breadcrumb__item active" aria-current="page">Checkout</li>
             </ul>
-            <h3 class="ps-checkout__title"> Checkout</h3>
+            
+            
             <div class="ps-checkout__content">
                 <div class="ps-checkout__wapper">
                     <p class="ps-checkout__text m-4">Sie haben noch kein Konto? <a href="<?php echo e(route('login.register')); ?>">Zum Anmelden hier klicken</a></p>
 
                         <div class="ps-shopping__coupon row mb-4">
                             <div class="col-md-8">
-                                <div class="row px-4">
-                                    <input class="form-control ps-input col-md-8" type="text" id="couponCode" name="couponCode" placeholder="Kupon-Code"  value="<?php echo e(old('couponCode') ?? @$lastCartItem['discount']['code'] ?? ''); ?>" >
-                                    <button onclick="couponApply()" id="couponButton" class="ps-btn ps-btn--primary col-md-4 m-0" type="button" >Coupon anwenden</button>
+                                 <p class="ps-checkout__text m-4">Haben Sie einen Gutschein? <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"> Klicken Sie hier, um Ihren Code einzugeben</a></p>
+                                 
+                                <div class="collapse" id="collapseExample">
+                                      <div class="card card-body shadow-sm">
+                                       <div class="row px-4">
+                                            <div class="col-md-7 mb-md-0 mb-4">
+                                                <input class="form-control ps-input" type="text" id="couponCode" name="couponCode" placeholder="Kupon-Code"  value="<?php echo e(old('couponCode') ?? @$lastCartItem['discount']['code'] ?? ''); ?>" >
+                                            </div>
+                                            <div class="col-md-1"></div>
+                                            <div class="col-md-4 mb-md-0 mb-4">
+                                                <button onclick="couponApply()" id="couponButton" class="ps-btn ps-btn--primary m-0" type="button" >Coupon anwenden</button>
+                                            </div>
+                                        </div>
+                                      </div>
                                 </div>
+                                
 
                             </div>
 
@@ -68,10 +81,28 @@
                             <div class="ps-checkout__form">
                                 <h3 class="ps-checkout__heading">Angaben zur Rechnungsstellung</h3>
                                 <div class="row">
+                                    
+                                    <div class="col-12">
+                                            <div class="ps-checkout__group">
+                                                <label for="fullname" class="ps-checkout__label">Vollständiger Name <span class="text-danger">*</span></label>
+                                                <input class="ps-input" type="text" name="fullname"
+                                                    value="<?php echo e(old('fullname')); ?>">
+                                                <?php $__errorArgs = ['fullname'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                                    <span class="text-danger"><?php echo e($message); ?></span>
+                                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                            </div>
+                                    </div>
 
                                     <div class="col-12">
                                         <div class="ps-checkout__group">
-                                            <label class="ps-checkout__label">Country</label>
+                                            <label class="ps-checkout__label">Country <span class="text-danger">*</span></label>
                                             <select value="<?php echo e(old('country')); ?>" class="ps-input country_shipping"  name="country" id="country"
                                                 data-select2-id="1" tabindex="-1" aria-hidden="true">
                                                 <option value="" >Wählen Sie ein Land / eine Region…</option>
@@ -100,24 +131,7 @@ unset($__errorArgs, $__bag); ?>
 
                                     </script>
 
-                                    <div class="col-12">
-                                            <div class="ps-checkout__group">
-                                                <label for="fullname" class="ps-checkout__label">Vollständiger Name <span
-                                                        class="text-danger">*</span></label>
-                                                <input class="ps-input" type="text" name="fullname"
-                                                    value="<?php echo e(old('fullname')); ?>">
-                                                <?php $__errorArgs = ['fullname'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                    <span class="text-danger"><?php echo e($message); ?></span>
-                                                <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                                            </div>
-                                    </div>
+                                    
                                     <div class="col-12">
                                         <div class="ps-checkout__group">
                                             <label for="email" class="ps-checkout__label">E-Mail Adresse<span
@@ -252,54 +266,54 @@ unset($__errorArgs, $__bag); ?>
                                             <div class="form-check">
                                                 <input class="form-check-input shipping_check" type="checkbox" name="ship-address"
                                                     id="ship-address">
-                                                <label class="form-check-label" for="ship-address">Versand an eine andere
-                                                    Adresse?</label>
+                                                <label class="form-check-label" for="ship-address">Versand an eine andereAdresse?</label>
                                             </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-12">
+                                        <div class="ps-checkout__group">
+                                            <label for="fullname" class="ps-checkout__label">Vollständiger Name <span class="text-danger">*</span></label>
+                                            <input class="ps-input" type="text" name="shipping_fullname" value="<?php echo e(old('shipping_fullname')); ?>">
+                                            <?php $__errorArgs = ['shipping_fullname'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                                <span class="text-danger"><?php echo e($message); ?></span>
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
                                    <div class="col-12 ps-hidden" data-for="ship-address">
                                             <div class="row">
                                                 <div class="col-12">
-            <div class="ps-checkout__group">
-                <label class="ps-checkout__label">Country</label>
-                <select value="<?php echo e(old('shipping_country')); ?>" class="ps-input" id="shipping_conuntry" name="shipping_country" data-select2-id="1" tabindex="-1" aria-hidden="true">
-                    <option>Wählen Sie ein Land / eine Region…</option>
-                    <?php $__currentLoopData = $shippingCountry; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <option <?php if($session_country == $country->country): ?> selected <?php endif; ?> value="<?php echo e(country()->where('id', $country->country)->pluck('id')->first()); ?>">
-                            <?php echo e(country()->where('id', $country->country)->pluck('country')->first()); ?> / <?php echo e(formatPrice($country->price)); ?>
+                                        <div class="ps-checkout__group">
+                                            <label class="ps-checkout__label">Country  <span class="text-danger">*</span></label>
+                                            <select value="<?php echo e(old('shipping_country')); ?>" class="ps-input" id="shipping_conuntry" name="shipping_country" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                                <option>Wählen Sie ein Land / eine Region…</option>
+                                                <?php $__currentLoopData = $shippingCountry; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option <?php if($session_country == $country->country): ?> selected <?php endif; ?> value="<?php echo e(country()->where('id', $country->country)->pluck('id')->first()); ?>">
+                                                        <?php echo e(country()->where('id', $country->country)->pluck('country')->first()); ?> / <?php echo e(formatPrice($country->price)); ?>
 
-                        </option>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                </select>
-                <?php $__errorArgs = ['district'];
+                                                    </option>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                            </select>
+                                            <?php $__errorArgs = ['district'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                    <span class="text-danger"><?php echo e($message); ?></span>
-                <?php unset($message);
+                                                <span class="text-danger"><?php echo e($message); ?></span>
+                                            <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-            </div>
-        </div>
+                                        </div>
+                                     </div>
 
-                                            <div class="col-12">
-                                                <div class="ps-checkout__group">
-                                                    <label for="fullname" class="ps-checkout__label">Vollständiger Name <span class="text-danger">*</span></label>
-                                                    <input class="ps-input" type="text" name="shipping_fullname" value="<?php echo e(old('shipping_fullname')); ?>">
-                                                    <?php $__errorArgs = ['shipping_fullname'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                                        <span class="text-danger"><?php echo e($message); ?></span>
-                                                    <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                                                </div>
-                                            </div>
 
                                             <div class="col-12">
                                                 <div class="ps-checkout__group">
@@ -705,7 +719,7 @@ unset($__errorArgs, $__bag); ?>
         $("#country").on('change', function(){
             const id = $(this).val();
             sessionStorage.setItem("selected", id);
-            $("#shipping_conuntry").val($(this).val());
+            // $("#shipping_conuntry").val($(this).val());
             shipping_update(id, dynmicElChekout);
 
         });

@@ -216,20 +216,10 @@
                                   <td class="table-td "><?php echo e($product['quantity']); ?></td>
 
                                 <?php
-
                                     $product['price_with_tax'] = unforamtPrice($product['price_with_tax']);
-                                    if(isset($product['discount']) && $product['discount']['type'] == 'flat'){
-                                        $total = $product['price_with_tax'] * $product['quantity'] ;
-                                    }
-                                    else{
-                                        $total = $product['price_with_tax'] * $product['quantity'];
-                                    }
-                                
-                                    
+                                    $total = $product['price_with_tax'] * $product['quantity'] ;
                                 ?>
-
                                   <td class="table-td "><?php echo e((formatPrice($total))); ?></td>
-                                  
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
@@ -245,6 +235,31 @@
                                                 }
                                         ?>
                                         <?php echo e(formatPrice($fianlPrice)); ?>
+
+                                        </td>
+                                    </tr>
+
+                                    <?php   
+                                        $discount = end($productDetailsArray);
+
+                                        if(isset($discount['discount']) && $discount['discount']['type'] == 'flat'){
+                                            $discountPrice = $discount['discount']['discount_value'] . " ".$discount['discount']['type'] . " OFF";
+                                        }
+                                        elseif(isset($discount['discount']) && $discount['discount']['type'] == 'Percentage'){
+                                            $discountPrice = $discount['discount']['discount_value'] . " ". " %OFF";
+                                        }
+                                        else{
+                                            $discountPrice = '0';
+                                        }
+                                    ?>
+                                    
+                                    <tr class="even:bg-slate-50 dark:even:bg-slate-700">
+                                        <td class="table-td" colspan="2" ></td>
+                                            <td class="table-td" >
+                                                Discount (<?php echo e($discount['discount']['code'] ?? 'N/A'); ?>)
+                                            <td class="table-td">
+                                        
+                                        <?php echo $discountPrice; ?>
 
                                         </td>
                                     </tr>
@@ -265,8 +280,18 @@
                                             <td class="table-td" >
                                                 Total
                                             <td class="table-td">
-                                       
-                                        <?php echo e(formatPrice($fianlPrice + $productDetailsArray['shipping_price'])); ?>
+                                       <?php
+                                            if(isset($discount['discount']) && $discount['discount']['type'] == 'flat'){
+                                            $fianlPrice = $fianlPrice - $discount['discount']['discount_value'];
+                                            }
+                                            elseif(isset($discount['discount']) && $discount['discount']['type'] == 'Percentage'){
+                                                $fianlPrice = $fianlPrice - ($fianlPrice * $discount['discount']['discount_value'] / 100 );
+                                            }
+                                            else{
+                                                $fianlPrice = $fianlPrice;
+                                            }
+                                       ?>
+                                        <?php echo e(formatPrice($fianlPrice  + $productDetailsArray['shipping_price'])); ?>
 
                                         </td>
                                     </tr>
@@ -275,7 +300,7 @@
                             </table>
                           </div>
                         </div>
-                      </div>
+                     </div>
                     </div>
                   </div>
   </div>

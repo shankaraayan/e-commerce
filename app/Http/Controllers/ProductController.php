@@ -8,7 +8,7 @@ use App\Models\admin\Attribute;
 use App\Models\admin\AttributeTerm;
 use App\Models\admin\Slider;
 use App\Models\admin\Category;
-
+use App\Models\admin\Order;
 
 class ProductController extends Controller
 {
@@ -88,8 +88,17 @@ class ProductController extends Controller
         $absdk = AttributeTerm::select('*')
             ->whereRaw("FIND_IN_SET('$panglwh', wh_range) > 0")
             ->get();
-
-        return response()->json($absdk);
+        $attribute = Attribute::find($getpanel->attributes_id);
+        $arribute_name = $attribute->attribute_name;
+        
+        // return response()->json($absdk);
+        
+       
+        return response()->json([
+            '$arribute_name' =>  $arribute_name,
+            'original_term' => $getpanel,
+            'related_terms' => $absdk
+        ]);
     }
 
     public function attributeTermsAdmin($id){
@@ -107,4 +116,18 @@ class ProductController extends Controller
         }
         return $components;
     }
+
+    public function quick_view_products(Request $request){
+        $slug = $request->slug;
+        $product = Product::with('images','categories')->where('slug',$slug)->first();
+        
+        if ($product) {
+            return response()->json($product);
+        } else {
+            // If the product with the specified ID is not found, you may return an error response or an empty response.
+            return response()->json(['error' => 'Product not found'], 404);
+        }
+    }
+
+   
 }

@@ -144,14 +144,14 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel" style="font-family: inherit;font-size: 16px;margin-bottom: 15px;margin: 10px 0;">Overview of data protection</h5>
+          <h5 class="modal-title" id="exampleModalLabel" style="font-family: inherit;font-size: 16px;margin-bottom: 15px;margin: 10px 0;">Überblick über den Datenschutz</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <p style="font-family: inherit;font-size: 12px;margin-bottom: 15px;margin: 0 0 12px 0;">
-            This website uses cookies to improve your experience as you navigate through the website. Out of these, the cookies that are categorized as necessary are stored on your browser as they are essential for the working of basic functionalities of the website. We also use third-party cookies to help us analyze and understand how you use this website. These cookies are only stored in your browser with your consent. You also have the option to refuse these cookies. However, opting out of some of these cookies may impact your browsing experience.
+            Diese Website verwendet Cookies, um Ihre Erfahrung zu verbessern, während Sie durch die Website navigieren. Von diesen werden die als notwendig eingestuften Cookies in Ihrem Browser gespeichert, da sie für das Funktionieren der grundlegenden Funktionen der Website unerlässlich sind. Wir verwenden auch Cookies von Dritten, die uns helfen zu analysieren und zu verstehen, wie Sie diese Website nutzen. Diese Cookies werden nur mit Ihrer Zustimmung in Ihrem Browser gespeichert. Sie haben auch die Möglichkeit, diese Cookies abzulehnen. Die Ablehnung einiger dieser Cookies kann jedoch Ihr Surferlebnis beeinträchtigen.
         </p>
 
         <div class="cookies_data_modal">
@@ -339,8 +339,8 @@
         </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary" onclick="setCookieViaAjax()">Save and Accept</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Schließen</button>
+          <button type="button" class="btn btn-primary" onclick="setCookieViaAjax()">SPEICHERN & AKZEPTIEREN</button>
         </div>
       </div>
 

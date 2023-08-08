@@ -79,6 +79,17 @@
                         <?php echo method_field('PUT'); ?>
                         <div class="card-text h-full space-y-4">
                         <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
+                            
+                            
+                            <div class="input-area">
+                                <label for="name" class="form-label">Is Solar Product</label>
+                                <input type="radio" value="1" name="solar_product" <?php if($editData->solar_product == 1): ?> checked <?php endif; ?>> Yes
+                                <input type="radio" value="0" name="solar_product"> No
+                                <?php if($errors->has('solar_product')): ?>
+                                    <span class="text-danger"><?php echo e($errors->first('solar_product')); ?></span>
+                                <?php endif; ?>
+                            </div>
+                            
                             <div class="input-area">
                                 <label for="name" class="form-label"> Product Category*</label>
                                 <select class="form-control" name="categories" id="category" required="required" >
@@ -131,6 +142,16 @@
                             <span class="text-danger"><?php echo e($errors->first('sku')); ?></span>
                             <?php endif; ?>
                             </div>
+
+                             <div class="input-area">
+                                <label for="name" class="form-label">Product Quantity*</label>
+                                <input value="<?php echo e($editData->quantity); ?>"  type="number" class="form-control required" name="quantity">
+                                <?php if($errors->has('quantity')): ?>
+                                    <span class="text-danger"><?php echo e($errors->first('quantity')); ?></span>
+                                <?php endif; ?>
+                            </div>
+
+
                         </div>
                         <div class="input-area">
                             <label for="description" class="form-label">Product Description*</label>
@@ -258,7 +279,8 @@
                     <!-- Add this hidden input field in your form -->
                     <input type="hidden" id="selectedOptionsInput" name="selectedOptions"
                     value="">
-                    <div id="variableOptions" style="max-height: 200px; overflow-y: auto;">
+                    <div id="variableOptions" style="max-height: 200px; overflow-y: auto; <?php echo e($editData->type == 'variable'? 'display:block':'display:none'); ?>">
+                    
                         <div class="input-area">
                             <label for="options" class="form-label">Variable Options*</label>
 

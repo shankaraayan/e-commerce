@@ -1,13 +1,10 @@
 <?php $__env->startSection("style"); ?>
 <style>
     /* Custom CSS to reduce Laravel paginate icon size */
-svg {
-    width: 16px; /* Adjust the font size to your desired value */
-}
+    svg {
+        width: 16px; /* Adjust the font size to your desired value */
+    }
 
-.menu--mobile>li{
-    padding:5px 0px;
-}
     .new-li {
         list-style: none;
         padding-left: 0;
@@ -41,22 +38,25 @@ svg {
 
         <div class="ps-categogy ps-categogy--separate">
             <div class="container">
-                <ul class="ps-breadcrumb">
-                    <li class="ps-breadcrumb__item"><a href="<?php echo e(route('homepage')); ?>">Home</a></li>
-                    <li class="ps-breadcrumb__item active" aria-current="page">Shop by Category</li>
-                </ul>
+                
                 <!--<h1 class="ps-categogy__name mt-5">Shop</h1>-->
-                <div class="ps-categogy__content">
+                <div class="ps-categogy__content pt-2">
                     <div class="ps-categogy__wrapper">
-                        <div class="ps-categogy__filter"> <a href="#" id="collapse-filter"><i class="fa fa-filter"></i><i class="fa fa-times"></i>Filter</a></div>
-                        
-                    </div>
+                       <div class="ps-categogy__filter"><a href="javascript:void(0);" id="collapse-filter" class="d-flex align-items-center justify-content-between"><i class="fa fa-filter"></i><i class="fa fa-times"></i><sapn class="d-lg-inline-block d-md-inline-block d-none">Filter</span></a></div>
+                        <div class="d-flex align-items-center justify-content-between w-100">
+                         <ul class="ps-breadcrumb p-0">
+                         <li class="ps-breadcrumb__item"><a href="<?php echo e(route('homepage')); ?>">Home</a></li>
+                         <li class="ps-breadcrumb__item active" aria-current="page">Shop by categories</li>
+                        </ul>
+                        </div>
+                     </div>
                 </div>
             </div>
-            <div class="ps-categogy__main">
+            <div class="ps-categogy__main pb-40">
                 <div class="container">
-                    <div class="ps-categogy__widget"><a href="#" id="close-widget-product"><i class="fa fa-times"></i></a>
-                        <div class="ps-widget ps-widget--product">
+                    <div class="ps-categogy__widget">
+                    <a href="javascript:void(0);" id="close-widget-product"><i class="fa fa-times"></i></a>
+                        <div class="ps-widget ps-widget--product bg-white shadow pt-xl-5 pt-lg-5 pt-md-5 pt-3">
                             <div class="ps-widget__block">
                                 <h4 class="ps-widget__title">Produkt-Kategorien</h4><a class="ps-block-control" href="#"><i class="fa fa-angle-down"></i></a>
                                 <div class="ps-widget__content ps-widget__category">
@@ -64,33 +64,33 @@ svg {
                                         <?php if(!empty(@$Category)): ?>
                                             <?php $__currentLoopData = $Category; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <li><a href="<?php echo e(route('shop',$cat->slug)); ?>" id="<?php echo e($cat->id); ?>" onclick="categoryProduct(this.id);"><?php echo e($cat->name); ?></a>
+                                                <span class="sub-toggle"><i class="fa fa-chevron-down"></i></span>
                                                     <?php if(count($cat->subcategories) > 0): ?>
-                                                    <ul class="menu--mobile new-li">
+                                                    <ul class="sub-menu" style="display: none;">
                                                         <?php $__currentLoopData = $cat->subcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subcat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                             <li>
                                                                 <a href="<?php echo e(route('shop', $subcat->slug)); ?>" id="<?php echo e($subcat->id); ?>" onclick="categoryProduct(this.id);">
-                                                                    <i class="fa fa-arrow-right" ></i>
                                                                     <?php echo e($subcat->name); ?></a>
                                                             </li>
                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     </ul>
                                                 <?php endif; ?>
                                                 </li>
-
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         <?php endif; ?>
                                     </ul>
+                                   
                                 </div>
                             </div>
-
 
                          </div>
                     </div>
                     <div class="ps-categogy__product">
-                        <div class="row m-0 " id="responseContainer">
+                       
+                        <div class="row m-0 no-gutters" id="responseContainer">
                             <?php if(!empty(@$catalog)): ?>
                                 <?php $__currentLoopData = $catalog; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <div class="col-12 col-lg-4 p-0">
+                                    <div class="col-12 col-lg-4">
                                         <div class="ps-product ps-product--standard">
                                             <div class="ps-product__thumbnail"><a class="ps-product__image" href="<?php echo e(route('shop',$product->slug)); ?>">
                                                     <figure>
@@ -99,8 +99,7 @@ svg {
                                                     </figure>
                                                 </a>
                                                 <div class="ps-product__actions">
-                                                    <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="" data-original-title="Wishlist"><a href="#"><i class="fa fa-heart-o"></i></a></div>
-                                                    <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="" data-original-title="Quick view"><a href="javascript:void(0);" onclick="quicViewProducts( <?php echo e($product->id); ?> );"><i class="fa fa-search"></i></a></div>
+                                                    
                                                 </div>
                                                 <div class="ps-product__badge">
                                                     <div class="ps-badge ps-badge--hot">Hot</div>
@@ -108,7 +107,7 @@ svg {
                                             </div>
                                             <div class="ps-product__content">
 
-                                                <h4 class="ps-product__title" style="font-size:20px;min-height:auto;"><a href="<?php echo e(route('shop',$product->slug)); ?>"><?php echo e($product->name); ?></a></h4>
+                                                <h6 class="ps-category__title text-center mb-4"><a href="<?php echo e(route('shop',$product->slug)); ?>"><?php echo e($product->name); ?></a></h6>
 
                                                 <div class="ps-product__actions ps-product__group-mobile d-block">
 
@@ -139,9 +138,9 @@ svg {
             </div>
         </div>
 
-
-
+ 
     </div>
+
     <div class="ps-search">
         <div class="ps-search__content ps-search--mobile"><a class="ps-search__close" href="#" id="close-search"><i class="icon-cross"></i></a>
             <h3>Search</h3>
@@ -329,20 +328,6 @@ svg {
         });
     </script>
     <!-- For Show and hide filter on shop page -->
-    <script>
-        function quicViewProducts(id){
-            $("#popupQuickview").modal('show');
-            $.ajax({
-                url: '<?php echo e(route('products')); ?>', // Replace with the actual URL to your server endpoint
-                method: 'GET',
-                data: { category_id: id },
-                success: function(response)
-                {
-                    console.log(response);
-                }
-            });
-        }
-    </script>
 
 <?php $__env->stopSection(); ?>
 

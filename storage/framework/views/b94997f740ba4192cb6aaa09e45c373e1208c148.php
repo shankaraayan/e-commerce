@@ -83,6 +83,22 @@
                     <span class="text-danger"><?php echo e($errors->first('price')); ?></span>
                   <?php endif; ?>
                 </div>
+                
+                <div class="input-area">
+                  <label for="name" class="form-label">SKU*</label>
+                  <input id="sku" name="sku" type="text" class="form-control" placeholder="sku" value="<?php echo e($attributeTerms->sku); ?>" required="required">
+                  <?php if($errors->has('sku')): ?>
+                    <span class="text-danger"><?php echo e($errors->first('sku')); ?></span>
+                  <?php endif; ?>
+                </div>
+
+                 <div class="input-area">
+                  <label for="name" class="form-label">Quantity*</label>
+                  <input value="<?php echo e($attributeTerms->quantity); ?>" id="quantity" name="quantity" type="text" class="form-control" placeholder="quantity" required="required">
+                  <?php if($errors->has('quantity')): ?>
+                    <span class="text-danger"><?php echo e($errors->first('quantity')); ?></span>
+                  <?php endif; ?>
+                </div>
                 </div>
                 <div class="input-area">
                   <label for="description" class="form-label">Attribute Term Description*</label>

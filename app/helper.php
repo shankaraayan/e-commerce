@@ -6,6 +6,7 @@ use App\Models\admin\Slider;
 use App\Models\Shipping;
 use App\Models\countryModel;
 use App\Models\Country;
+use App\Models\Wishlist;
 
    function formatPrice($price)
    {
@@ -72,6 +73,12 @@ use App\Models\Country;
  {
     $result = getShippingPrice($id);
     return getTaxCountry($result['country']);
+ }
+
+ function wishlist()
+ {
+    $wishlist = Wishlist::get();
+    return $wishlist;
  }
 
 ?>

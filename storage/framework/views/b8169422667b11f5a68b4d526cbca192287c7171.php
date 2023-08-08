@@ -100,6 +100,23 @@
                     <span class="text-danger"><?php echo e($errors->first('price')); ?></span>
                   <?php endif; ?>
                 </div>
+                
+                <div class="input-area">
+                  <label for="name" class="form-label">SKU*</label>
+                  <input id="sku" name="sku" type="text" class="form-control" placeholder="sku" required="required">
+                  <?php if($errors->has('sku')): ?>
+                    <span class="text-danger"><?php echo e($errors->first('sku')); ?></span>
+                  <?php endif; ?>
+                </div>
+
+                <div class="input-area">
+                  <label for="name" class="form-label">Quantity*</label>
+                  <input id="quantity" name="quantity" type="text" class="form-control" placeholder="quantity" required="required">
+                  <?php if($errors->has('quantity')): ?>
+                    <span class="text-danger"><?php echo e($errors->first('quantity')); ?></span>
+                  <?php endif; ?>
+                </div>
+
                 </div>
                 <div class="input-area">
                   <label for="description" class="form-label">Attribute Term Description*</label>
@@ -198,6 +215,12 @@
                                   <th scope="col" class=" table-th ">
                                     Attribute Term Name
                                   </th>
+                                  <th scope="col" class=" table-th ">
+                                    SKU
+                                  </th>
+                                  <th scope="col" class=" table-th ">
+                                    Quantity
+                                  </th>
 
                                   <th scope="col" class=" table-th ">
                                     WH
@@ -217,6 +240,8 @@
                                 <tr>
                                   <td class="table-td"><?php echo e(++$key); ?></td>
                                   <td class="table-td "><?php echo e($values->attribute_term_name); ?></td>
+                                  <td class="table-td "><?php echo e($values->sku); ?></td>
+                                  <td class="table-td "><?php echo e($values->quantity); ?></td>
                                   <td class="table-td "><?php echo e($values->attribute_term_kWh_name); ?></td>
 
                                   <td class="table-td "><?php echo e($values->price); ?></td>

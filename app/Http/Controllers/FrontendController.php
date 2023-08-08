@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\VerificationEmail;
 use App\Mail\MyTestMail;
 use App\Models\Cart;
+use App\Models\Wishlist;
 
 class FrontendController extends Controller
 {
@@ -41,7 +42,7 @@ class FrontendController extends Controller
         if (empty($qty))
             $qty = 1;
 
-        $shipping_country = $request->shipping_country;
+        $shipping_country = $request->shipping_country ?? country()->where('short_code','DE')->pluck('id')->first();
 
 
         $product = Product::Find($id);
@@ -67,6 +68,7 @@ class FrontendController extends Controller
                         "name" => $product['product_name'],
                         "slug" => $product['slug'],
                         "type" => 'single',
+                        "solar_product" => $product['solar_product'] ? 'yes' : 'no',
                         "shipping_country" => @$shipping_country,
                         "shipping_class" => @$shipping_class,
 
@@ -95,6 +97,8 @@ class FrontendController extends Controller
                         $cart[$id]['price'] = $product_price + $attributes_price;
                         $cart[$id]['shipping_country'] = $shipping_country;
                         $cart[$id]['product_id'] = $id;
+                        $cart[$id]['solar_product'] = $product['solar_product'] ? 'yes' : 'no';
+                       
                         $cart[$id]['shipping_class'] = @$shipping_class;
                         $message = "Product Updated to Cart";
                     } else {
@@ -114,6 +118,7 @@ class FrontendController extends Controller
                             "shipping_country" => $shipping_country,
                             "product_id" => $id,
                             "shipping_class" => @$shipping_class,
+                            "solar_product" => @$product['solar_product'] ? 'yes' :'no',
                         ];
                         $message = "Product Added to Cart";
                     }
@@ -149,27 +154,33 @@ class FrontendController extends Controller
 
     }
 
-    public function add_to_wishlist(Request $request)
+    public function add_to_wishlist($id)
     {
-        $id = @$request->id;
         $product = Product::Find($id);
-
-        $cart = session()->get('wishlist', []);
-
+        $wishlist = session()->get('wishlist', []);
         if (isset($wishlist[$id])) {
             $wishlist[$id]['quantity']++;
             $message = "Product Updated to wishlist";
         } else {
             $wishlist[$id] = [
-                "name" => $product->name,
+                "product_id" => $id,
+                "product_name" => $product->product_name,
                 "quantity" => 1,
                 "price" => $product->price,
                 "image" => $product->thumb_image
             ];
             $message = "Product Added to wishlist";
         }
+       if(auth()->user()){
+            Wishlist::updateOrCreate([
+                "user_id" => auth()->user()->id,
+            ],[
+                "product_id" => $wishlist,
+                "user_id" => auth()->user()->id,
+            ]);
+        }
 
-        session()->put('wishlist', $cart);
+        session()->put('wishlist', $wishlist);
         $data = count((array) session('wishlist'));
         $arr = array('message' => $message, 'data' => $data, 'status' => true);
         echo json_encode($arr);
@@ -444,5 +455,7 @@ class FrontendController extends Controller
         }
         return false;
     }
+
+    
 
 }
