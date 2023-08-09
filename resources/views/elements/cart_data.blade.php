@@ -21,7 +21,15 @@
                     @foreach (session('cart') as $id => $details)
                         @php
                             $tax = getTaxCountry($details['shipping_country']);
+                                    if(empty($tax)){
+                                        $tax['vat_tax'] = 0;
+                                    }
 
+                                    if(isset($details['solar_product']) && $details['solar_product'] === 'yes'){
+                                        if($tax['short_code'] == 'DE'){
+                                            $tax['vat_tax'] = 0;
+                                        }
+                                    }
                             @$shipping_country = (@$details['shipping_country']);
 
                             $total+=(@$details['price']*@$details['quantity']);
@@ -177,6 +185,11 @@
                                         $tax['vat_tax'] = 0;
                                     }
 
+                                    if(isset($details['solar_product']) && $details['solar_product'] === 'yes'){
+                                        if($tax['short_code'] == 'DE'){
+                                            $tax['vat_tax'] = 0;
+                                        }
+                                    }
                                     $total += @$details['price'] * @$details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity']);
                                 @endphp
 
@@ -271,10 +284,6 @@
                                         </td>
                                         
                                         <td class="ps-product__subtotal">
-
-                                            {{-- @php
-                                                dd($details);
-                                            @endphp --}}
 
                                             {{ formatPrice(@$details['price'] * @$details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity']) ) }}
                                             @if($tax['vat_tax']) <br><small style="font-size:10px;color:red;">(Tax Inclusive)</small> @endif

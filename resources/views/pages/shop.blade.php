@@ -55,32 +55,8 @@ svg {
 
                 @endphp
                  
-                <div class="ps-categogy__content pt-2">
-                    <div class="ps-categogy__wrapper">
-                       <div class="ps-categogy__filter"> <a href="javascript:void(0);" id="collapse-filter" class="d-flex align-items-center justify-content-between"><i class="fa fa-filter"></i><i class="fa fa-times"></i><sapn class="d-lg-inline-block d-md-inline-block d-none">Filter</span></a></div>
-                        <div class="d-flex align-items-center justify-content-between w-100">
-                         <ul class="ps-breadcrumb p-0">
-                         <li class="ps-breadcrumb__item"><a href="{{route('homepage')}}">Home</a></li>
-                         <li class="ps-breadcrumb__item active" aria-current="page">Shop</li>
-                        </ul>
-                        <div class="ps-categogy__sort">
-                         <div class="dropdown d-inline-flex align-items-center arky_sort_dropdown">
-                            <span>Sort by</span>
-                            <ul class="btn dropdown-toggle shadow-none list-inline d-flex align-items-center mb-0 p-0" type="button" id="sort_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
-                              <li>
-                                <span class="orderby-current active">Popularity</span>
-                                 <ul class="dropdown-menu sort_menus" aria-labelledby="sort_dropdown">
-                                   <li><a class="dropdown-item" href="#" data-sort="popularity">Popularity</a></li>
-                                   <li><a class="dropdown-item" href="#" data-sort="low_to_high">Low to High</a></li>
-                                   <li><a class="dropdown-item" href="#" data-sort="high_to_low">High to Low</a></li>
-                                 </ul>
-                              </li>
-                            </ul>
-                         </div> 
-                        </div>
-                        </div>
-                     </div>
-                </div>
+                
+                <x-filtter :value="__('na')">Shop</x-filtter>
             </div>
 
             <div class="ps-categogy__main pb-40">
@@ -147,6 +123,21 @@ svg {
                     </div>
                     
                     <div class="ps-categogy__product">
+                        <div class="row">
+                            <div class="col-12">
+                             <div class="category_banner">
+                             @php
+                                $banner = categories()->where('slug',$lastSegment)->pluck('banner')->first();
+
+                             @endphp
+                                @if($banner != null)
+                                <img src="{{asset('root/public/uploads/category/'.$banner)}}" class="img-fluid w-100 rounded">
+                                @else
+                                <img src="https://campergold.net/wp-content/uploads/2023/05/campergold-2.jpg" class="img-fluid w-100 rounded">
+                                @endif
+                             </div>
+                            </div>
+                        </div>
                         <div class="row m-0 no-gutters" id="responseContainer">
                             @if(!empty(@$products))
                                 @foreach($products as $product)
@@ -158,10 +149,10 @@ svg {
                                                         <img src="{{asset('root/public/uploads/'.$product->thumb_image)}}" class="img-fluid" alt="alt" />
                                                     </figure>
                                                 </a>
-                                                <div class="ps-product__actions">
+                                               {{-- <div class="ps-product__actions">
                                                     <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="" id="{{$product->id}}" onclick="add_wishlist(this.id)" data-original-title="Wishlist"><a><i class="fa fa-heart-o"></i></a></div>
                                                     <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="" data-original-title="Quick view"><a href="javascript:void(0);" onclick="quickViewProducts( '{{$product->slug}}' );"><i class="fa fa-search"></i></a></div>
-                                                </div>
+                                                </div> --}}
                                                 <div class="ps-product__badge">
                                                     <div class="ps-badge ps-badge--hot">Hot</div>
                                                 </div>
@@ -169,9 +160,7 @@ svg {
                                             <div class="ps-product__content">
                                                 <a class="ps-product__branch" href="{{route('product.detail',$product->slug)}}">{{ categories()->where('id',$product->categories)->pluck('name')->first();}}</a>{{-- <span>,</span> <a class="ps-product__branch" href="#">Subcategory</a> --}}
 
-                                                <h5 class="ps-product__title">
-                                                 <a href="{{route('product.detail',$product->slug)}}">{{$product->product_name}}</a>
-                                                </h5>
+                                                <a href="{{route('product.detail',$product->slug)}}"><h5 class="ps-product__title">{{$product->product_name}}</h5></a>
                                                 <div class="ps-product__meta">
                                                     <span class="ps-product__price"><s>{{formatPrice($product->price)}}</s></span>
                                                     <span class="ps-product__price">{{formatPrice($product->sale_price)}}</span>
@@ -499,29 +488,7 @@ svg {
                 $("#quick-product-details").html(`
                     <div class="row">
                         <div class="col-12 col-xl-6">
-                            <div class="ps-section__carousel related_product_view">
-                                <div class="main-image owl-carousel owl-loaded owl-drag" data-owl-loop="true" data-owl-auto="false" data-owl-nav="false" data-owl-dots="false">
-                                    <div class="item">
-                                        <img src="{{ asset('root/public/uploads/')}}/${response.thumb_image}" alt="${response.thumb_image}" />
-                                    </div>
-                                    ${response.images.map((item, index) => (
-                                        `<div class="item" style="padding:10px;">
-                                            <img src="{{ asset('root/public/uploads/') }}/${item.images}" alt="alt" data-index="${index}" />
-                                        </div>`
-                                    )).join('')}
-                                </div>
-                                <div class="gallery owl-carousel owl-loaded owl-drag" data-owl-loop="true" data-owl-auto="false" data-owl-nav="true" data-owl-dots="false" data-owl-item="4" data-owl-item-xs="2" data-owl-item-sm="3" data-owl-item-md="4" data-owl-item-lg="4" data-owl-item-xl="4">
-                                    <div class="item" style="padding:10px;">
-                                        <img src="{{ asset('root/public/uploads/')}}/${response.thumb_image}" alt="${response.thumb_image}" alt="alt" data-index="0" />
-                                    </div>
-                                    ${response.images.map((item, index) => (
-                                        `<div class="item" style="padding:10px;">
-                                            <img src="{{ asset('root/public/uploads/') }}/${item.images}" alt="alt" data-index="${index}" />
-                                        </div>`
-                                    )).join('')}
-
-                                </div>
-                            </div>
+                            <img src="{{ asset('root/public/uploads/') }}/${response.thumb_image}" alt="${response.thumb_image}" />
                         </div>
                         <div class="col-12 col-xl-6">
                             <div class="ps-product__info">
@@ -585,6 +552,7 @@ svg {
                 }
                     
                 $(document).ready(function(){
+                    
                     $("#popupQuickview").modal('show');
                 })
                 
@@ -646,6 +614,12 @@ svg {
             }
         });
   }
+</script>
+
+<script>
+    $(document).ready(function(){
+        $(".owl-carousel").owlCarousel();
+    })
 </script>
 
 @endsection

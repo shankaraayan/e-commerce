@@ -48,7 +48,16 @@
 
 
           <!-- Pages Area -->
-
+<!-- Category -->
+              <li class="{{ Request::is('admin/category/*') ? 'active' : '' }}">
+                <a href="{{route('admin.category.list')}}" class="navItem">
+                    <span class="flex items-center">
+                    <iconify-icon class=" nav-icon" icon="carbon:category"></iconify-icon>
+                    <span>Category</span>
+                    </span>
+                </a>
+              </li>
+              
           <!-- Authentication -->
          <li class="{{ Request::is('admin/product/attribute/*') ? 'active' : '' }} {{ Request::is('admin/product/attribute_terms/*') ? 'active' : '' }} {{ Request::is('admin/product/*') ? 'active' : '' }}">
 
@@ -71,38 +80,14 @@
             </ul>
           </li>
 
-          <!-- Category -->
-          <li class="{{ Request::is('admin/category/*') ? 'active' : '' }}">
-            <a href="javascript:void(0)" class="navItem">
-              <span class="flex items-center">
-            <iconify-icon class=" nav-icon" icon="carbon:category"></iconify-icon>
-            <span>Category</span>
-              </span>
-              <iconify-icon class="icon-arrow" style="color:white;" icon="heroicons-outline:chevron-right"></iconify-icon>
-            </a>
-            <ul class="sidebar-submenu">
-              <li>
-                <a href="{{route('admin.category.list')}}">list</a>
-              </li>
-
-            </ul>
-          </li>
-
             <!-- Shipping -->
             <li class="{{ Request::is('admin/shipping/*') ? 'active' : '' }}">
-              <a href="javascript:void(0)" class="navItem">
-                <span class="flex items-center">
-              <iconify-icon class=" nav-icon" icon="fa-solid:shipping-fast"></iconify-icon>
-              <span>Shipping</span>
-                </span>
-                <iconify-icon class="icon-arrow" style="color:white;" icon="heroicons-outline:chevron-right"></iconify-icon>
-              </a>
-              <ul class="sidebar-submenu">
-                <li>
-                  <a href="{{route('admin.shipping.list')}}">list</a>
-                </li>
-
-              </ul>
+                <a href="{{route('admin.shipping.list')}}" class="navItem">
+                    <span class="flex items-center">
+                    <iconify-icon class=" nav-icon" icon="fa-solid:shipping-fast"></iconify-icon>
+                    <span>Shipping</span>
+                    </span>
+                </a>
             </li>
 
             <li class="{{ Request::is('admin/coupon/*') ? 'active' : '' }}">
@@ -112,8 +97,7 @@
                     <span>Coupons</span>
                     </span>
                 </a>
-
-              </li>
+            </li>
 
             <li class="{{ Request::is('admin/taxation/*') ? 'active' : '' }}">
                 <a href="{{route('admin.taxation.list')}}" class="navItem">
@@ -122,24 +106,17 @@
                     <span>Taxation</span>
                     </span>
                 </a>
-
-              </li>
-
-                <li class="{{ Request::is('admin/orders/*') ? 'active' : '' }}">
-              <a href="javascript:void(0)" class="navItem">
-                <span class="flex items-center">
-              <iconify-icon class=" nav-icon" icon="mdi:order-bool-descending-variant"></iconify-icon>
-              <span>Order</span>
-                </span>
-                <iconify-icon class="icon-arrow" style="color:white;" icon="heroicons-outline:chevron-right"></iconify-icon>
-              </a>
-              <ul class="sidebar-submenu">
-                <li>
-                  <a href="{{route('admin.orders.list')}}">list</a>
-                </li>
-
-              </ul>
             </li>
+
+            <li class="{{ Request::is('admin/orders/*') ? 'active' : '' }}">
+                <a href="{{route('admin.orders.list')}}" class="navItem">
+                    <span class="flex items-center">
+                    <iconify-icon class=" nav-icon" icon="mdi:order-bool-descending-variant"></iconify-icon>
+                    <span>Order</span>
+                    </span>
+                </a>
+            </li>
+
           <!-- settings -->
           <li class="{{ Request::is('admin/settings/slider/*') ? 'active' : '' }}">
             <a href="javascript:void(0)" class="navItem">
@@ -164,7 +141,7 @@
             <iconify-icon class=" nav-icon" icon="heroicons:cog-8-tooth"></iconify-icon>
             <span>Users</span>
               </span>
-              <iconify-icon class="icon-arrow" style="color:white;" icon="heroicons-outline:chevron-right"></iconify-icon>
+              
             </a>
           </li>
       </div>

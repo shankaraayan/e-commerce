@@ -38,19 +38,19 @@
 
         <div class="ps-categogy ps-categogy--separate">
             <div class="container">
-                
-                <!--<h1 class="ps-categogy__name mt-5">Shop</h1>-->
-                <div class="ps-categogy__content pt-2">
-                    <div class="ps-categogy__wrapper">
-                       <div class="ps-categogy__filter"><a href="javascript:void(0);" id="collapse-filter" class="d-flex align-items-center justify-content-between"><i class="fa fa-filter"></i><i class="fa fa-times"></i><sapn class="d-lg-inline-block d-md-inline-block d-none">Filter</span></a></div>
-                        <div class="d-flex align-items-center justify-content-between w-100">
-                         <ul class="ps-breadcrumb p-0">
-                         <li class="ps-breadcrumb__item"><a href="<?php echo e(route('homepage')); ?>">Home</a></li>
-                         <li class="ps-breadcrumb__item active" aria-current="page">Shop by categories</li>
-                        </ul>
-                        </div>
-                     </div>
-                </div>
+
+              <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
+<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.filtter','data' => ['value' => __('DisabledShortBy')]]); ?>
+<?php $component->withName('filtter'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php $component->withAttributes(['value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('DisabledShortBy'))]); ?>Shop by categories <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
+<?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
+<?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
+<?php endif; ?>
+
             </div>
             <div class="ps-categogy__main pb-40">
                 <div class="container">
@@ -106,14 +106,9 @@
                                                 </div>
                                             </div>
                                             <div class="ps-product__content">
-
-                                                <h6 class="ps-category__title text-center mb-4"><a href="<?php echo e(route('shop',$product->slug)); ?>"><?php echo e($product->name); ?></a></h6>
-
+                                            <a href="<?php echo e(route('shop',$product->slug)); ?>"><h6 class="ps-category__title text-center mb-4"><?php echo e($product->name); ?></h6></a>
                                                 <div class="ps-product__actions ps-product__group-mobile d-block">
-
                                                     <div class="ps-product__cart d-block">
-
-
                                            <div class="add_to_cart_box">
                                                 <a class="btn cart_btn d-block" href="<?php echo e(route('shop',$product->slug)); ?>">View Cataloge</a>
                                             </div>
@@ -211,89 +206,7 @@
 
     <button class="btn scroll-top"><i class="fa fa-angle-double-up"></i></button>
     <!-- Quick view modal -->
-    <div class="modal fade" id="popupQuickview" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-centered ps-quickview">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="wrap-modal-slider container-fluid ps-quickview__body">
-                        <button class="close ps-quickview__close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <div class="ps-product--detail">
-                            <div class="row">
-                                <div class="col-12 col-xl-6">
-                                    <div class="ps-product--gallery">
-                                        <div class="ps-product__thumbnail">
-                                            <div class="slide"><img src="img/stegpearl/3d panel.png" alt="alt" /></div>
-                                            <div class="slide"><img src="img/stegpearl/800HM-01.png" alt="alt" /></div>
-                                            <div class="slide"><img src="img/stegpearl/easy peak power.png" alt="alt" /></div>
-                                            <div class="slide"><img src="img/stegpearl/ferlingurum kabel-01.png" alt="alt" /></div>
-                                            <div class="slide"><img src="img/stegpearl/montage.png" alt="alt" /></div>
-                                        </div>
-                                        <div class="ps-gallery--image">
-                                            <div class="slide">
-                                                <div class="ps-gallery__item"><img src="img/stegpearl/3d panel.png" alt="alt" /></div>
-                                            </div>
-                                            <div class="slide">
-                                                <div class="ps-gallery__item"><img src="img/stegpearl/800HM-01.png" alt="alt" /></div>
-                                            </div>
-                                            <div class="slide">
-                                                <div class="ps-gallery__item"><img src="img/stegpearl/easy peak power.png" alt="alt" /></div>
-                                            </div>
-                                            <div class="slide">
-                                                <div class="ps-gallery__item"><img src="img/stegpearl/ferlingurum kabel-01.png" alt="alt" /></div>
-                                            </div>
-                                            <div class="slide">
-                                                <div class="ps-gallery__item"><img src="img/stegpearl/montage.png" alt="alt" /></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-xl-6">
-                                    <div class="ps-product__info">
-                                        <div class="ps-product__badge"><span class="ps-badge ps-badge--instock"> IN STOCK</span>
-                                        </div>
-                                        <div class="ps-product__branch"><a class="ps-product__branch" href="#">Balkonkraftwerk</a><span>,</span> <a class="ps-product__branch" href="#">Easy Peak Power</a></div>
-                                        <div class="ps-product__title"><a href="#">Solar-PV Kit 620W Easy Peak Power mit EPP 600W Mikrowechselrichter und 15M Schukostecker</a></div>
-                                        <div class="ps-product__rating">
-                                            <select class="ps-rating" data-read-only="true">
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4" selected="selected">4</option>
-                                                <option value="5">5</option>
-                                            </select><span class="ps-product__review">(5 Reviews)</span>
-                                        </div>
-                                        <div class="ps-product__desc mb-4">
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim sequi numquam vel vitae labore sed qui esse asperiores quibusdam ullam! </p>
-                                        </div>
-                                        <div class="ps-product__meta"><span class="ps-product__price">€ 770.65</span>
-                                        </div>
-                                        <div class="ps-product__quantity">
-                                            <h6>Quantity</h6>
-                                            <div class="d-md-flex align-items-center">
-                                                <div class="def-number-input number-input safari_only">
-                                                    <button class="minus" onclick="this.parentNode.querySelector('input[type=number]').stepDown()"><i class="icon-minus"></i></button>
-                                                    <input class="quantity" min="0" />
-                                                    <button class="plus" onclick="this.parentNode.querySelector('input[type=number]').stepUp()"><i class="icon-plus"></i></button>
-                                                </div><a class="ps-btn ps-btn--warning" href="#" data-toggle="modal" data-target="#popupAddcartV2">Add to cart</a>
-                                            </div>
-                                        </div>
-                                        <div class="ps-product__type">
-                                            <ul class="ps-product__list">
-                                                <li> <span class="ps-list__title">Tags: </span><a class="ps-list__text" href="#">Schukostecker</a><a class="ps-list__text" href="#">Ohne WIFI</a>
-                                                </li>
-                                                <li> <span class="ps-list__title">SKU: </span><a class="ps-list__text" href="#">EPP-310W-AS-QTYx10</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+   
     <!-- Quick view modal -->
     <div class="ps-preloader" id="preloader">
         <div class="ps-preloader-section ps-preloader-left"></div>

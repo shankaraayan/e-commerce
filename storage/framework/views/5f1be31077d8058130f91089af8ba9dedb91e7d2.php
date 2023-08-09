@@ -21,7 +21,15 @@
                     <?php $__currentLoopData = session('cart'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $details): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <?php
                             $tax = getTaxCountry($details['shipping_country']);
+                                    if(empty($tax)){
+                                        $tax['vat_tax'] = 0;
+                                    }
 
+                                    if(isset($details['solar_product']) && $details['solar_product'] === 'yes'){
+                                        if($tax['short_code'] == 'DE'){
+                                            $tax['vat_tax'] = 0;
+                                        }
+                                    }
                             @$shipping_country = (@$details['shipping_country']);
 
                             $total+=(@$details['price']*@$details['quantity']);
@@ -177,6 +185,11 @@
                                         $tax['vat_tax'] = 0;
                                     }
 
+                                    if(isset($details['solar_product']) && $details['solar_product'] === 'yes'){
+                                        if($tax['short_code'] == 'DE'){
+                                            $tax['vat_tax'] = 0;
+                                        }
+                                    }
                                     $total += @$details['price'] * @$details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity']);
                                 ?>
 
@@ -272,8 +285,6 @@
                                         </td>
                                         
                                         <td class="ps-product__subtotal">
-
-                                            
 
                                             <?php echo e(formatPrice(@$details['price'] * @$details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity']) )); ?>
 

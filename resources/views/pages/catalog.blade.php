@@ -40,19 +40,9 @@
 
         <div class="ps-categogy ps-categogy--separate">
             <div class="container">
-                
-                <!--<h1 class="ps-categogy__name mt-5">Shop</h1>-->
-                <div class="ps-categogy__content pt-2">
-                    <div class="ps-categogy__wrapper">
-                       <div class="ps-categogy__filter"><a href="javascript:void(0);" id="collapse-filter" class="d-flex align-items-center justify-content-between"><i class="fa fa-filter"></i><i class="fa fa-times"></i><sapn class="d-lg-inline-block d-md-inline-block d-none">Filter</span></a></div>
-                        <div class="d-flex align-items-center justify-content-between w-100">
-                         <ul class="ps-breadcrumb p-0">
-                         <li class="ps-breadcrumb__item"><a href="{{route('homepage')}}">Home</a></li>
-                         <li class="ps-breadcrumb__item active" aria-current="page">Shop by categories</li>
-                        </ul>
-                        </div>
-                     </div>
-                </div>
+
+              <x-filtter :value="__('DisabledShortBy')">Shop by categories</x-filtter>
+
             </div>
             <div class="ps-categogy__main pb-40">
                 <div class="container">
@@ -112,14 +102,9 @@
                                                 </div>
                                             </div>
                                             <div class="ps-product__content">
-
-                                                <h6 class="ps-category__title text-center mb-4"><a href="{{route('shop',$product->slug)}}">{{$product->name}}</a></h6>
-
+                                            <a href="{{route('shop',$product->slug)}}"><h6 class="ps-category__title text-center mb-4">{{$product->name}}</h6></a>
                                                 <div class="ps-product__actions ps-product__group-mobile d-block">
-
                                                     <div class="ps-product__cart d-block">
-
-
                                            <div class="add_to_cart_box">
                                                 <a class="btn cart_btn d-block" href="{{route('shop',$product->slug)}}">View Cataloge</a>
                                             </div>
@@ -216,7 +201,7 @@
 
     <button class="btn scroll-top"><i class="fa fa-angle-double-up"></i></button>
     <!-- Quick view modal -->
-    <div class="modal fade" id="popupQuickview" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-hidden="true">
+   {{--  <div class="modal fade" id="popupQuickview" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered ps-quickview">
             <div class="modal-content">
                 <div class="modal-body">
@@ -298,7 +283,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- Quick view modal -->
     <div class="ps-preloader" id="preloader">
         <div class="ps-preloader-section ps-preloader-left"></div>

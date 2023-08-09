@@ -55,8 +55,9 @@
                             <select name="parent_cat" class="form-control">
                                 <option value="0">Select</option>
                                 <?php $__currentLoopData = $result; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <option value="<?php echo e($cat->id); ?>" <?php
-                                        $selectedID = $category->where('id',$category->parent_id)->pluck('id')->first();
+                                        <option value="<?php echo e($cat->id); ?>" 
+                                        <?php
+                                            $selectedID = $category->where('id',$category->parent_id)->pluck('id')->first();
                                             if($cat->id == $selectedID) echo "selected";
                                         ?>
                                         ><?php echo e($cat->name); ?></option>
@@ -79,6 +80,13 @@
                             </div>
                             <div class="input-area mb-4">
                                 <img width="100" src="<?php echo e(asset('root/public/uploads/category/'.$category->image)); ?>" />
+                            </div>
+                            <div class="input-area mb-4">
+                                  <label for="description" class="form-label">Banner Image</label>
+                                  <input type="file" name="banner">
+                            </div>
+                            <div class="input-area mb-4">
+                                <img width="100" src="<?php echo e(asset('root/public/uploads/category/'.$category->banner)); ?>" />
                             </div>
                             <div class="input-area mb-4">
                                 <label for="description" class="form-label">Show on Header Menu ?</label>

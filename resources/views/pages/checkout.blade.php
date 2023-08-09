@@ -5,7 +5,7 @@
         height: 100%;
         top: 0;
         left: 0;
-        background: #fff;
+        background: inherit;
         z-index: 10000;
         opacity: 0.5;
     }
@@ -13,7 +13,7 @@
         position: relative;
         top : 20%;
         left : 50%;
-        font-size: 60px;
+        font-size: 80px;
     }
 </style>
 
@@ -328,10 +328,19 @@
                                 @if (session('cart'))
                                 {{-- @dd(session('cart')); --}}
                                     @foreach (session('cart') as $id => $details)
+                                    
                                         @php
                                             $tax = getTaxCountry((int)$details['shipping_country']);
 
+                                            if(empty($tax)){
+                                                $tax['vat_tax'] = 0;
+                                            }
 
+                                            if(isset($details['solar_product']) && $details['solar_product'] === 'yes'){
+                                                if($tax['short_code'] == 'DE'){
+                                                    $tax['vat_tax'] = 0;
+                                                }
+                                            }
                                             $total+=($details['price']*$details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity']) ) ;
                                         @endphp
 
@@ -635,6 +644,7 @@
         console.log(response.cart);
 
         let product = cart.map((item, index) => {
+            
                 return `
                 ${item.type === "variable" ? `
                    <div class="ps-checkout__row ps-product">
@@ -708,15 +718,16 @@
         "_token": "{{ csrf_token() }}",
         },
         beforeSend : function(){
-            $(".loader").removeClass("d-none");
+            $(".loader").fadeOut("slow", function() {
+                $(this).removeClass("d-none");
+            });
         },
         success: function (response) {
-            $(".loader").addClass("d-none");
-            // console.log(response);
-            // return false;
+            $(".loader").fadeOut("slow", function() {
+                $(this).addClass("d-none");
+            });
         var res = JSON.parse(response);
         const { data } = res;
-        console.log(data);
         let product = data.cart.map((item, index) => {
                 return `
                 ${item.type === "variable" ? `

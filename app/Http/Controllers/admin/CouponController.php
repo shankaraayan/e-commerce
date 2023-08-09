@@ -111,6 +111,16 @@ class CouponController extends Controller
             $cart_items = [];
             foreach ($cart as &$item) {
                 $tax = getTaxCountry((int)$item['shipping_country']);
+                if(empty($tax)){
+                    $tax['vat_tax'] = 0;
+                }
+
+                if($item['solar_product']=="yes"){
+                    if($tax['short_code'] == 'DE'){
+                        $tax['vat_tax'] = 0;
+                    }
+                }
+                    
                 $country = $item['shipping_country'];
                 $subtotal+= ($item['price']*$item['quantity'] + ($item['price'] * $tax['vat_tax'] /100 * $item['quantity']));
                 if (isset($item['product_id'])) {
@@ -165,50 +175,55 @@ class CouponController extends Controller
     public function code_remove()
     {
         $cart = session()->get('cart', []);
-
-        foreach ($cart as &$item) {
+    
+        foreach ($cart as $index => $item) {
             if (isset($item['product_id'])) {
-                $item['discount'] = [
+                $cart[$index]['discount'] = [
                     'code' => null,
                     'type' => null,
                     'discount_value' => null,
                 ];
             }
         }
-
-
-
-         $shippingCountry = end($cart);
-
-        // dd(session('cart'));
-
-            $cart_items = [];
-            $subtotal = 0;
-            foreach($cart as $item){
-                array_push($cart_items,$item);
-                $tax = getTaxCountry((int)$shippingCountry['shipping_country']);
-                $subtotal += ($item['price']*$item['quantity'] + ($item['price'] * $tax['vat_tax'] /100 * $item['quantity']));
-                $item['price_with_tax'] = formatPrice( ($item['price']*$item['quantity'] + $item['price'] * $tax['vat_tax'] /100 * $item['quantity']));
-
+    
+        session()->put('cart', $cart);
+    
+        $shippingCountry = end($cart);
+    
+        $cart_items = [];
+        $subtotal = 0;
+        foreach ($cart as $index => $item) {
+            array_push($cart_items, $item);
+            $tax = getTaxCountry((int) $shippingCountry['shipping_country']);
+            if (empty($tax)) {
+                $tax['vat_tax'] = 0;
             }
-            $shipping_price = shippingCountry()->where('country',$shippingCountry['shipping_country'])->pluck('price')->first();
-
-            $total = ($subtotal+ $shipping_price);
-
-
-            $data = [
-                'subtotal' => formatPrice($subtotal),
-                'cart' => $cart_items,
-                'shipping_price' => formatPrice($shipping_price),
-                'total' =>formatPrice($total)
-            ];
-            session()->put('cart', $cart);
-            $response = ['message' => 'Coupon removed!','status' => 'success',"data"=>$data];
-
-            return json_encode($response);
-
-        // return redirect()->back();
+    
+            if ($item['solar_product'] == "yes") {
+                if ($tax['short_code'] == 'DE') {
+                    $tax['vat_tax'] = 0;
+                }
+            }
+    
+            $subtotal += ($item['price'] * $item['quantity'] + ($item['price'] * $tax['vat_tax'] / 100 * $item['quantity']));
+            $cart[$index]['price_with_tax'] = formatPrice(($item['price'] * $item['quantity'] + $item['price'] * $tax['vat_tax'] / 100 * $item['quantity']));
+        }
+    
+        $shipping_price = shippingCountry()->where('country', $shippingCountry['shipping_country'])->pluck('price')->first();
+    
+        $total = ($subtotal + $shipping_price);
+        $data = [
+            'subtotal' => formatPrice($subtotal),
+            'cart' => $cart_items,
+            'shipping_price' => formatPrice($shipping_price),
+            'total' => formatPrice($total),
+        ];
+    
+        $response = ['message' => 'Coupon removed!', 'status' => 'success', "data" => $data];
+    
+        return json_encode($response);
     }
+    
 
     public function randomStr(){
         $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';

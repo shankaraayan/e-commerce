@@ -87,6 +87,7 @@
                                     .
                                 </span> Ihre Bestellung ist eingegangen.</h3>
                                         <h5>Order Id <span class="order_ID"><a href="#">#<?php echo e($order->order_id); ?></a></span></h5>
+                                  
                             </div>
                         </div>
                     </div>
@@ -96,6 +97,7 @@
                     <div class="col-6 col-md-3 col-lg-3 border-right">
                         <div class="order_number text-center">
                             <h4>Bestellnr:</h4>
+                            
                             <p class="order_no"><b># <a href="javascript:void(0);"><?php echo e($order->order_id); ?></a></b></p>
                         </div>
                     </div>
@@ -110,11 +112,27 @@
                             <h4>Gesamt</h4>
                             <?php
                                 $data = json_decode($order['product_details'], true);
+                    
+                                $subtotal = 0;
                                 $totalPrice = 0;
                                     $shipping_data = (end($data));
 
                                 foreach ($data as $product) {
-                                    $totalPrice += $product['price'] * $product['quantity'];
+                                   
+                                    $tax = getTaxCountry((int)$product['shipping_country']);
+                                    
+                                    if(empty($tax)){
+                                        $tax['vat_tax'] = 0;
+                                    }
+
+                                    if(isset($product['solar_product']) && $product['solar_product'] === 'yes'){
+                                        if($tax['short_code'] == 'DE'){
+                                            $tax['vat_tax'] = 0;
+                                        }
+                                    }
+                                    $taxAmount  = (@$product['price'] * $tax['vat_tax'] /100 * @$product['quantity']);
+                                    $subtotal += $product['price'] * $product['quantity'];
+                                    $totalPrice += ($product['price']*$product['quantity'] + (@$product['price'] * $tax['vat_tax'] /100 * @$product['quantity']) ) ;
                                 }
                             ?>
                             <p class="order_total"><?php echo e(formatPrice($totalPrice + $shipping_data['shipping_price'])); ?></p>
@@ -122,6 +140,7 @@
                     </div>
                     <div class="col-6 col-md-3 col-lg-3">
                         <div class="order_number text-center">
+                           
                             <h4>Zahlungsmethode</h4>
                             <p class="order_pay_method"><?php echo e($order->payment_method); ?></p>
                         </div>
@@ -157,9 +176,16 @@
                                         </tr>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                         <tr>
-                                            <td>Zwischensumme :</td>
-                                            <td class="text-right"><?php echo e(formatPrice($totalPrice)); ?></td>
+                                            <td>Zwischensumme(Inklusive Steuern) :</td>
+                                            <td class="text-right"><?php echo e(formatPrice($subtotal)); ?></td>
                                         </tr>
+                                        <?php if($taxAmount != 0): ?>
+                                            <tr>
+                                                <td>Steuer :</td>
+                                                <td class="text-right"><?php echo e(formatPrice($taxAmount)); ?></td>
+                                            </tr>
+                                        <?php endif; ?>
+                                        
                                         <tr>
                                             <td>Versand :</td>
                                             <td class="text-right">

@@ -119,6 +119,16 @@ class ShippingController extends Controller
 
                     $cart[$item['product_id']]['shipping_country'] = $shippingCountry;
                     $tax = getTaxCountry((int)$shippingCountry);
+                    if(empty($tax)){
+                        $tax['vat_tax'] = 0;
+                    }
+
+                    if($item['solar_product']=="yes"){
+                        if($tax['short_code'] == 'DE'){
+                            $tax['vat_tax'] = 0;
+                        }
+                    }
+                    
                     if (isset($item['product_id'])) {
                         // print_r($item['discount']);die;
                         $item['discount'] = [
@@ -127,6 +137,7 @@ class ShippingController extends Controller
                             'discount_value' => $discount_value,
                         ];
                     }
+                   
                     $item['price_with_tax'] = formatPrice( ($item['price']*$item['quantity'] + $item['price'] * $tax['vat_tax'] /100 * $item['quantity']));
                     array_push($cart_items,$item);
                     $subtotal+= ($item['price']*$item['quantity'] + ($item['price'] * $tax['vat_tax'] /100 * $item['quantity']));
@@ -152,8 +163,18 @@ class ShippingController extends Controller
                 foreach($cart as $item){
                     $cart[$item['product_id']]['shipping_country'] = $shippingCountry;
                     $tax = getTaxCountry((int)$shippingCountry);
+                    if(empty($tax)){
+                        $tax['vat_tax'] = 0;
+                    }
+
+                    if($item['solar_product']=="yes"){
+                        if($tax['short_code'] == 'DE'){
+                            $tax['vat_tax'] = 0;
+                        }
+                    }
                     $subtotal += ($item['price']*$item['quantity'] + ($item['price'] * $tax['vat_tax'] /100 * $item['quantity']));
                     $total = ($subtotal+$shipping_price);
+
                     $item['price_with_tax'] =  formatPrice(($item['price']*$item['quantity'] + $item['price'] * $tax['vat_tax'] /100 * $item['quantity']));
                     array_push($cart_items,$item);
 

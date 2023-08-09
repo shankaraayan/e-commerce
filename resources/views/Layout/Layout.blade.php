@@ -17,8 +17,9 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/font-awesome/css/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/fonts/Linearicons/Font/demo-files/demo.css') }}">
     <link rel="preconnect" href="{{ asset('assets/https://fonts.gstatic.com') }}">
-    <link href="https://db.onlinewebfonts.com/c/72c37e84edf1d13a13a5d774056621b5?family=Riona+Sans+W01+Bold" rel="stylesheet">
+    <!-- <link href="https://db.onlinewebfonts.com/c/72c37e84edf1d13a13a5d774056621b5?family=Riona+Sans+W01+Bold" rel="stylesheet"> -->
     <!-- <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/plugins/bootstrap4/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/owl-carousel/assets/owl.carousel.css') }}">

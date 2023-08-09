@@ -108,10 +108,10 @@
                                     </span>
                                 </button>
                                 <div>
-                                 Desktop : 
+                                    Desktop : 
                                         <img width="250" src="<?php echo e(asset('root/public/uploads/sliders/desktop/'.$slider->desktop)); ?>" />
                                         <br>
-                                   Phone : 
+                                    Phone : 
                                         <img width="250" src="<?php echo e(asset('root/public/uploads/sliders/phone/'.$slider->phone)); ?>" />
                                    
                                     

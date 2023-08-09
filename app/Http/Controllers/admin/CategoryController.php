@@ -35,7 +35,12 @@ class CategoryController extends Controller
                     $filename = time() . '.' . $image->getClientOriginalExtension();
                     $image->move(public_path('uploads/category'), $filename);
                     $category->image = $filename;
-                    // Save the filename or perform further operations
+                }
+                if ($request->banner) {
+                    $image = $request->file('banner');
+                    $filename = time() . '.' . $image->getClientOriginalExtension();
+                    $image->move(public_path('uploads/category'), $filename);
+                    $category->banner = $filename;
                 }
 
                 $category->save();
@@ -54,17 +59,24 @@ class CategoryController extends Controller
         $category = Category::find($id);
 
          if ($request->category_image) {
-
-            $file_path = public_path('uploads/category/'.$category->image);
-            if(file_exists($file_path)){
-                unlink($file_path);
-            }
-
+            // $file_path = public_path('uploads/category/'.$category->image);
+            // if(file_exists($file_path)){
+            //     unlink($file_path);
+            // }
             $image = $request->file('category_image');
-
             $filename = time() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('uploads/category'), $filename);
             $category->image = $filename;
+        }
+        if ($request->banner) {
+            // $file_path = public_path('uploads/category/'.$category->banner);
+            // if(file_exists($file_path)){
+            //     unlink($file_path);
+            // }
+            $image = $request->file('banner');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/category'), $filename);
+            $category->banner = $filename;
         }
 
         $category->name = $request->input('name');
@@ -79,11 +91,9 @@ class CategoryController extends Controller
     public function delete($id)
     {
         $category = Category::find($id);
-
         $file_path = public_path('uploads/category/'.$category->image);
-
+        // $file_path = public_path('uploads/category/'.$category->banner);
         $category->delete();
-
         return redirect()->back();
     }
 

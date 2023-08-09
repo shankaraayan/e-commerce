@@ -2,7 +2,6 @@
     <?php
         $data = $details['data'];
     ?>
-
    <table align="center" border="0" cellpadding="0" cellspacing="0" class="row row-2"
 						role="presentation"
 						style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #efefef;" width="100%">
@@ -251,19 +250,34 @@
                                                          Preis
                                                       </th>
                                                    </tr>
-                                                   <?php
-                                                      $price = json_decode($data['product_details'], true);
-                                                      $totalPrice = 0;
+                                                  
 
-                                                      foreach ($price as $productPrice) {
-                                                         $totalPrice += $productPrice['price'] * $productPrice['quantity'];
+                                                  <?php
+                                                      $products = json_decode($data['product_details'], true);
+                                                      $subtotal = 0;
+                                                      $totalPrice = 0;
+                                                      $shipping_data = (end($data['product_details']));
+                                                    
+                                                      foreach ($products as $product) {
+                                                         
+                                                            $tax = getTaxCountry((int)$product['shipping_country']);
+                                                            
+                                                            if(empty($tax)){
+                                                               $tax['vat_tax'] = 0;
+                                                            }
+
+                                                            if(isset($product['solar_product']) && $product['solar_product'] === 'yes'){
+                                                               if($tax['short_code'] == 'DE'){
+                                                                  $tax['vat_tax'] = 0;
+                                                               }
+                                                            }
+                                                            $taxAmount  = (@$product['price'] * $tax['vat_tax'] /100 * @$product['quantity']);
+                                                            $subtotal += $product['price'] * $product['quantity'];
+                                                            $totalPrice += ($product['price']*$product['quantity'] + (@$product['price'] * $tax['vat_tax'] /100 * @$product['quantity']) ) ;
                                                       }
 
-                                                   ?>
-                                                  <?php
-                                                  $products = json_decode($data['product_details'], true);
-
                                                   ?>
+
                                                   <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                                                    <tr>

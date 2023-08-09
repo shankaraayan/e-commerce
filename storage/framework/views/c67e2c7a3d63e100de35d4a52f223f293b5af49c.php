@@ -1,20 +1,65 @@
 <?php $__env->startSection("content"); ?>
 <style> 
+
+    .ps-product__variations_sec .accordion .attribute_box .card-header {
+        cursor: pointer;
+    }
+
+    .attribute_box .ps-checkout__checkbox .form-check {
+        padding-left: 1.25rem;
+    }
+
+    .bg-light-blue {
+        background: #f5f8ff;
+    }
+    
+    .attribute_price {
+        color: var(--green-color);
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    @media  only screen and (min-width: 1280px){
+        .ps-product--detail .ps-product__title {
+        font-size: 28px;
+        font-weight: 600;
+    }
+    }
+    @media  only screen and (max-width: 1279px){
+        .ps-product--detail .ps-product__title {
+        font-size: 24px !important;;
+        font-weight: 600;
+    }
+    }
+    @media(max-width: 991px){
+        .ps-product--detail .ps-product__title {
+        font-size: 22px !important;
+        font-weight: 500;
+    }
+    }
+    @media(max-width: 767px){
+        .ps-product--detail .ps-product__title {
+        font-size: 18px !important;
+        font-weight: 500;
+    }
+    }
+
     .ps-product--detail .ps-product__price {
-        font-size: 18px;
+        font-size: 22px;
         font-weight: 700;
     }
     .bg-gray {
         background-color: #d7d7d724;
     }
-    .ps-product__variations_sec .accordion .card{
+    .ps-product__variations_sec .accordion .attribute_box{
         background-color: white;
         color: var(--blue-color);
         font-weight: 600;
-        padding: 3px 18px;
-        border-radius: 10px !important;
-        border: 1px solid #f0f2f5;
-        margin-bottom: 10px;
+        padding: 15px;
+        border-radius: 3px !important;
+        border-bottom: 1px solid #dedede !important;
+        margin-bottom: 15px;
+        box-shadow: 0px 0px 2px 1px #e2e2e2de;
     }
     .ps-product__variations_sec .accordion .card-header{
         background-color: transparent;
@@ -27,12 +72,18 @@
     }
 
     .ps-product__variations_sec .accordion .card:not(:first-of-type):not(:last-of-type) {
-        border-radius: 10px !important;
+        border-radius: 3px !important;
         border: 1px solid #f0f2f5;
     }
-     .ps-section__title {
-        margin-bottom: 0px !important;
-        font-size: 18px !important;
+
+    .attribute_title {
+         font-size: 16px !important;
+         color: var(--green-color);
+    }
+    
+    .attribute_title_name {
+         font-size: 14px !important;
+         color: var(--blue-color);
     }
     .form-check .form-check-label::before {
         display: none;
@@ -50,7 +101,7 @@
 
     }
     .ps-product__variations_sec input[type=radio]:checked+label>.select_var_row {
-        border: 2px solid #f3b222 !important;
+        border: 2px solid var(--green-color); !important;
         border-radius: 15px;
     }
    
@@ -63,8 +114,8 @@
     }
     .ps-desc{
          border-radius: 13px;
-         font-size:15px !important;
-         color :#8994b1 !important;
+         font-size:14px !important;
+         color :#6f6f6f !important;
          text-align: justify;
      }
 
@@ -76,9 +127,7 @@
     .ps-product__variations_sec input[type=radio]+label>figure>img {
         transition: 500ms all;
     }
-    .ps-product--detail .ps-product__title {
-        font-size: 22px !important;
-    }
+    
     .select_var_row:hover {
     cursor: pointer;
     }
@@ -96,21 +145,29 @@
     }
     .font-weight-400{
         font-weight:400 !important;
-        font-family:sans-serif
-    }
+     }
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
 
-<div class="ps-page--product4 mt-5">
+<div class="ps-page--product4 mt-4">
     <div class="container">
-       
-        <div class="ps-page__content">
+    <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
+<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.filtter','data' => ['value' => __('DisabledShortBy'),'filterIcon' => __('d-none'),'productName' => __($product->product_name)]]); ?>
+<?php $component->withName('filtter'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php $component->withAttributes(['value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('DisabledShortBy')),'filterIcon' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('d-none')),'productName' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__($product->product_name))]); ?>Products <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
+<?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
+<?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
+<?php endif; ?>
+        <div class="ps-page__content pt-5">
             <div class="ps-product--detail ps-product--full">
                 <div class="row">
-                    <div class="col-12 col-xl-6 col-md-5">
-
+                    <div class="col-12 col-xl-5 col-md-5">
                         <div class="ps-section__carousel related_product_view">
                             <div class="main-image owl-carousel owl-loaded owl-drag" data-owl-loop="true" data-owl-auto="false" data-owl-nav="false" data-owl-dots="false">
                                 <div class="item">
@@ -128,9 +185,7 @@
                                 </div>
                                 <?php $__currentLoopData = $product->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="item" style="padding:10px;">
-
                                     <img src="<?php echo e(asset('root/public/uploads/' . $image->images)); ?>" alt="alt" data-index="<?php echo e($loop->index+1); ?>" />
-
                                 </div>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
@@ -156,12 +211,10 @@
                         </div>
                     </div>
                    
-                    <div class="col-12 col-xl-6 col-md-7">
+                    <div class="col-12 col-xl-7 col-md-7">
                         <div class="ps-product__info">
-
                             <div class="ps-product__branch"><a href="#"><?php if(isset($product->categories->name)): ?> <?php echo e($product->categories->name); ?> <?php endif; ?></a></div>
                             <div class="ps-product__title"><?php echo e($product->product_name); ?></div>
-
                             
                             
                             <div  class="ps-product__meta"><span class="ps-product__price sale"  id="totalPrice"><?php if($product->type == 'variable'): ?> Please Select Attributes for best price <?php else: ?> <?php echo e(formatPrice($product->sale_price)); ?> <?php endif; ?></span><span class="ps-product__del"><?php if($product->type == 'variable'): ?> <?php else: ?><?php echo e(formatPrice($product->price)); ?> <?php endif; ?></span>
@@ -174,13 +227,11 @@
                                     
                                     <?php $__currentLoopData = $attributes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $data): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-                                        <div class="card py-3 border-bottom">
+                                        <div class="attribute_box">
                                             <div class="card-header p-0" id="heading_Var<?php echo e($key); ?>" data-toggle="collapse" data-target="#collapse_var_<?php echo e($key); ?>" aria-expanded="true" aria-controls="collapse_var_<?php echo e($key); ?>">
-                                                    <div class="card_header_inner pr-5" style="display:inline-block">
+                                                    <div class="card_header_inner pr-3" style="display:inline-block">
                                                             <a href="javascript:void(0)">
-                                                                <h3 class="ps-section__title"><?php echo e($data->attribute_name); ?>
-
-                                                                </h3>
+                                                                <h3 class="attribute_title mb-0"><?php echo e($data->attribute_name); ?></h3>
                                                             </a>
                                                         </div>
                                                 <span class="float-right text-secondary fs-4">Change</span>
@@ -188,14 +239,14 @@
 
                                             <div id="collapse_var_<?php echo e($key); ?>" class="collapse<?php echo e($key == 0 ? ' show' : ''); ?>" aria-labelledby="heading_Var<?php echo e($key); ?>" data-parent="#accordionExample">
                                                 <div class="card-body">
-                                                     <p class="ps-checkout__checkbox row p-4 ps-desc bg-light">
+                                                     <p class="ps-checkout__checkbox row p-4 ps-desc bg-light-blue mb-20 shadow-sm">
                                                          <?php echo e($data->attribute_description); ?></p>
-                                                    <div class="ps-checkout__checkbox row p-3">
+                                                    <div class="ps-checkout__checkbox row">
                                                   
                                                         <?php $__currentLoopData = $data->attributeTerms; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $keyss => $vales): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                                                         <?php if($key == 0 && $data->attribute_type == 'panel'): ?>
-                                                        <div class="form-check col-12 mb-3">
+                                                        <div class="form-check col-12 mb-4">
                                                             <input class="form-check-input"
                                                                 type="radio"
                                                                 name="var_radios<?php echo e($key); ?>"
@@ -211,12 +262,12 @@
                                                                     <?php if(@$vales->image): ?>
 
                                                                         <div class="ps-section__thumbnail col-3">
-                                                                            <img src="<?php echo e(asset('root/public/uploads/'.$vales->image)); ?>" alt="" width="100px">
+                                                                            <img src="<?php echo e(asset('root/public/uploads/'.$vales->image)); ?>" alt="" class="img-fluid">
                                                                         </div>
                                                                     <?php endif; ?>
                                                                     <div class="align-middle <?php echo e(@$vales->image ? 'col-9' : 'col-12'); ?>">
-                                                                        <h3 class="ps-section__title py-2 d-flex justify-content-between">
-                                                                            <?php echo e($vales->attribute_term_name); ?> <small style="color:#f3b222;"><?php echo e(formatPrice($vales->price)); ?></small>
+                                                                        <h3 class="attribute_title_name py-2 d-flex justify-content-between">
+                                                                            <?php echo e($vales->attribute_term_name); ?> <small class="attribute_price"><?php echo e(formatPrice($vales->price)); ?></small>
                                                                         </h3>
                                                                         <p class="ps-desc"><?php echo e($vales->attribute_term_description); ?></p>
                                                                     </div>
@@ -225,20 +276,21 @@
                                                             </label>
                                                         </div>
                                                         <?php elseif($key == 1 && $data->attribute_type == 'inverter'): ?>
-                                                          
-                                                        <div class="form-check p-0 col-12 mb-3" id="test">
-                                                             <input class="form-check-input" type="radio" name="var_radios<?php echo e($key); ?>" id="var_radios<?php echo e($key); ?>_<?php echo e($keyss); ?>" value="option<?php echo e($keyss); ?>" data-atr-price="<?php echo e($vales->price); ?>" data-atr-name="<?php echo e($vales->attribute_term_name); ?>"  data-value="<?php echo e($vales->attribute_term_name); ?>,<?php echo e($vales->price); ?>,<?php echo e($vales->id); ?>,<?php echo e($data->attribute_name); ?>"
-                                                            onclick="saveValue(this, '<?php echo e($data->id); ?>','','heading_Var<?php echo e($key); ?>',<?php echo e($vales->id); ?>,'<?php echo e($data->attribute_name); ?>')">
+                                                       
+                                                        <div class="form-check col-12 mb-4" id="test">
+                                                        <input class="form-check-input" type="radio" name="var_radios<?php echo e($key); ?>" id="var_radios<?php echo e($key); ?>_<?php echo e($keyss); ?>" value="option<?php echo e($keyss); ?>" data-atr-price="<?php echo e($vales->price); ?>" data-atr-name="<?php echo e($vales->attribute_term_name); ?>" data-value="<?php echo e($vales->attribute_term_name); ?>,<?php echo e($vales->price); ?>,<?php echo e($vales->id); ?>,<?php echo e($data->attribute_name); ?>"
+                                                        onclick="saveValue(this, '<?php echo e($data->id); ?>','','heading_Var<?php echo e($key); ?>',<?php echo e($vales->id); ?>,'<?php echo e($data->attribute_name); ?>')">
+
                                                             <label class="form-check-label mx-2" for="var_radios<?php echo e($key); ?>_<?php echo e($keyss); ?>">
                                                                 <div class="row select_var_row p-3 term-select-<?php echo e($vales->id); ?>">
                                                                      <?php if(@$vales->image): ?>
                                                                         <div class="ps-section__thumbnail col-3">
-                                                                            <img src="<?php echo e(asset('root/public/uploads/'.$vales->image)); ?>" alt="" width="100px">
+                                                                            <img src="<?php echo e(asset('root/public/uploads/'.$vales->image)); ?>" alt="" class="img-fluid">
                                                                         </div>
                                                                     <?php endif; ?>
                                                                     <div class="align-middle <?php echo e(@$vales->image ? 'col-9' : 'col-12'); ?>">
-                                                                        <h3 class="ps-section__title py-2 d-flex justify-content-between">
-                                                                            <?php echo e($vales->attribute_term_name); ?> <small style="color:#f3b222;"><?php echo e(formatPrice($vales->price)); ?></small>
+                                                                        <h3 class="attribute_title_name py-2 d-flex justify-content-between">
+                                                                            <?php echo e($vales->attribute_term_name); ?> <small class="attribute_price"><?php echo e(formatPrice($vales->price)); ?></small>
                                                                         </h3>
                                                                         <p class="ps-desc"><?php echo e($vales->attribute_term_description); ?></p>
                                                                     </div>
@@ -247,26 +299,25 @@
                                                         </div>
                                                         <?php else: ?>
                                                         
-                                                        <div class="form-check col-12 mb-3">
+                                                        <div class="form-check col-12 mb-4">
                                                             <input class="form-check-input" type="radio" name="var_radios<?php echo e($key); ?>" id="var_radios<?php echo e($key); ?>_<?php echo e($keyss); ?>" value="option<?php echo e($keyss); ?>" data-atr-price="<?php echo e($vales->price); ?>" data-atr-name="<?php echo e($vales->attribute_term_name); ?>"  data-value="<?php echo e($vales->attribute_term_name); ?>,<?php echo e($vales->price); ?>,<?php echo e($vales->id); ?>,<?php echo e($data->attribute_name); ?>"
                                                             onclick="saveValue(this, '<?php echo e($data->id); ?>','','heading_Var<?php echo e($key); ?>',<?php echo e($vales->id); ?>,'<?php echo e($data->attribute_name); ?>')">
                                                             <label class="form-check-label mx-2" for="var_radios<?php echo e($key); ?>_<?php echo e($keyss); ?>">
                                                                 <div class="row select_var_row p-3 term-select-<?php echo e($vales->id); ?>">
                                                                      <?php if(@$vales->image): ?>
                                                                         <div class="ps-section__thumbnail col-3">
-                                                                            <img src="<?php echo e(asset('root/public/uploads/'.$vales->image)); ?>" alt="" width="100px">
+                                                                            <img src="<?php echo e(asset('root/public/uploads/'.$vales->image)); ?>" alt="" class="img-fluid">
                                                                         </div>
                                                                     <?php endif; ?>
                                                                     <div class="align-middle <?php echo e(@$vales->image ? 'col-9' : 'col-12'); ?>">
-                                                                       <h3 class="ps-section__title py-2 d-flex justify-content-between">
-                                                                            <?php echo e($vales->attribute_term_name); ?> <small style="color:#f3b222;"><?php echo e(formatPrice($vales->price)); ?></small>
+                                                                       <h3 class="attribute_title_name py-2 d-flex justify-content-between">
+                                                                            <?php echo e($vales->attribute_term_name); ?> <small class="attribute_price"><?php echo e(formatPrice($vales->price)); ?></small>
                                                                         </h3>
                                                                         <p class="ps-desc"><?php echo e($vales->attribute_term_description); ?></p>
                                                                     </div>
                                                                 </div>
                                                             </label>
                                                         </div>
-
 
                                                         <?php endif; ?>
 
@@ -313,16 +364,11 @@
                                             }
                                         });
                                     </script>
-
                                                 <?php endif; ?>
-
-                                                    <?php
-                                                        $countAttribites = count($attributes);
-                                                    ?>
-
-                                            <a class="ps-btn ps-btn--warning ml-3"
-                                                    onclick="checkSessionCount('<?php echo e($product->id); ?>', '<?php echo e($countAttribites); ?>')"
-                                                    href="javascript:void(0)">ADD TO CART</a>
+                                                   <?php
+                                                      $countAttribites = count($attributes);
+                                                   ?>
+                                   <a class="ps-btn ps-btn--warning ml-3" onclick="checkSessionCount('<?php echo e($product->id); ?>', '<?php echo e($countAttribites); ?>')" href="javascript:void(0)">ADD TO CART</a>
                                 </div>
                             </div>
                                 <div class="well">
@@ -547,7 +593,7 @@ atr_price = formatPrice(atr_price);
 $("#" + pids).find("small").remove();
 
 if(atr_price!='€0.00'){
-    $("#" + pids).append(`<small>${atr_name}</small> <small class="mr-5 font-weight-bold pl-2"  style="color:#f3b222;">${atr_price}</small>`);
+    $("#" + pids).append(`<small class="font-weight-bold">${atr_name}</small> <small class="mr-5 font-weight-bold pl-2" style="color: var(--green-color);">${atr_price}</small>`);
 }
 
 
@@ -707,7 +753,7 @@ $.ajax({
                 </div>` : ""}
                 <div class="col-9">
                     <div class="mb-3">
-                        <h3 class="ps-section__title py-2">
+                        <h3 class="attribute_title_name py-2">
                             ${user.attribute_term_name}
                             </h3>
                         <p class="ps-desc">${user.attribute_term_description}</p>
@@ -913,14 +959,14 @@ function checkSessionCount(productId, countAttributes) {
                 let name = names.split(",");
                 terms.map((item,index)=>{
 
-                    $(".term-select-"+item).css("border-color","#f3b222");
+                    $(".term-select-"+item).css("border-color","var(--blue-color)");
                     let el = $(".term-select-"+item);
                     el = el[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
                     let card_header_inner = el.querySelector(".card_header_inner");
                     // console.log(card_header_inner);
                     const ps = card_header_inner.parentElement;
                     if(price[index]!=0){
-                        $(ps).append(`<small>${name[index]} </small> <small class="ml-2" style="color:#f3b222;">${formatPrice(price[index])}</small>`)
+                        $(ps).append(`<small class="font-weight-bold">${name[index]} </small> <small class="ml-3 font-weight-bold" style="color:var(--green-color);">${formatPrice(price[index])}</small>`)
                     }
                     
                    

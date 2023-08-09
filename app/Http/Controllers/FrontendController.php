@@ -17,6 +17,7 @@ use App\Mail\VerificationEmail;
 use App\Mail\MyTestMail;
 use App\Models\Cart;
 use App\Models\Wishlist;
+use App\Services\UpdateQuantity;
 
 class FrontendController extends Controller
 {
@@ -104,7 +105,6 @@ class FrontendController extends Controller
                     } else {
                         $item_ids = explode(',', @$decoded_json->termIds);
                         $attributes_price = AttributeTerm::whereIn('id', $item_ids)->sum('price');
-
                         $details = AttributeTerm::whereIn('id', $item_ids)->pluck('attribute_term_name');
                         $cart[$id] = [
                             "quantity" => $qty,
@@ -203,6 +203,8 @@ class FrontendController extends Controller
             if (isset($cart[$request->id])) {
                 unset($cart[$request->id]);
                 session()->put('cart', $cart);
+
+                Cart::where('cart_id',$request->id)->delete();
             }
         }
         return view('elements.cart_data');
@@ -215,6 +217,8 @@ class FrontendController extends Controller
             if (isset($cart[$request->id])) {
                 unset($cart[$request->id]);
                 session()->put('cart', $cart);
+
+                Cart::where('cart_id',$request->id)->delete();
             }
             return view('pages.cart_model');
         }
@@ -232,8 +236,6 @@ class FrontendController extends Controller
     }
     public function checkout(Request $request)
     {
-        // echo '<pre>';
-        // print_r($request->all());
         $validator = Validator::make($request->all(), [
             'fullname' => 'required',
             'email' => 'required',
@@ -338,18 +340,12 @@ class FrontendController extends Controller
              $data = $order_data;
 
         $result = Mail::to($details['email'])->send(new MyTestMail($details));
+        return view('emails.campergold_order_confirm',$details);die;
 
-        // session()->flush();
+        Cart::where('user_id',auth()->user()->id)->delete();
         session()->forget('cart');
-        // dd($order_id);
         $orderUrl = route('order_confirmation', ['id' => $order_id ]);
-
-        // Redirect the user to the generated URL
         return redirect($orderUrl)->with('success', 'Thanks for the Order');
-
-        // return redirect(url('order_confirmation/' . $order['id']))->with('success', 'Thanks for the Order');
-
-
     }
 
 
@@ -419,9 +415,8 @@ class FrontendController extends Controller
                                 $attributes['attribute_type'] = $value['attribute_type'];
                                 $attributes['attribute_image'] = $value['image'];
                                 $attributes['attribute_wh_range'] = $value['wh_range'];
-
-
                                 $attributes_all[] = $attributes;
+
                             }
                             $product_details['attribute_terms'] = $attributes_all;
                         }
@@ -440,6 +435,7 @@ class FrontendController extends Controller
                     $product_details['thumb_image'] = $product['thumb_image'];
                     $product_details['slug'] = $product['slug'];
                     $product_details['type'] = $product['type'];
+                    $product_details['solar_product'] = $product['solar_product'] ? 'yes' : 'no';
                     $product_details['total_price'] = ($attribute_price + $details['price']) * $details['quantity'];
                     $product_details['shipping_country'] = $details['shipping_country'];
                     $product_details['shipping_price'] = shippingCountry()->where('country',$details['shipping_country'])->pluck('price')->first();
