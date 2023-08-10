@@ -215,7 +215,7 @@
                         <div class="ps-product__info">
                             <div class="ps-product__branch"><a href="#"><?php if(isset($product->categories->name)): ?> <?php echo e($product->categories->name); ?> <?php endif; ?></a></div>
                             <div class="ps-product__title"><?php echo e($product->product_name); ?></div>
-                            
+                         
                             
                             <div  class="ps-product__meta"><span class="ps-product__price sale"  id="totalPrice"><?php if($product->type == 'variable'): ?> Please Select Attributes for best price <?php else: ?> <?php echo e(formatPrice($product->sale_price)); ?> <?php endif; ?></span><span class="ps-product__del"><?php if($product->type == 'variable'): ?> <?php else: ?><?php echo e(formatPrice($product->price)); ?> <?php endif; ?></span>
                             </div>
@@ -439,55 +439,34 @@
                     data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="5" data-owl-item-xs="1" data-owl-item-sm="2"
                     data-owl-item-md="3" data-owl-item-lg="5" data-owl-item-xl="5" data-owl-duration="1000" data-owl-mousedrag="on">
 
-
+                    
                     <div class="owl-stage-outer shadow-sm">
-                                    <div class="owl-stage" style="transform: translate3d(-1974px, 0px, 0px); transition: all 0s ease 0s; width: 7651px;">
-                                    <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <div class="owl-item cloned" style="width: 246.8px;">
-                                            <div class="ps-section__product">
-                                                <div class="ps-product ps-product--standard">
-                                                    <div class="ps-product__thumbnail"><a class="ps-product__image" href="<?php echo e(route('product.detail',$value->slug)); ?>">
-                                                            <figure>
-                                                                <img src="<?php echo e(asset('root/public/uploads/'.$value->thumb_image)); ?>" alt="alt">
-                                                                <img src="<?php echo e(asset('root/public/uploads/'.$value->thumb_image)); ?>" alt="alt">
-                                                            </figure>
-                                                        </a>
-
-                                                        <div class="ps-product__badge">
-                                                        </div>
-                                                        <div class="ps-product__percent ps-badge ps-badge--hot">-61%</div>
-                                                    </div>
-                                                    <div class="ps-product__content">
-                                                        <p class="ps-product__title"><a href="<?php echo e(route('product.detail',$value->slug)); ?>"><?php echo e($value->product_name); ?></a></p>
-                                                        <div class="ps-product__meta"><span class="ps-product__price sale"><?php echo e($value->sale_price); ?></span><span class="ps-product__del"><?php echo e($value->price); ?></span>
-                                                        </div>
-
-                                                            <?php if($value->type !='variable'): ?>
-                                                                 <div class="add_to_cart_box"><a class="btn cart_btn d-block" href="javascript:void(0)" onclick="add_to_cart('<?php echo e($value->id); ?>')">Add to cart</a>
-                                                                 </div>
-                                                             <?php else: ?>
-                                                                 <div class="add_to_cart_box">
-                                                                     <a class="btn cart_btn d-block" href="<?php echo e(route('product.detail',$value->slug)); ?>">View</a>
-                                                                 </div>
-                                                             <?php endif; ?>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                    </div>
-                                </div>
-                                <div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><i class="fa fa-chevron-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="fa fa-chevron-right"></i></button></div>
-                                <div class="owl-dots disabled"><button role="button" class="owl-dot active"><span></span></button></div>
-                                <div class="owl-nav"><button type="button" role="presentation" class="owl-prev"><i class="fa fa-chevron-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="fa fa-chevron-right"></i></button></div>
-                                <div class="owl-dots"><button role="button" class="owl-dot active"><span></span></button><button role="button" class="owl-dot"><span></span></button><button role="button" class="owl-dot"><span></span></button></div>
-                            </div>
+                        <div class="owl-stage" style="transform: translate3d(-1974px, 0px, 0px); transition: all 0s ease 0s; width: 7651px;">
+                            <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
+<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.product-small-card','data' => ['productData' => $products]]); ?>
+<?php $component->withName('product-small-card'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php $component->withAttributes(['productData' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($products)]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
+<?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
+<?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
+<?php endif; ?>
                         </div>
-                    </section>
+                    </div>
+
+                    <div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><i class="fa fa-chevron-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="fa fa-chevron-right"></i></button></div>
+                    <div class="owl-dots disabled"><button role="button" class="owl-dot active"><span></span></button></div>
+                    <div class="owl-nav"><button type="button" role="presentation" class="owl-prev"><i class="fa fa-chevron-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="fa fa-chevron-right"></i></button></div>
+                    <div class="owl-dots"><button role="button" class="owl-dot active"><span></span></button><button role="button" class="owl-dot"><span></span></button><button role="button" class="owl-dot"><span></span></button></div>
+                            </div>
                 </div>
-            </div>
+            </section>
         </div>
+    </div>
+</div>
 <!-- Swiper JS -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 

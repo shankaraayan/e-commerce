@@ -102,7 +102,7 @@
                                                 <option value="" >Wählen Sie ein Land / eine Region…</option>
 
                                                 @foreach ($shippingCountry as $country)
-                                                    <option @if($session_country == $country->country) selected @endif value="{{country()->where('id',$country->country)->pluck('id')->first()}}">{{country()->where('id',$country->country)->pluck('country')->first()}} / {{formatPrice($country->price)}}</option>
+                                                    <option @if($session_country == $country->country) selected @endif value="{{country()->where('id',$country->country)->pluck('id')->first()}}">{{country()->where('id',$country->country)->pluck('country')->first()}}</option>
                                                 @endforeach
                                             </select>
 
@@ -227,7 +227,7 @@
                                                 <option>Wählen Sie ein Land / eine Region…</option>
                                                 @foreach ($shippingCountry as $country)
                                                     <option @if($session_country == $country->country) selected @endif value="{{country()->where('id', $country->country)->pluck('id')->first()}}">
-                                                        {{ country()->where('id', $country->country)->pluck('country')->first() }} / {{ formatPrice($country->price) }}
+                                                        {{ country()->where('id', $country->country)->pluck('country')->first() }}
                                                     </option>
                                                 @endforeach
                                             </select>

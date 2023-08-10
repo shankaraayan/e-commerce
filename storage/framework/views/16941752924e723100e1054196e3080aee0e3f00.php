@@ -231,6 +231,7 @@
                                     $shippingClass = shippingClass();
                                     ?>
                                 <?php $__currentLoopData = $shippingClass; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $shipping): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                               
                                     <option value="<?php echo e($shipping->id); ?>" <?php echo e(($editData->shipping_class == $shipping->id) ? 'selected' : ''); ?>><?php echo e($shipping->name); ?></option>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>

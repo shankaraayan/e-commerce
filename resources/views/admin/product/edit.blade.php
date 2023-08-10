@@ -231,6 +231,7 @@
                                     $shippingClass = shippingClass();
                                     @endphp
                                 @foreach ($shippingClass as $shipping)
+                               
                                     <option value="{{$shipping->id}}" {{ ($editData->shipping_class == $shipping->id) ? 'selected' : ''}}>{{$shipping->name}}</option>
                                 @endforeach
                                 </select>

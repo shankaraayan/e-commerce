@@ -69,7 +69,8 @@ svg {
 
             <div class="ps-categogy__main pb-40">
                 <div class="container">
-                    <div class="ps-categogy__widget"><a href="javascript:void(0);" id="close-widget-product"><i class="fa fa-times"></i></a>
+                    <div class="ps-categogy__widget">
+                        <a href="javascript:void(0);" id="close-widget-product"><i class="fa fa-times"></i></a>
                         <div class="ps-widget ps-widget--product bg-white shadow pt-xl-5 pt-lg-5 pt-md-5 pt-3">
                             <div class="ps-widget__block">
                                 <h4 class="ps-widget__title">Produkt-Kategorien</h4><a class="ps-block-control" href="#"><i class="fa fa-angle-down"></i></a>
@@ -99,10 +100,13 @@ svg {
                             <div class="ps-widget__block">
                                 <h4 class="ps-widget__title">Ähnliche Produkte</h4><a class="ps-block-control" href="#"><i class="fa fa-angle-down"></i></a>
                                 <div class="ps-widget__content">
+                                    <div id="similarProductCon">
+
+                                    </div>
 
                                     <?php if(!empty(@$products)): ?>
                                         <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-
+                                        
                                             <?php if($key == 5): ?>
                                                 <?php break; ?>
                                             <?php endif; ?>
@@ -125,9 +129,10 @@ svg {
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <?php endif; ?>
 
-                                </div>
+                                
                             </div>
                          </div>
+                    </div>
                     </div>
                     
                     <div class="ps-categogy__product">
@@ -151,7 +156,7 @@ svg {
                                 <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <div class="col-12 col-lg-4">
                                         <div class="ps-product ps-product--standard">
-                                            <div class="ps-product__thumbnail"><a class="ps-product__image" href="<?php echo e(route('product.detail',$product->slug)); ?>">
+                                            <div class="ps-product__thumbnail"><a class="ps-product__image" onclick="addSimiliarProductId(<?php echo e($product->id); ?>)" href="<?php echo e(route('product.detail',$product->slug)); ?>">
                                                     <figure>
                                                         <img src="<?php echo e(asset('root/public/uploads/'.$product->thumb_image)); ?>" alt="alt" class="img-fluid" />
                                                         <img src="<?php echo e(asset('root/public/uploads/'.$product->thumb_image)); ?>" class="img-fluid" alt="alt" />
@@ -165,7 +170,7 @@ svg {
                                             <div class="ps-product__content">
                                                 <a class="ps-product__branch" href="<?php echo e(route('product.detail',$product->slug)); ?>"><?php echo e(categories()->where('id',$product->categories)->pluck('name')->first()); ?></a>
 
-                                                <a href="<?php echo e(route('product.detail',$product->slug)); ?>"><h5 class="ps-product__title"><?php echo e($product->product_name); ?></h5></a>
+                                                <a onclick="addSimiliarProductId(<?php echo e($product->id); ?>)"  href="<?php echo e(route('product.detail',$product->slug)); ?>"><h5 class="ps-product__title"><?php echo e($product->product_name); ?></h5></a>
                                                 <div class="ps-product__meta">
                                                     <span class="ps-product__price"><s><?php echo e(formatPrice($product->price)); ?></s></span>
                                                     <span class="ps-product__price"><?php echo e(formatPrice($product->sale_price)); ?></span>
@@ -180,7 +185,7 @@ svg {
                                             </div>
                                         <?php else: ?>
                                            <div class="add_to_cart_box">
-                                                <a class="btn cart_btn d-block" href="<?php echo e(route('product.detail',$product->slug)); ?>">View</a>
+                                                <a onclick="addSimiliarProductId(<?php echo e($product->id); ?>)" class="btn cart_btn d-block" href="<?php echo e(route('product.detail',$product->slug)); ?>">View</a>
                                             </div>
                                         <?php endif; ?>
                                                     </div>
@@ -206,7 +211,7 @@ svg {
         </div>
 
 
-
+        </div>
     </div>
 
     <div class="ps-search">
@@ -335,13 +340,14 @@ svg {
                                                 <a class="ps-product__branch" href="#">${categoryName}</a>
                                                 
 
-                                                <h5 class="ps-product__title"><a href="<?php echo e(route('product.detail',$product->slug)); ?>">${ product.product_name }</a></h5>
+ 
+                                                <a href="<?php echo e(route('product.detail',$product->slug)); ?>"><h5 class="ps-product__title">${ product.product_name }</h5></a>
                                                 <div class="ps-product__meta">
                                                     <span class="ps-product__price"><s>€${ product.price }</s></span>
                                                     <span class="ps-product__price">€${ product.sale_price }</span>
                                                 </div>
 
-                                                <div class="ps-product__desc mb-4">
+                                                <div class="ps-product__desc d-none mb-4">
                                                     <p>${ product.slug } </p>
                                                 </div>
                                                 <div class="ps-product__actions ps-product__group-mobile d-block">
@@ -430,13 +436,14 @@ svg {
                                                 <a class="ps-product__branch" href="#">${categoryName}</a>
                                                 
 
-                                                <h5 class="ps-product__title"><a href="<?php echo e(route('product.detail',$product->slug)); ?>">${ product.product_name }</a></h5>
+
+                                                <a href="<?php echo e(route('product.detail',$product->slug)); ?>"><h5 class="ps-product__title">${ product.product_name }</h5></a>
                                                 <div class="ps-product__meta">
                                                     <span class="ps-product__price"><s>€${ product.price }</s></span>
                                                     <span class="ps-product__price">€${ product.sale_price }</span>
                                                 </div>
 
-                                                <div class="ps-product__desc mb-4">
+                                                <div class="ps-product__desc d-none mb-4">
                                                     <p>${ product.slug } </p>
                                                 </div>
                                                 <div class="ps-product__actions ps-product__group-mobile d-block">
@@ -617,6 +624,35 @@ svg {
     })
 </script>
 
+<!-- similar product coding -->
+<script>
+   function addSimiliarProductId(id){
+        sessionStorage.setItem('simProductId',id);
+    }
+
+    $(document).ready(function(){
+        
+        // fetch similiar products
+        if( sessionStorage.getItem('simProductId')){
+            let id = sessionStorage.getItem('simProductId');
+            $.ajax({
+                url: "/api/similar-products/"+id,
+                method: 'get',
+                data: {
+                        "_token": "<?php echo e(csrf_token()); ?>",
+                },
+                success: function(response) {
+                    console.log(response);
+                },
+                error : function(err){
+                    console.log(err);
+                }
+            })
+        }
+    })
+</script>
+
+<!-- end similar product coding -->
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('../Layout.Layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/customstegpearl/public_html/root/resources/views/pages/shop.blade.php ENDPATH**/ ?>

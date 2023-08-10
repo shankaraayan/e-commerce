@@ -18,6 +18,7 @@ use App\Mail\MyTestMail;
 use App\Models\Cart;
 use App\Models\Wishlist;
 use App\Services\UpdateQuantity;
+use App\Services\OrderService;
 
 class FrontendController extends Controller
 {
@@ -253,7 +254,7 @@ class FrontendController extends Controller
 
         if(!auth()->user()){
 
-            if(User::where('email',$request->email)->exists()) return redirect()->route('login.register')->with('error',"Please Login Your Account");
+            if(User::where('email',$request->email)->exists()) return redirect()->back()->with('error',"Please Login Your Account");
             $user = new User;
             $user->email = $request->email;
             $user->phone = $request->phone_number;
@@ -270,7 +271,6 @@ class FrontendController extends Controller
              Mail::to($details['email'])->send(new MyTestMail($details));
         }
 
-
         $data = [];
         $order_data=[];
         $order  = new Order;
@@ -284,7 +284,6 @@ class FrontendController extends Controller
         $billing_details['country'] = @$request->district;
         $billing_details['postal_code'] = @$request->postal_code;
 
-
         $shipping_details['shipping_fullname'] = @$request->shipping_fullname;
         $shipping_details['shipping_email'] = @$request->shipping_email;
         $shipping_details['shipping_company_name'] = @$request->shipping_company_name;
@@ -297,7 +296,6 @@ class FrontendController extends Controller
         // $order_id = md5(rand(10, 100000));
         $transaction_id = mt_rand(1000000000, 9999999999);
         $order_id = mt_rand(10000000, 99999999);
-
 
         $order->status = 'In-Progress';
         $order->billing_details = json_encode($billing_details);
@@ -327,8 +325,6 @@ class FrontendController extends Controller
         $order_data['order_id'] = $order_id;
         $order_data['transaction_id'] = $transaction_id;
 
-
-
         $order_data['shipping_price'] = $shipping_data['shipping_price'];
 
         $order->save();
@@ -340,15 +336,16 @@ class FrontendController extends Controller
              $data = $order_data;
 
         $result = Mail::to($details['email'])->send(new MyTestMail($details));
-        return view('emails.campergold_order_confirm',$details);die;
 
-        Cart::where('user_id',auth()->user()->id)->delete();
+        //* Send order to stegback
+        $url = 'https://stegback.com/';
+        (new OrderService)->sendOrderStegback($order_id, $order_data, $url);
+
+        Cart::where('user_id',auth()->user()->id ?? @$user->id)->delete();
         session()->forget('cart');
         $orderUrl = route('order_confirmation', ['id' => $order_id ]);
         return redirect($orderUrl)->with('success', 'Thanks for the Order');
     }
-
-
 
     public function reduse_product_qty()
     {
@@ -391,8 +388,7 @@ class FrontendController extends Controller
     // order save json product_details with component
     public function find_product_details()
     {
-       
-
+    
         if (session('cart')) {
 
             $all_product_details = [];
@@ -417,6 +413,7 @@ class FrontendController extends Controller
                                 $attributes['attribute_wh_range'] = $value['wh_range'];
                                 $attributes_all[] = $attributes;
 
+                                ((new UpdateQuantity)->reduceQuantity($value->sku, 1));
                             }
                             $product_details['attribute_terms'] = $attributes_all;
                         }
@@ -441,7 +438,8 @@ class FrontendController extends Controller
                     $product_details['shipping_price'] = shippingCountry()->where('country',$details['shipping_country'])->pluck('price')->first();
                     
                     $product_details['price_with_tax'] = $details['price_with_tax'] ?? ($product_details['price'] + $product_details['tax_price']);
-                    // dd($product_details);
+                    // dd($product_details['quantity']);
+                    ((new UpdateQuantity)->reduceQuantity($product->sku, $product_details['quantity']));
 
                     $all_product_details[] = $product_details;
                 }
@@ -452,6 +450,22 @@ class FrontendController extends Controller
         return false;
     }
 
+    // find similar products
+    public function getRandomProductFromSameCategory($productId)
+    {
+        $product = Product::findOrFail($productId);
     
-
+        // Get the category of the current product
+        $category = $product->categories;
+    
+        // Get a random product from the same category
+        $randomProduct = Product::where('categories',  $category)
+            ->where('id', '!=', $productId)
+            ->inRandomOrder()
+            ->limit(3)
+            ->get();
+    
+        return response()->json($randomProduct);
+    }
+    
 }

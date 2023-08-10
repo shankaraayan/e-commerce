@@ -1,34 +1,12 @@
 <?php $__env->startSection("style"); ?>
 <style>
     /* Custom CSS to reduce Laravel paginate icon size */
-    svg {
-        width: 16px; /* Adjust the font size to your desired value */
-    }
-
-    .new-li {
-        list-style: none;
-        padding-left: 0;
-    }
-
-    .new-li > li {
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-
-    .new-li > li > a {
-        color: #555;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-    }
-
-    .new-li > li > a > .fa {
-        /* Add your styles for the arrow here */
-        margin-right: 5px; /* Adjust the margin to control the space between arrow and text */
-        width: 10px; /* Adjust the width to make the arrow narrow */
-    }
-    </style>
+     svg { width: 16px; /* Adjust the font size to your desired value */ }
+    .new-li { list-style: none; padding-left: 0;}
+    .new-li > li { display: flex; align-items: center; margin-bottom: 10px;}
+    .new-li > li > a { color: #555; text-decoration: none; display: flex; align-items: center;}
+    .new-li > li > a > .fa { margin-right: 5px; width: 10px; }
+  </style>
 
 <?php $__env->stopSection(); ?>
 

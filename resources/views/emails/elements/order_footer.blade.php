@@ -198,9 +198,9 @@
 															<td style="padding-top:10px; float: right;">
 																<div
 																	style="color:#ffffff;font-size:14px;font-family:Arial, Helvetica Neue, Helvetica, sans-serif;font-weight:400;line-height:120%;text-align:left;direction:ltr;letter-spacing:0px;mso-line-height-alt:16.8px;">
-																	@if(!empty(@$data['order_data']['channel_id']))
-															<br><a style="color: #fff;" href="{{FrontHelper::email_view_ticket_url(@$data['order_data']['channel_id'])}}" target="_blank"> Support Ticket</a>
-															@endif
+																	
+															<br><a style="color: #fff;" href="" target="_blank"> Support Ticket</a>
+															
 															<br><a style="color: #fff;" href="https://stegback.com/unsubscribe" target="_blank"> Unsubscribe </a>
 																</div>
 															</td>

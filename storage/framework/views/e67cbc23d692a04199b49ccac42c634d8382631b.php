@@ -108,7 +108,7 @@ unset($__errorArgs, $__bag); ?>
                                                 <option value="" >Wählen Sie ein Land / eine Region…</option>
 
                                                 <?php $__currentLoopData = $shippingCountry; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                    <option <?php if($session_country == $country->country): ?> selected <?php endif; ?> value="<?php echo e(country()->where('id',$country->country)->pluck('id')->first()); ?>"><?php echo e(country()->where('id',$country->country)->pluck('country')->first()); ?> / <?php echo e(formatPrice($country->price)); ?></option>
+                                                    <option <?php if($session_country == $country->country): ?> selected <?php endif; ?> value="<?php echo e(country()->where('id',$country->country)->pluck('id')->first()); ?>"><?php echo e(country()->where('id',$country->country)->pluck('country')->first()); ?></option>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </select>
 
@@ -296,7 +296,7 @@ unset($__errorArgs, $__bag); ?>
                                                 <option>Wählen Sie ein Land / eine Region…</option>
                                                 <?php $__currentLoopData = $shippingCountry; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <option <?php if($session_country == $country->country): ?> selected <?php endif; ?> value="<?php echo e(country()->where('id', $country->country)->pluck('id')->first()); ?>">
-                                                        <?php echo e(country()->where('id', $country->country)->pluck('country')->first()); ?> / <?php echo e(formatPrice($country->price)); ?>
+                                                        <?php echo e(country()->where('id', $country->country)->pluck('country')->first()); ?>
 
                                                     </option>
                                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

@@ -196,7 +196,7 @@
 
 														@php
 														$productDetailsArray = json_decode($orders['product_details'], true);
-														//dd($productDetailsArray);
+														
 														@endphp
 
 														@foreach($productDetailsArray as $product)
@@ -209,23 +209,70 @@
 																	<td class="table-td ">{{$product['quantity']}}</td>
 
 																@php
-																		$product['price_with_tax'] = unforamtPrice($product['price_with_tax']);
-																		$total = $product['price_with_tax'] * $product['quantity'] ;
+																$total = 0;
+																$tax = getTaxCountry((int)$product['shipping_country']);
+                                    
+																	if(empty($tax)){
+																		$tax['vat_tax'] = 0;
+																	}
+
+																	if(isset($product['solar_product']) && $product['solar_product'] === 'yes'){
+																		if($tax['short_code'] == 'DE'){
+																			$tax['vat_tax'] = 0;
+																		}
+																	}
+																	$total+=($product['price']*$product['quantity'] + (@$product['price'] * $tax['vat_tax'] /100 * @$product['quantity']) ) ;
 																@endphp
 																	<td class="table-td ">{{ (formatPrice($total)) }}</td>
 																</tr>
 														@endforeach
+																	{{-- <tr class="even:bg-slate-50 dark:even:bg-slate-700">
+																				<td class="table-td" colspan="2" ></td>
+																						<td class="table-td" >
+																								Tax
+																						<td class="table-td">
+																				@php
+																					foreach($productDetailsArray as $product){
+																						$tax = getTaxCountry((int)$product['shipping_country']);
+                                    
+																						if(empty($tax)){
+																							$tax['vat_tax'] = 0;
+																						}
 
+																						if(isset($product['solar_product']) && $product['solar_product'] === 'yes'){
+																							if($tax['short_code'] == 'DE'){
+																								$tax['vat_tax'] = 0;
+																							}
+																						}
+																						$taxAmount  = (@$product['price'] * $tax['vat_tax'] /100 * @$product['quantity']);
+																					}
+																				
+																				@endphp
+																					{{formatPrice($taxAmount)}}
+																				</td>
+																		</tr>--}}
 																		<tr class="even:bg-slate-50 dark:even:bg-slate-700">
 																				<td class="table-td" colspan="2" ></td>
 																						<td class="table-td" >
 																								Total Product Price <br>(Tax Inclusive)
 																						<td class="table-td">
 																				@php
-																								$fianlPrice = 0;
-																								foreach($productDetailsArray as $product){
-																										$fianlPrice += (unforamtPrice($product['price_with_tax']) * $product['quantity']);
-																								}
+																					$fianlPrice = 0;
+																					foreach($productDetailsArray as $product){
+																						$tax = getTaxCountry((int)$product['shipping_country']);
+                                    
+																						if(empty($tax)){
+																							$tax['vat_tax'] = 0;
+																						}
+
+																						if(isset($product['solar_product']) && $product['solar_product'] === 'yes'){
+																							if($tax['short_code'] == 'DE'){
+																								$tax['vat_tax'] = 0;
+																							}
+																						}
+
+																							$fianlPrice += ($product['price']*$product['quantity'] + (@$product['price'] * $tax['vat_tax'] /100 * @$product['quantity']) );
+																					}
 																				@endphp
 																				{{formatPrice($fianlPrice)}}
 																				</td>

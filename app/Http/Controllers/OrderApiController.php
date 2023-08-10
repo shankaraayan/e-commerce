@@ -19,21 +19,20 @@ class OrderApiController extends Controller
         
     }
     
-    public function show($id)
+    public function show(Request $request)
     {
         try {
-            $order = Order::findOrFail($id);
-
+            $order = Order::findOrFail($request->order_id);
             return response()->json(['order' => $order]);
         } catch (\Exception $e) {
             return response()->json(['error' => 'Order not found'], 404);
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         try {
-            $order = Order::findOrFail($id);
+            $order = Order::findOrFail($request->order_id);
 
             // Update order based on request data
             // ...
@@ -44,15 +43,27 @@ class OrderApiController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
         try {
-            $order = Order::findOrFail($id);
+            $order = Order::findOrFail($request->order_id);
             $order->delete();
-
-            return response()->json(['message' => 'Order deleted successfully']);
+            
+            return $this->successResponse('Order deleted successfully');
+           
         } catch (\Exception $e) {
-            return response()->json(['error' => 'An error occurred while deleting the order'], 500);
+            return $this->errorResponse('An error occurred while deleting the order',$e);
+            // return response()->json(['error' => ''], 500);
+        }
+    }
+
+    function updateOrderStatus(Request $request)
+    {   
+        try{
+            (new UpdateQuantity)->updateOrderStatus($request->order_id, $request->status);
+           return $this->successResponse('Updated');
+        } catch (\Exception $e) {
+            return $this->errorResponse('Error',$e);
         }
     }
 

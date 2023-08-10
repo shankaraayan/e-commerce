@@ -293,3 +293,5 @@ Route::get('/quick-view', [ProductController::class,'quick_view_products'])->nam
 
 
 
+
+

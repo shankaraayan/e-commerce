@@ -207,13 +207,7 @@
                         <div class="ps-product__info">
                             <div class="ps-product__branch"><a href="#">@if(isset($product->categories->name)) {{$product->categories->name}} @endif</a></div>
                             <div class="ps-product__title">{{$product->product_name}}</div>
-                            {{-- <div class="ps-product__desc">
-                                <ul class="ps-product__list">
-                                    <li>Study history up to 30 days</li>
-                                    <li>Up to 5 users simultaneously</li>
-                                    <li>Has HEALTH certificate</li>
-                                </ul>
-                            </div> --}}
+                         
                             {{-- <div class="ps-product__meta"><span class="ps-product__price sale">Please Select Attributes for best price</span></div> --}}
                             <div  class="ps-product__meta"><span class="ps-product__price sale"  id="totalPrice">@if($product->type == 'variable') Please Select Attributes for best price @else {{ formatPrice($product->sale_price) }} @endif</span><span class="ps-product__del">@if($product->type == 'variable') @else{{ formatPrice($product->price) }} @endif</span>
                             </div>
@@ -435,55 +429,23 @@
                     data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="5" data-owl-item-xs="1" data-owl-item-sm="2"
                     data-owl-item-md="3" data-owl-item-lg="5" data-owl-item-xl="5" data-owl-duration="1000" data-owl-mousedrag="on">
 
-
+                    {{-- product Card --}}
                     <div class="owl-stage-outer shadow-sm">
-                                    <div class="owl-stage" style="transform: translate3d(-1974px, 0px, 0px); transition: all 0s ease 0s; width: 7651px;">
-                                    @foreach($products as $value)
-                                    <div class="owl-item cloned" style="width: 246.8px;">
-                                            <div class="ps-section__product">
-                                                <div class="ps-product ps-product--standard">
-                                                    <div class="ps-product__thumbnail"><a class="ps-product__image" href="{{route('product.detail',$value->slug)}}">
-                                                            <figure>
-                                                                <img src="{{asset('root/public/uploads/'.$value->thumb_image)}}" alt="alt">
-                                                                <img src="{{asset('root/public/uploads/'.$value->thumb_image)}}" alt="alt">
-                                                            </figure>
-                                                        </a>
-
-                                                        <div class="ps-product__badge">
-                                                        </div>
-                                                        <div class="ps-product__percent ps-badge ps-badge--hot">-61%</div>
-                                                    </div>
-                                                    <div class="ps-product__content">
-                                                        <p class="ps-product__title"><a href="{{route('product.detail',$value->slug)}}">{{$value->product_name}}</a></p>
-                                                        <div class="ps-product__meta"><span class="ps-product__price sale">{{$value->sale_price}}</span><span class="ps-product__del">{{$value->price}}</span>
-                                                        </div>
-
-                                                            @if($value->type !='variable')
-                                                                 <div class="add_to_cart_box"><a class="btn cart_btn d-block" href="javascript:void(0)" onclick="add_to_cart('{{ $value->id }}')">Add to cart</a>
-                                                                 </div>
-                                                             @else
-                                                                 <div class="add_to_cart_box">
-                                                                     <a class="btn cart_btn d-block" href="{{route('product.detail',$value->slug)}}">View</a>
-                                                                 </div>
-                                                             @endif
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                                <div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><i class="fa fa-chevron-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="fa fa-chevron-right"></i></button></div>
-                                <div class="owl-dots disabled"><button role="button" class="owl-dot active"><span></span></button></div>
-                                <div class="owl-nav"><button type="button" role="presentation" class="owl-prev"><i class="fa fa-chevron-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="fa fa-chevron-right"></i></button></div>
-                                <div class="owl-dots"><button role="button" class="owl-dot active"><span></span></button><button role="button" class="owl-dot"><span></span></button><button role="button" class="owl-dot"><span></span></button></div>
-                            </div>
+                        <div class="owl-stage" style="transform: translate3d(-1974px, 0px, 0px); transition: all 0s ease 0s; width: 7651px;">
+                            <x-product-small-card :productData="$products"/>
                         </div>
-                    </section>
+                    </div>
+
+                    <div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><i class="fa fa-chevron-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="fa fa-chevron-right"></i></button></div>
+                    <div class="owl-dots disabled"><button role="button" class="owl-dot active"><span></span></button></div>
+                    <div class="owl-nav"><button type="button" role="presentation" class="owl-prev"><i class="fa fa-chevron-left"></i></button><button type="button" role="presentation" class="owl-next"><i class="fa fa-chevron-right"></i></button></div>
+                    <div class="owl-dots"><button role="button" class="owl-dot active"><span></span></button><button role="button" class="owl-dot"><span></span></button><button role="button" class="owl-dot"><span></span></button></div>
+                            </div>
                 </div>
-            </div>
+            </section>
         </div>
+    </div>
+</div>
 <!-- Swiper JS -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
 

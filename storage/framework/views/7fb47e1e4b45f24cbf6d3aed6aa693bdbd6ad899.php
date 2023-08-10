@@ -112,10 +112,10 @@
                             <h4>Gesamt</h4>
                             <?php
                                 $data = json_decode($order['product_details'], true);
-                    
+                            
                                 $subtotal = 0;
                                 $totalPrice = 0;
-                                    $shipping_data = (end($data));
+                                $shipping_data = (end($data));
 
                                 foreach ($data as $product) {
                                    
@@ -133,6 +133,18 @@
                                     $taxAmount  = (@$product['price'] * $tax['vat_tax'] /100 * @$product['quantity']);
                                     $subtotal += $product['price'] * $product['quantity'];
                                     $totalPrice += ($product['price']*$product['quantity'] + (@$product['price'] * $tax['vat_tax'] /100 * @$product['quantity']) ) ;
+                                }
+
+                                $discount = (end($data));
+
+                                if(isset($discount['discount']) && $discount['discount']['type'] == 'flat'){
+                                        $discountPrice = $discount['discount']['discount_value'] . " ".$discount['discount']['type'] . " OFF";
+                                }
+                                elseif(isset($discount['discount']) && $discount['discount']['type'] == 'Percentage'){
+                                        $discountPrice = $discount['discount']['discount_value'] . " ". " %OFF";
+                                }
+                                else{
+                                        $discountPrice = '0';
                                 }
                             ?>
                             <p class="order_total"><?php echo e(formatPrice($totalPrice + $shipping_data['shipping_price'])); ?></p>
@@ -192,6 +204,12 @@
 
                                                 <?php echo e(formatPrice($product['shipping_price'] ?? 0)); ?></td>
                                         </tr>
+                                        <tr>
+                                            <td>Rabatt:</td>
+                                            <td class="text-right">
+
+                                                <?php echo e(formatPrice($discountPrice)); ?></td>
+                                            </tr>
                                         <tr>
                                             <td>Zahlungsmethode :</td>
                                             <td class="text-right"><?php echo e($order->payment_method); ?></td>
