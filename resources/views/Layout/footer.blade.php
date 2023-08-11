@@ -1,3 +1,4 @@
+<x-bottom-banner />
 <footer class="ps-footer ps-footer--1">
     <div class="ps-footer--top">
         <div class="container">

@@ -1,6 +1,19 @@
 <?php $__env->startSection("content"); ?>
 <style> 
+.product_meta>span{
+    display: block;
+    margin-bottom: 15px;
+}
 
+.product_meta {
+    padding-top: 20px;
+    border-top: 1px solid;
+    display: block;
+    line-height: 1.2;
+    color: #333;
+    font-weight: 600;
+    font-size: 14px;
+}
     .ps-product__variations_sec .accordion .attribute_box .card-header {
         cursor: pointer;
     }
@@ -146,28 +159,41 @@
     .font-weight-400{
         font-weight:400 !important;
      }
+
+     .product-container {
+        position: relative;
+    overflow: hidden;
+}
+
+.product-image {
+    position: sticky;
+    top: 0;
+    height: 100%;
+    z-index: 1;
+}
+
 </style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
 
-<div class="ps-page--product4 mt-4">
+<div class="ps-page--product4 mt-2">
     <div class="container">
     <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
 <?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.filtter','data' => ['value' => __('DisabledShortBy'),'filterIcon' => __('d-none'),'productName' => __($product->product_name)]]); ?>
 <?php $component->withName('filtter'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php $component->withAttributes(['value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('DisabledShortBy')),'filterIcon' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('d-none')),'productName' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__($product->product_name))]); ?>Products <?php echo $__env->renderComponent(); ?>
+<?php $component->withAttributes(['value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('DisabledShortBy')),'filterIcon' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('d-none')),'productName' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__($product->product_name))]); ?><?php echo e(categories()->where('id',$product->categories)->pluck('name')->first()); ?> <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
 <?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
 <?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
 <?php endif; ?>
-        <div class="ps-page__content pt-5">
-            <div class="ps-product--detail ps-product--full">
-                <div class="row">
-                    <div class="col-12 col-xl-5 col-md-5">
+        <div class="ps-page__content pt-2">
+            <div class="ps-product--detail ps-product--full p-4" style="background-color:#f4f4f4c9">
+                <div class="row product-container">
+                    <div class="col-12 col-xl-5 col-md-5 product-image">
                         <div class="ps-section__carousel related_product_view">
                             <div class="main-image owl-carousel owl-loaded owl-drag" data-owl-loop="true" data-owl-auto="false" data-owl-nav="false" data-owl-dots="false">
                                 <div class="item">
@@ -190,34 +216,13 @@
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </div>
                         </div>
-                            <!-- Kartik -->
-                            
-                        <div class="ps-product--gallery">
-                            <!-- <div class="ps-product__thumbnail">
-                                <?php $__currentLoopData = $product->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <div class="slide"><img src="<?php echo e(asset('root/public/uploads/' . $image->images)); ?>" alt="alt" /></div>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
-                            </div> -->
-                            <!-- <div class="ps-gallery--image">
-                                <?php $__currentLoopData = $product->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <div class="slide">
-                                    <div class="ps-gallery__item"><img src="<?php echo e(asset('root/public/uploads/' . $image->images)); ?>" alt="alt" /></div>
-                                </div>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                <div class="swiper-button-next"></div>
-                                <div class="swiper-button-prev"></div>
-                            </div> -->
-                        </div>
                     </div>
                    
-                    <div class="col-12 col-xl-7 col-md-7">
-                        <div class="ps-product__info">
+                    <div class="col-12 col-xl-7 col-md-7 ">
+                        <div class="ps-product__info mb-5">
                             <div class="ps-product__branch"><a href="#"><?php if(isset($product->categories->name)): ?> <?php echo e($product->categories->name); ?> <?php endif; ?></a></div>
                             <div class="ps-product__title"><?php echo e($product->product_name); ?></div>
-                         
-                            
-                            <div  class="ps-product__meta"><span class="ps-product__price sale"  id="totalPrice"><?php if($product->type == 'variable'): ?> Please Select Attributes for best price <?php else: ?> <?php echo e(formatPrice($product->sale_price)); ?> <?php endif; ?></span><span class="ps-product__del"><?php if($product->type == 'variable'): ?> <?php else: ?><?php echo e(formatPrice($product->price)); ?> <?php endif; ?></span>
+                            <div  class="ps-product__meta pt-2 mt-2"><span class="ps-product__price sale"  id="totalPrice"><?php if($product->type == 'variable'): ?> Please Select Attributes for best price <?php else: ?> <?php echo e(formatPrice($product->sale_price)); ?> <?php endif; ?></span><span class="ps-product__del"><?php if($product->type == 'variable'): ?> <?php else: ?><?php echo e(formatPrice($product->price)); ?> <?php endif; ?></span>
                             </div>
                             <h5 class="mb-4 text-dark" id="nameDiv" style="display: none;"></h5>
                             <div id="priceDiv" style="display: none;"></div>
@@ -387,6 +392,44 @@
                                     </select>
                                 </div>
 
+                                <div class="product_meta">
+                                    <span class="sku_wrapper ean_wrapper">EAN: <span class="ean">000001000</span></span>        
+                                    <span class="sku_wrapper">Artikelnummer: <span class="sku"><?php echo e($product->sku); ?></span></span>
+                                    <span class="sku_wrapper">Kategorien: <span class="sku"><?php echo e(categories()->where('id',$product->categories)->pluck('name')->first()); ?></span></span>
+                                </div>
+
+                                <?php
+                                    $banner = categories()->where('id',$product->categories)->pluck('banner')->first();
+                                ?>
+                                    <?php if($banner != null): ?>
+                                        <img src="<?php echo e(asset('root/public/uploads/category/'.$banner)); ?>" class="img-fluid w-100 rounded">
+                                    <?php else: ?>
+                                        <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
+<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.bottom-banner','data' => []]); ?>
+<?php $component->withName('bottom-banner'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php $component->withAttributes([]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
+<?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
+<?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
+<?php endif; ?>
+                                    <?php endif; ?>
+
+                                <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
+<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.payment-icon','data' => []]); ?>
+<?php $component->withName('payment-icon'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php $component->withAttributes([]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
+<?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
+<?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
+<?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -463,9 +506,11 @@
                     <div class="owl-dots"><button role="button" class="owl-dot active"><span></span></button><button role="button" class="owl-dot"><span></span></button><button role="button" class="owl-dot"><span></span></button></div>
                             </div>
                 </div>
+
             </section>
         </div>
     </div>
+   
 </div>
 <!-- Swiper JS -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
@@ -530,8 +575,6 @@
     });
 </script>
 
-
-
 <script>
 
 function formatPrice(price) {
@@ -542,12 +585,20 @@ function formatPrice(price) {
 
 // PRice Formater
 
-
 var isFirstIteration = true;
 var savedValues;
 
 if (sessionStorage.getItem('savedValues')) {
-    savedValues = JSON.parse(sessionStorage.getItem('savedValues'));
+    const url = window.location.href;
+        const search = new URL(window.location.href);
+        if(search.search){
+            savedValues = JSON.parse(sessionStorage.getItem('savedValues'));
+        }else{
+            sessionStorage.removeItem('savedValues');
+            sessionStorage.removeItem('sessionData');
+            savedValues = {};
+        }
+   
     console.log(savedValues);
 } else {
     savedValues = {};
@@ -600,6 +651,7 @@ if (name === 'Panel') {
  
     // Clear saved values when "panel" attribute is selected
     savedValues = {};
+
     $("#html_component").html(''); 
     // reset url
     let url = new URL(window.location.href);
@@ -724,9 +776,9 @@ $.ajax({
     for (var i = 0; i < users.length; i++) {
         var user = users[i];
         let imageUrl = "<?php echo e(asset('root/public/uploads/')); ?>/" + user.image;
-
+        console.log(user);
         tableBody.append(`
-            <div class="row select_var_row mx-0 p-2 term-select-${id}}" onclick="highlightDiv(this);saveValue(this, '${user.attribute_id}','','heading_Var${sid}',${id},'${user.attribute__name}');" data-atr-name="${user.attribute_term_name}" data-atr-price="${user.price}" data-value="${user.attribute_term_name},${user.price},${user.id},${response.arribute_name}">
+            <div class="row select_var_row mx-0 p-2 term-select-${id}}" onclick="highlightDiv(this);saveValue(this, '${user.attributes_id}','','heading_Var${sid}',${id},'${user.attribute_term_name}');" data-atr-name="${user.attribute_term_name}" data-atr-price="${user.price}" data-value="${user.attribute_term_name},${user.price},${user.id},${response.arribute_name}">
                 ${user.image !== null ? `<div class="ps-section__thumbnail col-3">
                     <img src="${imageUrl}" alt="" width="100px">
                 </div>` : ""}

@@ -4,9 +4,9 @@
     <!--------------- Cart Page HTML Start ------------------------->
     <div class="ps-shopping">
         <div class="container">
+            <x-filtter :value="__('DisabledShortBy')" :filterIcon="__('d-none')">Einkaufskorb</x-filtter>
             <ul class="ps-breadcrumb">
-                <li class="ps-breadcrumb__item"><a href="{{route('homepage')}}">Home</a></li>
-                <li class="ps-breadcrumb__item active" aria-current="page">Einkaufskorb</li>
+          
             </ul>
             <div class="container" id="cart_data">
                 @include('elements.cart_data')

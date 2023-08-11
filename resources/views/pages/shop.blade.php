@@ -91,11 +91,8 @@ svg {
 
                             <div class="ps-widget__block">
                                 <h4 class="ps-widget__title">Ähnliche Produkte</h4><a class="ps-block-control" href="#"><i class="fa fa-angle-down"></i></a>
-                                <div class="ps-widget__content">
-                                    <div id="similarProductCon">
-
-                                    </div>
-
+                                <div class="ps-widget__content" id="similarProductCon">
+                                   
                                     @if(!empty(@$products))
                                         @foreach($products as $key => $product)
                                         
@@ -113,7 +110,7 @@ svg {
                                                     <div class="product_info_rel">
                                                         <p class="product_info_name ps-product__title">{{ $product->product_name }}</p>
                                                         {{-- <div class="product_info_price">€{{formatPrice($product->price)}} - €{{formatPrice($product->sale_price)}}</div> --}}
-                                                        <div class="product_info_price fs-4">{{formatPrice($product->sale_price)}}</div>
+                                                        {{-- <div class="product_info_price fs-4">{{ formatPrice($product->sale_price) }}</div> --}}
                                                     </div>
                                                 </div>
                                                 </div>
@@ -121,7 +118,7 @@ svg {
                                         @endforeach
                                     @endif
 
-                                
+
                             </div>
                          </div>
                     </div>
@@ -133,7 +130,6 @@ svg {
                              <div class="category_banner">
                              @php
                                 $banner = categories()->where('slug',$lastSegment)->pluck('banner')->first();
-
                              @endphp
                                 @if($banner != null)
                                 <img src="{{asset('root/public/uploads/category/'.$banner)}}" class="img-fluid w-100 rounded">
@@ -640,6 +636,8 @@ svg {
         // fetch similiar products
         if( sessionStorage.getItem('simProductId')){
             let id = sessionStorage.getItem('simProductId');
+      
+            var data="";
             $.ajax({
                 url: "/api/similar-products/"+id,
                 method: 'get',
@@ -647,7 +645,27 @@ svg {
                         "_token": "{{ csrf_token() }}",
                 },
                 success: function(response) {
-                    console.log(response);
+                    response.map((item,index)=>{
+                       data += `
+                        <div class="ps-widget__item">
+                            <div class="row no-gutters">
+                                <div class="col-3">
+                                    <div class="product_pics">
+                                        <img src="{{asset('root/public/uploads/')}}/${item.thumb_image} " class="img-fluid" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-9 pl-3">
+                                <div class="product_info_rel">
+                                    <p class="product_info_name ps-product__title">${item.product_name}</p>
+                                    {{-- <div class="product_info_price">€{{formatPrice($product->price)}} - €{{formatPrice($product->sale_price)}}</div> --}}
+                                    <div class="product_info_price fs-4">€${item.price}</div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        `;
+                    })
+                    $("#similarProductCon").html(data);
                 },
                 error : function(err){
                     console.log(err);

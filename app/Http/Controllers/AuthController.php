@@ -20,7 +20,13 @@ class AuthController extends Controller
 {
 
     public function index(){
-        return view('pages.login-register');
+
+        if(auth()->user()){
+            return redirect()->route('user.dashboard');
+        }
+        else{
+            return view('pages.login-register');
+        }
     }
 
     public function register(Request $request){

@@ -34,6 +34,23 @@
     <link rel="stylesheet" href="<?php echo e(asset('assets/css/home-1.css')); ?>">
     <script src="<?php echo e(asset('assets/plugins/jquery.min.js')); ?>"></script>
     <style>
+
+.menu>li>a{
+    padding: 8px 0;
+}
+        .addpayment_icons {
+            margin-top: 1rem;
+        }
+        .addpayment_icons ul li {
+            text-align: center;
+            margin: 0 5px 5px 0 !important;
+            border: solid 1px #d8d8d8;
+            border-radius: 3px;
+            max-width: 110px;
+            width: 100%;
+            display: inline-block;
+        }
+        
         .owl-carousel.owl-loaded.owl-drag {
             border: none !important;
             background: transparent !important;
@@ -41,8 +58,8 @@
         .well{
             margin:16px 0px;
             border-radius: 25px;
-            background: rgb(238, 238, 238);
-            padding:12px 16px;
+            background: rgb(225, 225, 225);
+            padding:8px 16px;
         
         }
         .well p{

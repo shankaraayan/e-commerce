@@ -51,6 +51,11 @@ use App\Models\Wishlist;
       $sliders = Slider::get();
       return $sliders;
    }
+  
+   function globalBanner(){
+      $sliders = Slider::where('global_banner',1)->get();
+      return $sliders;
+   }
 
    function country(){
     $country = Country::get();

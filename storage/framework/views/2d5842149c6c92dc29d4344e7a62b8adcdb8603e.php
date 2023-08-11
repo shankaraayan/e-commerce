@@ -189,6 +189,7 @@
                                                 <div class="input-area">
                                                     <label for="name" class="form-label">Is Solar Product</label>
                                                     <input type="radio" value="1" name="solar_product"> Yes
+                                                    <input type="radio" value="0" name="solar_product"> No
                                                     <?php if($errors->has('solar_product')): ?>
                                                         <span class="text-danger"><?php echo e($errors->first('solar_product')); ?></span>
                                                     <?php endif; ?>
@@ -514,6 +515,8 @@
                     `;
                     document.querySelector(".flash-message-container").innerHTML = flashMessage;
                     $(formData).trigger('reset');
+                    window.location.href = '/admin/product/list';
+
                 }
                 document.getElementById("submitBtn").innerHTML = "SUBMIT";
                 $('.close').each(function(){

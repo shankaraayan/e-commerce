@@ -16,6 +16,23 @@ class CategoryController extends Controller
         return view('admin.category.index', compact('category'));
     }
 
+
+    public function get_category(){
+        $category_data = [];
+        $category = Category::all();
+    
+        foreach ($category as $value) {
+            $category_data[] = [
+                'category_id' => $value->id,
+                'category_name' => $value->name,
+            ];
+        }
+        return $this->successResponse('Category Found',$category_data);
+
+    }
+    
+
+
     public function add(){
         return view('admin.category.add');
     }

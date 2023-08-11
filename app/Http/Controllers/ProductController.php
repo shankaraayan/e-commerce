@@ -15,16 +15,23 @@ class ProductController extends Controller
 
      public function productDetail($slug,Request $request)
     {
-        // print_r($request->all());die;
+        if($request->page){
+            $status = 0;
+        }
+        else{
+            $status = 1;
+        }
         if (!empty($request->all())) {
-            
             $terms = $request->all();
             $components = [];
             $termIds = array_values($terms);
     
             $components = AttributeTerm::whereIn('id', $termIds)->get();
             
-            $product = Product::with('images','categories')->where('slug',$slug)->first();
+            $product = Product::with('images','categories')
+            ->where('slug',$slug)
+            ->where('status', $status)
+            ->first();
             if(!$product){
                 return view('notFound');
             }
@@ -45,7 +52,10 @@ class ProductController extends Controller
             return view('pages.product-detail', compact('product', 'attributes','products','components'));
         } 
         else {
-            $product = Product::with('images','categories')->where('slug',$slug)->first();
+            $product = Product::with('images','categories')
+            ->where('slug',$slug)
+            ->where('status', 1)
+            ->first();
             if(!$product){
                 return view('notFound');
             }
@@ -71,7 +81,10 @@ class ProductController extends Controller
 
     public function index()
     {
-        $bestSellingProducts = Product::with('images')->where('best_selling',1)->get();
+        $bestSellingProducts = Product::with('images')
+        ->where('best_selling',1)
+        ->where('status', 1)
+        ->get();
         
 
         $featuredProducts = Product::with('images')->where('featured',1)->get();

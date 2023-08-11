@@ -97,7 +97,7 @@
                             </td>
                             <td class="table-td ">
                               <div class="flex space-x-3 rtl:space-x-reverse">
-                              <a href="{{route('admin.product.view',$values->id)}}"> <button class="action-btn" type="button">
+                              <a href="{{route('product.detail',[$values->slug,'page'=>'view'])}}" target="_blank"> <button class="action-btn" type="button">
                                   <iconify-icon icon="heroicons:eye"></iconify-icon>
                                 </button></a>
                                 <a href="{{route('admin.product.edit',$values->id)}}">  <button class="action-btn" type="button">

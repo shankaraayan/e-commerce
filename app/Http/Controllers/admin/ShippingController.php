@@ -15,6 +15,26 @@ class ShippingController extends Controller
         $shipping = Shipping::get();
         return view('admin.shipping.list',compact('shipping'));
     }
+    // public function get_shipping_class(){
+    //     $shipping = Shipping::get();
+    //     return response()->json($shipping);
+    // }
+
+    public function get_shipping_class(){
+        $shippin_data = [];
+        $shipping = Shipping::all();
+    
+        foreach ($shipping as $value) {
+            $shippin_data[] = [
+                'shipping_id' => $value->id,
+                'shipping_name' => $value->name,
+            ];
+        }
+    
+        return $this->successResponse('Shipping Class Found',$shippin_data);
+
+    }
+    
 
     public function add(){
         return view('admin.shipping.add');

@@ -66,7 +66,7 @@
                           </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
-
+                 
                         <?php $__currentLoopData = $orders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$values): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <?php
                         $productDetails = json_decode($values->product_details);

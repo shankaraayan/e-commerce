@@ -2,9 +2,19 @@
     <!--------------- Cart Page HTML Start ------------------------->
     <div class="ps-shopping">
         <div class="container">
+            <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
+<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.filtter','data' => ['value' => __('DisabledShortBy'),'filterIcon' => __('d-none')]]); ?>
+<?php $component->withName('filtter'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php $component->withAttributes(['value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('DisabledShortBy')),'filterIcon' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('d-none'))]); ?>Einkaufskorb <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
+<?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
+<?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
+<?php endif; ?>
             <ul class="ps-breadcrumb">
-                <li class="ps-breadcrumb__item"><a href="<?php echo e(route('homepage')); ?>">Home</a></li>
-                <li class="ps-breadcrumb__item active" aria-current="page">Einkaufskorb</li>
+          
             </ul>
             <div class="container" id="cart_data">
                 <?php echo $__env->make('elements.cart_data', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>

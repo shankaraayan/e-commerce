@@ -97,19 +97,16 @@
                         </div>
 
                         <div class="ps-pagination">
-                                {{$catalog->links()}}
-
-                            </div>
+                            {{$catalog->links()}}
+                        </div>
 
                     </div>
                 </div>
             </div>
         </div>
-
- 
     </div>
 
-    <div class="ps-search">
+    {{-- <div class="ps-search">
         <div class="ps-search__content ps-search--mobile"><a class="ps-search__close" href="#" id="close-search"><i class="icon-cross"></i></a>
             <h3>Search</h3>
             <form action="do_action" method="post">
@@ -175,7 +172,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <button class="btn scroll-top"><i class="fa fa-angle-double-up"></i></button>
     <!-- Quick view modal -->

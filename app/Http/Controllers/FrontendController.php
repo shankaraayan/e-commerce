@@ -26,7 +26,7 @@ class FrontendController extends Controller
     public function index()
     {
         $products = Product::all();
-        $sliders = Slider::where('global_banner', '0')->get();
+        $sliders = Slider::where('global_banner', '!=','1')->get();
         // dd($sliders);
         return view('pages.homepage', compact('products', 'sliders'));
     }
@@ -462,6 +462,7 @@ class FrontendController extends Controller
         $randomProduct = Product::where('categories',  $category)
             ->where('id', '!=', $productId)
             ->inRandomOrder()
+            ->where('status', 1)
             ->limit(3)
             ->get();
     

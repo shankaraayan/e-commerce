@@ -18,14 +18,18 @@ class ShopController extends Controller
 
     public function index(Request $request, $slug){
         // return $request->all();
-        $products = Product::with('categories')->paginate(15);
+        $products = Product::with('categories')
+        ->where('status', 1)
+        ->paginate(15);
         $Category = Category::where('parent_id','0')->get();
         $category_id = '';
 
         if($slug){
             $category_id = Category::where('slug',$slug)->pluck('id')->first();
 
-            $products = Product::where('categories',$category_id)->with('categories')->paginate(15);
+            $products = Product::where('categories',$category_id)->with('categories')
+            ->where('status', 1)
+            ->paginate(15);
              if($products->count() === 0){
                  return redirect()->back()->with('error','No Product Found.');
              }
@@ -45,18 +49,20 @@ class ShopController extends Controller
             $category_id  = $request->category_id;
         }
         
-        $products = Product::where('categories',$category_id)->orWhere('subcategory_id',$category_id);
+        $products = Product::where('categories',$category_id)->
+        orWhere('subcategory_id',$category_id)
+        ->where('status', 1);
 
         if($request->shortBy == 'high_to_low'){
-            $products = $products->orderBy('price','DESC');
+            $products = $products->orderBy('price','DESC')->where('status', 1);
         }
         
         if($request->shortBy == 'low_to_high'){
-            $products = $products->orderBy('price','ASC');
+            $products = $products->orderBy('price','ASC')->where('status', 1);
         }
         // return $request->shortBy;
         if($request->shortBy == 'popularity'){
-            $products =  $products->where('best_selling',1);
+            $products =  $products->where('best_selling',1)->where('status', 1);
         }
         $products = $products->get();
         return response()->json(['products'=>$products]);

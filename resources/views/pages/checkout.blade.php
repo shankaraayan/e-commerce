@@ -39,12 +39,7 @@
 
     <div class="ps-checkout">
         <div class="container">
-            <ul class="ps-breadcrumb">
-                <li class="ps-breadcrumb__item"><a href="index.html">Home</a></li>
-                <li class="ps-breadcrumb__item" aria-current="page">Cart</li>
-                <li class="ps-breadcrumb__item active" aria-current="page">Checkout</li>
-            </ul>
-            
+            <x-filtter :value="__('DisabledShortBy')" :filterIcon="__('d-none')" :productName="__('Checkout')">Cart</x-filtter>   
             {{-- <h3 class="ps-checkout__title"> Checkout</h3>  --}}
             <div class="ps-checkout__content">
                 <div class="ps-checkout__wapper">

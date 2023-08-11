@@ -99,11 +99,8 @@ svg {
 
                             <div class="ps-widget__block">
                                 <h4 class="ps-widget__title">Ähnliche Produkte</h4><a class="ps-block-control" href="#"><i class="fa fa-angle-down"></i></a>
-                                <div class="ps-widget__content">
-                                    <div id="similarProductCon">
-
-                                    </div>
-
+                                <div class="ps-widget__content" id="similarProductCon">
+                                   
                                     <?php if(!empty(@$products)): ?>
                                         <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         
@@ -121,7 +118,7 @@ svg {
                                                     <div class="product_info_rel">
                                                         <p class="product_info_name ps-product__title"><?php echo e($product->product_name); ?></p>
                                                         
-                                                        <div class="product_info_price fs-4"><?php echo e(formatPrice($product->sale_price)); ?></div>
+                                                        
                                                     </div>
                                                 </div>
                                                 </div>
@@ -129,7 +126,7 @@ svg {
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <?php endif; ?>
 
-                                
+
                             </div>
                          </div>
                     </div>
@@ -141,7 +138,6 @@ svg {
                              <div class="category_banner">
                              <?php
                                 $banner = categories()->where('slug',$lastSegment)->pluck('banner')->first();
-
                              ?>
                                 <?php if($banner != null): ?>
                                 <img src="<?php echo e(asset('root/public/uploads/category/'.$banner)); ?>" class="img-fluid w-100 rounded">
@@ -635,6 +631,8 @@ svg {
         // fetch similiar products
         if( sessionStorage.getItem('simProductId')){
             let id = sessionStorage.getItem('simProductId');
+      
+            var data="";
             $.ajax({
                 url: "/api/similar-products/"+id,
                 method: 'get',
@@ -642,7 +640,27 @@ svg {
                         "_token": "<?php echo e(csrf_token()); ?>",
                 },
                 success: function(response) {
-                    console.log(response);
+                    response.map((item,index)=>{
+                       data += `
+                        <div class="ps-widget__item">
+                            <div class="row no-gutters">
+                                <div class="col-3">
+                                    <div class="product_pics">
+                                        <img src="<?php echo e(asset('root/public/uploads/')); ?>/${item.thumb_image} " class="img-fluid" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-9 pl-3">
+                                <div class="product_info_rel">
+                                    <p class="product_info_name ps-product__title">${item.product_name}</p>
+                                    
+                                    <div class="product_info_price fs-4">€${item.price}</div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        `;
+                    })
+                    $("#similarProductCon").html(data);
                 },
                 error : function(err){
                     console.log(err);
