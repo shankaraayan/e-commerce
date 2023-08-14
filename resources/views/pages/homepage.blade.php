@@ -13,7 +13,7 @@
                
                {{-- @dd($sliders->toarray()); --}}
                 
-                
+                {{-- @dd($sliders); --}}
                 @if(!empty($sliders))
                     @foreach($sliders as $values)
                        

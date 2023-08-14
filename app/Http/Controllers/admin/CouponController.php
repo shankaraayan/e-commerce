@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 class CouponController extends Controller
 {
     public  function view(){
-        $coupons = Coupon::get();
+        $coupons = Coupon::paginate(10);
         return view('admin.coupons.view',compact('coupons'));
     }
 

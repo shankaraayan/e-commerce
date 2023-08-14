@@ -43,7 +43,7 @@
             {{-- <h3 class="ps-checkout__title"> Checkout</h3>  --}}
             <div class="ps-checkout__content">
                 <div class="ps-checkout__wapper">
-                    <p class="ps-checkout__text m-4">Sie haben noch kein Konto? <a href="{{route('login.register')}}">Zum Anmelden hier klicken</a></p>
+                    <p class="ps-checkout__text m-4">Sie haben noch kein Konto? <a href="{{route('login')}}">Zum Anmelden hier klicken</a></p>
 
                         <div class="ps-shopping__coupon row mb-4">
                             <div class="col-md-8">

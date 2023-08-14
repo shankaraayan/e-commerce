@@ -17,13 +17,25 @@
                     <?php $__currentLoopData = $orders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $order): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
                     <?php
-                     $result = (json_decode($order['product_details'],true));
-                     $shipping_data = (end($result));
-                    $total = 0;
-                     foreach($result as $data){
-                        $total += $data['total_price'] ;
-                     }
-                    $finalPrice = $total + $shipping_data['shipping_price'];
+                        $result = (json_decode($order['product_details'],true));
+                        $shipping_data = (end($result));
+                        $total = 0;
+                        foreach($result as $product){
+                            $tax = getTaxCountry((int)$product['shipping_country']);
+                                                                    
+                            if(empty($tax)){
+                                $tax['vat_tax'] = 0;
+                            }
+
+                            if(isset($product['solar_product']) && $product['solar_product'] === 'yes'){
+                                if($tax['short_code'] == 'DE'){
+                                    $tax['vat_tax'] = 0;
+                                }
+                            }
+                            $total+=($product['price']*$product['quantity'] + (@$product['price'] * $tax['vat_tax'] /100 * @$product['quantity']) );
+                        }
+                        $finalPrice = $total + $shipping_data['shipping_price'];
+
                     ?>
 
                         <tr style="vertical-align: middle;">

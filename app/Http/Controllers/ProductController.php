@@ -62,7 +62,9 @@ class ProductController extends Controller
             $attributeIds = explode(',', $product->attributes_id);
             $attributeTermsIds = explode(',', $product->attributesTerms_id);
     
-            $products = Product::where('slug','<>',$slug)->get();
+            $products = Product::where('slug','<>',$slug)
+            ->where('status', 1)
+            ->get();
             // Retrieve the attributes using the IDs
             // $attributes = Attribute::with('attributeTerms')->whereIn('id', $attributeIds)->get();
     
@@ -89,7 +91,7 @@ class ProductController extends Controller
 
         $featuredProducts = Product::with('images')->where('featured',1)->get();
         $easyProducts = Product::with('images')->where('easy_peak_power',1)->get();
-        $sliders = Slider::get();
+        $sliders = Slider::where('global_banner', '!=','1')->get();
         
         return view('pages.homepage', compact('bestSellingProducts','featuredProducts','easyProducts','sliders'));
     }

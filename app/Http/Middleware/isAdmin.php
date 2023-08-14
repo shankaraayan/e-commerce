@@ -24,7 +24,7 @@ class isAdmin
         else
         {
             // $request->session()->flash('error', 'Access denied!! Please Login..');
-            return redirect()->route('login.register');
+            return redirect()->route('login');
         }
         
     }

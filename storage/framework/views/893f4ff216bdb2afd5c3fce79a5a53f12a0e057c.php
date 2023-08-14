@@ -27,7 +27,7 @@
         <?php if(auth()->guard()->check()): ?>
             <a class="ps-header__item" href="<?php echo e(route('user.dashboard')); ?>"><i class="icon-user"></i></a>
         <?php else: ?>
-            <a class="ps-header__item" href="<?php echo e(route('login.register')); ?>"><i class="icon-user"></i></a>
+            <a class="ps-header__item" href="<?php echo e(route('login')); ?>"><i class="icon-user"></i></a>
         <?php endif; ?>
 
             </div>

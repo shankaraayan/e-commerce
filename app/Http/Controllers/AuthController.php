@@ -25,8 +25,12 @@ class AuthController extends Controller
             return redirect()->route('user.dashboard');
         }
         else{
-            return view('pages.login-register');
+            return view('pages.login');
         }
+    }
+
+    public function register_ui(){
+        return view('pages.register');
     }
 
     public function register(Request $request){
@@ -205,7 +209,7 @@ class AuthController extends Controller
         $user->email_verified_at = now();
         $user->save();
         $request->session()->flash('success', 'Email verified successfully.');
-        return redirect()->route('login.register');
+        return redirect()->route('login');
     }
 
 
@@ -219,7 +223,7 @@ class AuthController extends Controller
             $request->session()->flash('success', 'Verification email has been resent. Please check your email to verify your account.');
             return redirect()->back();
         }
-
+        
         return redirect()->route('login')->with('error', 'Unable to resend verification email.');
     }
 
@@ -297,7 +301,7 @@ class AuthController extends Controller
             $reset->delete();
 
             $request->session()->flash('success','Password Reset successfully.');
-            return redirect()->route('login.register');
+            return redirect()->route('login');
         }else{
             return redirect()->route('homepage');
         }

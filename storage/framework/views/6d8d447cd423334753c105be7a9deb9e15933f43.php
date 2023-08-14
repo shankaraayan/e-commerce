@@ -46,7 +46,7 @@
                             </div>
                         </li>
                         <?php else: ?>
-                            <a href="<?php echo e(route('login.register')); ?>" class="user_link">
+                            <a href="<?php echo e(route('login')); ?>" class="user_link">
                                 <i class="fa fa-sign-in mr-1"></i>
                                 <span>Login</span>
                             </a>
@@ -81,7 +81,7 @@
                         <?php if(auth()->guard()->check()): ?>
                             <a class="ps-header__item" href="<?php echo e(route('user.dashboard')); ?>"><i class="icon-user"></i></a>
                         <?php else: ?>
-                            <a class="ps-header__item" href="<?php echo e(route('login.register')); ?>"><i
+                            <a class="ps-header__item" href="<?php echo e(route('login')); ?>"><i
                                     class="icon-user"></i></a>
                         <?php endif; ?>
                         <div class="ps-login--modal">

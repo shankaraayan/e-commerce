@@ -3,10 +3,22 @@
 @section('dasboard_content')
 @php
     $data = json_decode($orders['product_details'], true);
+
     $totalPrice = 0;
 
     foreach ($data as $product) {
-        $totalPrice += $product['price'] * $product['quantity'];
+        $tax = getTaxCountry((int)$product['shipping_country']);
+																
+        if(empty($tax)){
+            $tax['vat_tax'] = 0;
+        }
+
+        if(isset($product['solar_product']) && $product['solar_product'] === 'yes'){
+            if($tax['short_code'] == 'DE'){
+                $tax['vat_tax'] = 0;
+            }
+        }
+        $totalPrice+=($product['price']*$product['quantity'] + (@$product['price'] * $tax['vat_tax'] /100 * @$product['quantity']) );
     }
 @endphp
 <div class="container-fluid">
@@ -49,7 +61,7 @@
                             </tr>
                         @endforeach
                             <tr>
-                                <td>Zwischensumme :</td>
+                                <td>{{'Zwischensumme(including tax):'}}</td>
                                 <td class="text-right">{{ formatPrice($totalPrice)}}</td>
                             </tr>
                             <tr>

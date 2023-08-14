@@ -12,7 +12,7 @@ class ShippingController extends Controller
 {
     public function index(){
 
-        $shipping = Shipping::get();
+        $shipping = Shipping::paginate(10);
         return view('admin.shipping.list',compact('shipping'));
     }
     // public function get_shipping_class(){

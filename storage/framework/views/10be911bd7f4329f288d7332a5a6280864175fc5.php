@@ -114,6 +114,8 @@
                     </div>
                   </div>
                 </div>
+                <?php echo e($taxList->links()); ?>
+
               </div>
             </div>
           </div>

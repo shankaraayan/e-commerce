@@ -116,6 +116,8 @@
                     </div>
                   </div>
                 </div>
+                <?php echo e($product->links()); ?>
+
               </div>
             </div>
           </div>

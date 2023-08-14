@@ -99,9 +99,12 @@
                             </td>
                           </tr>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
-            </div>
-          </div>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <?php echo e($orders->links()); ?>
 
         </div>
       </div>

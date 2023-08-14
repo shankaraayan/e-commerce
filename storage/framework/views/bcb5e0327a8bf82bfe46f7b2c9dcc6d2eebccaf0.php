@@ -122,6 +122,8 @@
                     </div>
                   </div>
                 </div>
+                <?php echo e($sliders->links()); ?>
+
               </div>
             </div>
           </div>

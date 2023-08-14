@@ -158,6 +158,8 @@
                     </div>
                   </div>
                 </div>
+                <?php echo e($shipping->links()); ?>
+
               </div>
             </div>
           </div>

@@ -20,7 +20,7 @@ class AdminProductController extends Controller
 {
     public function index()
     {
-        $product = Product::get();
+        $product = Product::paginate(15);
         return view('admin.product.list', compact('product'));
     }
 

@@ -97,6 +97,8 @@
                     </div>
                   </div>
                 </div>
+                <?php echo e($users->links()); ?>
+
               </div>
             </div>
           </div>

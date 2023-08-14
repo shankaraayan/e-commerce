@@ -17,11 +17,11 @@
                 </a>
               </li>
               <li class="inline-block relative text-sm text-primary-500 font-Inter ">
-                Product Manager
+                Category
                 <iconify-icon icon="heroicons-outline:chevron-right" class="relative top-[3px] text-slate-500 rtl:rotate-180"></iconify-icon>
               </li>
               <li class="inline-block relative text-sm text-slate-500 font-Inter dark:text-white">
-                Products</li>
+                Add New</li>
             </ul>
           </div>
           <!-- END: BreadCrumb -->
@@ -72,7 +72,6 @@
                           </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
-
                         <?php $__currentLoopData = $category; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$values): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                           <tr>
                             <td class="table-td"><?php echo e(++$key); ?></td>
@@ -108,18 +107,19 @@
                           </tr>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </tbody>
-                      </table>
-                    </div>
-                  </div>
+                    </table>
                 </div>
-              </div>
             </div>
-          </div>
-
         </div>
-      </div>
     </div>
-  </div>
+</div>
+<?php echo e($category->links()); ?>
+
+</div>
+</div>
+</div>
+</div>
+</div>
 
   <?php $__env->stopSection(); ?>
 

@@ -101,7 +101,7 @@ class ProfileController extends Controller
 
         if ($validator->fails()) {
             
-            $error_type ;
+            $error_type;
             if($request->address_type =="billing"){
                 $error_type = $request->address_type;
             }else if($request->address_type =="delivery"){

@@ -46,7 +46,7 @@
                             </div>
                         </li>
                         @else
-                            <a href="{{ route('login.register') }}" class="user_link">
+                            <a href="{{ route('login') }}" class="user_link">
                                 <i class="fa fa-sign-in mr-1"></i>
                                 <span>Login</span>
                             </a>
@@ -81,7 +81,7 @@
                         @auth
                             <a class="ps-header__item" href="{{ route('user.dashboard') }}"><i class="icon-user"></i></a>
                         @else
-                            <a class="ps-header__item" href="{{ route('login.register') }}"><i
+                            <a class="ps-header__item" href="{{ route('login') }}"><i
                                     class="icon-user"></i></a>
                         @endauth
                         <div class="ps-login--modal">

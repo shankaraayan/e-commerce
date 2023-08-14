@@ -23,7 +23,7 @@ use App\Services\OrderService;
 class FrontendController extends Controller
 {
 
-    public function index()
+    public function index() // this function is not in use for index or homepage
     {
         $products = Product::all();
         $sliders = Slider::where('global_banner', '!=','1')->get();

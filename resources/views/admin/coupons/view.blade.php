@@ -125,6 +125,7 @@
                     </div>
                   </div>
                 </div>
+                {{$coupons->links()}}
               </div>
             </div>
           </div>

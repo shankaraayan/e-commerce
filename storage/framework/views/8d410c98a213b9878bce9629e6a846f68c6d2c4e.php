@@ -201,7 +201,6 @@
 														$productDetailsArray = json_decode($orders['product_details'], true);
 														
 														?>
-
 														<?php $__currentLoopData = $productDetailsArray; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 																<tr class="even:bg-slate-50 dark:even:bg-slate-700">
 																	<td class="table-td">
@@ -215,7 +214,7 @@
 																<?php
 																$total = 0;
 																$tax = getTaxCountry((int)$product['shipping_country']);
-                                    
+																
 																	if(empty($tax)){
 																		$tax['vat_tax'] = 0;
 																	}
@@ -226,6 +225,7 @@
 																		}
 																	}
 																	$total+=($product['price']*$product['quantity'] + (@$product['price'] * $tax['vat_tax'] /100 * @$product['quantity']) ) ;
+																	
 																?>
 																	<td class="table-td "><?php echo e((formatPrice($total))); ?></td>
 																</tr>

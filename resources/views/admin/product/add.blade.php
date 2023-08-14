@@ -1,143 +1,13 @@
 @extends('admin.layout.header')
 
 @section('style')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-
-
+    
     <style>
-        .select2-container--default .select2-selection--multiple .select2-selection__choice {
-            background-color: #747272 !important;
-            border: 1px solid #797979 !important;
-            padding: 5px 10px !important;
-        }
-
-        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover,
-        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:focus {
-            background-color: transparent !important;
-        }
-
-        .gaps-6 {
-            gap: 6.5rem;
-        }
-
         .text-danger {
             color: red;
         }
-
-        .multiselect {
-            font-family: Arial, sans-serif;
-            font-size: 12px;
-            border: 1px solid #eee;
-            cursor: pointer;
-            display: inline-block;
-            line-height: 15px;
-            min-width: 350px;
-            position: relative;
-            outline: none;
-        }
-
-
-        .mslabel {
-            display: inline-block;
-            width: 334px;
-            padding-left: 5px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            max-height: 18px;
-            outline: none;
-        }
-
-        .mstogglebtn {
-            display: inline-block;
-            float: right;
-            width: 16px;
-            text-align: center;
-            outline: none;
-        }
-
-        .mslist {
-            postion: absolute;
-            height: 0px;
-            overflow: hidden;
-        }
-
-        .multiselect>.mstogglebtn:focus~*:last-child,
-        .multiselect>.mslist:last-child:hover,
-        .multiselect>*:last-child:focus,
-        .multiselect:focus-within .mslist {
-            height: auto;
-            pointer-events: auto;
-        }
-
-        .msitem {
-            position: relative;
-            transition: background 400ms;
-        }
-
-        .msitem:hover {
-            background: #eee;
-        }
-
-        .msitem label {
-            position: absolute;
-            border-bottom: 1px solid #eee;
-
-            cursor: pointer;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding-left: 20px;
-        }
-
-        .msitem:first-child label {
-            border-top: 1px solid #eee;
-        }
-
-        .msitem:last-child label {
-            border-bottom: 0px;
-        }
-
-        .multiselect>*:not(:last-child):focus,
-        .mstogglebtn:focus,
-        .mslabel:focus,
-        .multiselect:focus {
-            pointer-events: none;
-            /* Causes second click to close */
-        }
-
-
-        .dropdown-container {
-            margin-top: 10px;
-        }
-
-        .dropdown-label {
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .dropdown-select {
-            width: 100%;
-            padding: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            background-color: #fff;
-        }
-
-        .select2 {
-            width: 100% !important;
-        }
-
-        .select2-container .select2-selection--single {
-            height: 38px !important;
-        }
     </style>
+
 @endsection
 
 @section('content')
@@ -197,6 +67,18 @@
                                                     @endif
                                                 </div>
 
+                                                <div class="input-area" id="option_containrer">
+                                                    <label for="name" class="form-label">Product Type*</label>
+                                                    <select class="form-control required" name="type" required
+                                                        onchange="showOptions(this.value)">
+                                                        <option value="">Select Product Type</option>
+                                                        <option value="single">Single Product</option>
+                                                        <option value="variable">Variable Product</option>
+                                                    </select>
+                                                    @if ($errors->has('type'))
+                                                        <span class="text-danger">{{ $errors->first('type') }}</span>
+                                                    @endif
+                                                </div>
 
                                                 <div class="input-area">
                                                     <label for="name" class="form-label">Product
@@ -313,11 +195,16 @@
                                                         <option value="0" class="dark:bg-slate-700">InActive</option>
                                                     </select>
                                                 </div>
-                                                <div class="input-area mb-5">
-                                                    <label for="select" class="form-label">Product Availability</label>
-                                                    <input type="number" name="product_availability"
-                                                        class="form-control">
+                                                <div class="input-area">
+                                                    <label for="name" class="form-label">Estimate Delivery Date*</label>
+                                                    <input id="estimate_deliver_date" name="estimate_deliver_date" type="date" class="form-control required"
+                                                        placeholder="estimate_deliver_date">
+                                                    @if ($errors->has('estimate_deliver_date'))
+                                                        <span class="text-danger">{{ $errors->first('estimate_deliver_date') }}</span>
+                                                    @endif
                                                 </div>
+                                                
+
                                                 <div class="input-area mb-5">
                                                     <label for="select" class="form-label">Product Shipping Class
                                                         *</label>
@@ -354,46 +241,14 @@
                             <div class="w-2/5">
                                 <div class="card ">
 
-                                    <div class="grid xl:grid-cols-2 grid-cols-1 p-6">
-                                        <div class="input-area">
-                                            <label for="name" class="form-label">Estimate Delivery Date*</label>
-                                            <input id="estimate_deliver_date" name="estimate_deliver_date" type="date" class="form-control required"
-                                                placeholder="estimate_deliver_date">
-                                            @if ($errors->has('estimate_deliver_date'))
-                                                <span class="text-danger">{{ $errors->first('estimate_deliver_date') }}</span>
-                                            @endif
-                                        </div>
-
-                                        {{-- <div class="input-area">
-                                            <label for="name" class="form-label">Sale Price(sale)*</label>
-                                            <input id="price" name="sale_price" type="text"
-                                                class="form-control required" placeholder="Price">
-                                            @if ($errors->has('sale_price'))
-                                                <span class="text-danger">{{ $errors->first('sale_price') }}</span>
-                                            @endif
-                                        </div> --}}
-
-                                    </div>
+                                   
 
 
 
-
-                                    <div class="card-body flex flex-col p-6">
-                                        <div class="input-area" id="option_containrer">
-                                            <label for="name" class="form-label">Product Type*</label>
-                                            <select class="form-control required" name="type" required
-                                                onchange="showOptions(this.value)">
-                                                <option value="">Select Product Type</option>
-                                                <option value="single">Single Product</option>
-                                                <option value="variable">Variable Product</option>
-                                            </select>
-                                            @if ($errors->has('type'))
-                                                <span class="text-danger">{{ $errors->first('type') }}</span>
-                                            @endif
-                                        </div>
-
-                                        <div id="variableOptions"
-                                            style="display: none; max-height: 200px; overflow-y: auto;">
+                                    <div class="card-body flex flex-col " style="min-height: 100vh">
+                        
+                                        <div id="variableOptions" class="p-6 h-full"
+                                            style="display: none; ; overflow-y: auto;">
                                             <div class="input-area">
                                                 <label for="options" class="form-label">Variable Options*</label>
                                                 @foreach ($attributes as $values)
@@ -418,7 +273,7 @@
                                         </div>
 
                                         <!-- Add this hidden input field in your form -->
-                                        <input type="hidden" id="selectedOptionsInput" name="selectedOptions"
+                                        <input  type="hidden" id="selectedOptionsInput" name="selectedOptions"
                                             value="">
 
                                         <div id="variableOptionsTerms"
@@ -441,7 +296,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="input-area out" style="display:none" id="out"></div>
+                                        <div class="input-area out p-6" style="display:none" id="out"></div>
 
                                         @if ($errors->has('variableOption'))
                                             <span class="text-danger">{{ $errors->first('variableOption') }}</span>

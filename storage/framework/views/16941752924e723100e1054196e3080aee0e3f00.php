@@ -1,9 +1,5 @@
 <?php $__env->startSection('content'); ?>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
 
 <style>
   .gaps-6 {
@@ -22,22 +18,6 @@
     margin-right: 10px;
 }
 
-.dropdown-container {
-  margin-top: 10px;
-}
-
-.dropdown-label {
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-.dropdown-select {
-  width: 100%;
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #fff;
-}
 </style>
 
 <div class="content-wrapper transition-all duration-150 ltr:ml-[248px] rtl:mr-[248px]" id="content_wrapper">
@@ -89,7 +69,21 @@
                                     <span class="text-danger"><?php echo e($errors->first('solar_product')); ?></span>
                                 <?php endif; ?>
                             </div>
-                            
+
+                            <div class="input-area">
+                                <label for="name" class="form-label">Product Type*</label>
+                                <select class="form-control" name="type" onchange="showOptions(this.value)" required="required">
+                                    <option>Select Product Type</option>
+                                    <option <?php if($editData->type == 'single'): ?> selected <?php endif; ?> value="single">Single Product</option>
+        
+                                    <option <?php if($editData->type == 'variable'): ?> selected <?php endif; ?> value="variable">Variable Product</option>
+        
+                                </select>
+                                <?php if($errors->has('type')): ?>
+                                <span class="text-danger"><?php echo e($errors->first('type')); ?></span>
+                                <?php endif; ?>
+                            </div>
+
                             <div class="input-area">
                                 <label for="name" class="form-label"> Product Category*</label>
                                 <select class="form-control" name="categories" id="category" required="required" >
@@ -218,9 +212,13 @@
                                 <option <?php echo e(($editData->status ==0)? 'selected': ''); ?> value="0" class="dark:bg-slate-700">InActive</option>
                             </select>
                             </div>
-                            <div class="input-area mb-5">
-                            <label for="select" class="form-label">Product Availability</label>
-                            <input type="number" name="product_availability" value="<?php echo e(($editData->product_availability)? $editData->product_availability:''); ?>" class="form-control">
+                            <div class="input-area">
+                                <label for="name" class="form-label">Estimate Delivery Date*</label>
+                                <input id="estimate_deliver_date" name="estimate_deliver_date" type="date" class="form-control"
+                                    value="<?php echo e(date('d/m/Y',strtotime($editData->estimate_deliver_date))); ?>" required>
+                                    <?php if($errors->has('estimate_deliver_date')): ?>
+                                        <span class="text-danger"><?php echo e($errors->first('estimate_deliver_date')); ?></span>
+                                    <?php endif; ?>
                             </div>
 
                             <div class="input-area mb-5">
@@ -250,37 +248,13 @@
           <div class="w-3/5">
             <div class="card ">
 
-                <div class="grid xl:grid-cols-2 grid-cols-1 p-6">
-                    <div class="input-area">
-                        <label for="name" class="form-label">Estimate Delivery Date*</label>
-                        <input id="estimate_deliver_date" name="estimate_deliver_date" type="date" class="form-control"
-                            value="<?php echo e(date('d/m/Y',strtotime($editData->estimate_deliver_date))); ?>" required>
-                            <?php if($errors->has('estimate_deliver_date')): ?>
-                                <span class="text-danger"><?php echo e($errors->first('estimate_deliver_date')); ?></span>
-                            <?php endif; ?>
-                    </div>
 
-                </div>
-
-
-                <div class="card-body flex flex-col p-6">
-                    <div class="input-area">
-                        <label for="name" class="form-label">Product Type*</label>
-                        <select class="form-control" name="type" onchange="showOptions(this.value)" required="required">
-                            <option>Select Product Type</option>
-                            <option <?php if($editData->type == 'single'): ?> selected <?php endif; ?> value="single">Single Product</option>
-
-                            <option <?php if($editData->type == 'variable'): ?> selected <?php endif; ?> value="variable">Variable Product</option>
-
-                        </select>
-                        <?php if($errors->has('type')): ?>
-                        <span class="text-danger"><?php echo e($errors->first('type')); ?></span>
-                        <?php endif; ?>
-                    </div>
+                <div class="card-body flex flex-col" style="min-height: 100vh;">
+                    
                     <!-- Add this hidden input field in your form -->
                     <input type="hidden" id="selectedOptionsInput" name="selectedOptions"
                     value="">
-                    <div id="variableOptions" style="max-height: 200px; overflow-y: auto; <?php echo e($editData->type == 'variable'? 'display:block':'display:none'); ?>">
+                    <div class=" p-6" id="variableOptions" style="overflow-y: auto; <?php echo e($editData->type == 'variable'? 'display:block':'display:none'); ?>">
                     
                         <div class="input-area">
                             <label for="options" class="form-label">Variable Options*</label>
@@ -303,7 +277,7 @@
                             </div>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
-                            <div id="out">
+                            <div id="out" >
                                 <?php $__currentLoopData = $attributes_id; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $attribute_id): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <?php
                                     $attribute = $attributes->firstWhere('id', $attribute_id);

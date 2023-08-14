@@ -12,7 +12,7 @@ Login
                                     <form action="<?php echo e(route('login')); ?>" method="post">
                                         <?php echo csrf_field(); ?>
                                         <div class="ps-form--review">
-                                            <h2 class="ps-form__title">Einloggen</h2>
+                                            <h2 class="ps-form__title p-0 m-0">Einloggen</h2><hr>
                                             <div class="ps-form__group">
                                                 <label class="ps-form__label">Benutzername oder E-Mail Adresse *</label>
                                                 <input class="form-control ps-form__input" type="email" name="email" value="<?php echo e(old('email')); ?>">
@@ -48,13 +48,15 @@ endif;
 unset($__errorArgs, $__bag); ?>
                                                 <?php endif; ?>
                                             </div>
+                                            
                                             <div class="ps-form__submit">
                                                 <button class="ps-btn ps-btn--warning mb-4">Einloggen</button>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="remember">
-                                                    <label class="form-check-label" for="remember">Erinnern Sie sich an mich</label>
-                                                </div>
-                                            </div><a class="ps-account__link" href="<?php echo e(route('forget-password')); ?>">Haben Sie Ihr Passwort vergessen?</a>
+                                            </div>
+                                            <div class="d-flex align-items-center justify-content-center flex-column">
+                                                <a class="ps-account__link" href="<?php echo e(route('forget-password')); ?>">Haben Sie Ihr Passwort vergessen?</a>
+                                                <a class="ps-account__link" href="<?php echo e(route('register')); ?>">Neu bei Stegpearl? Erstelle ein Konto?</a>
+                                            </div>
+                                           
                                         </div>
                                     </form>
                                     
@@ -69,4 +71,4 @@ unset($__errorArgs, $__bag); ?>
 
 
 
-<?php echo $__env->make('Layout.Layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/customstegpearl/public_html/root/resources/views/pages/login-register.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('Layout.Layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/customstegpearl/public_html/root/resources/views/pages/login.blade.php ENDPATH**/ ?>

@@ -100,10 +100,12 @@
                             </td>
                           </tr>
                         @endforeach
-
-            </div>
-          </div>
-
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                {{$orders->links()}}
         </div>
       </div>
     </div>

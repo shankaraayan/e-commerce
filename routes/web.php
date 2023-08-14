@@ -49,7 +49,8 @@ Route::get('/dashboard/{type?}', [ProfileController::class, 'dashboard'])->name(
 
 
 // user login register route
-Route::get('/login-register',[AuthController::class, 'index'])->name('login.register');
+Route::get('/login',[AuthController::class, 'index'])->name('login');
+Route::get('/register',[AuthController::class, 'register_ui'])->name('register');
 Route::post('/register',[AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/forget-password', [AuthController::class, 'forgot_password_view'])->name('forgot-password');

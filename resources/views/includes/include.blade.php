@@ -27,7 +27,7 @@
         @auth
             <a class="ps-header__item" href="{{ route('user.dashboard') }}"><i class="icon-user"></i></a>
         @else
-            <a class="ps-header__item" href="{{ route('login.register') }}"><i class="icon-user"></i></a>
+            <a class="ps-header__item" href="{{ route('login') }}"><i class="icon-user"></i></a>
         @endauth
 
             </div>

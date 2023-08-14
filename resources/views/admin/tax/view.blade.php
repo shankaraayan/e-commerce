@@ -112,6 +112,7 @@
                     </div>
                   </div>
                 </div>
+                {{$taxList->links()}}
               </div>
             </div>
           </div>

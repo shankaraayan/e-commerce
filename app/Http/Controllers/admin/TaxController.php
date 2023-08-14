@@ -13,7 +13,7 @@ class TaxController extends Controller
 {
     public function list()
     {
-        $taxList = country();
+        $taxList = Country::paginate(10);
         return view('admin.tax.view',compact('taxList'));
     }
 

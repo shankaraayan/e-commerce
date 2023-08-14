@@ -159,6 +159,7 @@
                     </div>
                   </div>
                 </div>
+                {{$shipping->links()}}
               </div>
             </div>
           </div>
