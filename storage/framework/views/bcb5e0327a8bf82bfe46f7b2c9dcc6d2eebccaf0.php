@@ -83,7 +83,12 @@
                                 Global Banner
                             <?php endif; ?>
                             </td>
-                            <td class="table-td "><?php echo e($slider->slider_url); ?></td>
+                            <td class="table-td ">
+                              <a target="_blank" href="<?php echo e(asset('root/public/uploads/sliders/phone/' . $slider->phone)); ?>">
+                                <?php echo e(asset('root/public/uploads/sliders/phone/' . $slider->phone)); ?>
+
+                              </a>
+                            </td>
                            <td class="table-td">
                                 <?php if(@$slider->status): ?>
                                 <span class="badge bg-success-500 text-success-500 bg-opacity-30 capitalize">Active</span>

@@ -4,7 +4,7 @@
 
 <style>
 .gaps-6 {
-    gap: 0.5rem;
+    gap: 0.5rem; 
 }
 .text-danger{
   color: red;

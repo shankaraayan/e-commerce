@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'laravel/laravel',
-        'pretty_version' => 'dev-new_design_add',
-        'version' => 'dev-new_design_add',
-        'reference' => '973936eb635a6b2404a4c4085b9fd44b8e8e1c61',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => 'eb391dd73f42c8329ffce20649e487117bce4c0a',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -413,9 +413,9 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => 'dev-new_design_add',
-            'version' => 'dev-new_design_add',
-            'reference' => '973936eb635a6b2404a4c4085b9fd44b8e8e1c61',
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => 'eb391dd73f42c8329ffce20649e487117bce4c0a',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -988,6 +988,15 @@
             'install_path' => __DIR__ . '/../sebastian/version',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'srmklive/paypal' => array(
+            'pretty_version' => '3.0.21',
+            'version' => '3.0.21.0',
+            'reference' => '3a55d463f8d5935627c4eee15da702811a03c5ea',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../srmklive/paypal',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'swiftmailer/swiftmailer' => array(
             'pretty_version' => 'v6.3.0',

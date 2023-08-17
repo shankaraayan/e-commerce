@@ -47,6 +47,10 @@ class Product extends Model
 
     ];
 
+    public function images()
+    {
+        return $this->hasMany(ProductImages::class,'product_id');
+    }
 
     public function sluggable(): array
     {

@@ -12,7 +12,7 @@
     shuffle($banner);
     $banner = end($banner);
 ?>
-<div class="ps-categogy__main">
+<div class="ps-categogy__main pt-0">
     <?php if(isset($banner)): ?>
         <img src="https://custom.stegpearl.in/root/public/uploads/sliders/desktop/<?php echo e($banner['desktop']); ?>" class="img-fluid w-100 rounded">
     <?php else: ?>

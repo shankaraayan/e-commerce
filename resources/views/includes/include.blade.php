@@ -744,15 +744,16 @@ $(document).ready(function() {
                 data: { keyword: keyword },
                 success: function(response) {
                     var dropdown = $('#search-results-mobile');
-
+                    
                     dropdown.empty();
 
                     if (response.length > 0) {
                         response.slice(0, 4).map(function(item) {
+                        
                             let url = "{{ route('product.detail') }}/" + item.slug;
 
                             let imageUrl = "{{ asset('root/public/uploads/') }}/" + item.thumb_image;
-                            console.log(url);
+                            // console.log(url);
                             dropdown.append('<div class="ps-product ps-product--horizontal">' +
                                 '<div class="ps-product__thumbnail"><a class="ps-product__image" href="' + url + '">' +
                                 '<figure><img src="' + imageUrl + '" alt="alt" /></figure>' +
@@ -760,7 +761,7 @@ $(document).ready(function() {
                                 '<div class="ps-product__content">' +
                                 '<h5 class="ps-product__title"><a>'+ item.product_name +'</a></h5>' +
                                 '<p class="ps-product__desc">Study history up to 30 days Up to 5 users simultaneously Has HEALTH certificate</p>' +
-                                '<div class="ps-product__meta"><span class="ps-product__price">'+'€'+item.price+'</span></div>' +
+                                '<div class="ps-product__meta"><span class="ps-product__price">'+'€'+item.sale_price+'</span></div>' +
                                 '</div></div>');
                         });
                         $(".ps-result__viewall").removeClass('d-none');

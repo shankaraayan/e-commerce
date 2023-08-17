@@ -45,6 +45,7 @@
         <!-- END: BreadCrumb -->
 
         <div class="grid xl:grid-cols-2 flex gap-6">
+       
           <!-- Basic Inputs -->
           <div class="w-3/5">
             <div class="card">
@@ -213,13 +214,14 @@
                             </select>
                             </div>
                             <div class="input-area">
-                                <label for="name" class="form-label">Estimate Delivery Date*</label>
+                                <label for="estimate_deliver_date" class="form-label">Estimate Delivery Date*</label>
                                 <input id="estimate_deliver_date" name="estimate_deliver_date" type="date" class="form-control"
-                                    value="<?php echo e(date('d/m/Y',strtotime($editData->estimate_deliver_date))); ?>" required>
-                                    <?php if($errors->has('estimate_deliver_date')): ?>
-                                        <span class="text-danger"><?php echo e($errors->first('estimate_deliver_date')); ?></span>
-                                    <?php endif; ?>
+                                       value="<?php echo e(date('Y-m-d', strtotime($editData->estimate_deliver_date))); ?>" required>
+                                <?php if($errors->has('estimate_deliver_date')): ?>
+                                    <span class="text-danger"><?php echo e($errors->first('estimate_deliver_date')); ?></span>
+                                <?php endif; ?>
                             </div>
+                            
 
                             <div class="input-area mb-5">
                                 <label for="select" class="form-label">Product Shipping Class*</label>

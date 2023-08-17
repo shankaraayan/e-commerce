@@ -857,6 +857,7 @@
     <script src="<?php echo e(asset('admin_assets/js/jquery-3.6.0.min.js')); ?>"></script>
     <script src="<?php echo e(asset('admin_assets/js/rt-plugins.js')); ?>"></script>
     <script src="<?php echo e(asset('admin_assets/js/app.js')); ?>"></script>
+   
 </body>
 
 </html>

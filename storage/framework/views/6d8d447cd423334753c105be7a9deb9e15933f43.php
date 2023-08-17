@@ -242,7 +242,7 @@ unset($__errorArgs, $__bag); ?>
                                 let imageUrl =
                                     "<?php echo e(asset('root/public/uploads/')); ?>/" + item
                                     .thumb_image;
-                                console.log(url);
+                                console.log(item);
                                 dropdown.append('<div class="col-12 col-lg-6">' +
                                     '<div class="ps-product ps-product--horizontal">' +
                                     '<div class="ps-product__thumbnail"><a class="ps-product__image" href="' +
@@ -255,7 +255,7 @@ unset($__errorArgs, $__bag); ?>
                                     .product_name + '</a></h5>' +
                                     '<p class="ps-product__desc">Study history up to 30 days Up to 5 users simultaneously Has HEALTH certificate</p>' +
                                     '<div class="ps-product__meta"><span class="ps-product__price">' +
-                                    '€' + item.price + '</span></div>' +
+                                    '€' + item.sale_price + '</span></div>' +
                                     '</div></div></div>');
                                 $(".ps-result__viewall").removeClass('d-none');
                             });

@@ -35,10 +35,7 @@
                       <div class="card-text h-full space-y-4">
                         <form action="<?php echo e(route('admin.settings.slider.upload')); ?>" method="post" enctype="multipart/form-data">
                         <?php echo csrf_field(); ?>
-                            <div class="input-area mb-4">
-                                <label for="name" class="form-label" required>Slider url</label>
-                                <input  name="slider_url" type="text" class="form-control" placeholder="url">
-                            </div>
+                            
                             <div class="input-area mb-5">
                                 <label for="select" class="form-label">Status</label>
                 

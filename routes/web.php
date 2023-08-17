@@ -14,6 +14,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\admin\SettingController;
 use App\Http\Controllers\admin\AdminProductController;
 use App\Http\Controllers\admin\CookieController;
+use App\Http\Controllers\admin\PaymentGatwayController;
 
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\OrderController;
@@ -174,7 +175,7 @@ Route::name('admin.product.')->prefix('admin/product/')->middleware('isAdmin')->
     Route::get('edit/{id}', [AdminProductController::class, 'edit'])->name('edit');
     Route::get('delete/{id}', [AdminProductController::class, 'delete'])->name('delete');
 });
-
+Route::get('product-feed/{slug}', [AdminProductController::class, 'generateProductFeed'])->name('feed');
 // public routes
 
 Route::get('/about-us', function () {
@@ -252,6 +253,14 @@ Route::name('admin.settings.slider.')->prefix('admin/settings/slider')->middlewa
     Route::get('edit_slider/{id}', [SettingController::class, 'edit_slider'])->name('edit_slider');
     Route::post('update_slider/{id}', [SettingController::class, 'update_slider'])->name('update_slider');
     Route::get('delete/{id}', [SettingController::class, 'delete_slider'])->name('delete');
+});
+Route::name('admin.settings.payment-gatway.')->prefix('admin/settings/payment-gatway')->middleware('isAdmin')->group(function() {
+    Route::get('list', [PaymentGatwayController::class, 'payment_gatway_list'])->name('list');
+    Route::get('add', [PaymentGatwayController::class, 'add'])->name('add');
+    Route::post('upload', [PaymentGatwayController::class, 'upload'])->name('upload');
+    Route::get('edit-payment-gatway/{id}', [PaymentGatwayController::class, 'edit_payment_gatway'])->name('edit_payment_gatway');
+    Route::post('update-payment-gatway/{id}', [PaymentGatwayController::class, 'update_payment_gatway'])->name('update_payment_gatway');
+    Route::get('delete/{id}', [PaymentGatwayController::class, 'delete_payment_gatway'])->name('delete');
 });
 
 Route::name('admin.taxation.')->prefix('admin/taxation')->middleware('isAdmin')->group(function(){

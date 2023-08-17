@@ -130,6 +130,9 @@
               <li>
                 <a href="{{route('admin.settings.slider.list')}}">Sliders</a>
               </li>
+              <li>
+                <a href="{{route('admin.settings.payment-gatway.list')}}">Manage Payment Gatways</a>
+              </li>
 
             </ul>
           </li>

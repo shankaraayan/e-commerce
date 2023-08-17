@@ -68,7 +68,7 @@
                     <span class="text-danger">{{ $errors->first('attribute_term_name') }}</span>
                   @endif
                 </div>
-
+                
                 <div class="input-area">
                   <label for="name" class="form-label">kWh*</label>
                   <input id="attribute_term_kWh_name" name="attribute_term_kWh_name" type="text" class="form-control" placeholder="kWh" value="{{$attributeTerms->attribute_term_kWh_name}}" required="required">

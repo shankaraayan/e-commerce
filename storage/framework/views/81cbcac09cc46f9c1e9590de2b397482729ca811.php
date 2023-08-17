@@ -70,6 +70,7 @@
   </head>
 
   <?php
+  @dd($details);
   $data = $details['data'];
   ?>
 

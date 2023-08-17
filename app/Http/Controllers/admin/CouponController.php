@@ -144,14 +144,14 @@ class CouponController extends Controller
             if( $coupon_data['type']=="flat")
             {
                 $afterDiscount =  ($subtotal- $coupon_data['discount_value']);
-                $total = ($subtotal-$afterDiscount)+$shipping_price;
+                $total = ($afterDiscount+$shipping_price);
             }
             else{
                 // print_r(formatPrice($subtotal));die;
-                $afterDiscount = $subtotal * $coupon_data['discount_value']/100;
-                $total = ($subtotal-$afterDiscount)+$shipping_price;
+                $afterDiscount = ($subtotal * $coupon_data['discount_value']/100);
+                $total = (($subtotal-$afterDiscount)+$shipping_price);
             }
-
+           
             $data = [
                 "subtotal" => formatPrice($subtotal),
                 "cart" => $cart_items,

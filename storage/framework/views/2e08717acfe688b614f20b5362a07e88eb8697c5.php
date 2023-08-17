@@ -101,13 +101,14 @@
                                 <a href="<?php echo e(route('admin.product.edit',$values->id)); ?>">  <button class="action-btn" type="button">
                                   <iconify-icon icon="heroicons:pencil-square"></iconify-icon>
                                 </button></a>
+                                <a href="<?php echo e(route('feed',$values->slug)); ?>">  <button class="action-btn" type="button">
+                                  <iconify-icon icon="fe:feed"></iconify-icon>
+                                </button></a>
                                 <a href="<?php echo e(route('admin.product.delete',$values->id)); ?>">  <button class="action-btn" onclick="return confirm('Are you sure you want to delete this product?')" type="button">
                                   <iconify-icon icon="heroicons:trash"></iconify-icon>
                                 </button></a>
                               </div>
                             </td>
-
-
                           </tr>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 

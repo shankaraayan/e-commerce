@@ -856,6 +856,7 @@
     <script src="{{ asset('admin_assets/js/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ asset('admin_assets/js/rt-plugins.js') }}"></script>
     <script src="{{ asset('admin_assets/js/app.js') }}"></script>
+   
 </body>
 
 </html>

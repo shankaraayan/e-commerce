@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Redirect;
 class SettingController extends Controller
 {
 
-    // sliders
+    //*Sliders
     public function index(){
         $sliders = Slider::paginate(10);
         return view('admin.settings.sliders',compact('sliders'));
@@ -24,7 +24,6 @@ class SettingController extends Controller
 
     public function upload(Request $request){
         if($request){
-            
             $slider = new Slider;
             if($request->screen=="global_banner"){
                 $slider->global_banner = 1;
@@ -48,8 +47,8 @@ class SettingController extends Controller
             }
             
             $slider->save();
-        return redirect()->route('admin.settings.slider.list')->with('success', 'Slider uploaded successfully.');
-    }
+            return redirect()->route('admin.settings.slider.list')->with('success', 'Slider uploaded successfully.');
+        }
         else{
             return redirect()->back()->withErrors($request->errors())->withInput();
         }

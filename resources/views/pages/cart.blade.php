@@ -2,15 +2,12 @@
 
 @section('content')
     <!--------------- Cart Page HTML Start ------------------------->
-    <div class="ps-shopping">
+    <div class="ps-shopping ps-categogy--separate">
         <div class="container">
-            <x-filtter :value="__('DisabledShortBy')" :filterIcon="__('d-none')">Einkaufskorb</x-filtter>
-            <ul class="ps-breadcrumb">
-          
-            </ul>
-            <div class="container" id="cart_data">
-                @include('elements.cart_data')
-            </div>
+            <x-filtter :value="__('DisabledShortBy')" :filterIcon="__('d-none')">Einkaufskorb</x-filtter>          
+        </div>
+        <div id="cart_data">
+            @include('elements.cart_data')
         </div>
     </div>
     <script>

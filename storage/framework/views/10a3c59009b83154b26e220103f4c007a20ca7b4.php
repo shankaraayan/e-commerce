@@ -35,19 +35,16 @@
     <script src="<?php echo e(asset('assets/plugins/jquery.min.js')); ?>"></script>
     <style>
 
-.menu>li>a{
-    padding: 8px 0;
-}
+ 
         .addpayment_icons {
             margin-top: 1rem;
         }
         .addpayment_icons ul li {
             text-align: center;
-            margin: 0 5px 5px 0 !important;
+            margin: 0 0px 5px 0 !important;
             border: solid 1px #d8d8d8;
             border-radius: 3px;
-            max-width: 110px;
-            width: 100%;
+            width: calc(100px - 15px);
             display: inline-block;
         }
         
@@ -150,7 +147,7 @@
              padding: 10px;
             text-align: center;
             display: block;
-            z-index: 111;
+            z-index: 1111;
         }
 
         .disclaimer-bar p {
@@ -214,6 +211,7 @@
     <script src="<?php echo e(asset('assets/plugins/noUiSlider/nouislider.min.js')); ?>"></script>
     <!-- custom code-->
     <script src="<?php echo e(asset('assets/js/main.js')); ?>"></script>
+    <script type="module" src="<?php echo e(asset('assets/js/custom.js')); ?>" async></script>
 </body>
 
 </html>

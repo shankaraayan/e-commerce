@@ -9,29 +9,41 @@ use App\Models\admin\AttributeTerm;
 use App\Models\admin\Slider;
 use App\Models\admin\Category;
 use App\Models\admin\Order;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
 
      public function productDetail($slug,Request $request)
     {
-        if($request->page){
-            $status = 0;
-        }
-        else{
-            $status = 1;
-        }
+     
+       
         if (!empty($request->all())) {
             $terms = $request->all();
             $components = [];
             $termIds = array_values($terms);
-    
-            $components = AttributeTerm::whereIn('id', $termIds)->get();
+            if ($request->has('page')){
+                
+            }
+            else{
+                
+                $components = AttributeTerm::whereIn('id', $termIds)
+                    ->orderByRaw(DB::raw("FIELD(id, " . implode(',', $termIds) . ")"))
+                    ->get();
+            }
             
-            $product = Product::with('images','categories')
-            ->where('slug',$slug)
-            ->where('status', $status)
-            ->first();
+            if($request->page){
+                $product = Product::with('images','categories')
+                ->where('slug',$slug)
+                ->first();
+            }else{
+                $product = Product::with('images','categories')
+                ->where('slug',$slug)
+                ->where('status', '1')
+                ->first();
+            }
+        
+            
             if(!$product){
                 return view('notFound');
             }
@@ -52,10 +64,17 @@ class ProductController extends Controller
             return view('pages.product-detail', compact('product', 'attributes','products','components'));
         } 
         else {
-            $product = Product::with('images','categories')
-            ->where('slug',$slug)
-            ->where('status', 1)
-            ->first();
+            if($request->page){
+                $product = Product::with('images','categories')
+                ->where('slug',$slug)
+                ->first();
+            }else{
+                $product = Product::with('images','categories')
+                ->where('slug',$slug)
+                ->where('status', '1')
+                ->first();
+            }
+        
             if(!$product){
                 return view('notFound');
             }
@@ -63,7 +82,7 @@ class ProductController extends Controller
             $attributeTermsIds = explode(',', $product->attributesTerms_id);
     
             $products = Product::where('slug','<>',$slug)
-            ->where('status', 1)
+            ->where('status', '1')
             ->get();
             // Retrieve the attributes using the IDs
             // $attributes = Attribute::with('attributeTerms')->whereIn('id', $attributeIds)->get();
@@ -87,8 +106,7 @@ class ProductController extends Controller
         ->where('best_selling',1)
         ->where('status', 1)
         ->get();
-        
-
+    
         $featuredProducts = Product::with('images')->where('featured',1)->get();
         $easyProducts = Product::with('images')->where('easy_peak_power',1)->get();
         $sliders = Slider::where('global_banner', '!=','1')->get();
@@ -122,13 +140,13 @@ class ProductController extends Controller
         return response()->json($terms);
     }
 
-    public function term_html_components(Request $request){
-      
+    public function term_html_components(Request $request) {
         $ids = $request->ids;
-        $components = [];
-        foreach($ids as $id){
-            $components[] = AttributeTerm::find($id);
-        }
+    
+        $components = AttributeTerm::whereIn('id', $ids)
+            ->orderByRaw(DB::raw("FIELD(id, " . implode(',', $ids) . ")"))
+            ->get();
+    
         return $components;
     }
 

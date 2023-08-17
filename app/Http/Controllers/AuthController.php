@@ -102,7 +102,13 @@ class AuthController extends Controller
         $user = User::where('email', $request['email'])->first();
         if ($user && $user->email_verified_at == null) {
             $verificationLink = route('verify',['token' => $user->verification_token]);
-            Mail::to($user->email)->send(new VerificationEmail($user,$verificationLink));
+             $details = [];
+             $details['template'] = 'verification';
+             $details['subject'] = 'Verify Your Email Address';
+             $details['email'] = $user->email;
+             $details['data'] = $verificationLink;
+            //  return view('emails.verification',compact('details'));die;
+             Mail::to($details['email'])->send(new MyTestMail($details));
             $request->session()->flash('error', 'Your email address is not verified. Please check your inbox for a verification email or click on the "Resend Verification Email" link.');
             return redirect()->back();
         }

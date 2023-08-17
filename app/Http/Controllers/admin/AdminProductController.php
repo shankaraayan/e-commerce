@@ -13,7 +13,7 @@ use App\Models\admin\AttributeTerm;
 use App\Models\admin\ProductAttribute;
 use App\Models\admin\ProductTerm;
 use App\Models\Product as ModelsProduct;
-
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
 
 class AdminProductController extends Controller
@@ -153,9 +153,21 @@ class AdminProductController extends Controller
         return view('admin.product.view',compact('product'));
     }
 
+
     public function delete($id){
         $product = Product::find($id);
         $product->delete();
         return redirect()->back()->with('success', $product->product_name . ' Deleted Successfully');
     }
+
+    // feed 
+    public function generateProductFeed($slug)
+    {
+        $product = Product::with('images')
+        ->where('slug',$slug)
+        ->first();
+        $feedContent = view('admin.product.feed', ['product' => $product])->render();
+        return response($feedContent)->header('Content-Type', 'text/xml');
+    }
+
 }
