@@ -17,11 +17,8 @@
     <div class="ps-page">
 
         <div class="ps-categogy ps-categogy--separate">
-            <div class="container">
-
-              <x-filtter :value="__('DisabledShortBy')">Shop by categories</x-filtter>
-
-            </div>
+            <x-filtter :value="__('DisabledShortBy')">Shop by categories</x-filtter>
+          
             <div class="ps-categogy__main pb-40">
                 <div class="container">
                     <div class="ps-categogy__widget">
@@ -34,7 +31,7 @@
                                         @if(!empty(@$Category))
                                             @foreach($Category as $cat)
                                                 <li><a href="{{route('shop',$cat->slug)}}" id="{{$cat->id}}" onclick="categoryProduct(this.id);">{{ $cat->name }}</a>
-                                                <span class="sub-toggle"><i class="fa fa-chevron-down"></i></span>
+                                                <span class="sub-toggle {{ count($cat->subcategories) > 0 ? 'd-block' : 'd-none' }}" ><i class="fa fa-chevron-down"></i></span>
                                                     @if(count($cat->subcategories) > 0)
                                                     <ul class="sub-menu" style="display: none;">
                                                         @foreach($cat->subcategories as $subcat)

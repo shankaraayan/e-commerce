@@ -126,7 +126,6 @@
                     ?>
 
                     <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <?php dd($products); ?>;
                         <?php
                             $ProducttotalPrice = $product['price'] * $product['quantity'];
                             $product['total_price'] += $ProducttotalPrice;

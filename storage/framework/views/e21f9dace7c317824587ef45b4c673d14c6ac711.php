@@ -1,13 +1,13 @@
 <?php $__env->startSection("style"); ?>
 <style>
 
-svg {
-    width: 16px; /* Adjust the font size to your desired value */
-}
+    svg {
+        width: 16px; /* Adjust the font size to your desired value */
+    }
 
-.menu--mobile>li{
-    padding:5px 0px;
-}
+    .menu--mobile>li{
+        padding:5px 0px;
+    }
     .new-li {
         list-style: none;
         padding-left: 0;
@@ -37,24 +37,10 @@ svg {
 
 <?php $__env->startSection("content"); ?>
 
-
-
     <div class="ps-page">
 
         <div class="ps-categogy ps-categogy--separate">
-            <div class="container">
-                
-                <!--<h1 class="ps-categogy__name mt-5">Shop</h1>-->
-                <?php
-                    
-                    $currentUri = $_SERVER['REQUEST_URI'];
-                    $segments = explode('/', $currentUri);
-                    $lastSegment = end($segments);
-
-                ?>
-                 
-                
-                <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
+            <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
 <?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.filtter','data' => ['value' => __('na')]]); ?>
 <?php $component->withName('filtter'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -65,6 +51,16 @@ svg {
 <?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
 <?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
 <?php endif; ?>
+            <div class="container">
+                <!--<h1 class="ps-categogy__name mt-5">Shop</h1>-->
+                <?php
+                    
+                    $currentUri = $_SERVER['REQUEST_URI'];
+                    $segments = explode('/', $currentUri);
+                    $lastSegment = end($segments);
+
+                ?>
+                
             </div>
 
             <div class="ps-categogy__main pb-40">
@@ -79,7 +75,7 @@ svg {
                                         <?php if(!empty(@$Category)): ?>
                                             <?php $__currentLoopData = $Category; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <li><a href="<?php echo e(route('shop',$cat->slug)); ?>" id="<?php echo e($cat->id); ?>" onclick="categoryProduct(this.id);"><?php echo e($cat->name); ?></a>
-                                                <span class="sub-toggle"><i class="fa fa-chevron-down"></i></span>
+                                                <span class="sub-toggle <?php echo e(count($cat->subcategories) > 0 ? 'd-block' : 'd-none'); ?>"><i class="fa fa-chevron-down"></i></span>
                                                     <?php if(count($cat->subcategories) > 0): ?>
                                                     <ul class="sub-menu" style="display: none;">
                                                         <?php $__currentLoopData = $cat->subcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subcat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -107,22 +103,24 @@ svg {
                                             <?php if($key == 5): ?>
                                                 <?php break; ?>
                                             <?php endif; ?>
-                                            <div class="ps-widget__item">
-                                                <div class="row no-gutters">
-                                                    <div class="col-3">
-                                                        <div class="product_pics">
-                                                            <img src="<?php echo e(asset('root/public/uploads/'.$product->thumb_image)); ?>" class="img-fluid" alt="">
+                                            
+                                                <div class="ps-widget__item">
+                                                    <div class="row no-gutters">
+                                                        <div class="col-3">
+                                                            <div class="product_pics">
+                                                                <img src="<?php echo e(asset('root/public/uploads/'.$product->thumb_image)); ?>" class="img-fluid" alt="">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-9 pl-3">
+                                                        <div class="product_info_rel">
+                                                            <p class="product_info_name ps-product__title"><?php echo e($product->product_name); ?></p>
+                                                            
+                                                            
                                                         </div>
                                                     </div>
-                                                    <div class="col-9 pl-3">
-                                                    <div class="product_info_rel">
-                                                        <p class="product_info_name ps-product__title"><?php echo e($product->product_name); ?></p>
-                                                        
-                                                        
                                                     </div>
                                                 </div>
-                                                </div>
-                                            </div>
+                                            
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <?php endif; ?>
 
@@ -164,13 +162,34 @@ svg {
                                                 </div>
                                             </div>
                                             <div class="ps-product__content">
-                                                <a class="ps-product__branch" href="<?php echo e(route('product.detail',$product->slug)); ?>"><?php echo e(categories()->where('id',$product->categories)->pluck('name')->first()); ?></a>
+                                            
+                                                <a href="<?php echo e(route('shop', ['slug' => categories()->where('id', $product->categories)->pluck('slug')->first()])); ?>">
+                                                    <?php echo e(categories()->where('id', $product->categories)->pluck('name')->first()); ?>
 
+                                                </a>
+                                                
+                                                
+                                                
                                                 <a onclick="addSimiliarProductId(<?php echo e($product->id); ?>)"  href="<?php echo e(route('product.detail',$product->slug)); ?>"><h5 class="ps-product__title"><?php echo e($product->product_name); ?></h5></a>
-                                                <div class="ps-product__meta">
-                                                    <span class="ps-product__price"><s><?php echo e(formatPrice($product->price)); ?></s></span>
-                                                    <span class="ps-product__price"><?php echo e(formatPrice($product->sale_price)); ?></span>
+                                                <div class="ps-product__meta text-center">
+                                                    <?php
+                                                        $attributeIDs = ($product->attributes_id);
+                                                        $result = explode(',', $attributeIDs);
+                                                        $prices = minmaxPrice($result);
+                                                        // @dd($prices);die;
+                                                    ?>
+
+                                                    
+                                                    
+                                                    <?php if($product->type==='variable'): ?>
+                                                        <span class="ps-product__price text-green"><?php echo e(formatPrice($prices['min_price']) .' - '.formatPrice($prices['sum_of_max_prices'])); ?></span>
+                                                    <?php else: ?>
+                                                        <span class="ps-product__del text-muted"><?php echo e(formatPrice($product->price)); ?></span>
+                                                        <span class="ps-product__price text-green"><?php echo e(formatPrice($product->sale_price)); ?></span>
+                                                    <?php endif; ?>
                                                 </div>
+
+                                                
 
                                                 
                                                 <div class="ps-product__actions ps-product__group-mobile d-block">
@@ -196,7 +215,7 @@ svg {
                            <?php endif; ?>
 
                         </div>
-                        <div class="ps-pagination">
+                        <div class="ps-pagination text-center">
                             <?php echo e($products->links()); ?>
 
                         </div>
@@ -640,26 +659,28 @@ svg {
                         "_token": "<?php echo e(csrf_token()); ?>",
                 },
                 success: function(response) {
-                    response.map((item,index)=>{
-                       data += `
+                    response.map((item, index) => {
+                    data += `
+                    <a href="/product-detail/${item.slug}">
                         <div class="ps-widget__item">
                             <div class="row no-gutters">
                                 <div class="col-3">
                                     <div class="product_pics">
-                                        <img src="<?php echo e(asset('root/public/uploads/')); ?>/${item.thumb_image} " class="img-fluid" alt="">
+                                        <img src="/root/public/uploads/${item.thumb_image}" class="img-fluid" alt="">
                                     </div>
                                 </div>
                                 <div class="col-9 pl-3">
-                                <div class="product_info_rel">
-                                    <p class="product_info_name ps-product__title">${item.product_name}</p>
-                                    
-                                    <div class="product_info_price fs-4">€${item.price}</div>
+                                    <div class="product_info_rel">
+                                        <p class="product_info_name ps-product__title">${item.product_name}</p>
+                                        <div class="product_info_price fs-4">€${item.price}</div>
+                                    </div>
                                 </div>
                             </div>
-                            </div>
                         </div>
-                        `;
-                    })
+                    </a>
+                    `;
+                });
+
                     $("#similarProductCon").html(data);
                 },
                 error : function(err){

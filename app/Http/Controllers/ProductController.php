@@ -16,8 +16,7 @@ class ProductController extends Controller
 
      public function productDetail($slug,Request $request)
     {
-     
-       
+    
         if (!empty($request->all())) {
             $terms = $request->all();
             $components = [];
@@ -121,17 +120,23 @@ class ProductController extends Controller
         $absdk = AttributeTerm::select('*')
             ->whereRaw("FIND_IN_SET('$panglwh', wh_range) > 0")
             ->get();
-        $attribute = Attribute::find($getpanel->attributes_id);
-        $arribute_name = $attribute->attribute_name;
-        
-        // return response()->json($absdk);
-        
+
+        $data = [];
+
+        foreach ($absdk as $ab) {
+            $attributes = [
+                'attribute_name' => Attribute::find($ab->attributes_id)->attribute_name,
+                'id' => $ab['id'],
+                'attributes_id' => $ab['attributes_id'],
+                'price' => $ab['price'],
+                'image'=>$ab['image'],
+                'attribute_term_name' => $ab['attribute_term_name'],
+                'attribute_term_description' => $ab['attribute_term_description'],
+            ];
+            $data[] = $attributes;
+        }
        
-        return response()->json([
-            '$arribute_name' =>  $arribute_name,
-            'original_term' => $getpanel,
-            'related_terms' => $absdk
-        ]);
+        return response()->json($data);
     }
 
     public function attributeTermsAdmin($id){

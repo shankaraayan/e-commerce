@@ -8,6 +8,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use App\Services\UpdateShipping;
 
 class CouponController extends Controller
 {
@@ -69,7 +70,7 @@ class CouponController extends Controller
 
             if(today() >= $coupon->expiry_date){
                 $response = ['message' => 'Coupon is already expired.','status' => 'faild',];
-                    return json_encode($response);
+                    return  response()->json($response);
             }
 
             $applicableCountry = $coupon->applicable_country;
@@ -86,11 +87,11 @@ class CouponController extends Controller
 
                     if(!in_array(auth()->user()->email,$userList)){
                         $response = ['message' => 'This coupon code is only for limited user.','status' => 'faild',];
-                    return json_encode($response);
+                    return  response()->json($response);
                     }
                 }else{
                     $response = ['message' => 'This coupon code is only for limited user. please login','status' => 'faild',];
-                    return json_encode($response);
+                    return  response()->json($response);
                 }
             }
 
@@ -105,74 +106,32 @@ class CouponController extends Controller
                 $response = ['message' => 'Cart value is not enough for this code. Please add more product.','status' => 'faild',];
                 return json_encode($response);
             }
-
-            $subtotal = 0;
-            $coupon_data = [];
-            $cart_items = [];
+            
             foreach ($cart as &$item) {
-                $tax = getTaxCountry((int)$item['shipping_country']);
-                if(empty($tax)){
-                    $tax['vat_tax'] = 0;
-                }
-
-                if($item['solar_product']=="yes"){
-                    if($tax['short_code'] == 'DE'){
-                        $tax['vat_tax'] = 0;
-                    }
-                }
-                    
-                $country = $item['shipping_country'];
-                $subtotal+= ($item['price']*$item['quantity'] + ($item['price'] * $tax['vat_tax'] /100 * $item['quantity']));
                 if (isset($item['product_id'])) {
                     $coupon_data =  $item['discount'] = [
                         'code' => $coupon->code,
                         'type' => $coupon->appliable_on,
                         'discount_value' => $coupon->price,
                     ];
-                    // $item['price_with_tax'] =($item['price']*$item['quantity'] + (@$item['price'] * $tax['vat_tax'] /100 * @$item['quantity']) ) ;
-
+                
                 }
-                 $item['price_with_tax'] = formatPrice( ($item['price']*$item['quantity'] + ($item['price'] * $tax['vat_tax'] /100 * $item['quantity'])));
-                 array_push($cart_items,$item);
-
             }
-
-            // print_r( $cart);die;
-
-            $shipping_price = shippingCountry()->where('country',$country)->pluck('price')->first();
-
-            if( $coupon_data['type']=="flat")
-            {
-                $afterDiscount =  ($subtotal- $coupon_data['discount_value']);
-                $total = ($afterDiscount+$shipping_price);
-            }
-            else{
-                // print_r(formatPrice($subtotal));die;
-                $afterDiscount = ($subtotal * $coupon_data['discount_value']/100);
-                $total = (($subtotal-$afterDiscount)+$shipping_price);
-            }
-           
-            $data = [
-                "subtotal" => formatPrice($subtotal),
-                "cart" => $cart_items,
-                "shipping_price" => formatPrice($shipping_price),
-                "total" => formatPrice($total),
-                "discount_value" => $coupon_data['discount_value']!=="flat" ? $coupon_data['discount_value'].'%':$coupon_data['discount_value'].'',
-                "code"=>$coupon_data['code']
-            ];
             session()->put('cart', $cart);
-
-            // print_r($data);die;
-            $response = ['message' => 'Coupon Applied!','status' => 'success',"data"=>$data];
-
-            return json_encode($response);
+            $shipping = new UpdateShipping ;
+            $response = $shipping->update($request);
+            
+            $response['message'] = 'Coupon Applied!';
+            $response['status'] = 'success';
+            return response()->json($response);
+        
         } else {
-            $response = ['message' => 'Coupon Not Found!','status' => 'faild','data'=>null];
-            return json_encode($response);
+            $response = ['message' => 'Coupon Not Found!','status' => 'faild'];
+            return  response()->json($response);
         }
     }
 
-    public function code_remove()
+    public function code_remove(Request $request)
     {
         $cart = session()->get('cart', []);
     
@@ -188,40 +147,48 @@ class CouponController extends Controller
     
         session()->put('cart', $cart);
     
-        $shippingCountry = end($cart);
+        // $shippingCountry = end($cart);
     
-        $cart_items = [];
-        $subtotal = 0;
-        foreach ($cart as $index => $item) {
-            array_push($cart_items, $item);
-            $tax = getTaxCountry((int) $shippingCountry['shipping_country']);
-            if (empty($tax)) {
-                $tax['vat_tax'] = 0;
-            }
+        // $cart_items = [];
+        // $subtotal = 0;
+        // foreach ($cart as $index => $item) {
+
+        //     $tax = getTaxCountry((int) $shippingCountry['shipping_country']);
+        //     if (empty($tax)) {
+        //         $tax['vat_tax'] = 0;
+        //     }
     
-            if ($item['solar_product'] == "yes") {
-                if ($tax['short_code'] == 'DE') {
-                    $tax['vat_tax'] = 0;
-                }
-            }
+        //     if ($item['solar_product'] == "yes") {
+        //         if ($tax['short_code'] == 'DE') {
+        //             $tax['vat_tax'] = 0;
+        //         }
+        //     }
+        //     $item['price_with_tax'] = formatPrice( ($item['price']*$item['quantity'] + ($item['price'] * $tax['vat_tax'] /100 * $item['quantity'])));
+        //     $subtotal += ($item['price'] * $item['quantity'] + ($item['price'] * $tax['vat_tax'] / 100 * $item['quantity']));
+        //     $cart[$index]['price_with_tax'] = formatPrice(($item['price'] * $item['quantity'] + $item['price'] * $tax['vat_tax'] / 100 * $item['quantity']));
+        //     array_push($cart_items,$item);
+        // }
     
-            $subtotal += ($item['price'] * $item['quantity'] + ($item['price'] * $tax['vat_tax'] / 100 * $item['quantity']));
-            $cart[$index]['price_with_tax'] = formatPrice(($item['price'] * $item['quantity'] + $item['price'] * $tax['vat_tax'] / 100 * $item['quantity']));
-        }
+        // $shipping_price = shippingCountry()->where('country', $shippingCountry['shipping_country'])->pluck('price')->first();
     
-        $shipping_price = shippingCountry()->where('country', $shippingCountry['shipping_country'])->pluck('price')->first();
+        // $total = ($subtotal + $shipping_price);
+        // $data = [
+        //     'subtotal' => formatPrice($subtotal),
+        //     'cart' => $cart_items,
+        //     'shipping_price' => formatPrice($shipping_price),
+        //     'total' => formatPrice($total),
+        // ];
     
-        $total = ($subtotal + $shipping_price);
-        $data = [
-            'subtotal' => formatPrice($subtotal),
-            'cart' => $cart_items,
-            'shipping_price' => formatPrice($shipping_price),
-            'total' => formatPrice($total),
-        ];
+        // $response = ['message' => 'Coupon removed!', 'status' => 'success', "data" => $data];
     
-        $response = ['message' => 'Coupon removed!', 'status' => 'success', "data" => $data];
-    
-        return json_encode($response);
+        // return response()->json($response);
+        
+            $shipping = new UpdateShipping ;
+            $response = $shipping->update($request);
+            
+            $response['message'] = 'Coupon removed!';
+            $response['status'] = 'success';
+            return response()->json($response);
     }
     
 

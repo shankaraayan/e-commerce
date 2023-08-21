@@ -263,7 +263,7 @@
 
                             @foreach($attributes as $values)
 
-                            <div>
+                            <div class="mb-2">
                                 <input type="checkbox"
                                 class="myElement"
                                 name="options[]"
@@ -286,8 +286,8 @@
                                 @endphp
                                 @if($attribute)
 
-                                    <div class="dropdown-container">
-                                        <label for="" class="dropdown-label">Dropdown * {{$attribute->attribute_name}}</label>
+                                    <div class="dropdown-container mb-4">
+                                        <label for="" class="dropdown-label">{{$attribute->attribute_name}}</label>
                                         <select id="dropdown-{{$attribute->id}}" name="dropdowns[]" class="select2 dropdown-select" multiple>
                                             <option value="">
                                             <b>Select an option</b></option>

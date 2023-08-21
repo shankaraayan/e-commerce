@@ -240,11 +240,6 @@
 
                             <div class="w-2/5">
                                 <div class="card ">
-
-                                   
-
-
-
                                     <div class="card-body flex flex-col " style="min-height: 100vh">
                         
                                         <div id="variableOptions" class="p-6 h-full"
@@ -252,7 +247,7 @@
                                             <div class="input-area">
                                                 <label for="options" class="form-label">Variable Options*</label>
                                                 @foreach ($attributes as $values)
-                                                    <div>
+                                                    <div class="mb-2">
 
                                                         @if ($values->attribute_status==1)
                                                             <input type="checkbox" class="myElement" name="options[]"
@@ -296,7 +291,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="input-area out p-6" style="display:none" id="out"></div>
+                                        <div class="input-area out p-6 pt-0 mt-0" style="display:none" id="out"></div>
 
                                         @if ($errors->has('variableOption'))
                                             <span class="text-danger">{{ $errors->first('variableOption') }}</span>
@@ -493,7 +488,7 @@
                     //   console.log('empty');
                 }
                 const dropdownHTML = `
-                                    <div>
+                                    <div class="mb-2">
                                     <label for="${dropdownId}" class="dropdown-label">${attribute_name}*</label>
                                     <select id="${dropdownId}" name="optionTerms[]" class="select2 dropdown-select" multiple>
                                             <option value=""><b>Select an option</b></option>

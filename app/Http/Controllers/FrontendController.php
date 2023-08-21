@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\admin\PaymentGatwayController;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use App\Models\Product;
@@ -19,6 +20,9 @@ use App\Models\Cart;
 use App\Models\Wishlist;
 use App\Services\UpdateQuantity;
 use App\Services\OrderService;
+use App\Services\PaymentGatway\PaypalService;
+use App\Services\UpdateShipping;
+use Illuminate\Http\RedirectResponse;
 
 class FrontendController extends Controller
 {
@@ -73,6 +77,7 @@ class FrontendController extends Controller
                         "solar_product" => $product['solar_product'] ? 'yes' : 'no',
                         "shipping_country" => @$shipping_country,
                         "shipping_class" => @$shipping_class,
+                        "bank_trnsfer" => "yes"
 
                     ];
                     $message = "Product Added to Cart";
@@ -100,13 +105,15 @@ class FrontendController extends Controller
                         $cart[$id]['shipping_country'] = $shipping_country;
                         $cart[$id]['product_id'] = $id;
                         $cart[$id]['solar_product'] = $product['solar_product'] ? 'yes' : 'no';
-                       
                         $cart[$id]['shipping_class'] = @$shipping_class;
+                         $cart[$id]['bank_trnsfer'] = "yes";
+                   
                         $message = "Product Updated to Cart";
                     } else {
                         $item_ids = explode(',', @$decoded_json->termIds);
                         $attributes_price = AttributeTerm::whereIn('id', $item_ids)->sum('price');
                         $details = AttributeTerm::whereIn('id', $item_ids)->pluck('attribute_term_name');
+                    
                         $cart[$id] = [
                             "quantity" => $qty,
                             "price" => $product_price + $attributes_price,
@@ -120,6 +127,7 @@ class FrontendController extends Controller
                             "product_id" => $id,
                             "shipping_class" => @$shipping_class,
                             "solar_product" => @$product['solar_product'] ? 'yes' :'no',
+                            "bank_trnsfer" => "yes"
                         ];
                         $message = "Product Added to Cart";
                     }
@@ -204,11 +212,14 @@ class FrontendController extends Controller
             if (isset($cart[$request->id])) {
                 unset($cart[$request->id]);
                 session()->put('cart', $cart);
-
                 Cart::where('cart_id',$request->id)->delete();
             }
         }
-        return view('elements.cart_data');
+        // return view('elements.cart_data');
+
+        $cartData = view('elements.cart_data')->render();
+    
+        return response()->json(['cart_data' => $cartData,'cart_count'=>count((array) session('cart'))]);
     }
 
     public function remove(Request $request)
@@ -235,8 +246,11 @@ class FrontendController extends Controller
 
         return view('pages.checkout');
     }
+
+    
     public function checkout(Request $request)
     {
+  
         $validator = Validator::make($request->all(), [
             'fullname' => 'required',
             'email' => 'required',
@@ -263,12 +277,12 @@ class FrontendController extends Controller
             $user->verification_token = Str::random(40);
             $user->save();
             $verificationLink = route('verify',['token' => $user->verification_token]);
-             $details = [];
-             $details['template'] = 'verification';
-             $details['subject'] = 'Verify Your Email Address';
-             $details['email'] = $user->email;
-             $details['data'] = $verificationLink;
-             Mail::to($details['email'])->send(new MyTestMail($details));
+                $details = [];
+                $details['template'] = 'verification';
+                $details['subject'] = 'Verify Your Email Address';
+                $details['email'] = $user->email;
+                $details['data'] = $verificationLink;
+                Mail::to($details['email'])->send(new MyTestMail($details));
         }
 
         $data = [];
@@ -302,6 +316,7 @@ class FrontendController extends Controller
         $order->shipping_address = json_encode($shipping_details);
         $order->product_details = $this->find_product_details();
         $order->payment_method = @$request->payment_method;
+        
         $order->order_id = $order_id ;
         $order->transaction_id = $transaction_id ;
 
@@ -321,30 +336,37 @@ class FrontendController extends Controller
         $order_data['shipping_address'] = json_encode($shipping_details);
         $order_data['billing_details'] = json_encode($billing_details);
         $order_data['payment_method'] =  @$request->payment_method;
+        $order_data['final_payment'] =  @$request->token_price;
         $order_data['product_details'] = $this->find_product_details();
         $order_data['order_id'] = $order_id;
         $order_data['transaction_id'] = $transaction_id;
-
         $order_data['shipping_price'] = $shipping_data['shipping_price'];
-
         $order->save();
-             $details = [];
-             $details['template'] = 'campergold_order_confirm';
-             $details['subject'] = 'Order Confirmation';
-             $details['email'] = $request->email;
-             $details['data'] = $order_data;
-             $data = $order_data;
-
-        $result = Mail::to($details['email'])->send(new MyTestMail($details));
-
-        //* Send order to stegback
-        $url = 'https://stegback.com/';
-        (new OrderService)->sendOrderStegback($order_id, $order_data, $url);
-
-        Cart::where('user_id',auth()->user()->id ?? @$user->id)->delete();
-        session()->forget('cart');
-        $orderUrl = route('order_confirmation', ['id' => $order_id ]);
+        
+        $details = [];
+        $details['template'] = 'campergold_order_confirm';
+        $details['subject'] = 'Order Confirmation';
+        $details['email'] = $request->email;
+        $details['data'] = $order_data;
+        $data = $order_data;
+        
+        if ($request->payment_method === "paypal") {
+            return (new PaypalService)->payment($order,$order_data,$details);
+        }
+        $this->OrderProccess($order,$order_data,$details);
+        $orderUrl = route('order_confirmation', ['id' => $order['order_id'] ]);
         return redirect($orderUrl)->with('success', 'Thanks for the Order');
+    }
+
+    public function OrderProccess($order,$order_data,$mailDetails){
+        
+        $result = Mail::to($mailDetails['email'])->send(new MyTestMail($mailDetails));
+        $url = 'https://stegback.com/';
+        (new OrderService)->sendOrderStegback($order['order_id'], $order_data, $url);
+
+        Cart::where('user_id',auth()->user()->id ?? @$order->user_id)->delete();
+        session()->forget('cart');
+        return true;
     }
 
     public function reduse_product_qty()
@@ -432,6 +454,7 @@ class FrontendController extends Controller
                     $product_details['thumb_image'] = $product['thumb_image'];
                     $product_details['slug'] = $product['slug'];
                     $product_details['type'] = $product['type'];
+                    $product_details['sku'] = $product['sku'];
                     $product_details['solar_product'] = $product['solar_product'] ? 'yes' : 'no';
                     $product_details['total_price'] = ($attribute_price + $details['price']) * $details['quantity'];
                     $product_details['shipping_country'] = $details['shipping_country'];
@@ -468,5 +491,52 @@ class FrontendController extends Controller
     
         return response()->json($randomProduct);
     }
+
+
+    public function threePercentDiscount(Request $request) {
+        
+    if ($request->checked === "bank") {
+        $shipping = new UpdateShipping;
+        $response = $shipping->update($request);
+        $total = $response['total_unformate'];
+
+        $bank_dis = $total * 3 / 100; // Calculate the discount
+        $response['bank_dis'] = formatPrice($bank_dis);
+        $response['total_after_dis'] = formatPrice($total - $bank_dis);
+        
+        // update session bank discount
+         if(session('cart')){
+            $cart = session('cart');
+          
+            foreach($cart as $item){
+                
+                 $cart[$item["product_id"]]["bank_trnsfer"] = "yes";
+            }
+            session()->put("cart", $cart);
+         }
+         $payment  = "bank";
+        $response['payment_method'] = $payment;
+        return response()->json($response);
+    }
+    else
+    {
+         if(session('cart')){
+            $cart = session('cart');
+          
+            foreach($cart as $item){
+                
+                 $cart[$item["product_id"]]["bank_trnsfer"] = "no";
+            }
+            session()->put("cart", $cart);
+         }
+         
+          $shipping = new UpdateShipping;
+          $response = $shipping->update($request);
+          $payment  = "other";
+          $response['payment_method'] = $payment;
+          return response()->json($response);
+    }
+}
+
     
 }

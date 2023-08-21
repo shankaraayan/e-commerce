@@ -36,6 +36,7 @@ class AuthController extends Controller
     public function register(Request $request){
 
         $validator = Validator::make($request->all(), [
+            'name'=> 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]+$/'
         ]);
@@ -44,7 +45,7 @@ class AuthController extends Controller
             return redirect()->back()->with('signup_error','signup')->withErrors($validator)->withInput();
         }
         $user = new User;
-
+        $user->name = $request->name;
         $user->email = $request->email;
 
         $user->password = Hash::make($request->password);

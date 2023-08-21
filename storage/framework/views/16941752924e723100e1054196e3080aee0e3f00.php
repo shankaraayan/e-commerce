@@ -263,7 +263,7 @@
 
                             <?php $__currentLoopData = $attributes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $values): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-                            <div>
+                            <div class="mb-2">
                                 <input type="checkbox"
                                 class="myElement"
                                 name="options[]"
@@ -286,8 +286,8 @@
                                 ?>
                                 <?php if($attribute): ?>
 
-                                    <div class="dropdown-container">
-                                        <label for="" class="dropdown-label">Dropdown * <?php echo e($attribute->attribute_name); ?></label>
+                                    <div class="dropdown-container mb-4">
+                                        <label for="" class="dropdown-label"><?php echo e($attribute->attribute_name); ?></label>
                                         <select id="dropdown-<?php echo e($attribute->id); ?>" name="dropdowns[]" class="select2 dropdown-select" multiple>
                                             <option value="">
                                             <b>Select an option</b></option>

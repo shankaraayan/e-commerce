@@ -1,8 +1,7 @@
 <?php $__env->startSection('content'); ?>
     <!--------------- Cart Page HTML Start ------------------------->
     <div class="ps-shopping ps-categogy--separate">
-        <div class="container">
-            <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
+        <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
 <?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.filtter','data' => ['value' => __('DisabledShortBy'),'filterIcon' => __('d-none')]]); ?>
 <?php $component->withName('filtter'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -12,12 +11,13 @@
 <?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
 <?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
 <?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
-<?php endif; ?>          
-        </div>
+<?php endif; ?>    
+        
         <div id="cart_data">
             <?php echo $__env->make('elements.cart_data', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         </div>
     </div>
+
     <script>
         function update_to_cart(id) {
             var qty = $("#qty" + id).val();
@@ -32,6 +32,7 @@
                 dataType: 'html',
                 success: function(text) {
                     $('#cart_data').html(text);
+
                 }
             })
         }
@@ -48,9 +49,10 @@
                     "_token": "<?php echo e(csrf_token()); ?>",
                     "id": id,
                 },
-                dataType: 'html',
-                success: function(text) {
-                    $('#cart_data').html(text);
+                dataType: 'json',
+                success: function(response) {
+                    $(".my_cart_count").html(response.cart_count);
+                    $('#cart_data').html(response.cart_data);
                 }
             })
         }

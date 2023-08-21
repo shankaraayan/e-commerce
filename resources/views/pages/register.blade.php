@@ -16,6 +16,16 @@ Register
                                     <div class="ps-form--review">
                                         <h2 class="ps-form__title  m-0 p-0">Registrieren</h2><hr>
                                         <div class="ps-form__group">
+                                            <label class="ps-form__label">Name *</label>
+                                            <input class="form-control ps-form__input" type="text" name="name" value="{{old('name')}}">
+        
+                                            @if(session()->has('signup_error'))
+                                                @error('name')
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                             @endif
+                                        </div>
+                                        <div class="ps-form__group">
                                             <label class="ps-form__label">E-Mail Adresse *</label>
                                             <input class="form-control ps-form__input" type="email" name="email" value="{{old('email')}}">
         

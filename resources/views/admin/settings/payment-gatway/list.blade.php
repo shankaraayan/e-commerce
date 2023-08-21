@@ -54,6 +54,9 @@
                                                     Status
                                                     </th>
                                                     <th scope="col" class=" table-th ">
+                                                    Mode
+                                                    </th>
+                                                    <th scope="col" class=" table-th ">
                                                         Action
                                                     </th>
                                                 </tr>
@@ -65,14 +68,11 @@
                                                 <td class="table-td">{{++$key}}</td>
                                                 
                                                 <td class="table-td ">
-
-                                                        <img width="150" src="{{asset('root/public/uploads/payment-gatway/'.$gatway->icon)}}" />
-                                                
-
+                                                        <img width="100px" src="{{asset('root/public/uploads/payment-gatway/'.$gatway->logo)}}" />
                                                 </td>
                                                 
                                                 <td class="table-td ">
-                                                
+                                                    {{$gatway->app_name}}
                                                 </td>
                                                 <td class="table-td">
                                                         @if(@$gatway->status)
@@ -82,10 +82,18 @@
                                                         @endif
 
                                                 </td>
+                                                <td class="table-td">
+                                                        @if(@$gatway->mode)
+                                                        <span class="badge bg-warning-500 text-warning-500 bg-opacity-30 capitalize">Live</span>
+                                                        @else
+                                                            <span class="badge bg-primary-500 text-primary-500 bg-opacity-30 capitalize">Sandbox</span>
+                                                        @endif
+
+                                                </td>
                                                 <td class="table-td ">
                                                 <div class="flex space-x-3 rtl:space-x-reverse">
 
-                                                <a href="{{route('admin.settings.slider.edit_slider',$gatway->id)}}">
+                                                <a href="{{route('admin.settings.payment-gatway.edit',$gatway->id)}}">
                                                     <button class="action-btn" type="button">
                                                         <iconify-icon icon="heroicons:pencil-square"></iconify-icon>
                                                     </button>

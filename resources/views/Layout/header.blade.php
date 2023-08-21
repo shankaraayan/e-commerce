@@ -27,7 +27,7 @@
                         <!--<li class="list-inline-item">-->
 
                         <li class="list-inline-item"><a href="{{ route('cart') }}"
-                                class="font-weight-light">Warenkorb</a></li>
+                                class="">Warenkorb</a></li>
                         <!--<li class="list-inline-item"><a href="#" class="font-weight-light">Kontakt</a></li>-->
 
                         @auth
@@ -72,16 +72,16 @@
     <div class="ps-header__middle">
         <div class="container">
             <div class="ps-logo"><a href="/"><img class="{{ asset('assets/sticky-logo') }}"
-                        src="{{ asset('assets/img/stegpearl/Stegpearl.png') }}" alt></a></div><a class="ps-menu--sticky"
+                        src="{{ asset('assets/img/stegpearl/Stegpearl-de-white.png') }}" alt></a></div><a class="ps-menu--sticky"
                 href="#"><i class="fa fa-bars"></i></a>
             <div class="ps-header__right">
                 <ul class="ps-header__icons">
                     <li class="ps-header__item"><a href="{{ route('catalog') }}"><i class="icon-bag2"></i></a></li>
-                    <li>
+                    <li class="ps-header__item">
                         @auth
-                            <a class="ps-header__item" href="{{ route('user.dashboard') }}"><i class="icon-user"></i></a>
+                            <a href="{{ route('user.dashboard') }}"><i class="icon-user"></i></a>
                         @else
-                            <a class="ps-header__item" href="{{ route('login') }}"><i
+                            <a href="{{ route('login') }}"><i
                                     class="icon-user"></i></a>
                         @endauth
                         <div class="ps-login--modal">
@@ -116,11 +116,10 @@
                         <a class="ps-header__item" href="{{ route('user.wishlist') }}"><i class="fa fa-heart-o"></i>
                         <span class="badge">{{ count((array) session('wishlist')) }}</span></a>
                     </li> --}}
-                    <li><a class="ps-header__item" href="{{ url('cart') }}" id="cart-mini"><i
-                                class="icon-cart-empty"></i><span
-                                class="badge my_cart_count">{{ count((array) session('cart')) }}</span></a>
-
-
+                    <li class="ps-header__item">
+                        <a href="{{ url('cart') }}" id="cart-mini"><i
+                        class="icon-cart-empty"></i><span
+                        class="badge my_cart_count">{{ count((array) session('cart')) }}</span></a>
                     </li>
                 </ul>
                 <!-- <div class="ps-language-currency"><a class="ps-dropdown-value" href="javascript:void(0);" data-toggle="modal" data-target="#popupLanguage">English</a><a class="ps-dropdown-value" href="javascript:void(0);" data-toggle="modal" data-target="#popupCurrency">USD</a></div> -->
@@ -193,7 +192,7 @@
     <div class="ps-header__middle">
         <div class="container">
             <div class="ps-logo"><a href="{{ route('homepage') }}"> <img
-                        src="{{ asset('assets/img/stegpearl/Stegpearl.png') }}" alt></a></div>
+                        src="{{ asset('assets/img/stegpearl/Stegpearl-de-white.png') }}" alt></a></div>
             <div class="ps-header__right">
                 <ul class="ps-header__icons">
                     <li><a class="ps-header__item open-search" href="javascript: void(0)"><i

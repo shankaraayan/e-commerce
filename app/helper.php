@@ -3,6 +3,8 @@
 
 use App\Models\admin\Category;
 use App\Models\admin\Slider;
+use App\Models\admin\AttributeTerm;
+use App\Models\admin\PaymentGatway;
 use App\Models\Shipping;
 use App\Models\countryModel;
 use App\Models\Country;
@@ -17,8 +19,6 @@ use App\Models\Wishlist;
    function unforamtPrice($price){
       $price = str_replace('€','',$price);
       $price = str_replace(',','.',$price);
-
-      // $unformattedPrice = str_replace('.', '', str_replace(',', '.', $price));
       $price = floor(floatval($price));
       return  $price;
    }
@@ -85,5 +85,44 @@ use App\Models\Wishlist;
     $wishlist = Wishlist::get();
     return $wishlist;
  }
+
+ function paypalDetail()
+ {
+    $PaymentGatway = PaymentGatway::where('status','1')->first();
+    return $PaymentGatway;
+ }
+
+
+ function minmaxPrice(array $attribute)
+ {
+  
+   $allMaxprices = [];
+   $allMinprices = [];
+   $min = 0;
+   foreach ($attribute as $id) {
+      $groupPrices = AttributeTerm::whereIn('attributes_id', [$id])
+      ->pluck('price')
+      ->toArray();
+      if (!empty($groupPrices)) {
+         $maxPrice = max($groupPrices);
+         $allMinprices[] = min($groupPrices);
+         $allMaxprices[] = $maxPrice;
+      }
+   }
+
+$max_total = array_sum($allMaxprices);
+   if (!empty($allMinprices)) {
+      $min = min($allMinprices);
+   }
+
+   return [
+      'sum_of_max_prices' => $max_total,
+      'min_price' =>  $min,
+  ];
+
+ }
+ 
+ 
+ 
 
 ?>

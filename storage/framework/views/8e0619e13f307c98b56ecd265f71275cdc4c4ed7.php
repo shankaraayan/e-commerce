@@ -14,6 +14,23 @@ Register
                                     <div class="ps-form--review">
                                         <h2 class="ps-form__title  m-0 p-0">Registrieren</h2><hr>
                                         <div class="ps-form__group">
+                                            <label class="ps-form__label">Name *</label>
+                                            <input class="form-control ps-form__input" type="text" name="name" value="<?php echo e(old('name')); ?>">
+        
+                                            <?php if(session()->has('signup_error')): ?>
+                                                <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                                    <span class="text-danger"><?php echo e($message); ?></span>
+                                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
+                                             <?php endif; ?>
+                                        </div>
+                                        <div class="ps-form__group">
                                             <label class="ps-form__label">E-Mail Adresse *</label>
                                             <input class="form-control ps-form__input" type="email" name="email" value="<?php echo e(old('email')); ?>">
         

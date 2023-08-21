@@ -9,7 +9,7 @@
 <?php unset($__defined_vars); ?>
 <?php $__currentLoopData = $productData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-<div class="owl-item cloned" style="width: 246.8px;">
+<div class="owl-item">
     <div class="ps-section__product">
         <div class="ps-product ps-product--standard">
             <div class="ps-product__thumbnail">
@@ -31,9 +31,9 @@
             </div>
             <div class="ps-product__content">
                 <p class="ps-product__title"><a href="<?php echo e(route('product.detail',$value->slug)); ?>"><?php echo e($value->product_name); ?></a></p>
-                <div class="ps-product__meta">
+                <div class="ps-product__meta text-center">
+                    <span class="ps-product__del text-muted"><?php echo e(formatPrice($value->price)); ?></span>
                     <span class="ps-product__price sale"><?php echo e(formatPrice($value->sale_price)); ?></span>
-                    <span class="ps-product__del"><?php echo e(formatPrice($value->price)); ?></span>
                 </div>
                     <?php if($value->type !='variable'): ?>
                         <div class="add_to_cart_box">

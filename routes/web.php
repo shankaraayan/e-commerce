@@ -231,7 +231,7 @@ Route::post('/update_cart_value', [FrontendController::class, 'update_cart_value
 Route::post('/remove_to_cart', [FrontendController::class, 'remove_to_cart']);
 Route::get('/order_confirmation/{id}', [FrontendController::class, 'order_confirmation'])->name('order_confirmation');
 Route::get('/checkout',[FrontendController::class, 'get_checkout'] );
-Route::post('/checkout',[FrontendController::class, 'checkout']);
+Route::post('/checkout',[FrontendController::class, 'checkout'])->name('checkout');
 
 // admin protected routes
 
@@ -258,8 +258,8 @@ Route::name('admin.settings.payment-gatway.')->prefix('admin/settings/payment-ga
     Route::get('list', [PaymentGatwayController::class, 'payment_gatway_list'])->name('list');
     Route::get('add', [PaymentGatwayController::class, 'add'])->name('add');
     Route::post('upload', [PaymentGatwayController::class, 'upload'])->name('upload');
-    Route::get('edit-payment-gatway/{id}', [PaymentGatwayController::class, 'edit_payment_gatway'])->name('edit_payment_gatway');
-    Route::post('update-payment-gatway/{id}', [PaymentGatwayController::class, 'update_payment_gatway'])->name('update_payment_gatway');
+    Route::get('edit/{id}', [PaymentGatwayController::class, 'edit_payment_gatway'])->name('edit');
+    Route::post('updatey/{id}', [PaymentGatwayController::class, 'update_payment_gatway'])->name('update');
     Route::get('delete/{id}', [PaymentGatwayController::class, 'delete_payment_gatway'])->name('delete');
 });
 
@@ -300,8 +300,16 @@ Route::post('/set-cookie', [CookieController::class,'setCookie'])->name('set.coo
 Route::get('/quick-view', [ProductController::class,'quick_view_products'])->name('quick.view');
 
 
+Route::get('paypal-payment', [PaymentGatwayController::class,'payment'])->name('payment');
+Route::get('paypal-cancel', [PaymentGatwayController::class,'cancel'])->name('payment.cancel');
+Route::get('paypal-payment/success', [PaymentGatwayController::class,'success'])->name('payment.success');
+Route::get('paypal-payment/testView', [PaymentGatwayController::class,'testView'])->name('testView');
+
+Route::post('bank-transfer', [FrontendController::class,'threePercentDiscount'])->name('bank.check');
 
 
 
 
-
+Route::post('ajax-test', function(){
+    return response()->json(['message'=>'success']);
+});

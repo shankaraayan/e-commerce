@@ -15,9 +15,7 @@
     <div class="ps-page">
 
         <div class="ps-categogy ps-categogy--separate">
-            <div class="container">
-
-              <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
+            <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
 <?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.filtter','data' => ['value' => __('DisabledShortBy')]]); ?>
 <?php $component->withName('filtter'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -28,8 +26,7 @@
 <?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
 <?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
 <?php endif; ?>
-
-            </div>
+          
             <div class="ps-categogy__main pb-40">
                 <div class="container">
                     <div class="ps-categogy__widget">
@@ -42,7 +39,7 @@
                                         <?php if(!empty(@$Category)): ?>
                                             <?php $__currentLoopData = $Category; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 <li><a href="<?php echo e(route('shop',$cat->slug)); ?>" id="<?php echo e($cat->id); ?>" onclick="categoryProduct(this.id);"><?php echo e($cat->name); ?></a>
-                                                <span class="sub-toggle"><i class="fa fa-chevron-down"></i></span>
+                                                <span class="sub-toggle <?php echo e(count($cat->subcategories) > 0 ? 'd-block' : 'd-none'); ?>" ><i class="fa fa-chevron-down"></i></span>
                                                     <?php if(count($cat->subcategories) > 0): ?>
                                                     <ul class="sub-menu" style="display: none;">
                                                         <?php $__currentLoopData = $cat->subcategories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subcat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

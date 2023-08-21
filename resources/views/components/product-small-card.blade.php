@@ -1,7 +1,7 @@
 @props(['productData'])
 @foreach ($productData as $value)
 
-<div class="owl-item cloned" style="width: 246.8px;">
+<div class="owl-item">
     <div class="ps-section__product">
         <div class="ps-product ps-product--standard">
             <div class="ps-product__thumbnail">
@@ -23,9 +23,9 @@
             </div>
             <div class="ps-product__content">
                 <p class="ps-product__title"><a href="{{route('product.detail',$value->slug)}}">{{$value->product_name}}</a></p>
-                <div class="ps-product__meta">
+                <div class="ps-product__meta text-center">
+                    <span class="ps-product__del text-muted">{{formatPrice($value->price)}}</span>
                     <span class="ps-product__price sale">{{formatPrice($value->sale_price)}}</span>
-                    <span class="ps-product__del">{{formatPrice($value->price)}}</span>
                 </div>
                     @if($value->type !='variable')
                         <div class="add_to_cart_box">

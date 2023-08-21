@@ -27,6 +27,7 @@ class CreatePaymentGatwaysTable extends Migration
             $table->string('PAYPAL_SUCCESS_URL')->nullable();
             $table->string('PAYPAL_FAILED_URL')->nullable();
             $table->string('status')->nullable();
+            $table->text('logo')->nullable();
             $table->timestamps();
         });
     }

@@ -2,15 +2,16 @@
     .loader {
         width: 100%;
         height: 100%;
-        top: 0;
-        left: 0;
-        background: inherit;
+        background: #fff;
         z-index: 10000;
         opacity: 0.5;
+        position: absolute;
+        top: 0;
+        left: 0;
     }
     .loader i {
         position: relative;
-        top : 20%;
+        top : 40%;
         left : 50%;
         font-size: 80px;
     }
@@ -66,11 +67,18 @@
 //     'uncommon_countries' => $uncommonCountries,
 // ]);
 
+    
     ?>
+    
+    
+    <?php
+       $cart_data =  end($cart);
+    ?> 
+    
+ 
 
     <div class="ps-checkout ps-categogy--separate">
-        <div class="container">
-            <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
+        <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
 <?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.filtter','data' => ['value' => __('DisabledShortBy'),'filterIcon' => __('d-none'),'productName' => __('Checkout')]]); ?>
 <?php $component->withName('filtter'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -81,7 +89,7 @@
 <?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
 <?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
 <?php endif; ?>  
-        </div>    
+       
             
            
                 <div class="ps-checkout__content bg-light">
@@ -108,7 +116,7 @@
                         </div>
                     </div>
     
-                    <form  method="post" class="mb-0">
+                    <form  method="post" class="mb-0" id="chekoutForm">
                         <?php echo csrf_field(); ?>
                         <div class="row">
                             <div class="col-12 col-lg-8">
@@ -496,8 +504,8 @@ unset($__errorArgs, $__bag); ?>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-lg-4 position-relative">
-                                <div class="ps-checkout__order bg-white shadow">
+                            <div class="col-12 col-lg-4">
+                                <div class="ps-checkout__order bg-white shadow" style="position: relative">
                                     <h3 class="ps-checkout__heading">Ihre Bestellung</h3>
                                     <div class="ps-checkout__row">
                                         <div class="ps-title text-blue">Produkt</div>
@@ -508,10 +516,10 @@ unset($__errorArgs, $__bag); ?>
                                     <?php if(session('cart')): ?>
                                     
                                         <?php $__currentLoopData = session('cart'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $details): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        
+                                           
                                             <?php
                                                 $tax = getTaxCountry((int)$details['shipping_country']);
-    
+                                               
                                                 if(empty($tax)){
                                                     $tax['vat_tax'] = 0;
                                                 }
@@ -555,11 +563,10 @@ unset($__errorArgs, $__bag); ?>
                                         <div class="ps-product__price"><?php echo e(formatPrice(@$total)); ?></div>
                                     </div>
     
-    
+                                       
                                         <?php
                                             $cartDiscount =  session('cart');
                                             $cartDiscount = end($cartDiscount);
-    
                                             $discountValue = @$cartDiscount['discount']['discount_value'] ?? 0;
                                             $discountType = @$cartDiscount['discount']['type'] ?? '';
                                             $discountCode = @$cartDiscount['discount']['code'] ?? 'Not Applied';
@@ -571,6 +578,8 @@ unset($__errorArgs, $__bag); ?>
                                                 $discountPrice = $discountValue.'%';
                                             }
                                         ?>
+                                        
+                                  
     
                                         <?php if(!empty(@$cartDiscount['discount']['code'])): ?>
                                         <div class="ps-checkout__row">
@@ -606,10 +615,7 @@ unset($__errorArgs, $__bag); ?>
     
                                             </div>
                                         </div>
-                                        <div class="ps-checkout__row">
-                                            <div class="ps-title final_price">Total</div>
-                                            <div class="ps-product__price final_priceEuro text-green">
-                                                <?php
+                                                 <?php
                                                     if($discountType == 'flat'){
                                                         $afterDiscount = $total-$discountValue;
                                                     }
@@ -617,38 +623,82 @@ unset($__errorArgs, $__bag); ?>
                                                         $dis =  $total * ($discountValue)/100;
                                                         $afterDiscount = $total - $dis;
                                                     }
+                                                    
                                                 ?>
-                                                
-                                                <?php echo e(formatPrice(@$afterDiscount +  $shipping_price)); ?>
+                                        <div id="bank_dis_container">      
+                                           
+                                             <?php if($cart_data['bank_trnsfer']==="yes"): ?>
+                                             
+                                                 <?php
+                                                      $bank_dis = (@$afterDiscount +  $shipping_price)*3/100;
+                                                      $final_price =  (@$afterDiscount +  $shipping_price)-@$bank_dis;
+                                                  ?>
+                                                 
+                                                      <div class="ps-checkout__row">
+                                                        <div class="ps-title">Rabatt(3%)</div>
+                                                        <div class="ps-checkout__checkbox">
+                                                            <div class="form-check">
+                                                                
+                                                                <label for="bank_discount" id="bank_discount_price">
+                                                                    <?php echo e(formatPrice($bank_dis)); ?>
 
-                                                
+                                                                </label>
+                                                            </div>
+                
+                                                        </div>
+                                                    </div>
+                                                  
+                                                  
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="ps-checkout__row">
+                                            <div class="ps-title final_price">Total</div>
+                                            <div class="ps-product__price final_priceEuro text-green">
+                                                <?php
+                                                    $total = 0;
+                                                    if($cart_data['bank_trnsfer']==="yes"){ 
+                                                        $total = @$final_price ;
+                                                    }
+                                                    else
+                                                    { 
+                                                        $total = @$afterDiscount +  $shipping_price;
+                                                    } 
+                                              
+                                                ?>
+                                                 <?php echo e(formatPrice(@$total)); ?>
+
                                             </div>
                                         </div>
                                     </div>
+                                 
                                     <div class="ps-checkout__payment">
                                         <div class="direct-bank-method mb-15">
                                             <div class="form-check">
-                                                <input class="form-check-input" name="payment_method"
-                                                    type="checkbox" id="bank" value="Direkte Banküberweisung">
-                                                <label class="form-check-label" for="bank"> Direkte Banküberweisung
-    
+                                                <input class="form-check-input payment_method" name="payment_method" type="radio" id="bank_transfer" value="Direkte Banküberweisung" <?php echo e(!empty(@$cart_data['bank_trnsfer'] ) ? 'checked' : ''); ?>>
+                                                <label class="form-check-label" for="bank_transfer">Direkte Banküberweisung
+                                                    <p class="text-danger">Sonderrabatt Aktion 3% Rabatt bei Banküberweisung (inklusive Käuferschutz)</p>
+                                                </label>
                                                 <?php $__errorArgs = ['payment_method'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
 $message = $__bag->first($__errorArgs[0]); ?>
-                                                            <span class="text-danger"><?php echo e($message); ?></span>
-                                                        <?php unset($message);
+                                                    <span class="text-danger"><?php echo e($message); ?></span>
+                                                <?php unset($message);
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                                                </label>
+                                            </div>
+                                            
+                                            <div class="form-check">
+                                                <input class="form-check-input payment_method" name="payment_method" type="radio" id="dummy_checkbox" value="paypal">
+                                                <label class="form-check-label" for="dummy_checkbox">PayPal</label>
                                             </div>
                                         </div>
     
                                         <div class="check-faq">
                                             <div class="form-check">
-                                                <input class="form-check-input" required type="checkbox" id="agree-faq" checked />
+                                                <input class="form-check-input" required type="radio" id="agree-faq" checked />
                                                 <label class="form-check-label" for="agree-faq">Ich habe die Allgemeinen
                                                     Geschäftsbedingungen für die Website gelesen und stimme ihnen zu <span
                                                         class="text-danger">*</span></label>
@@ -660,11 +710,13 @@ unset($__errorArgs, $__bag); ?>
                                         <button class="ps-btn ps-btn--warning" type="disabled" disabled>Bestellung aufgeben</button>
                                         <?php endif; ?>
                                     </div>
+                                    <div class="loader d-none">
+                                        <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
+                                    </div>
                                 </div>
-                                <div class="loader position-absolute d-none">
-                                    <i class="fa fa-spinner fa-spin" style="font-size:24px"></i>
-                                </div>
+                                
                             </div>
+                            <input type="hidden" value="<?php echo e(base64_encode( formatPrice($total))); ?>"  name="token_price" />
                         </div>
                     </form>
                 </div>
@@ -696,11 +748,11 @@ unset($__errorArgs, $__bag); ?>
                         $(".loader").addClass("d-none");
                         console.log(response);
 
-                        const {message,status,data} = JSON.parse(response);
+                        // const {message,status,data} = JSON.parse(response);
 
-                        if(status === "success"){
+                        if(response.cart){
 
-                            let product = data.cart.map((item, index) => {
+                            let product = response.cart.map((item, index) => {
                             return `
                             ${item.type === "variable" ? `
                             <div class="ps-checkout__row ps-product">
@@ -726,7 +778,7 @@ unset($__errorArgs, $__bag); ?>
                                     ${product}
                                     <div class="ps-checkout__row">
                                         <div class="ps-title">Zwischensumme</div>
-                                        <div class="ps-product__price">${data.subtotal}</div>
+                                        <div class="ps-product__price">${response.subtotal}</div>
                                     </div>
                                     <div class="ps-checkout__row">
                                         <div class="ps-title">Discount
@@ -735,7 +787,7 @@ unset($__errorArgs, $__bag); ?>
                                             </div>
 
                                             <div class="ps-product__price">
-                                            ${data.discount_value}
+                                            ${response.discount_value} %
                                             </div>
                                         </div>
 
@@ -744,23 +796,37 @@ unset($__errorArgs, $__bag); ?>
                                     <div class="ps-checkout__checkbox">
                                         <div class="form-check">
                                             <label for="free-ship" id="shipping_price">
-                                                ${data.shipping_price}
+                                                ${response.shipping_price}
                                             </label>
                                         </div>
 
                                     </div>
                                 </div>
+                                ${response.bank_dis? 
+                                    `<div class="ps-checkout__row">
+                                            <div class="ps-title">Rabatt(3%)</div>
+                                            <div class="ps-checkout__checkbox">
+                                                <div class="form-check">
+                                                    
+                                                    <label for="bank_discount" id="bank_discount_price">
+                                                    ${response.bank_dis}
+                                                    </label>
+                                                </div>
+
+                                            </div>
+                                </div>` : ''}
                                 <div class="ps-checkout__row">
-                                    <div class="ps-title">Total</div>
-                                    <div class="ps-product__price">
-                                    ${data.total}
+                                    <div class="ps-title final_price">Total</div>
+                                    <div class="ps-product__price final_priceEuro text-green">
+                                    ${response.total} 
                                     </div>
                                 </div>
                             `);
-                            toastr.success(message);
+                            $('input[name="token_price"]').val(btoa(unescape(encodeURIComponent(response.total))));
+                            toastr.success(response.message);
                         }else{
 
-                            toastr.error(message);
+                            toastr.error(response.message);
                         }
                     },
                     error : function(err){
@@ -822,163 +888,198 @@ unset($__errorArgs, $__bag); ?>
       });
 
     function shipping_update(id, dynmicElChekout,shipping=null) {
-    $.ajax({
-        url: "/admin/shipping/country/shipping_country_update",
-        method: 'post',
-        data: {
-        "_token": "<?php echo e(csrf_token()); ?>",
-        "shipping":shipping,
-        "shipping_country": id,
-        },
-        beforeSend : function(){
-            $(".loader").removeClass("d-none");
-        },
-        success: function (response) {
-            $(".loader").addClass("d-none");
-            const {cart} = response;
-        console.log(response);
-            var el="";
-            cart.map((item, index) => {
-            el+= `${item.type === "variable" ? `
-                   <div class="ps-checkout__row ps-product">
-                    <div class="ps-product__name">${item.name}<span>x</span><span>${item.quantity}</span><br>
-                        ${item.details ? item.details.map((val) => (
-                        `<span>${val}</span><br>`
-                        )).join('') : ''}
-                    </div>
-                    <div class="ps-product__price">
-                        ${item.price_with_tax}
-                    </div>
-                </div> `: `<div class="ps-checkout__row ps-product">
-                    <div class="ps-product__name">
-                        ${item.name}<span>x</span><span>${item.quantity}</span>
-                    </div>
-                    <div class="ps-product__price">
-                        ${item.price_with_tax}
-                    </div>
-                </div> `}`;
+        $.ajax({
+            url: "/admin/shipping/country/shipping_country_update",
+            method: 'post',
+            data: {
+            "_token": "<?php echo e(csrf_token()); ?>",
+            "shipping":shipping,
+            "shipping_country": id,
+            },
+            beforeSend : function(){
+                $(".loader").removeClass("d-none");
+            },
+            success: function (response) {
+                $(".loader").addClass("d-none");
+                const {cart} = response;
+            console.log(response);
+                var el="";
+                cart.map((item, index) => {
+                el+= `${item.type === "variable" ? `
+                    <div class="ps-checkout__row ps-product">
+                        <div class="ps-product__name">${item.name}<span>x</span><span>${item.quantity}</span><br>
+                            ${item.details ? item.details.map((val) => (
+                            `<span>${val}</span><br>`
+                            )).join('') : ''}
+                        </div>
+                        <div class="ps-product__price">
+                            ${item.price_with_tax}
+                        </div>
+                    </div> `: `<div class="ps-checkout__row ps-product">
+                        <div class="ps-product__name">
+                            ${item.name}<span>x</span><span>${item.quantity}</span>
+                        </div>
+                        <div class="ps-product__price">
+                            ${item.price_with_tax}
+                        </div>
+                    </div> `}`;
 
+            });
+            // console.log(el);
+
+            $(dynmicElChekout).html(`
+                ${el}
+                <div class="ps-checkout__row">
+                    <div class="ps-title">Zwischensumme</div>
+                    <div class="ps-product__price">${response.subtotal}</div>
+                </div>
+                ${response.coupon ?
+                `<div class="ps-checkout__row">
+                    <div class="ps-title">Discount
+                    <div class="ps-title" style="font-size:12px">
+                        <a class="text-danger" href="javascript:void(0);" onclick="remove_coupon()">Remove Coupon</a>
+                    </div>
+                    </div>
+                    <div class="ps-product__price">
+                    ${response.discount_value} <span>${response.type !== 'flat' ? '%' : ''}</span>
+                    </div>
+                </div>`
+                : ''}
+                <div class="ps-checkout__row">
+                <div class="ps-title">Versand</div>
+                <div class="ps-checkout__checkbox">
+                    <div class="form-check">
+                    <label for="free-ship" id="shipping_price">
+                        ${response.shipping_price}
+                    </label>
+                    </div>
+                </div>
+                </div>
+                ${response.bank_dis? 
+                `  <div class="ps-checkout__row">
+                        <div class="ps-title">Rabatt(3%)</div>
+                        <div class="ps-checkout__checkbox">
+                            <div class="form-check">
+                                
+                                <label for="bank_discount" id="bank_discount_price">
+                                   ${response.bank_dis}
+                                </label>
+                            </div>
+
+                        </div>
+                </div>` : ''}
+                <div class="ps-checkout__row">
+                    <div class="ps-title final_price">Total</div>
+                    <div class="ps-product__price final_priceEuro text-green">
+                    ${response.total}
+                    
+                </div>
+                </div>
+            `);
+            $('input[name="token_price"]').val(btoa(unescape(encodeURIComponent(response.total))));
+            },
+            error: function (err) {
+            console.log(err);
+            }
         });
-        // console.log(el);
-
-        $(dynmicElChekout).html(`
-            ${el}
-            <div class="ps-checkout__row">
-                <div class="ps-title">Zwischensumme</div>
-                <div class="ps-product__price">${response.subtotal}</div>
-            </div>
-            ${response.coupon ?
-            `<div class="ps-checkout__row">
-                <div class="ps-title">Discount
-                <div class="ps-title" style="font-size:12px">
-                    <a class="text-danger" href="javascript:void(0);" onclick="remove_coupon()">Remove Coupon</a>
-                </div>
-                </div>
-                <div class="ps-product__price">
-                ${response.discount_value} <span>${response.type !== 'flat' ? '%' : ''}</span>
-                </div>
-            </div>`
-            : ''}
-            <div class="ps-checkout__row">
-            <div class="ps-title">Versand</div>
-            <div class="ps-checkout__checkbox">
-                <div class="form-check">
-                <label for="free-ship" id="shipping_price">
-                    ${response.shipping_price}
-                </label>
-                </div>
-            </div>
-            </div>
-            <div class="ps-checkout__row">
-            <div class="ps-title">Total</div>
-            <div class="ps-product__price">
-                ${response.total}
-            </div>
-            </div>
-        `);
-        },
-        error: function (err) {
-        console.log(err);
-        }
-    });
     };
 
     function remove_coupon() {
-    $.ajax({
-        url: "coupon/remove",
-        method: 'get',
-        data: {
-        "_token": "<?php echo e(csrf_token()); ?>",
-        },
-        beforeSend : function(){
-            $(".loader").fadeOut("slow", function() {
-                $(this).removeClass("d-none");
-            });
-        },
-        success: function (response) {
-            $(".loader").fadeOut("slow", function() {
-                $(this).addClass("d-none");
-            });
-        var res = JSON.parse(response);
-        const { data } = res;
-        let product = data.cart.map((item, index) => {
-                return `
-                ${item.type === "variable" ? `
-                   <div class="ps-checkout__row ps-product">
-                    <div class="ps-product__name">${item.name}<span>x</span><span>${item.quantity}</span><br>
-                        ${item.details ? item.details.map((val) => (
-                        `<span>${val}</span><br>`
-                        )).join('') : ''}
-                    </div>
-                    <div class="ps-product__price">
-                        ${item.price_with_tax}
-                    </div>
-                </div> `: `<div class="ps-checkout__row ps-product">
-                    <div class="ps-product__name">
-                        ${item.name}<span>x</span><span>${item.quantity}</span>
-                    </div>
-                    <div class="ps-product__price">
-                        ${item.price_with_tax}
-                    </div>
-                </div> `}`;
+        $.ajax({
+            url: "coupon/remove",
+            method: 'get',
+            data: {
+            "_token": "<?php echo e(csrf_token()); ?>",
+            },
+            beforeSend : function(){
+                $(".loader").fadeOut("slow", function() {
+                    $(this).removeClass("d-none");
+                });
+            },
+            success: function (response) {
+                $(".loader").fadeOut("slow", function() {
+                    $(this).addClass("d-none");
+                });
+            console.log(response);
+           
+            let product = response.cart.map((item, index) => {
+                    return `
+                    ${item.type === "variable" ? `
+                    <div class="ps-checkout__row ps-product">
+                        <div class="ps-product__name">${item.name}<span>x</span><span>${item.quantity}</span><br>
+                            ${item.details ? item.details.map((val) => (
+                            `<span>${val}</span><br>`
+                            )).join('') : ''}
+                        </div>
+                        <div class="ps-product__price">
+                            ${item.price_with_tax}
+                        </div>
+                    </div> `: `<div class="ps-checkout__row ps-product">
+                        <div class="ps-product__name">
+                            ${item.name}<span>x</span><span>${item.quantity}</span>
+                        </div>
+                        <div class="ps-product__price">
+                            ${item.price_with_tax}
+                        </div>
+                    </div> `}`;
 
+            });
+
+
+            if (response.status === "success") {
+                $(dynmicElChekout).html(`
+                ${product}
+                <div class="ps-checkout__row">
+                    <div class="ps-title">Zwischensumme</div>
+                    <div class="ps-product__price">${response.subtotal}</div>
+                </div>
+                <div class="ps-checkout__row">
+                    <div class="ps-title">Versand</div>
+                    <div class="ps-checkout__checkbox">
+                    <div class="form-check">
+                        <label for="free-ship" id="shipping_price">
+                        ${response.shipping_price}
+                        </label>
+                    </div>
+                    </div>
+                </div>
+                ${response.bank_dis? 
+                `<div class="ps-checkout__row">
+                    <div class="ps-title">Rabatt(3%)</div>
+                    <div class="ps-checkout__checkbox">
+                        <div class="form-check">
+                            
+                            <label for="bank_discount" id="bank_discount_price">
+                            ${response.bank_dis}
+                            </label>
+                        </div>
+
+                    </div>
+                </div>` : ''}
+                <div class="ps-checkout__row">
+                    <div class="ps-title final_price">Total</div>
+                    <div class="ps-product__price final_priceEuro text-green">
+                    ${response.total}
+                    
+                    </div>
+                </div>
+                `);
+                $('input[name="token_price"]').val(btoa(unescape(encodeURIComponent(response.total))));
+                toastr.success(response.message);
+            } else {
+                toastr.error(response.message);
+            }
+            },
+            error: function (err) {
+            console.log(err);
+            }
         });
+    }
 
 
-        if (res.status === "success") {
-            $(dynmicElChekout).html(`
-            ${product}
-            <div class="ps-checkout__row">
-                <div class="ps-title">Zwischensumme</div>
-                <div class="ps-product__price">${data.subtotal}</div>
-            </div>
-            <div class="ps-checkout__row">
-                <div class="ps-title">Versand</div>
-                <div class="ps-checkout__checkbox">
-                <div class="form-check">
-                    <label for="free-ship" id="shipping_price">
-                    ${data.shipping_price}
-                    </label>
-                </div>
-                </div>
-            </div>
-            <div class="ps-checkout__row">
-                <div class="ps-title">Total</div>
-                <div class="ps-product__price">
-                ${data.total}
-                </div>
-            </div>
-            `);
-            toastr.success(res.message);
-        } else {
-            toastr.error(message);
-        }
-        },
-        error: function (err) {
-        console.log(err);
-        }
-    });
-}
+    
+
+    
 
   </script>
 

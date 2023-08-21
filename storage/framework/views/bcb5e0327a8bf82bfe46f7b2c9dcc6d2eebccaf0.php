@@ -14,11 +14,11 @@
                 </a>
               </li>
               <li class="inline-block relative text-sm text-primary-500 font-Inter ">
-                Product Manager
+                Settings
                 <iconify-icon icon="heroicons-outline:chevron-right" class="relative top-[3px] text-slate-500 rtl:rotate-180"></iconify-icon>
               </li>
               <li class="inline-block relative text-sm text-slate-500 font-Inter dark:text-white">
-                Products</li>
+                Slider</li>
             </ul>
           </div>
           <!-- END: BreadCrumb -->

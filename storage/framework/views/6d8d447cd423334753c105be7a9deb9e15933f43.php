@@ -27,7 +27,7 @@
                         <!--<li class="list-inline-item">-->
 
                         <li class="list-inline-item"><a href="<?php echo e(route('cart')); ?>"
-                                class="font-weight-light">Warenkorb</a></li>
+                                class="">Warenkorb</a></li>
                         <!--<li class="list-inline-item"><a href="#" class="font-weight-light">Kontakt</a></li>-->
 
                         <?php if(auth()->guard()->check()): ?>
@@ -72,16 +72,16 @@
     <div class="ps-header__middle">
         <div class="container">
             <div class="ps-logo"><a href="/"><img class="<?php echo e(asset('assets/sticky-logo')); ?>"
-                        src="<?php echo e(asset('assets/img/stegpearl/Stegpearl.png')); ?>" alt></a></div><a class="ps-menu--sticky"
+                        src="<?php echo e(asset('assets/img/stegpearl/Stegpearl-de-white.png')); ?>" alt></a></div><a class="ps-menu--sticky"
                 href="#"><i class="fa fa-bars"></i></a>
             <div class="ps-header__right">
                 <ul class="ps-header__icons">
                     <li class="ps-header__item"><a href="<?php echo e(route('catalog')); ?>"><i class="icon-bag2"></i></a></li>
-                    <li>
+                    <li class="ps-header__item">
                         <?php if(auth()->guard()->check()): ?>
-                            <a class="ps-header__item" href="<?php echo e(route('user.dashboard')); ?>"><i class="icon-user"></i></a>
+                            <a href="<?php echo e(route('user.dashboard')); ?>"><i class="icon-user"></i></a>
                         <?php else: ?>
-                            <a class="ps-header__item" href="<?php echo e(route('login')); ?>"><i
+                            <a href="<?php echo e(route('login')); ?>"><i
                                     class="icon-user"></i></a>
                         <?php endif; ?>
                         <div class="ps-login--modal">
@@ -127,11 +127,10 @@ unset($__errorArgs, $__bag); ?>
                         </div>
                     </li>
                     
-                    <li><a class="ps-header__item" href="<?php echo e(url('cart')); ?>" id="cart-mini"><i
-                                class="icon-cart-empty"></i><span
-                                class="badge my_cart_count"><?php echo e(count((array) session('cart'))); ?></span></a>
-
-
+                    <li class="ps-header__item">
+                        <a href="<?php echo e(url('cart')); ?>" id="cart-mini"><i
+                        class="icon-cart-empty"></i><span
+                        class="badge my_cart_count"><?php echo e(count((array) session('cart'))); ?></span></a>
                     </li>
                 </ul>
                 <!-- <div class="ps-language-currency"><a class="ps-dropdown-value" href="javascript:void(0);" data-toggle="modal" data-target="#popupLanguage">English</a><a class="ps-dropdown-value" href="javascript:void(0);" data-toggle="modal" data-target="#popupCurrency">USD</a></div> -->
@@ -204,7 +203,7 @@ unset($__errorArgs, $__bag); ?>
     <div class="ps-header__middle">
         <div class="container">
             <div class="ps-logo"><a href="<?php echo e(route('homepage')); ?>"> <img
-                        src="<?php echo e(asset('assets/img/stegpearl/Stegpearl.png')); ?>" alt></a></div>
+                        src="<?php echo e(asset('assets/img/stegpearl/Stegpearl-de-white.png')); ?>" alt></a></div>
             <div class="ps-header__right">
                 <ul class="ps-header__icons">
                     <li><a class="ps-header__item open-search" href="javascript: void(0)"><i

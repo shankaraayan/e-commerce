@@ -3,13 +3,13 @@
 @section('content')
     <!--------------- Cart Page HTML Start ------------------------->
     <div class="ps-shopping ps-categogy--separate">
-        <div class="container">
-            <x-filtter :value="__('DisabledShortBy')" :filterIcon="__('d-none')">Einkaufskorb</x-filtter>          
-        </div>
+        <x-filtter :value="__('DisabledShortBy')" :filterIcon="__('d-none')">Einkaufskorb</x-filtter>    
+        
         <div id="cart_data">
             @include('elements.cart_data')
         </div>
     </div>
+
     <script>
         function update_to_cart(id) {
             var qty = $("#qty" + id).val();
@@ -24,6 +24,7 @@
                 dataType: 'html',
                 success: function(text) {
                     $('#cart_data').html(text);
+
                 }
             })
         }
@@ -40,9 +41,10 @@
                     "_token": "{{ csrf_token() }}",
                     "id": id,
                 },
-                dataType: 'html',
-                success: function(text) {
-                    $('#cart_data').html(text);
+                dataType: 'json',
+                success: function(response) {
+                    $(".my_cart_count").html(response.cart_count);
+                    $('#cart_data').html(response.cart_data);
                 }
             })
         }

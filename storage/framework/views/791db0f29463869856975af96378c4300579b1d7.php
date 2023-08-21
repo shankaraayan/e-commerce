@@ -23,7 +23,7 @@
                   </ul>
                 </div>
                 <!-- END: BreadCrumb -->
-                <form action="<?php echo e(route('admin.settings.slider.upload')); ?>" method="post" enctype="multipart/form-data">
+                <form action="<?php echo e(route('admin.settings.payment-gatway.upload')); ?>" method="post" enctype="multipart/form-data">
                     <?php echo csrf_field(); ?>
                 <div class="grid xl:grid-cols-2 grid-cols-2 gap-6">
                   <!-- Basic Inputs -->
@@ -95,11 +95,11 @@
                                     </div>
                                     <div class="input-area mb-4">
                                         <label for="select" class="form-label">Success Callback URL </label>
-                                        <input type="password" name="PAYPAL_SUCCESS_URL	" class="form-control" required>
+                                        <input type="text" name="PAYPAL_SUCCESS_URL" class="form-control" required>
                                     </div>
                                     <div class="input-area mb-4">
                                         <label for="select" class="form-label">Failed Callback URL </label>
-                                        <input type="password" name="PAYPAL_FAILED_URL	" class="form-control" required>
+                                        <input type="text" name="PAYPAL_FAILED_URL" class="form-control" required>
                                     </div>
 
                                 </div>

@@ -1,209 +1,14 @@
 @extends('../Layout.Layout')
-
 @section("content")
-<style>
-  .product_meta>div {
-    margin-bottom: 15px;
-  }
+ 
 
-  .product_meta {
-    padding-top: 20px;
-    border-top: 1px solid #e7e7e7;
-    display: block;
-    line-height: 1.2;
-    color: #333;
-    font-weight: 600;
-    font-size: 14px;
-  }
-
-  .ps-product__variations_sec .accordion .attribute_box .card-header {
-    cursor: pointer;
-  }
-
-  .attribute_box .ps-checkout__checkbox .form-check {
-    padding-left: 1.25rem;
-  }
-
-  .bg-light-blue {
-    background: #f5f8ff;
-  }
-
-  .attribute_price {
-    color: var(--green-color);
-    font-weight: 700;
-    font-size: 14px;
-  }
-
-  @media only screen and (min-width: 1280px) {
-    .ps-product--detail .ps-product__title {
-      font-size: 28px;
-      line-height: 32px;
-      font-weight: 600;
-    }
-  }
-
-  @media only screen and (max-width: 1279px) {
-    .ps-product--detail .ps-product__title {
-      font-size: 24px !important;
-      line-height: 28px;
-      font-weight: 600;
-    }
-  }
-
-  @media(max-width: 991px) {
-    .ps-product--detail .ps-product__title {
-      font-size: 22px !important;
-      line-height: 26px;
-      font-weight: 500;
-    }
-  }
-
-  @media(max-width: 767px) {
-    .ps-product--detail .ps-product__title {
-      font-size: 18px !important;
-      line-height: 22px;
-      font-weight: 500;
-    }
-  }
-
-  .ps-product--detail .ps-product__price {
-    font-size: 22px;
-    font-weight: 700;
-  }
-
-  .bg-gray {
-    background-color: #d7d7d724;
-  }
-
-  .ps-product__variations_sec .accordion .attribute_box {
-    background-color: white;
-    color: var(--blue-color);
-    font-weight: 600;
-    padding: 15px;
-    border-radius: 3px !important;
-    border-bottom: 1px solid #dedede !important;
-    margin-bottom: 15px;
-    box-shadow: 0px 0px 2px 1px #e2e2e2de;
-  }
-
-  .ps-product__variations_sec .accordion .card-header {
-    background-color: transparent;
-    border: none;
-  }
-
-  .ps-product__variations_sec .select_var_row {
-    background: transparent !important;
-    border: 1px solid #e1e1e1;
-  }
-
-  .ps-product__variations_sec .accordion .card:not(:first-of-type):not(:last-of-type) {
-    border-radius: 3px !important;
-    border: 1px solid #f0f2f5;
-  }
-
-  .attribute_title {
-    font-size: 16px !important;
-    color: var(--green-color);
-  }
-
-  .attribute_title_name {
-    font-size: 14px !important;
-    color: var(--blue-color);
-    margin-bottom: 0;
-  }
-
-  .form-check .form-check-label::before {
-    display: none;
-  }
-
-  .ps-product__variations_sec .form-check .form-check-label {
-    padding: 0;
-  }
-
-  /* .ps-product__variations_sec input[type=radio]:checked+label>figure,
-    .ps-product__variations_sec input[type=radio]:checked+label {
-        border: 2px solid #075095 !important;
-        border-radius: 10px;
-    } */
-  .ps-product__variations_sec .select_var_row {
-    background: #f0f2f5;
-
-  }
-
-  .ps-product__variations_sec input[type=radio]:checked+label>.select_var_row {
-    border: 2px solid var(--green-color) !important;
-    border-radius: 15px;
-  }
-
-
-  .ps-product__variations_sec .select_var_row {
-    border-radius: 15px;
-  }
-  
-  .ps-desc {
-    font-size: 13px !important;
-    color: #6f6f6f !important;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .attr_desc{
-    border-radius: 15px;
-  }
-
-  .ps-product__variations_sec input[type=radio] {
-    display: none;
-  }
-
-  .ps-product__variations_sec input[type=radio]+label>figure>img {
-    transition: 500ms all;
-  }
-
-  .select_var_row:hover {
-    cursor: pointer;
-  }
-
-  .related_product_view .ps-product__title {
-    font-size: 16px;
-    line-height: 26px;
-    margin-bottom: 13px;
-    color: var(--blue-color);
-    font-weight: 700;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    min-height: 50px;
-  }
-
-  .font-weight-400 {
-    font-weight: 400 !important;
-  }
-
-  .product-container {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .product-image {
-    position: sticky;
-    top: 0;
-    height: 100%;
-    z-index: 1;
-  }
-  .shippingDate{
-    border: dashed 1px #a0a0a0;
-  }
-</style>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
 
   <div class="ps-page--product4 mt-2 ps-categogy--separate">
-      <div class="container">
-          <x-filtter :value="__('DisabledShortBy')" :filterIcon="__('d-none')" :productName="__($product->product_name)">{{categories()->where('id',$product->categories)->pluck('name')->first()}}</x-filtter>
-      </div>
+    <x-filtter :value="__('DisabledShortBy')" :filterIcon="__('d-none')" :productName="__($product->product_name)">{{categories()->where('id',$product->categories)->pluck('name')->first()}}</x-filtter>
+     
 
       <div class="ps-page__content pt-2">
         <div class="ps-product--detail ps-product--full pt-40 pb-40 bg-light">
@@ -242,13 +47,15 @@
                 </div>
                 <div class="col-12 col-xl-7 col-md-7 bg-white">
                     <div class="ps-product__info mb-3">
-                    <div class="ps-product__branch"><a href="#">@if(isset($product->categories->name))
-                        {{$product->categories->name}} @endif</a></div>
+                    <div class="ps-product__branch"><a href="#">@if(isset($product->categories->name)) {{$product->categories->name}} @endif</a></div>
                     <div class="ps-product__title">{{$product->product_name}}</div>
-                    <div class="ps-product__meta pt-2 mt-2 mb-3"><span class="ps-product__price sale"
-                        id="totalPrice">@if($product->type == 'variable') Please Select Attributes for best price @else {{
-                        formatPrice($product->sale_price) }} @endif</span><span class="ps-product__del">@if($product->type
-                        == 'variable') @else{{ formatPrice($product->price) }} @endif</span>
+                    <div class="ps-product__meta pt-2 mt-2 mb-3">
+                      <span class="ps-product__del fs-3 text-muted">@if($product->type == 'variable') @else{{ formatPrice($product->price) }} @endif</span>
+                      <span class="ps-product__price sale fs-3" id="totalPrice">
+                        @if($product->type == 'variable') Please Select Attributes for best price 
+                        @else {{ formatPrice($product->sale_price) }} 
+                        @endif
+                      </span>
                     </div>
                     <h5 class="mb-4 text-dark" id="nameDiv" style="display: none;"></h5>
                     <div id="priceDiv" style="display: none;"></div>
@@ -272,8 +79,8 @@
                             <div id="collapse_var_{{$key}}" class="collapse{{$key == 0 ? ' show' : ''}}"
                             aria-labelledby="heading_Var{{$key}}" data-parent="#accordionExample">
                             <div class="card-body">
-                                <div class="row attr_desc p-4 bg-light-blue mb-20 shadow-sm">
-                                  <p class="ps-checkout__checkbox ps-desc mb-0">
+                                <div class="row attr_desc py-2 px-4 bg-light-blue mb-20 shadow-sm">
+                                  <p class="ps-desc mb-0">
                                     {{$data->attribute_description}}</p>
                                 </div>
                                 <div class="ps-checkout__checkbox row">
@@ -289,7 +96,7 @@
                                     onclick="getData({{ $vales->id }},{{ $product->id }},{{ $key+1 }}); saveValue(this, '{{ $data->id }}','Panel','heading_Var{{$key}}',{{$vales->id}},'{{$data->attribute_name}}')">
 
                                     <label class="form-check-label mx-2" for="var_radios{{$key}}_{{$keyss}}">
-                                    <div class="row align-items-center select_var_row p-3 term-select-{{$vales->id}}">
+                                    <div class="row align-items-center select_var_row p-2 term-select-{{$vales->id}}">
                                         @if(@$vales->image)
 
                                         <div class="ps-section__thumbnail col-md-2 col-3">
@@ -300,7 +107,7 @@
                                         <h3 class="attribute_title_name py-2 d-flex justify-content-between">{{ $vales->attribute_term_name }}</h3>
                                         <p class="ps-desc">{{ $vales->attribute_term_description }}</p>
                                         </div>
-                                        <div class="{{ @$vales->image ? 'col-12 col-md-3' : 'col-3' }} text-md-center text-right mt-md-0 mt-2">
+                                        <div class="{{ @$vales->image ? 'col-12 col-md-3' : 'col-3' }}  text-right mt-md-0 mt-2">
                                           <small class="attribute_price">{{formatPrice($vales->price) }}</small>
                                         </div>
                                     </div>
@@ -316,7 +123,7 @@
                                     onclick="saveValue(this, '{{ $data->id }}','','heading_Var{{$key}}',{{$vales->id}},'{{$data->attribute_name}}')">
 
                                     <label class="form-check-label mx-2" for="var_radios{{$key}}_{{$keyss}}">
-                                    <div class="row align-items-center select_var_row p-3 term-select-{{$vales->id}}">
+                                    <div class="row align-items-center select_var_row p-2 term-select-{{$vales->id}}">
                                         @if(@$vales->image)
                                         <div class="ps-section__thumbnail col-md-2 col-3">
                                         <img src="{{asset('root/public/uploads/'.$vales->image)}}" alt="" class="img-fluid">
@@ -328,7 +135,7 @@
                                         </h3>
                                         <p class="ps-desc">{{$vales->attribute_term_description}}</p>
                                         </div>
-                                        <div class="{{ @$vales->image ? 'col-12 col-md-3' : 'col-3' }} text-md-center text-right mt-md-0 mt-2">
+                                        <div class="{{ @$vales->image ? 'col-12 col-md-3' : 'col-3' }}  text-right mt-md-0 mt-2">
                                           <small class="attribute_price">{{formatPrice($vales->price) }}</small>
                                         </div>
                                     </div>
@@ -343,7 +150,7 @@
                                     data-value="{{ $vales->attribute_term_name }},{{ $vales->price }},{{$vales->id}},{{$data->attribute_name}}"
                                     onclick="saveValue(this, '{{ $data->id }}','','heading_Var{{$key}}',{{$vales->id}},'{{$data->attribute_name}}')">
                                     <label class="form-check-label mx-2" for="var_radios{{$key}}_{{$keyss}}">
-                                    <div class="row align-items-center select_var_row p-3 term-select-{{$vales->id}}">
+                                    <div class="row align-items-center select_var_row p-2 term-select-{{$vales->id}}">
                                         @if(@$vales->image)
                                         <div class="ps-section__thumbnail col-md-2 col-3">
                                         <img src="{{asset('root/public/uploads/'.$vales->image)}}" alt="" class="img-fluid">
@@ -355,7 +162,7 @@
                                         </h3>
                                         <p class="ps-desc">{{$vales->attribute_term_description}}</p>
                                         </div>
-                                        <div class="  {{ @$vales->image ? 'col-12 col-md-3' : 'col-3' }} text-md-center text-right mt-md-0 mt-2">
+                                        <div class="  {{ @$vales->image ? 'col-12 col-md-3' : 'col-3' }}  text-right mt-md-0 mt-2">
                                           <small class="attribute_price">{{formatPrice($vales->price) }}</small>
                                         </div>
                                     </div>
@@ -379,8 +186,8 @@
                     @endif
 
                     <div class="ps-product__quantity">
-                        @if($product['type'] != 'variable')
-                        <h6>Quantity</h6>
+                      
+                        <h6>Quantity</h6> 
                         <div class="d-flex align-items-center">
                         <div class="def-number-input number-input safari_only">
                             <button class="minus" id="minus-btn"><i class="icon-minus"></i></button>
@@ -407,7 +214,7 @@
                             }
                             });
                         </script>
-                        @endif
+                     
                         @php
                         $countAttribites = count($attributes);
                         @endphp
@@ -416,25 +223,37 @@
                             href="javascript:void(0)">ADD TO CART</a>
                         </div>
                     </div>
-                    <div class="well shippingDate rounded-0 bg-light fs-5 d-inline-block">Estimate Shipping date {{ date('d-M-Y',strtotime(@$product->estimate_deliver_date) )}}</div>
-                    <div class="align-items-center mt-1 mb-4">
-                        <label class="for-label">Lieferort auswählen</label>
+                    <div class="select_shipping_area align-items-center mt-4 mb-0">
+                      <a class="btn ps-btn--primary ps-btn--rounded for-label fs-4 px-4 py-2 shadow-none" data-toggle="collapse" href="#shipping_area" role="button" aria-expanded="false" aria-controls="shipping_area">
+                          Lieferort auswählen
+                      </a>
+                      <div class="collapse mt-2" id="shipping_area">
                         <select class="form-control" name="shipping_class" id="shipping_class">
-                        @php
-                        $result = shippingCountry()->where('shipping_id',$product->shipping_class)->where('status',1);
-                        @endphp
-
-                        @foreach ($result as $country)
-                        <option value="{{$country->country}}">
-                            {{country()->where('id',$country->country)->pluck('country')->first()}} </option>
-                        @endforeach
-                        </select>
+                            @php
+                            $result = shippingCountry()->where('shipping_id',$product->shipping_class)->where('status',1);
+                            @endphp
+      
+                            @foreach ($result as $country)
+                            <option value="{{$country->country}}">
+                                {{country()->where('id',$country->country)->pluck('country')->first()}} </option>
+                            @endforeach
+                            </select>
+                      </div>
+                      
                     </div>
+                    <div class="shipping_box">
+                      <div class="well shippingDate rounded-0 d-inline-block bg-light fs-5 text-blue">Estimate Shipping date {{ date('d-M-Y',strtotime(@$product->estimate_deliver_date) )}}</div>
+                    </div>
+                    
 
                     <div class="product_meta">
-                        <div class="sku_wrapper ean_wrapper font-weight-bold">EAN: <span class="ean">000001000</span></div>
-                        <div class="sku_wrapper font-weight-bold">Artikelnummer: <span class="sku">{{$product->sku}}</span></div>
-                        <div class="sku_wrapper font-weight-bold">Kategorien: <span class="productCat"><a href="javascript:(void0);">{{categories()->where('id',$product->categories)->pluck('name')->first()}}</a></span></div>
+                        <div class="sku_wrapper ean_wrapper">EAN: <span class="ean">000001000</span></div>
+                        <div class="sku_wrapper">Artikelnummer: <span class="sku">{{$product->sku}}</span></div>
+                        <div class="sku_wrapper">Kategorien: <span class="productCat">
+                          <a href="{{ route('shop', ['slug' => categories()->where('id', $product->categories)->pluck('slug')->first()]) }}">
+                            {{categories()->where('id',$product->categories)->pluck('name')->first()}}
+                          </a></span>
+                        </div>
                     </div>
 
                     @php
@@ -454,41 +273,42 @@
         </div> 
         
         {{-- Attribute Htmls Begins --}}
+
         <div class="ps-product__content">
-          <section class="pro_des panel p-5">
-              <div class="container">
-              <div class="ps-promo mt-5 ps-category--image mt-5">
-                  <div class="col-12">
-                  {{--<h2 class="ps-section__title text-center pb-5">800 W / 600 W Balkonkraftwerk – Upgradebar 800W
-                      Photovoltaik Stecker Solaranlage</h2>--}}
-                  </div>
-                  <div class="row bg-gray rounded p-5 {{@$components ? '':'d-none'}}">
-                  <div class="row" id="short_des_html">
-                      @if(!empty(@$components))
-                      @foreach($components as $component)
-                      <div class="col-12 col-md-6 col-lg-3">
-                      <div class="ps-block--about p-3">
-                          <div class="ps-block__icon"><img decoding="async"
-                              src="{{asset('root/public/uploads/'.$component->image)}}" class="img-fluid w-50" alt="">
-                          </div>
-                          <h4 class="ps-block__title"><strong>{{$component->attribute_term_name}}</strong></h4>
-                          
-                      </div>
-                      </div>
-                      @endforeach
-                      @endif
-                  </div>
-                  </div>
-              </div>
-              </div>
-          </section>
-          <div class="container" id="html_component">
+            <section class="pro_des panel mb-5">
+                <div class="container">
+                    <div class="ps-promo mt-5 ps-category--image mt-5">
+                        <div class="bg-gray rounded {{@$components ? '':'d-none'}}">
+                            <div class="row align-self-center justify-content-center" id="short_des_html">
+                                @if(!empty(@$components))
+                                    @foreach($components as $component)
+                                    <div class="col-xl-3 col-lg-4 col-md-6 col-6">
+                                        <div class="ps-block--about p-0 py-5">
+                                            <div class="ps-block__icon mb-3"><img decoding="async"
+                                                src="{{asset('root/public/uploads/'.$component->image)}}" class="img-fluid" alt="">
+                                            </div>
+                                            <span class="fs-4 text-blue">{{$component->attribute_term_name}}</span>
+                                        </div>
+                                    </div>
+                                    @endforeach
 
+                                    
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+            
+            <div id="html_component">
               @if(!empty($components))
-              @foreach($components as $component)
-
-              {!! $component->component_description !!}
-              @endforeach
+                @foreach($components as $component)
+                {!! $component->component_description !!}
+                @endforeach
+                
+              @elseif(@$components==null && @$product['type']==="single")
+              {!! $product->product_description !!}
               @endif
           </div>
         </div>
@@ -502,7 +322,7 @@
                             <h3 class="ps-section__title font-weight-400">Die besten Deals der Woche!</h3>
                         </div>
                         <div class="ps-section__carousel related_product_view">
-                          <div class="owl-carousel owl-loaded owl-drag" data-owl-auto="false" data-owl-loop="true" data-owl-speed="13000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="5" data-owl-item-xs="2" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-item-xl="5" data-owl-duration="1000" data-owl-mousedrag="on">
+                          <div class="owl-carousel owl-loaded owl-drag" data-owl-auto="false" data-owl-loop="true" data-owl-speed="13000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="4" data-owl-item-xs="2" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-item-xl="4" data-owl-duration="1000" data-owl-mousedrag="on">
                 
                             {{-- product Card --}}
                             <div class="owl-stage-outer shadow-sm">
@@ -647,7 +467,7 @@
         $("#" + pids).find("small").remove();
 
         if (atr_price != '€0.00') {
-          $("#" + pids).append(`<small class="font-weight-bold">${atr_name}</small> <small class="mr-5 font-weight-bold pl-2" style="color: var(--green-color);">${atr_price}</small>`);
+          $("#" + pids).append(`<small class="font-weight-bold">${atr_name}</small> <small class="mr-5 pl-2 selected_price">${atr_price}</small>`);
         }
 
 
@@ -794,17 +614,16 @@
           method: 'GET',
           data: { id: id, productid: idpro }, // Pass the ID as a parameter
           success: function (response) {
-            var users = response.related_terms;
-            
+            // console.log(response);
             var tableBody = $('#test');
             tableBody.empty();
-
-            for (var i = 0; i < users.length; i++) {
-              var user = users[i];
+            for (var i = 0; i < response.length; i++) {
+              var user = response[i];
+           
               let imageUrl = "{{ asset('root/public/uploads/') }}/" + user.image;
-              
+             
               tableBody.append(`
-            <div class="row select_var_row align-items-center mx-0 p-2 term-select-${id}}" onclick="highlightDiv(this);saveValue(this, '${user.attributes_id}','','heading_Var${sid}',${id},'${user.attribute_term_name}');" data-atr-name="${user.attribute_term_name}" data-atr-price="${user.price}" data-value="${user.attribute_term_name},${user.price},${user.id},${response.arribute_name}">
+            <div class="row select_var_row align-items-center mx-0 p-2 term-select-${id}}" onclick="highlightDiv(this);saveValue(this, '${user.attributes_id}','','heading_Var${sid}',${id},'${user.attribute_term_name}');" data-atr-name="${user.attribute_term_name}" data-atr-price="${user.price}" data-value="${user.attribute_term_name},${user.price},${user.id},${user.attribute_name}">
                  <div class="ps-section__thumbnail ${user.image !== null ?'d-block col-md-2 col-3':'d-none'}">
                     <img src="${imageUrl}" alt="" width="100px">
                 </div>
@@ -815,7 +634,7 @@
                         <p class="ps-desc">${user.attribute_term_description}</p>
                     </div>
                 </div>
-                <div class="${user.image !== null ?'col-12 col-md-3' : 'col-3'} text-md-center text-right mt-md-0 mt-2">
+                <div class="${user.image !== null ?'col-12 col-md-3' : 'col-3'}  text-right mt-md-0 mt-2">
                   <small class="attribute_price">€${user.price}</small>  
                 </div>
             </div>`
@@ -1028,7 +847,7 @@
               // console.log(card_header_inner);
                 const ps = card_header_inner.parentElement;
                 if (price[index] != 0) {
-                  $(ps).append(`<small class="font-weight-bold">${name[index]} </small> <small class="ml-3 font-weight-bold" style="color:var(--green-color);">${formatPrice(price[index])}</small>`)
+                  $(ps).append(`<small class="font-weight-bold">${name[index]} </small> <small class="ml-3 font-weight-bold selected_price">${formatPrice(price[index])}</small>`)
                 }
               }
               
@@ -1049,7 +868,7 @@
           names = names.split(",").join(' + ');
           nameDiv.textContent = names;
         } else {
-          $("#html_component").html('');
+          // $("#html_component").html('');
           $(".bg-gray").addClass("d-none");
           // reset url
           let url = new URL(window.location.href);

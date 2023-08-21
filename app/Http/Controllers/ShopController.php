@@ -12,7 +12,7 @@ class ShopController extends Controller
 
     public function catalog(){
         $Category = Category::where('parent_id','0')->get();
-        $catalog = Category::where('parent_id','0')->where('on_catalog','1')->paginate(15);
+        $catalog = Category::where('parent_id','0')->where('on_catalog','1')->paginate(10);
         return view('pages.catalog',compact('Category','catalog'));
     }
 
@@ -20,7 +20,7 @@ class ShopController extends Controller
         // return $request->all();
         $products = Product::with('categories')
         ->where('status', 1)
-        ->paginate(15);
+        ->paginate(10);
         $Category = Category::where('parent_id','0')->get();
         $category_id = '';
 
@@ -29,7 +29,7 @@ class ShopController extends Controller
 
             $products = Product::where('categories',$category_id)->with('categories')
             ->where('status', 1)
-            ->paginate(15);
+            ->paginate(10);
              if($products->count() === 0){
                  return redirect()->back()->with('error','No Product Found.');
              }

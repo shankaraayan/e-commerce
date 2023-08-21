@@ -3,13 +3,13 @@
 @section("style")
 <style>
 
-svg {
-    width: 16px; /* Adjust the font size to your desired value */
-}
+    svg {
+        width: 16px; /* Adjust the font size to your desired value */
+    }
 
-.menu--mobile>li{
-    padding:5px 0px;
-}
+    .menu--mobile>li{
+        padding:5px 0px;
+    }
     .new-li {
         list-style: none;
         padding-left: 0;
@@ -38,14 +38,12 @@ svg {
 @endsection
 
 @section("content")
-
-
-
+{{-- @dd(@$products); --}}
     <div class="ps-page">
 
         <div class="ps-categogy ps-categogy--separate">
+            <x-filtter :value="__('na')">Shop</x-filtter>
             <div class="container">
-                
                 <!--<h1 class="ps-categogy__name mt-5">Shop</h1>-->
                 @php
                     
@@ -54,9 +52,7 @@ svg {
                     $lastSegment = end($segments);
 
                 @endphp
-                 
                 
-                <x-filtter :value="__('na')">Shop</x-filtter>
             </div>
 
             <div class="ps-categogy__main pb-40">
@@ -71,7 +67,7 @@ svg {
                                         @if(!empty(@$Category))
                                             @foreach($Category as $cat)
                                                 <li><a href="{{route('shop',$cat->slug)}}" id="{{$cat->id}}" onclick="categoryProduct(this.id);">{{ $cat->name }}</a>
-                                                <span class="sub-toggle"><i class="fa fa-chevron-down"></i></span>
+                                                <span class="sub-toggle {{ count($cat->subcategories) > 0 ? 'd-block' : 'd-none' }}"><i class="fa fa-chevron-down"></i></span>
                                                     @if(count($cat->subcategories) > 0)
                                                     <ul class="sub-menu" style="display: none;">
                                                         @foreach($cat->subcategories as $subcat)
@@ -99,22 +95,24 @@ svg {
                                             @if($key == 5)
                                                 @break
                                             @endif
-                                            <div class="ps-widget__item">
-                                                <div class="row no-gutters">
-                                                    <div class="col-3">
-                                                        <div class="product_pics">
-                                                            <img src="{{asset('root/public/uploads/'.$product->thumb_image)}}" class="img-fluid" alt="">
+                                            
+                                                <div class="ps-widget__item">
+                                                    <div class="row no-gutters">
+                                                        <div class="col-3">
+                                                            <div class="product_pics">
+                                                                <img src="{{asset('root/public/uploads/'.$product->thumb_image)}}" class="img-fluid" alt="">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-9 pl-3">
+                                                        <div class="product_info_rel">
+                                                            <p class="product_info_name ps-product__title">{{ $product->product_name }}</p>
+                                                            {{-- <div class="product_info_price">€{{formatPrice($product->price)}} - €{{formatPrice($product->sale_price)}}</div> --}}
+                                                            {{-- <div class="product_info_price fs-4">{{ formatPrice($product->sale_price) }}</div> --}}
                                                         </div>
                                                     </div>
-                                                    <div class="col-9 pl-3">
-                                                    <div class="product_info_rel">
-                                                        <p class="product_info_name ps-product__title">{{ $product->product_name }}</p>
-                                                        {{-- <div class="product_info_price">€{{formatPrice($product->price)}} - €{{formatPrice($product->sale_price)}}</div> --}}
-                                                        {{-- <div class="product_info_price fs-4">{{ formatPrice($product->sale_price) }}</div> --}}
                                                     </div>
                                                 </div>
-                                                </div>
-                                            </div>
+                                            
                                         @endforeach
                                     @endif
 
@@ -159,13 +157,33 @@ svg {
                                                 </div>
                                             </div>
                                             <div class="ps-product__content">
-                                                <a class="ps-product__branch" href="{{route('product.detail',$product->slug)}}">{{ categories()->where('id',$product->categories)->pluck('name')->first();}}</a>{{-- <span>,</span> <a class="ps-product__branch" href="#">Subcategory</a> --}}
-
+                                            
+                                                <a href="{{ route('shop', ['slug' => categories()->where('id', $product->categories)->pluck('slug')->first()]) }}">
+                                                    {{ categories()->where('id', $product->categories)->pluck('name')->first() }}
+                                                </a>
+                                                {{-- <a class="ps-product__branch" href="{{route('product.detail',$product->slug)}}">{{ categories()->where('id',$product->categories)->pluck('name')->first();}}</a> --}}
+                                                {{-- <span>,</span> <a class="ps-product__branch" href="#">Subcategory</a> --}}
+                                                
                                                 <a onclick="addSimiliarProductId({{$product->id}})"  href="{{route('product.detail',$product->slug)}}"><h5 class="ps-product__title">{{$product->product_name}}</h5></a>
-                                                <div class="ps-product__meta">
-                                                    <span class="ps-product__price"><s>{{formatPrice($product->price)}}</s></span>
-                                                    <span class="ps-product__price">{{formatPrice($product->sale_price)}}</span>
+                                                <div class="ps-product__meta text-center">
+                                                    @php
+                                                        $attributeIDs = ($product->attributes_id);
+                                                        $result = explode(',', $attributeIDs);
+                                                        $prices = minmaxPrice($result);
+                                                        // @dd($prices);die;
+                                                    @endphp
+
+                                                    {{-- @dd($prices['min_price']); --}}
+                                                    {{-- @dd($product->type); --}}
+                                                    @if ($product->type==='variable')
+                                                        <span class="ps-product__price text-green">{{ formatPrice($prices['min_price']) .' - '.formatPrice($prices['sum_of_max_prices']) }}</span>
+                                                    @else
+                                                        <span class="ps-product__del text-muted">{{ formatPrice($product->price) }}</span>
+                                                        <span class="ps-product__price text-green">{{ formatPrice($product->sale_price) }}</span>
+                                                    @endif
                                                 </div>
+
+                                                
 
                                                 {{-- <div class="ps-product__desc mb-4">
                                                     <p>{{$product->slug}} </p>
@@ -193,7 +211,7 @@ svg {
                            @endif
 
                         </div>
-                        <div class="ps-pagination">
+                        <div class="ps-pagination text-center">
                             {{$products->links()}}
                         </div>
 
@@ -645,26 +663,28 @@ svg {
                         "_token": "{{ csrf_token() }}",
                 },
                 success: function(response) {
-                    response.map((item,index)=>{
-                       data += `
+                    response.map((item, index) => {
+                    data += `
+                    <a href="/product-detail/${item.slug}">
                         <div class="ps-widget__item">
                             <div class="row no-gutters">
                                 <div class="col-3">
                                     <div class="product_pics">
-                                        <img src="{{asset('root/public/uploads/')}}/${item.thumb_image} " class="img-fluid" alt="">
+                                        <img src="/root/public/uploads/${item.thumb_image}" class="img-fluid" alt="">
                                     </div>
                                 </div>
                                 <div class="col-9 pl-3">
-                                <div class="product_info_rel">
-                                    <p class="product_info_name ps-product__title">${item.product_name}</p>
-                                    {{-- <div class="product_info_price">€{{formatPrice($product->price)}} - €{{formatPrice($product->sale_price)}}</div> --}}
-                                    <div class="product_info_price fs-4">€${item.price}</div>
+                                    <div class="product_info_rel">
+                                        <p class="product_info_name ps-product__title">${item.product_name}</p>
+                                        <div class="product_info_price fs-4">€${item.price}</div>
+                                    </div>
                                 </div>
                             </div>
-                            </div>
                         </div>
-                        `;
-                    })
+                    </a>
+                    `;
+                });
+
                     $("#similarProductCon").html(data);
                 },
                 error : function(err){
