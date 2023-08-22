@@ -80,12 +80,15 @@ class PaymentGatwayController extends Controller
         return redirect()->route('admin.settings.payment-gatway.list')->with('success', 'Payment Method deleted successfully.');
     }    
 
+    public function success(Request $request){
+        return (new PaypalService)->paymentSuccess($request);
+        // return view('pages.payment-success');
+    }
 
     public function cancel(){
         return view('pages.payment-cencel');
     }    
    
-
     public function testView(){
         return "Do again";
     }

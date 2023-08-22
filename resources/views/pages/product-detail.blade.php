@@ -50,7 +50,7 @@
                     <div class="ps-product__branch"><a href="#">@if(isset($product->categories->name)) {{$product->categories->name}} @endif</a></div>
                     <div class="ps-product__title">{{$product->product_name}}</div>
                     <div class="ps-product__meta pt-2 mt-2 mb-3">
-                      <span class="ps-product__del fs-3 text-muted">@if($product->type == 'variable') @else{{ formatPrice($product->price) }} @endif</span>
+                      <span class="{{$product->type == 'variable'? '':'ps-product__del'}} fs-3 text-muted">@if($product->type == 'variable') @else{{ formatPrice($product->price) }} @endif</span>
                       <span class="ps-product__price sale fs-3" id="totalPrice">
                         @if($product->type == 'variable') Please Select Attributes for best price 
                         @else {{ formatPrice($product->sale_price) }} 
@@ -793,7 +793,7 @@
                     <div class="col-12 col-md-6 col-lg-3">
                         <div class="ps-block--about p-3">
                             <div class="ps-block__icon"><img decoding="async" src="{{ asset('root/public/uploads') }}/${item.image}" class="img-fluid w-50" alt=""></div>
-                            <h4 class="ps-block__title"><strong>${item.attribute_term_name}</strong></h4>
+                            <span class="fs-4 text-blue">${item.attribute_term_name}</span>
                         </div>
                     </div>`;
 
@@ -830,29 +830,33 @@
             const data = sessionStorage.getItem('sessionData')
 
             const { termIds, prices, names } = JSON.parse(data);
-
             let terms = termIds.split(",");
             let price = prices.split(",");
             let name = names.split(",");
-           
-            terms&&terms.map((item, index) => {
-              
-              $(".term-select-" + item).css("border-color", "var(--blue-color)");
-              let el = $(".term-select-" + item);
-              
-              if(el[0]){
-                el = el[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
-                let card_header_inner = el.querySelector(".card_header_inner");
-              
-              // console.log(card_header_inner);
-                const ps = card_header_inner.parentElement;
-                if (price[index] != 0) {
-                  $(ps).append(`<small class="font-weight-bold">${name[index]} </small> <small class="ml-3 font-weight-bold selected_price">${formatPrice(price[index])}</small>`)
+            let total_price = 0;
+
+            terms && terms.map((item, index) => {
+                console.log(price[index]);
+                total_price = total_price + parseInt(price[index]); // Use parseFloat to handle decimal prices
+
+                $(".term-select-" + item).css("border-color", "var(--blue-color)");
+                let el = $(".term-select-" + item);
+
+                if (el[0]) {
+                    el = el[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+                    let card_header_inner = el.querySelector(".card_header_inner");
+
+                    const ps = card_header_inner.parentElement;
+                    if (parseFloat(price[index]) !== 0) {
+                        $(ps).append(`<small class="font-weight-bold">${name[index]}</small> <small class="ml-3 font-weight-bold selected_price">${formatPrice(price[index])}</small>`);
+                    }
                 }
-              }
-              
-              
-            })
+            });
+
+            // Update the total price in the HTML
+            $("#totalPrice").html(formatPrice(total_price)); 
+            $("#totalPrice").css('display', 'block');
+
           }
 
         }

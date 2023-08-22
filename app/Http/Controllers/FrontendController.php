@@ -22,6 +22,7 @@ use App\Services\UpdateQuantity;
 use App\Services\OrderService;
 use App\Services\PaymentGatway\PaypalService;
 use App\Services\UpdateShipping;
+use App\Services\MinMaxPrice;
 use Illuminate\Http\RedirectResponse;
 
 class FrontendController extends Controller
@@ -488,7 +489,16 @@ class FrontendController extends Controller
             ->where('status', 1)
             ->limit(3)
             ->get();
-    
+            $price = new MinMaxPrice();
+            
+            foreach($randomProduct as $product){
+
+                if($product['type']=="variable"){
+                    $response = $price->minmaxPrice(explode(',', $product->attributes_id));
+                    print_r($response);die;
+                }
+                
+            }
         return response()->json($randomProduct);
     }
 

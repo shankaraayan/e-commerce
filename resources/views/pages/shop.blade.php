@@ -140,7 +140,7 @@
                         <div class="row m-0 no-gutters" id="responseContainer">
                             @if(!empty(@$products))
                                 @foreach($products as $product)
-                                    <div class="col-12 col-lg-4">
+                                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                                         <div class="ps-product ps-product--standard">
                                             <div class="ps-product__thumbnail"><a class="ps-product__image" onclick="addSimiliarProductId({{$product->id}})" href="{{route('product.detail',$product->slug)}}">
                                                     <figure>
@@ -156,9 +156,9 @@
                                                     <div class="ps-badge ps-badge--hot">Hot</div>
                                                 </div>
                                             </div>
-                                            <div class="ps-product__content">
+                                            <div class="ps-product__content text-center">
                                             
-                                                <a href="{{ route('shop', ['slug' => categories()->where('id', $product->categories)->pluck('slug')->first()]) }}">
+                                                <a class="fs-5" href="{{ route('shop', ['slug' => categories()->where('id', $product->categories)->pluck('slug')->first()]) }}">
                                                     {{ categories()->where('id', $product->categories)->pluck('name')->first() }}
                                                 </a>
                                                 {{-- <a class="ps-product__branch" href="{{route('product.detail',$product->slug)}}">{{ categories()->where('id',$product->categories)->pluck('name')->first();}}</a> --}}
@@ -189,20 +189,17 @@
                                                     <p>{{$product->slug}} </p>
                                                 </div> --}}
                                                 <div class="ps-product__actions ps-product__group-mobile d-block">
-
                                                     <div class="ps-product__cart d-block">
-                                                      @if($product->type !='variable')
-                                            <div class="add_to_cart_box"><a class="btn cart_btn d-block" href="javascript:void(0)" onclick="add_to_cart('{{ $product->id }}')">Add to cart</a>
-                                            </div>
-                                        @else
-                                           <div class="add_to_cart_box">
-                                                <a onclick="addSimiliarProductId({{$product->id}})" class="btn cart_btn d-block" href="{{route('product.detail',$product->slug)}}">View</a>
-                                            </div>
-                                        @endif
+                                                        @if($product->type !='variable')
+                                                        <div class="add_to_cart_box"><a class="btn cart_btn d-block" href="javascript:void(0)" onclick="add_to_cart('{{ $product->id }}')">Add to cart</a>
+                                                        </div>
+                                                    @else
+                                                    <div class="add_to_cart_box">
+                                                            <a onclick="addSimiliarProductId({{$product->id}})" class="btn cart_btn d-block" href="{{route('product.detail',$product->slug)}}">View</a>
+                                                        </div>
+                                                    @endif
                                                     </div>
-
                                                     <!-- <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="Wishlist"><a href="wishlist.html"><i class="fa fa-heart-o"></i></a></div> -->
-
                                                 </div>
                                             </div>
                                         </div>
@@ -332,7 +329,7 @@
                     data.forEach(function(product) {
                         // console.log(product);
                         var categoryName = JSON.parse('{!! json_encode(htmlspecialchars(categories()->where('id', $product->categories)->pluck('name')->first())) !!}');
-                        var html = `<div class="col-12 col-lg-4 p-0">
+                        var html = `<div class="col-12 col-md-6 col-sm-6 col-lg-4 p-0">
                                         <div class="ps-product ps-product--standard">
                                             <div class="ps-product__thumbnail"><a class="ps-product__image" href="{{route('product.detail',$product->slug)}}">
                                                     <figure><img src="{{asset('root/public/uploads/${product.thumb_image}')}}" alt="alt" class="img-fluid" /><img src="img/stegpearl/easy peak power.png" class="img-fluid" alt="alt" />
@@ -663,6 +660,8 @@
                         "_token": "{{ csrf_token() }}",
                 },
                 success: function(response) {
+                    console.log(response);
+                    return false;
                     response.map((item, index) => {
                     data += `
                     <a href="/product-detail/${item.slug}">

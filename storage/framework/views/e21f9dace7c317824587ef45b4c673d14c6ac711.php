@@ -148,7 +148,7 @@
                         <div class="row m-0 no-gutters" id="responseContainer">
                             <?php if(!empty(@$products)): ?>
                                 <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <div class="col-12 col-lg-4">
+                                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                                         <div class="ps-product ps-product--standard">
                                             <div class="ps-product__thumbnail"><a class="ps-product__image" onclick="addSimiliarProductId(<?php echo e($product->id); ?>)" href="<?php echo e(route('product.detail',$product->slug)); ?>">
                                                     <figure>
@@ -161,9 +161,9 @@
                                                     <div class="ps-badge ps-badge--hot">Hot</div>
                                                 </div>
                                             </div>
-                                            <div class="ps-product__content">
+                                            <div class="ps-product__content text-center">
                                             
-                                                <a href="<?php echo e(route('shop', ['slug' => categories()->where('id', $product->categories)->pluck('slug')->first()])); ?>">
+                                                <a class="fs-5" href="<?php echo e(route('shop', ['slug' => categories()->where('id', $product->categories)->pluck('slug')->first()])); ?>">
                                                     <?php echo e(categories()->where('id', $product->categories)->pluck('name')->first()); ?>
 
                                                 </a>
@@ -193,20 +193,17 @@
 
                                                 
                                                 <div class="ps-product__actions ps-product__group-mobile d-block">
-
                                                     <div class="ps-product__cart d-block">
-                                                      <?php if($product->type !='variable'): ?>
-                                            <div class="add_to_cart_box"><a class="btn cart_btn d-block" href="javascript:void(0)" onclick="add_to_cart('<?php echo e($product->id); ?>')">Add to cart</a>
-                                            </div>
-                                        <?php else: ?>
-                                           <div class="add_to_cart_box">
-                                                <a onclick="addSimiliarProductId(<?php echo e($product->id); ?>)" class="btn cart_btn d-block" href="<?php echo e(route('product.detail',$product->slug)); ?>">View</a>
-                                            </div>
-                                        <?php endif; ?>
+                                                        <?php if($product->type !='variable'): ?>
+                                                        <div class="add_to_cart_box"><a class="btn cart_btn d-block" href="javascript:void(0)" onclick="add_to_cart('<?php echo e($product->id); ?>')">Add to cart</a>
+                                                        </div>
+                                                    <?php else: ?>
+                                                    <div class="add_to_cart_box">
+                                                            <a onclick="addSimiliarProductId(<?php echo e($product->id); ?>)" class="btn cart_btn d-block" href="<?php echo e(route('product.detail',$product->slug)); ?>">View</a>
+                                                        </div>
+                                                    <?php endif; ?>
                                                     </div>
-
                                                     <!-- <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="Wishlist"><a href="wishlist.html"><i class="fa fa-heart-o"></i></a></div> -->
-
                                                 </div>
                                             </div>
                                         </div>
@@ -337,7 +334,7 @@
                     data.forEach(function(product) {
                         // console.log(product);
                         var categoryName = JSON.parse('<?php echo json_encode(htmlspecialchars(categories()->where('id', $product->categories)->pluck('name')->first())); ?>');
-                        var html = `<div class="col-12 col-lg-4 p-0">
+                        var html = `<div class="col-12 col-md-6 col-sm-6 col-lg-4 p-0">
                                         <div class="ps-product ps-product--standard">
                                             <div class="ps-product__thumbnail"><a class="ps-product__image" href="<?php echo e(route('product.detail',$product->slug)); ?>">
                                                     <figure><img src="<?php echo e(asset('root/public/uploads/${product.thumb_image}')); ?>" alt="alt" class="img-fluid" /><img src="img/stegpearl/easy peak power.png" class="img-fluid" alt="alt" />
@@ -659,6 +656,8 @@
                         "_token": "<?php echo e(csrf_token()); ?>",
                 },
                 success: function(response) {
+                    console.log(response);
+                    return false;
                     response.map((item, index) => {
                     data += `
                     <a href="/product-detail/${item.slug}">

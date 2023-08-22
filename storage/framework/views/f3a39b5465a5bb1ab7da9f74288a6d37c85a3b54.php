@@ -72,15 +72,25 @@
                                                     src="<?php echo e(asset('root/public/uploads/'.$bproduct->thumb_image)); ?>"
                                                     alt="alt" /></figure>
                                         </a>
-                                        
+                                        <?php
+                                            $attributeIDs = ($bproduct->attributes_id);
+                                            $result = explode(',', $attributeIDs);
+                                            $prices = minmaxPrice($result);
+                                        // @dd($prices);die;
+                                        ?>
                                     </div>
-                                    <div class="ps-product__content">
+                                    <div class="ps-product__content text-center">
                                         <h5 class="ps-product__title"><a href="<?php echo e(route('product.detail',$bproduct->slug)); ?>"><?php echo e($bproduct->product_name); ?></a></h5>
-                                        <div class="ps-product__meta"><span
-                                                class="ps-product__price sale"><?php echo e(formatPrice($bproduct->sale_price)); ?></span><span
-                                                class="ps-product__del"><?php echo e(formatPrice($bproduct->price)); ?></span>
+                                        <div class="ps-product__meta">
+                                            <?php if($bproduct->type==='variable'): ?>
+                                                <span class="ps-product__price text-green"><?php echo e(formatPrice($prices['min_price']) .' - '.formatPrice($prices['sum_of_max_prices'])); ?></span>
+                                            <?php else: ?>
+                                            <span class="ps-product__del text-muted"><?php echo e(formatPrice($bproduct->price)); ?></span>
+                                            <span class="ps-product__price sale"><?php echo e(formatPrice($bproduct->sale_price)); ?></span>
+                                            <?php endif; ?>
                                         </div>
                                         <!---->
+                                        
                                         <?php if($bproduct->type !='variable'): ?>
                                             <div class="add_to_cart_box"><a class="btn cart_btn d-block" href="javascript:void(0)" onclick="add_to_cart('<?php echo e($bproduct->id); ?>')">Add to cart</a>
                                             </div>

@@ -1,13 +1,13 @@
 <?php $__env->startSection('dasboard_content'); ?>
 <div class="address_section g-0 px-0">
                 <div class="dash_title text-uppercase border-bottom pb-3 mb-4 h6 d-xl-flex d-lg-flex d-md-flex d-block justify-content-between">
-                  <div class="fs-3">Addresses</div>
-                  <div class="p text-muted text-capitalize fw-normal fst-italic mt-xl-0 mt-lg-0 mt-md-0 mt-2"> The following addresses are used by default on the checkout page. </div>
+                  <div class="fs-3 fw-600">Addresses</div>
+                  <div class="text-muted text-capitalize fs-5 fw-500 mt-xl-0 mt-lg-0 mt-md-0 mt-2"> The following addresses are used by default on the checkout page. </div>
                 </div>
                 <div class="container">
                   <div class="row row-cols-xl-2 row-cols-lg-2 row-cols-md-2 row-cols-1">
                     <div class="col-md-6 col-sm-12 billing_add_section">
-                      <h5 class="position-relative"> Billing Address <a data-toggle="collapse" class="edit_billing_add" href="#edit_billing_add" role="button" aria-expanded="false" aria-controls="edit_billing_add">
+                      <h5 class="d-flex position-relative"> Billing Address <a data-toggle="collapse" class="edit_billing_add" href="#edit_billing_add" role="button" aria-expanded="false" aria-controls="edit_billing_add">
                           <i class="icon-pencil2 fs-3 ml-2"></i>
                         </a>
                       </h5> <?php if(!@empty($address['billing_address'])): ?> <p class="fst-italic"><?php echo e($address["billing_address"]['fullname']); ?></p>
@@ -28,7 +28,7 @@
                     </div>
               
                     <div class="col-md-6 col-sm-12 delivery_add_section">
-                      <h5 class="position-relative"> Delivery Address <a data-toggle="collapse" class="edit_delivery_add" href="#edit_delivery_add" role="button" aria-expanded="false" aria-controls="edit_delivery_add">
+                      <h5 class="position-relative d-flex"> Delivery Address <a data-toggle="collapse" class="edit_delivery_add" href="#edit_delivery_add" role="button" aria-expanded="false" aria-controls="edit_delivery_add">
                       <i class="icon-pencil2 fs-3 ml-2"></i>
                         </a>
                       </h5> <?php if(!@empty($address['shipping_address'])): ?> <p class="fst-italic"><?php echo e($address["shipping_address"]['fullname']); ?></p>

@@ -94,17 +94,25 @@
                                                     src="{{asset('root/public/uploads/'.$bproduct->thumb_image)}}"
                                                     alt="alt" /></figure>
                                         </a>
-                                        {{-- <div class="ps-product__badge">
-                                            <div class="ps-badge ps-badge--sold">Sold Out</div>
-                                        </div> --}}
+                                        @php
+                                            $attributeIDs = ($bproduct->attributes_id);
+                                            $result = explode(',', $attributeIDs);
+                                            $prices = minmaxPrice($result);
+                                        // @dd($prices);die;
+                                        @endphp
                                     </div>
-                                    <div class="ps-product__content">
+                                    <div class="ps-product__content text-center">
                                         <h5 class="ps-product__title"><a href="{{route('product.detail',$bproduct->slug)}}">{{ $bproduct->product_name }}</a></h5>
-                                        <div class="ps-product__meta"><span
-                                                class="ps-product__price sale">{{ formatPrice($bproduct->sale_price) }}</span><span
-                                                class="ps-product__del">{{ formatPrice($bproduct->price) }}</span>
+                                        <div class="ps-product__meta">
+                                            @if ($bproduct->type==='variable')
+                                                <span class="ps-product__price text-green">{{ formatPrice($prices['min_price']) .' - '.formatPrice($prices['sum_of_max_prices']) }}</span>
+                                            @else
+                                            <span class="ps-product__del text-muted">{{ formatPrice($bproduct->price) }}</span>
+                                            <span class="ps-product__price sale">{{ formatPrice($bproduct->sale_price) }}</span>
+                                            @endif
                                         </div>
                                         <!--{{--  if the product is variable then user can not add to cart directly --}}-->
+                                        
                                         @if($bproduct->type !='variable')
                                             <div class="add_to_cart_box"><a class="btn cart_btn d-block" href="javascript:void(0)" onclick="add_to_cart('{{ $bproduct->id }}')">Add to cart</a>
                                             </div>

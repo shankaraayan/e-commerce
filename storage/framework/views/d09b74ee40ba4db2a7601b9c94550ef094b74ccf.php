@@ -1,6 +1,6 @@
 <?php $__env->startSection('dasboard_content'); ?>
 <div class="orders_section table-responsive px-0">
-        <div class="dash_title text-uppercase border-bottom pb-3 mb-4 fs-3">Order Details</div>
+        <div class="dash_title text-uppercase border-bottom pb-3 mb-4 fs-3 fw-600">Order Details</div>
         <table class="table table-striped">
             <thead>
                 <tr>

@@ -1,38 +1,30 @@
 <div id="accordion">
     <div class="card shadow">
       <div class="card-header bg-white py-4" id="headingOne">
-          <a class="btn btn-link d-block" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-            <h6 class="mb-0">Dashboard</h6>
-          </a>
+          <a class="btn btn-link d-block fs-3 fw-600 text-uppercase" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Main Konto <i class="icon-chevron-down fw-700"></i></a>
       </div>
   
       <div id="collapseOne" class="collapse show user_dashboard" aria-labelledby="headingOne" data-parent="#accordion">
-        <div class="card-body">
+        <div class="card-body p-1">
             <div class="nav flex-column nav-pills w-100" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <a href="<?php echo e(route('user.dashboard')); ?>" class="nav-link rounded-0 align-items-center ps-block__title text-left fs-3 py-3 <?php echo e((Route::currentRouteName()=='user.dashboard')? 'active':''); ?>">
-                    <i class="bi bi-layout-text-sidebar-reverse fs-4 me-3"></i> Dashboard
+                <a href="<?php echo e(route('user.dashboard')); ?>" class="d-flex nav-link rounded-0 align-items-center justify-content-between ps-block__title text-left fs-3 py-3 <?php echo e((Route::currentRouteName()=='user.dashboard')? 'active':''); ?>">
+                     Dashboard <i class="icon-grid fs-3 fw-700"></i>
                 </a>
-                <a href="<?php echo e(route('user.orders')); ?>" class="nav-link rounded-0 align-items-center ps-block__title text-left fs-3 py-3 <?php echo e((Route::currentRouteName()=='user.orders')? 'active':''); ?>" id="orders"  type="button" role="tab" aria-controls="v-pills-orders" aria-selected="false">
-                    <i class="bi bi-boxes fs-4 me-3"></i>Orders
+                <a href="<?php echo e(route('user.orders')); ?>" class="d-flex nav-link rounded-0 align-items-center justify-content-between ps-block__title text-left fs-3 py-3 <?php echo e((Route::currentRouteName()=='user.orders')? 'active':''); ?>" id="orders"  type="button" role="tab" aria-controls="v-pills-orders" aria-selected="false">
+                    Orders <i class="icon-outbox fs-3 fw-700"></i>
                 </a>
-                <!-- <a href="<?php echo e(route('user.dashboard')); ?>" class="d-none nav-link rounded-0 align-items-center ps-block__title text-left fs-3" id="downloads"  type="button" role="tab" aria-controls="v-pills-downloads" aria-selected="false">
-                    <i class="bi bi-cloud-download fs-4 me-3"></i>Downloads
-                </a> -->
-                <!-- <a href="<?php echo e(route('user.dashboard')); ?>" class="nav-link rounded-0 align-items-center ps-block__title text-left fs-3" id="payment_mthd" data-bs-toggle="pill" data-bs-target="#v-pills-payments" type="button" role="tab" aria-controls="v-pills-payments" aria-selected="false">
-                    <i class="bi bi-wallet2 fs-4 me-3"></i>Payment Methods
-                </a> -->
-                <a href="<?php echo e(route('user.address')); ?>" class="nav-link rounded-0 align-items-center ps-block__title text-left fs-3 py-3 <?php echo e((Route::currentRouteName()=='user.address')? 'active':''); ?>" >
-                    <i class="bi bi-geo-alt fs-4 me-3"></i>Addresses
+                <a href="<?php echo e(route('user.address')); ?>" class="d-flex nav-link rounded-0 align-items-center justify-content-between ps-block__title text-left fs-3 py-3 <?php echo e((Route::currentRouteName()=='user.address')? 'active':''); ?>" >
+                    Addresses <i class="icon-map2 fs-3 fw-700"></i>
                 </a>
-                <a href="<?php echo e(route('user.account')); ?>" class="nav-link rounded-0 align-items-center ps-block__title text-left fs-3 py-3 <?php echo e((Route::currentRouteName()=='user.account')? 'active':''); ?>">
-                    <i class="bi bi-person-vcard fs-4 me-3"></i>Account Details
+                <a href="<?php echo e(route('user.account')); ?>" class="d-flex nav-link rounded-0 align-items-center justify-content-between ps-block__title text-left fs-3 py-3 <?php echo e((Route::currentRouteName()=='user.account')? 'active':''); ?>">
+                    Account Details <i class="icon-user fs-3 fw-700"></i>
                 </a>
     
-                <a href="<?php echo e(route('user.wishlist')); ?>" class="nav-link rounded-0 align-items-center ps-block__title text-left fs-3  py-3<?php echo e((Route::currentRouteName()=='user.wishlist')? 'active':''); ?>">
-                    <i class="bi bi-heart fs-4 me-3"></i>Wishlist
+                <a href="<?php echo e(route('user.wishlist')); ?>" class="d-flex nav-link rounded-0 align-items-center justify-content-between ps-block__title text-left fs-3  py-3<?php echo e((Route::currentRouteName()=='user.wishlist')? 'active':''); ?>">
+                    Wishlist <i class="icon-heart fs-3 fw-700"></i>
                 </a>
-                <a href="<?php echo e(route('logout')); ?>" class="nav-link rounded-0 align-items-center ps-block__title text-left fs-3 py-3">
-                    <i class="bi bi-box-arrow-left fs-4 me-3"></i>Logout
+                <a href="<?php echo e(route('logout')); ?>" class="d-flex nav-link rounded-0 align-items-center justify-content-between ps-block__title text-left fs-3 py-3">
+                    Logout<i class="fa fa-sign-in fs-3 fw-700"></i>
                 </a>
             </div>
         </div>

@@ -1,6 +1,6 @@
 <?php $__env->startSection('dasboard_content'); ?>
 <div class="accountInfo_section g-0 px-0">
-              <div class="dash_title text-uppercase border-bottom pb-3 mb-4">Account Details</div>
+              <div class="dash_title text-uppercase border-bottom pb-3 mb-4 fs-3 fw-600">Account Details</div>
               <form method="post" action="<?php echo e(route('update_profile',Auth::user()->id)); ?>">
                 <?php echo csrf_field(); ?>
                 <div class="row">

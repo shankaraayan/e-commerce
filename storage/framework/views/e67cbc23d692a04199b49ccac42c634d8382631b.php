@@ -705,7 +705,7 @@ unset($__errorArgs, $__bag); ?>
                                             </div>
                                         </div>
                                         <?php if(count((array) session('cart')) > 0): ?>
-                                        <button class="ps-btn ps-btn--warning" type="submit">Bestellung aufgeben</button>
+                                        <button class="ps-btn ps-btn--warning" type="submit" id="payment_button">Bestellung aufgeben</button>
                                         <?php else: ?>
                                         <button class="ps-btn ps-btn--warning" type="disabled" disabled>Bestellung aufgeben</button>
                                         <?php endif; ?>
@@ -802,19 +802,21 @@ unset($__errorArgs, $__bag); ?>
 
                                     </div>
                                 </div>
-                                ${response.bank_dis? 
-                                    `<div class="ps-checkout__row">
-                                            <div class="ps-title">Rabatt(3%)</div>
-                                            <div class="ps-checkout__checkbox">
-                                                <div class="form-check">
-                                                    
-                                                    <label for="bank_discount" id="bank_discount_price">
-                                                    ${response.bank_dis}
-                                                    </label>
-                                                </div>
+                                <div id="bank_dis_container"> 
+                                    ${response.bank_dis? 
+                                        `<div class="ps-checkout__row">
+                                                <div class="ps-title">Rabatt(3%)</div>
+                                                <div class="ps-checkout__checkbox">
+                                                    <div class="form-check">
+                                                        
+                                                        <label for="bank_discount" id="bank_discount_price">
+                                                        ${response.bank_dis}
+                                                        </label>
+                                                    </div>
 
-                                            </div>
-                                </div>` : ''}
+                                                </div>
+                                    </div>` : ''}
+                                </div>
                                 <div class="ps-checkout__row">
                                     <div class="ps-title final_price">Total</div>
                                     <div class="ps-product__price final_priceEuro text-green">
@@ -955,19 +957,21 @@ unset($__errorArgs, $__bag); ?>
                     </div>
                 </div>
                 </div>
-                ${response.bank_dis? 
-                `  <div class="ps-checkout__row">
-                        <div class="ps-title">Rabatt(3%)</div>
-                        <div class="ps-checkout__checkbox">
-                            <div class="form-check">
-                                
-                                <label for="bank_discount" id="bank_discount_price">
-                                   ${response.bank_dis}
-                                </label>
-                            </div>
+                <div id="bank_dis_container"> 
+                    ${response.bank_dis? 
+                    `  <div class="ps-checkout__row">
+                            <div class="ps-title">Rabatt(3%)</div>
+                            <div class="ps-checkout__checkbox">
+                                <div class="form-check">
+                                    
+                                    <label for="bank_discount" id="bank_discount_price">
+                                    ${response.bank_dis}
+                                    </label>
+                                </div>
 
-                        </div>
-                </div>` : ''}
+                            </div>
+                    </div>` : ''}
+                </div>
                 <div class="ps-checkout__row">
                     <div class="ps-title final_price">Total</div>
                     <div class="ps-product__price final_priceEuro text-green">
@@ -1043,19 +1047,21 @@ unset($__errorArgs, $__bag); ?>
                     </div>
                     </div>
                 </div>
-                ${response.bank_dis? 
-                `<div class="ps-checkout__row">
-                    <div class="ps-title">Rabatt(3%)</div>
-                    <div class="ps-checkout__checkbox">
-                        <div class="form-check">
-                            
-                            <label for="bank_discount" id="bank_discount_price">
-                            ${response.bank_dis}
-                            </label>
-                        </div>
+                <div id="bank_dis_container"> 
+                    ${response.bank_dis? 
+                    `<div class="ps-checkout__row">
+                        <div class="ps-title">Rabatt(3%)</div>
+                        <div class="ps-checkout__checkbox">
+                            <div class="form-check">
+                                
+                                <label for="bank_discount" id="bank_discount_price">
+                                ${response.bank_dis}
+                                </label>
+                            </div>
 
-                    </div>
-                </div>` : ''}
+                        </div>
+                    </div>` : ''}
+                </div>
                 <div class="ps-checkout__row">
                     <div class="ps-title final_price">Total</div>
                     <div class="ps-product__price final_priceEuro text-green">
