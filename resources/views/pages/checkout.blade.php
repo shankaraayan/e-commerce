@@ -23,7 +23,7 @@
     @php
         if(session('cart')){
         $cart = session('cart');
-        // dd($cart);
+        
         $lastCartItem = end($cart);
         $session_country = @$lastCartItem['shipping_country'];
         if($session_country == 0){
@@ -75,11 +75,9 @@
     @php
        $cart_data =  end($cart);
     @endphp 
-    {{-- @dd($cart_data); --}}
- 
 
     <div class="ps-checkout ps-categogy--separate">
-        <x-filtter :value="__('DisabledShortBy')" :filterIcon="__('d-none')" :productName="__('Checkout')">Cart</x-filtter>  
+        <x-filtter :value="__('DisabledShortBy')" :filterIcon="__('d-none')" :productName="__('Checkout')"><a href="/cart">Cart</a></x-filtter>  
        
             {{-- <h3 class="ps-checkout__title"> Checkout</h3>  --}}
            
@@ -273,7 +271,7 @@
                                                     <div class="col-12">
                                             <div class="ps-checkout__group">
                                                 <label class="ps-checkout__label">Country  <span class="text-danger">*</span></label>
-                                                <select value="{{ old('shipping_country') }}" class="ps-input" id="shipping_conuntry" name="shipping_country" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                                <select disabled value="{{ old('shipping_country') }}" class="ps-input" id="shipping_conuntry" name="shipping_country" data-select2-id="1" tabindex="-1" aria-hidden="true">
                                                     <option>Wählen Sie ein Land / eine Region…</option>
                                                     @foreach ($shippingCountry as $country)
                                                         <option @if($session_country == $country->country) selected @endif value="{{country()->where('id', $country->country)->pluck('id')->first()}}">
@@ -376,7 +374,7 @@
                                     <div id="dynmicElChekout">
                                     @php $total = 0 @endphp
                                     @if (session('cart'))
-                                    {{-- @dd(session('cart')); --}}
+                                    
                                         @foreach (session('cart') as $id => $details)
                                            
                                             @php
@@ -399,11 +397,11 @@
     
                                                 <div class="ps-checkout__row ps-product">
                                                     <div class="ps-product__name">{{ @$details['name'] }}<span class="mx-2 text-green prod_qty">x {{ $details['quantity'] }}</span><br>
-                                                        @if (!empty(@$details['details']))
+                                                        {{-- @if (!empty(@$details['details']))
                                                             @foreach (@$details['details'] as $val)
                                                                 <span class="font-weight-normal text-muted">{{ $val }}</span><br>
                                                             @endforeach
-                                                        @endif
+                                                        @endif --}}
                                                      </div>
                                                     <div class="ps-product__price">
                                                         {{ formatPrice(@$details['price'] * $details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity'])) }}</div>
@@ -469,7 +467,7 @@
                                                         // dd($shipping_country);
                                                         @endphp
                                                         {{ formatPrice($shipping_price = shippingCountry()->where('country',$shipping_country)->pluck('price')->first()) }}
-                                                        {{-- @dd($shipping_price); --}}
+                                                        
                                                     </label>
                                                 </div>
     
@@ -487,7 +485,7 @@
                                                 @endphp
                                         <div id="bank_dis_container">      
                                            
-                                             @if($cart_data['bank_trnsfer']==="yes")
+                                             @if($cart_data['bank_transfer']==="yes")
                                              {{-- <h1>avilable</h1> --}}
                                                  @php
                                                       $bank_dis = (@$afterDiscount +  $shipping_price)*3/100;
@@ -515,7 +513,7 @@
                                             <div class="ps-product__price final_priceEuro text-green">
                                                 @php
                                                     $total = 0;
-                                                    if($cart_data['bank_trnsfer']==="yes"){ 
+                                                    if($cart_data['bank_transfer']==="yes"){ 
                                                         $total = @$final_price ;
                                                     }
                                                     else
@@ -532,7 +530,7 @@
                                     <div class="ps-checkout__payment">
                                         <div class="direct-bank-method mb-15">
                                             <div class="form-check">
-                                                <input class="form-check-input payment_method" name="payment_method" type="radio" id="bank_transfer" value="Direkte Banküberweisung" {{ !empty(@$cart_data['bank_trnsfer'] ) ? 'checked' : '' }}>
+                                                <input class="form-check-input payment_method" name="payment_method" type="radio" id="bank_transfer" value="Direkte Banküberweisung" {{ $cart_data['bank_transfer'] === 'yes' ? 'checked' : '' }} >
                                                 <label class="form-check-label" for="bank_transfer">Direkte Banküberweisung
                                                     <p class="text-danger">Sonderrabatt Aktion 3% Rabatt bei Banküberweisung (inklusive Käuferschutz)</p>
                                                 </label>
@@ -549,7 +547,7 @@
     
                                         <div class="check-faq">
                                             <div class="form-check">
-                                                <input class="form-check-input" required type="radio" id="agree-faq" checked />
+                                                <input class="form-check-input" required type="checkbox" id="agree-faq"/>
                                                 <label class="form-check-label" for="agree-faq">Ich habe die Allgemeinen
                                                     Geschäftsbedingungen für die Website gelesen und stimme ihnen zu <span
                                                         class="text-danger">*</span></label>
@@ -600,18 +598,16 @@
                         console.log(response);
 
                         // const {message,status,data} = JSON.parse(response);
-
-                        if(response.cart){
+                        // ${item.details ? item.details.map((val) => (
+                        //             `<span>${val}</span><br>`
+                        //             )).join('') : ''}
+                        // if(response.cart){
 
                             let product = response.cart.map((item, index) => {
                             return `
                             ${item.type === "variable" ? `
                             <div class="ps-checkout__row ps-product">
-                                <div class="ps-product__name">${item.name}<span>x</span><span>${item.quantity}</span><br>
-                                    ${item.details ? item.details.map((val) => (
-                                    `<span>${val}</span><br>`
-                                    )).join('') : ''}
-                                </div>
+                                <div class="ps-product__name">${item.name}<span>x</span><span>${item.quantity}</span><br></div>
                                 <div class="ps-product__price">
                                     ${item.price_with_tax}
                                 </div>
@@ -700,7 +696,7 @@
         $("#country").on('change', function(){
             const id = $(this).val();
             sessionStorage.setItem("selected", id);
-            
+            $("#shipping_conuntry").val(id);
             if(!sessionStorage.getItem("checkded")){
                 shipping_update(id, dynmicElChekout);
             }else{
@@ -723,19 +719,19 @@
 
             if ($(this).prop("checked")) {
                 var id =  $("#shipping_conuntry").val();
-                shipping_update(id, dynmicElChekout);
+                // shipping_update(id, dynmicElChekout);
 
                 sessionStorage.setItem("checkded","shipping" );
                 
                 $("#shipping_conuntry").on('change', function () {
                 var id = $(this).val();
-                shipping_update(id, dynmicElChekout);
+                // shipping_update(id, dynmicElChekout);
                 
                 });
             }else{
                 sessionStorage.removeItem("checkded");
                let id =  $("#country").val();
-               shipping_update(id, dynmicElChekout);
+            //    shipping_update(id, dynmicElChekout);
             }
         });
       });
@@ -760,11 +756,7 @@
                 cart.map((item, index) => {
                 el+= `${item.type === "variable" ? `
                     <div class="ps-checkout__row ps-product">
-                        <div class="ps-product__name">${item.name}<span>x</span><span>${item.quantity}</span><br>
-                            ${item.details ? item.details.map((val) => (
-                            `<span>${val}</span><br>`
-                            )).join('') : ''}
-                        </div>
+                        <div class="ps-product__name">${item.name}<span>x</span><span>${item.quantity}</span><br></div>
                         <div class="ps-product__price">
                             ${item.price_with_tax}
                         </div>
@@ -861,11 +853,7 @@
                     return `
                     ${item.type === "variable" ? `
                     <div class="ps-checkout__row ps-product">
-                        <div class="ps-product__name">${item.name}<span>x</span><span>${item.quantity}</span><br>
-                            ${item.details ? item.details.map((val) => (
-                            `<span>${val}</span><br>`
-                            )).join('') : ''}
-                        </div>
+                        <div class="ps-product__name">${item.name}<span>x</span><span>${item.quantity}</span><br></div>
                         <div class="ps-product__price">
                             ${item.price_with_tax}
                         </div>

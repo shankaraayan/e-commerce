@@ -22,7 +22,7 @@
     <?php
         if(session('cart')){
         $cart = session('cart');
-        // dd($cart);
+        
         $lastCartItem = end($cart);
         $session_country = @$lastCartItem['shipping_country'];
         if($session_country == 0){
@@ -74,8 +74,6 @@
     <?php
        $cart_data =  end($cart);
     ?> 
-    
- 
 
     <div class="ps-checkout ps-categogy--separate">
         <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
@@ -83,7 +81,7 @@
 <?php $component->withName('filtter'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php $component->withAttributes(['value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('DisabledShortBy')),'filterIcon' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('d-none')),'productName' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Checkout'))]); ?>Cart <?php echo $__env->renderComponent(); ?>
+<?php $component->withAttributes(['value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('DisabledShortBy')),'filterIcon' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('d-none')),'productName' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('Checkout'))]); ?><a href="/cart">Cart</a> <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
 <?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
@@ -354,7 +352,7 @@ unset($__errorArgs, $__bag); ?>
                                                     <div class="col-12">
                                             <div class="ps-checkout__group">
                                                 <label class="ps-checkout__label">Country  <span class="text-danger">*</span></label>
-                                                <select value="<?php echo e(old('shipping_country')); ?>" class="ps-input" id="shipping_conuntry" name="shipping_country" data-select2-id="1" tabindex="-1" aria-hidden="true">
+                                                <select disabled value="<?php echo e(old('shipping_country')); ?>" class="ps-input" id="shipping_conuntry" name="shipping_country" data-select2-id="1" tabindex="-1" aria-hidden="true">
                                                     <option>Wählen Sie ein Land / eine Region…</option>
                                                     <?php $__currentLoopData = $shippingCountry; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                         <option <?php if($session_country == $country->country): ?> selected <?php endif; ?> value="<?php echo e(country()->where('id', $country->country)->pluck('id')->first()); ?>">
@@ -537,11 +535,7 @@ unset($__errorArgs, $__bag); ?>
     
                                                 <div class="ps-checkout__row ps-product">
                                                     <div class="ps-product__name"><?php echo e(@$details['name']); ?><span class="mx-2 text-green prod_qty">x <?php echo e($details['quantity']); ?></span><br>
-                                                        <?php if(!empty(@$details['details'])): ?>
-                                                            <?php $__currentLoopData = @$details['details']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                <span class="font-weight-normal text-muted"><?php echo e($val); ?></span><br>
-                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                        <?php endif; ?>
+                                                        
                                                      </div>
                                                     <div class="ps-product__price">
                                                         <?php echo e(formatPrice(@$details['price'] * $details['quantity'] + (@$details['price'] * $tax['vat_tax'] /100 * @$details['quantity']))); ?></div>
@@ -627,7 +621,7 @@ unset($__errorArgs, $__bag); ?>
                                                 ?>
                                         <div id="bank_dis_container">      
                                            
-                                             <?php if($cart_data['bank_trnsfer']==="yes"): ?>
+                                             <?php if($cart_data['bank_transfer']==="yes"): ?>
                                              
                                                  <?php
                                                       $bank_dis = (@$afterDiscount +  $shipping_price)*3/100;
@@ -656,7 +650,7 @@ unset($__errorArgs, $__bag); ?>
                                             <div class="ps-product__price final_priceEuro text-green">
                                                 <?php
                                                     $total = 0;
-                                                    if($cart_data['bank_trnsfer']==="yes"){ 
+                                                    if($cart_data['bank_transfer']==="yes"){ 
                                                         $total = @$final_price ;
                                                     }
                                                     else
@@ -674,7 +668,7 @@ unset($__errorArgs, $__bag); ?>
                                     <div class="ps-checkout__payment">
                                         <div class="direct-bank-method mb-15">
                                             <div class="form-check">
-                                                <input class="form-check-input payment_method" name="payment_method" type="radio" id="bank_transfer" value="Direkte Banküberweisung" <?php echo e(!empty(@$cart_data['bank_trnsfer'] ) ? 'checked' : ''); ?>>
+                                                <input class="form-check-input payment_method" name="payment_method" type="radio" id="bank_transfer" value="Direkte Banküberweisung" <?php echo e($cart_data['bank_transfer'] === 'yes' ? 'checked' : ''); ?> >
                                                 <label class="form-check-label" for="bank_transfer">Direkte Banküberweisung
                                                     <p class="text-danger">Sonderrabatt Aktion 3% Rabatt bei Banküberweisung (inklusive Käuferschutz)</p>
                                                 </label>
@@ -698,7 +692,7 @@ unset($__errorArgs, $__bag); ?>
     
                                         <div class="check-faq">
                                             <div class="form-check">
-                                                <input class="form-check-input" required type="radio" id="agree-faq" checked />
+                                                <input class="form-check-input" required type="checkbox" id="agree-faq"/>
                                                 <label class="form-check-label" for="agree-faq">Ich habe die Allgemeinen
                                                     Geschäftsbedingungen für die Website gelesen und stimme ihnen zu <span
                                                         class="text-danger">*</span></label>
@@ -749,18 +743,16 @@ unset($__errorArgs, $__bag); ?>
                         console.log(response);
 
                         // const {message,status,data} = JSON.parse(response);
-
-                        if(response.cart){
+                        // ${item.details ? item.details.map((val) => (
+                        //             `<span>${val}</span><br>`
+                        //             )).join('') : ''}
+                        // if(response.cart){
 
                             let product = response.cart.map((item, index) => {
                             return `
                             ${item.type === "variable" ? `
                             <div class="ps-checkout__row ps-product">
-                                <div class="ps-product__name">${item.name}<span>x</span><span>${item.quantity}</span><br>
-                                    ${item.details ? item.details.map((val) => (
-                                    `<span>${val}</span><br>`
-                                    )).join('') : ''}
-                                </div>
+                                <div class="ps-product__name">${item.name}<span>x</span><span>${item.quantity}</span><br></div>
                                 <div class="ps-product__price">
                                     ${item.price_with_tax}
                                 </div>
@@ -849,7 +841,7 @@ unset($__errorArgs, $__bag); ?>
         $("#country").on('change', function(){
             const id = $(this).val();
             sessionStorage.setItem("selected", id);
-            
+            $("#shipping_conuntry").val(id);
             if(!sessionStorage.getItem("checkded")){
                 shipping_update(id, dynmicElChekout);
             }else{
@@ -872,19 +864,19 @@ unset($__errorArgs, $__bag); ?>
 
             if ($(this).prop("checked")) {
                 var id =  $("#shipping_conuntry").val();
-                shipping_update(id, dynmicElChekout);
+                // shipping_update(id, dynmicElChekout);
 
                 sessionStorage.setItem("checkded","shipping" );
                 
                 $("#shipping_conuntry").on('change', function () {
                 var id = $(this).val();
-                shipping_update(id, dynmicElChekout);
+                // shipping_update(id, dynmicElChekout);
                 
                 });
             }else{
                 sessionStorage.removeItem("checkded");
                let id =  $("#country").val();
-               shipping_update(id, dynmicElChekout);
+            //    shipping_update(id, dynmicElChekout);
             }
         });
       });
@@ -909,11 +901,7 @@ unset($__errorArgs, $__bag); ?>
                 cart.map((item, index) => {
                 el+= `${item.type === "variable" ? `
                     <div class="ps-checkout__row ps-product">
-                        <div class="ps-product__name">${item.name}<span>x</span><span>${item.quantity}</span><br>
-                            ${item.details ? item.details.map((val) => (
-                            `<span>${val}</span><br>`
-                            )).join('') : ''}
-                        </div>
+                        <div class="ps-product__name">${item.name}<span>x</span><span>${item.quantity}</span><br></div>
                         <div class="ps-product__price">
                             ${item.price_with_tax}
                         </div>
@@ -1010,11 +998,7 @@ unset($__errorArgs, $__bag); ?>
                     return `
                     ${item.type === "variable" ? `
                     <div class="ps-checkout__row ps-product">
-                        <div class="ps-product__name">${item.name}<span>x</span><span>${item.quantity}</span><br>
-                            ${item.details ? item.details.map((val) => (
-                            `<span>${val}</span><br>`
-                            )).join('') : ''}
-                        </div>
+                        <div class="ps-product__name">${item.name}<span>x</span><span>${item.quantity}</span><br></div>
                         <div class="ps-product__price">
                             ${item.price_with_tax}
                         </div>

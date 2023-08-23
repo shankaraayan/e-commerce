@@ -26,12 +26,8 @@ class ProductAdminRequest extends FormRequest
         return [
             'product_name' => 'required',
             'product_description' => 'required',
-            'price' => 'required',
-
+            'price' => 'required|numeric|gt:0',
             'shipping' => 'required',
-
-
-
         ];
     }
 }

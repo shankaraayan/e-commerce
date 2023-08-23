@@ -86,25 +86,34 @@
                                 <span class="text-danger">{{ $errors->first('type') }}</span>
                                 @endif
                             </div>
+                            </div>
+                            <div class="grid xl:grid-cols-1 grid-cols-1 gap-6">
 
                             <div class="input-area">
                                 <label for="name" class="form-label"> Product Category*</label>
-                                <select class="form-control" name="categories" id="category" required="required" >
-                                    <option>Select Product Category</option>
-                                    @foreach(categories() as $cat)
-                                    <option value="{{ $cat->id }}" {{ $cat->id == $editData->categories ? 'selected' : '' }}>
-                                    {{ $cat->name }}
-                                    </option>
-
-                                @endforeach
-
+                                
+                                <select name="categories[]" class="select2 dropdown-select" id="category" multiple required="required">
+                                    <option value=""><b>Select an option</b></option>
+                                    
+                                    @foreach (categories() as $cat)
+                                    <option value="{{$cat->id}}"
+                                        @php
+                                            $categories = explode(',', $editData->categories);
+                                            if(in_array($cat->id, $categories))
+                                            echo 'selected';
+                                        @endphp
+                                        ><b>{{$cat->name}}</b></option>
+                                    @endforeach
+                                    
                                 </select>
                                 @if ($errors->has('categories'))
-                                <span class="text-danger">{{ $errors->first('categories') }}</span>
+                                    <span class="text-danger">{{ $errors->first('categories') }}</span>
                                 @endif
-                            </div>
 
-                            <div class="input-area">
+                            </div>
+                            </div>
+                            <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
+                            {{-- <div class="input-area">
                                 <label for="name" class="form-label"> Sub Category</label>
                                 <select class="form-control" name="subcategory" id="subcategory">
                                     <option value="">Select Sub Category</option>
@@ -117,7 +126,7 @@
                                 @if ($errors->has('subcategory'))
                                     <span class="text-danger">{{ $errors->first('subcategory') }}</span>
                                 @endif
-                            </div>
+                            </div> --}}
 
                             <div class="input-area">
                             <label for="name" class="form-label">Product Name*</label>
@@ -140,7 +149,7 @@
 
                              <div class="input-area">
                                 <label for="name" class="form-label">Product Quantity*</label>
-                                <input value="{{$editData->quantity}}"  type="number" class="form-control required" name="quantity">
+                                <input value="{{$editData->quantity}}" min="1" type="number" class="form-control required" name="quantity">
                                 @if ($errors->has('quantity'))
                                     <span class="text-danger">{{ $errors->first('quantity') }}</span>
                                 @endif
@@ -214,11 +223,11 @@
                             </select>
                             </div>
                             <div class="input-area">
-                                <label for="estimate_deliver_date" class="form-label">Estimate Delivery Date*</label>
-                                <input id="estimate_deliver_date" name="estimate_deliver_date" type="date" class="form-control"
-                                       value="{{ date('Y-m-d', strtotime($editData->estimate_deliver_date)) }}" required>
-                                @if ($errors->has('estimate_deliver_date'))
-                                    <span class="text-danger">{{ $errors->first('estimate_deliver_date') }}</span>
+                                <label for="product_availability" class="form-label">Product availability days*</label>
+                                <input id="product_availability" name="product_availability" type="number" min="1" class="form-control"
+                                       value="{{ $editData->product_availability }}" required>
+                                @if ($errors->has('product_availability'))
+                                    <span class="text-danger">{{ $errors->first('product_availability') }}</span>
                                 @endif
                             </div>
                             
@@ -235,6 +244,23 @@
                                     <option value="{{$shipping->id}}" {{ ($editData->shipping_class == $shipping->id) ? 'selected' : ''}}>{{$shipping->name}}</option>
                                 @endforeach
                                 </select>
+                            </div>
+
+                            <div class="input-area mb-5">
+                                <label style="margin-right: 10px;">
+                                    <input type="checkbox" name="best_selling" value="1" @if($editData->best_selling == 1) checked @endif >
+                                    BEST SELLING
+                                    @if ($errors->has('best_selling'))
+                                    <span class="text-danger">{{ $errors->first('best_selling') }}</span>
+                                    @endif
+                                </label>
+                                <label style="margin-right: 10px;">
+                                    <input type="checkbox" name="featured" value="1" @if($editData->featured == 1) checked @endif>
+                                    FEATURED
+                                    @if ($errors->has('featured'))
+                                    <span class="text-danger">{{ $errors->first('featured') }}</span>
+                                    @endif
+                                </label>
                             </div>
 
                         </div>

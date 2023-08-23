@@ -74,7 +74,6 @@
                                                     </figure>
                                                 </a>
                                                 <div class="ps-product__actions">
-                                                    
                                                 </div>
                                                 <div class="ps-product__badge">
                                                     <div class="ps-badge ps-badge--hot">Hot</div>
@@ -108,12 +107,8 @@
         </div>
     </div>
 
-    
-
     <button class="btn scroll-top"><i class="fa fa-angle-double-up"></i></button>
-    <!-- Quick view modal -->
    
-    <!-- Quick view modal -->
     <div class="ps-preloader" id="preloader">
         <div class="ps-preloader-section ps-preloader-left"></div>
         <div class="ps-preloader-section ps-preloader-right"></div>

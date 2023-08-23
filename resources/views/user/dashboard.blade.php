@@ -17,10 +17,10 @@
 <div class="dashboard_content">
     <a href="/logout"> </a>
     <p>Hello <a class="text-green" href="{{route('user.dashboard')}}"> <b>{{Auth::user()->name}}</b> </a> <span class="small">(nicht {{Auth::user()->name}} ? <a class="text-danger" href="{{route('logout')}}">logout</a>)</span></p>
-    <p class="mb-4">In your account overview you can view your <a class="text-blue border-bottom" href="{{route('user.orders')}}">recent orders</a> , manage your <a class="text-blue border-bottom" href="{{route('user.address')}}">shipping and billing addresses</a> , and <a class="text-blue border-bottom" href="{{route('user.account')}}">edit your password and account details</a>.</p>
+    <p class="mb-5 fs-4" style="line-height: 1.5;">In your account overview you can view your <a class="text-blue border-bottom" href="{{route('user.orders')}}">recent orders</a> , manage your <a class="text-blue border-bottom" href="{{route('user.address')}}">shipping and billing addresses</a> , and <a class="text-blue border-bottom" href="{{route('user.account')}}">edit your password and account details</a>.</p>
     <div class="container">
         <div class="row">
-            <a href="{{route('user.dashboard')}}" class="col-md-4 col-sm-6 col-6 px-1 px-sm-2 mb-3">
+            <a href="{{route('user.dashboard')}}" class="col-md-4 col-sm-6 col-6 px-2 px-sm-3 mb-4">
                 <div class="dashboard_box text-center shadow-sm border align-items-center justify-content-center">
                     <div class="dash_box">
                         {{-- <img src="{{asset('assets/img/stegpearl/dashboard.png')}}" /> --}}
@@ -29,7 +29,7 @@
                     </div>
                 </div>
             </a>
-            <a href="{{route('user.orders')}}" class="col-md-4 col-sm-6 col-6 px-1 px-sm-2 mb-3">
+            <a href="{{route('user.orders')}}" class="col-md-4 col-sm-6 col-6 px-2 px-sm-3 mb-4">
                 <div class="dashboard_box text-center shadow-sm border align-items-center justify-content-center">
                     <div class="order_box">
                         {{-- <img src="{{asset('assets/img/stegpearl/orders.png')}}" /> --}}
@@ -38,7 +38,7 @@
                     </div>
                 </div>
             </a>
-            <a href="{{route('user.address')}}" class="col-md-4 col-sm-6 col-6 px-1 px-sm-2 mb-3">
+            <a href="{{route('user.address')}}" class="col-md-4 col-sm-6 col-6 px-2 px-sm-3 mb-4">
                 <div class="dashboard_box text-center shadow-sm border align-items-center justify-content-center">
                     <div class="address_box">
                         {{-- <img src="{{asset('assets/img/stegpearl/marker.png')}}" /> --}}
@@ -47,7 +47,7 @@
                     </div>
                 </div>
             </a>
-            <a href="{{route('user.account')}}" class="col-md-4 col-sm-6 col-6 px-1 px-sm-2 mb-3">
+            <a href="{{route('user.account')}}" class="col-md-4 col-sm-6 col-6 px-2 px-sm-3 mb-4">
                 <div class="dashboard_box text-center shadow-sm border align-items-center justify-content-center">
                     <div class="account_info_box">
                         {{-- <img src="{{asset('assets/img/stegpearl/user.png')}}" /> --}}
@@ -56,7 +56,7 @@
                     </div>
                 </div>
             </a>
-            <a href="{{route('user.wishlist')}}" class="col-md-4 col-sm-6 col-6 px-1 px-sm-2 mb-3">
+            <a href="{{route('user.wishlist')}}" class="col-md-4 col-sm-6 col-6 px-2 px-sm-3 mb-4">
                 <div class="dashboard_box text-center shadow-sm border align-items-center justify-content-center">
                     <div class="wishlist_box">
                         {{-- <img src="{{asset('assets/img/stegpearl/wishlist.png')}}" /> --}}

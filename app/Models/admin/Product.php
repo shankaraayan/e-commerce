@@ -14,7 +14,7 @@ class Product extends Model
     protected $table = 'products';
 
     protected $casts = [
-        'estimate_deliver_date' => 'date'
+        'estimate_deliver_date' => 'date',
     ];
 
     protected $fillable = [

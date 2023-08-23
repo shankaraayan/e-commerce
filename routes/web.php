@@ -39,9 +39,38 @@ use App\Http\Controllers\TestController;
 |
 */
 
-// Route::get('/admin', function () {
-//     return view('admin.dashboard');
-// })->name('admin.home');
+// Footer Routes
+Route::get('/about-us', function () {
+    return view('pages.about');
+});
+
+Route::get('/contact-us', function () {
+    return view('pages.contact');
+});
+
+Route::get('/privacy-policy', function () {
+    return view('pages.privacy-policy');
+});
+
+Route::get('/data-sheet', function () {
+    return view('pages.data-sheet');
+});
+
+Route::get('/agb', function (){
+    return view('pages.agb');
+});
+
+Route::get('/impressum', function (){
+    return view('pages.impressum');
+});
+Route::get('/support-ticket', function (){
+    return view('pages.support-ticket');
+});
+
+Route::get('/terms-condition', function () {
+    return view('pages.terms-condition');
+});
+Route::get('term-html', [ProductController::class, 'term_html_components']);
 
 
 Route::get('/admin', [ProfileController::class, 'redirection'])->name('admin')->middleware('isAdmin');
@@ -178,14 +207,6 @@ Route::name('admin.product.')->prefix('admin/product/')->middleware('isAdmin')->
 Route::get('product-feed/{slug}', [AdminProductController::class, 'generateProductFeed'])->name('feed');
 // public routes
 
-Route::get('/about-us', function () {
-    return view('pages.about');
-});
-
-Route::get('/contact-us', function () {
-    return view('pages.contact');
-});
-
 Route::get('/products', function () {
     return view('pages.products.products');
 })->name('products');
@@ -198,26 +219,12 @@ Route::get('/orders', function () {
     return view('pages.orders.orders');
 });
 
-Route::get('term-html', [ProductController::class, 'term_html_components']);
-
 Route::get('/order/{id}', function () {
     return view('pages.orders.single-order');
 });
 
-Route::get('/privacy-policy', function () {
-    return view('pages.privacy-policy');
-});
 
-Route::get('/data-sheet', function () {
-    return view('pages.data-sheet');
-});
-
-Route::get('/terms-condition', function () {
-    return view('pages.terms-condition');
-});
-
-
-Route::get('product-detail/{id?}', [ProductController::class, 'productDetail'])->name('product.detail');
+Route::get('product-detail/{category?}/{id?}', [ProductController::class, 'productDetail'])->name('product.detail');
 Route::get('/', [ProductController::class, 'index'])->name('homepage');
 Route::get('product-terms', [ProductController::class, 'attributeTerms'])->name('product.attributeTerms');
 Route::get('product-terms-admin/{id?}', [ProductController::class, 'attributeTermsAdmin'])->name('product.admin.attributeTerms');
@@ -299,7 +306,7 @@ Route::post('/set-cookie', [CookieController::class,'setCookie'])->name('set.coo
 
 Route::get('/quick-view', [ProductController::class,'quick_view_products'])->name('quick.view');
 
-
+//* PayPal Payment Routes
 Route::get('paypal-payment', [PaymentGatwayController::class,'payment'])->name('payment');
 Route::get('paypal-cancel', [PaymentGatwayController::class,'cancel'])->name('payment.cancel');
 Route::get('paypal-payment/success', [PaymentGatwayController::class,'success'])->name('payment.success');
@@ -308,6 +315,10 @@ Route::get('paypal-payment/testView', [PaymentGatwayController::class,'testView'
 Route::post('bank-transfer', [FrontendController::class,'threePercentDiscount'])->name('bank.check');
 
 
+//* Mollies Payment Routes
+Route::get('mollie-payment', [PaymentGatwayController::class,'molliesPayCreate'])->name('mollie.payment');
+Route::get('mollie-payment-success',[PaymentGatwayController::class, 'molliesPaySuccess'])->name('mollie.payment.success');
+Route::get('mollie-payment-cencel',[PaymentGatwayController::class, 'molliesPayCencel'])->name('mollie.payment.cencel');
 
 
 Route::post('ajax-test', function(){

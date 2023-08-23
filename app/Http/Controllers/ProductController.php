@@ -14,9 +14,8 @@ use Illuminate\Support\Facades\DB;
 class ProductController extends Controller
 {
 
-     public function productDetail($slug,Request $request)
+    public function productDetail($category = null, $slug = null, Request $request)
     {
-    
         if (!empty($request->all())) {
             $terms = $request->all();
             $components = [];
@@ -60,7 +59,7 @@ class ProductController extends Controller
             })
             ->get();
             
-            return view('pages.product-detail', compact('product', 'attributes','products','components'));
+            return view('pages.product-detail', compact('category','product', 'attributes','products','components'));
         } 
         else {
             if($request->page){
@@ -94,7 +93,7 @@ class ProductController extends Controller
                 $query->whereIn('id', $attributeTermsIds);
             })
             ->get();
-            return view('pages.product-detail', compact('product', 'attributes','products'));
+            return view('pages.product-detail', compact('category','product', 'attributes','products'));
         }
        
     }

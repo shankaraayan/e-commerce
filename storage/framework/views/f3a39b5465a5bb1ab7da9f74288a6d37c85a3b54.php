@@ -25,18 +25,14 @@
 
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 <?php endif; ?>
-
-
-
-                
-
+ 
 
             </div>
         </section>
 
         <div class="ps-home__content">
             <div class="container">
-                <div class="ps-promo mt-5 ps-section--category ps-section--latest ps-category--image mt-5">
+                <div class="ps-promo my-5 ps-section--category ps-section--latest ps-category--image mt-5">
                     <h2 class="ps-section__title">Beliebte Kategorien</h2>
                     <div class="row">
                         <?php $__currentLoopData = categories()->where('parent_id','0'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -53,132 +49,113 @@
                 </div>
             </div>
 
-            <section class="ps-section--latest mt-5">
-                <div class="container">
-                    <h2 class="ps-section__title">Bestseller-Produkte</h2>
-                    <div class="ps-section__carousel pt-4">
-                        <div class="owl-carousel" data-owl-auto="false" data-owl-loop="true" data-owl-speed="13000"
-                            data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="4" data-owl-item-xs="1"
-                            data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-item-xl="4"
-                            data-owl-duration="1000" data-owl-mousedrag="on">
-                          
-                            <?php $__currentLoopData = $bestSellingProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$bproduct): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-
-                            <div class="ps-section__product shadow rounded m-2">
-                                <div class="ps-product ps-product--standard">
-                                    <div class="ps-product__thumbnail"><a class="ps-product__image" href="<?php echo e(route('product.detail',$bproduct->slug)); ?>">
-                                            <figure><img src="<?php echo e(asset('root/public/uploads/'.$bproduct->thumb_image)); ?>"
-                                                    alt="alt" /><img
-                                                    src="<?php echo e(asset('root/public/uploads/'.$bproduct->thumb_image)); ?>"
-                                                    alt="alt" /></figure>
-                                        </a>
-                                        <?php
-                                            $attributeIDs = ($bproduct->attributes_id);
-                                            $result = explode(',', $attributeIDs);
-                                            $prices = minmaxPrice($result);
-                                        // @dd($prices);die;
-                                        ?>
-                                    </div>
-                                    <div class="ps-product__content text-center">
-                                        <h5 class="ps-product__title"><a href="<?php echo e(route('product.detail',$bproduct->slug)); ?>"><?php echo e($bproduct->product_name); ?></a></h5>
-                                        <div class="ps-product__meta">
-                                            <?php if($bproduct->type==='variable'): ?>
-                                                <span class="ps-product__price text-green"><?php echo e(formatPrice($prices['min_price']) .' - '.formatPrice($prices['sum_of_max_prices'])); ?></span>
-                                            <?php else: ?>
-                                            <span class="ps-product__del text-muted"><?php echo e(formatPrice($bproduct->price)); ?></span>
-                                            <span class="ps-product__price sale"><?php echo e(formatPrice($bproduct->sale_price)); ?></span>
-                                            <?php endif; ?>
-                                        </div>
-                                        <!---->
-                                        
-                                        <?php if($bproduct->type !='variable'): ?>
-                                            <div class="add_to_cart_box"><a class="btn cart_btn d-block" href="javascript:void(0)" onclick="add_to_cart('<?php echo e($bproduct->id); ?>')">Add to cart</a>
-                                            </div>
-                                        <?php else: ?>
-                                           <div class="add_to_cart_box">
-                                                <a class="btn cart_btn d-block" href="<?php echo e(route('product.detail',$bproduct->slug)); ?>">View</a>
-                                            </div>
-                                        <?php endif; ?>
-
-                                        <!-- Remove Commnet to show whislist
-                                                    <div class="mt-4 d-flex align-items-center justify-content-between">
-                                                    <div class="add_to_cart_box"><a class="btn cart_btn" >Add to cart</a></div>
-                                                 <div class="ps-product__item d-none" data-toggle="tooltip" data-placement="left" title="Wishlist"><a href="wishlist.html"><i class="fa fa-heart-o fs-2"></i></a></div>
-                                                 </div> -->
-
-                                        
-
-                                    </div>
-                                </div>
+            
+                <section class="ps-section--deals pb-4 bg-light-blue">
+                    <div class="container">
+                    <div class="ps-section__header mb-0">
+                        <h2 class="ps-section__title">Bestseller-Produkte</h2>
+                    </div>
+                    <div class="ps-section__carousel border-0">
+                          <div class="owl-carousel owl-loaded owl-drag" data-owl-auto="false" data-owl-loop="true" data-owl-speed="13000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="4" data-owl-item-xs="1" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-item-xl="4" data-owl-duration="1000" data-owl-mousedrag="on">
+                
+                            
+                            <div class="owl-stage-outer py-md-5 py-2">
+                              <div class="owl-stage" style="transform: translate3d(-2228px, 0px, 0px); transition: all 1s ease 0s; width: 4706px;">
+                               
+                                <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
+<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.product-small-card','data' => ['productData' => $bestSellingProducts]]); ?>
+<?php $component->withName('product-small-card'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php $component->withAttributes(['productData' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($bestSellingProducts)]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
+<?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
+<?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
+<?php endif; ?>
+    
+                              </div>
                             </div>
-                           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                
+                            <div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><i
+                                    class="fa fa-chevron-left"></i></button><button type="button" role="presentation"
+                                class="owl-next"><i class="fa fa-chevron-right"></i></button></div>
+                            <div class="owl-dots disabled"><button role="button" class="owl-dot active"><span></span></button></div>
+                            <div class="owl-nav"><button type="button" role="presentation" class="owl-prev"><i
+                                    class="fa fa-chevron-left"></i></button><button type="button" role="presentation"
+                                class="owl-next"><i class="fa fa-chevron-right"></i></button></div>
+                            <div class="owl-dots"><button role="button" class="owl-dot active"><span></span></button><button
+                                role="button" class="owl-dot"><span></span></button><button role="button"
+                                class="owl-dot"><span></span></button></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="ps-promo mt-5">
-                        <div class="row">
-                            <div class="col-12 col-md-6">
-                                <div class="ps-promo__item"><img class="ps-promo__banner"
-                                        src="<?php echo e(asset('assets/img/stegpearl/hybrid-01.jpg')); ?>" alt="alt" />
-                                </div>
+                </section>
+            
+
+            <div class="container">
+                <div class="ps-promo mt-5 mb-3 pt-5">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="ps-promo__item"><img class="ps-promo__banner"
+                                    src="<?php echo e(asset('assets/img/stegpearl/hybrid-01.jpg')); ?>" alt="alt" />
                             </div>
-                            <div class="col-12 col-md-6">
-                                <div class="ps-promo__item">
-                                    <img class="ps-promo__banner" src="<?php echo e(asset('assets/img/stegpearl/solar-01.jpg')); ?>" alt="alt" />
-                                </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="ps-promo__item">
+                                <img class="ps-promo__banner" src="<?php echo e(asset('assets/img/stegpearl/solar-01.jpg')); ?>" alt="alt" />
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-            </section>
+            <section class="ps-section--deals pb-0 bg-light-blue">
+                <div class="container">
+                <div class="ps-section__header mb-0">
+                    <h2 class="ps-section__title">Die besten Deals der Woche!</h2>
+                </div>
+                <div class="ps-section__carousel border-0">
+                      <div class="owl-carousel owl-loaded owl-drag" data-owl-auto="false" data-owl-loop="true" data-owl-speed="13000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="4" data-owl-item-xs="1" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-item-xl="4" data-owl-duration="1000" data-owl-mousedrag="on">
+            
+                        
+                        <div class="owl-stage-outer py-md-5 py-2">
+                          <div class="owl-stage" style="transform: translate3d(-2228px, 0px, 0px); transition: all 1s ease 0s; width: 4706px;">
+                           
+                            <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
+<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.product-small-card','data' => ['productData' => $featuredProducts]]); ?>
+<?php $component->withName('product-small-card'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php $component->withAttributes(['productData' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($featuredProducts)]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
+<?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
+<?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
+<?php endif; ?>
 
-
-
-            <div class="container">
-                <section class="ps-section--deals">
-                    <div class="ps-section__header">
-                        <h2 class="ps-section__title">Die besten Deals der Woche!</h2>
-                    </div>
-                    <div class="ps-section__carousel border-0">
-                        <div class="owl-carousel" data-owl-auto="false" data-owl-loop="true" data-owl-speed="13000"
-                            data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="4"
-                            data-owl-item-xs="1" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4"
-                            data-owl-item-xl="4" data-owl-duration="1000" data-owl-mousedrag="on">
-                            <?php $__currentLoopData = $featuredProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$featureProduct): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                          <div class="ps-section__product shadow rounded m-2">
-                                <div class="ps-product ps-product--standard">
-                                    <div class="ps-product__thumbnail"><a class="ps-product__image" href="<?php echo e(route('product.detail',$featureProduct->slug)); ?>">
-                                            <figure><img src="<?php echo e(asset('root/public/uploads/'.$featureProduct->thumb_image)); ?>"
-                                                    alt="alt" /></figure>
-                                        </a>
-                                        <div class="ps-product__percent ps-badge ps-badge--hot">-26%</div>
-                                    </div>
-                                    <div class="ps-product__content">
-                                        <h5 class="ps-product__title"><a href="<?php echo e(route('product.detail',$featureProduct->slug)); ?>"><?php echo e($featureProduct->product_name); ?></a></h5>
-                                        <div class="ps-product__meta"><span
-                                                class="ps-product__price sale"> <?php echo e(formatPrice($featureProduct->sale_price)); ?></span><span
-                                                class="ps-product__del"><?php echo e(formatPrice($featureProduct->price)); ?></span>
-                                        </div>
-                                         
-                                         <?php if($featureProduct->type !='variable'): ?>
-                                         <div class="add_to_cart_box"><a class="btn cart_btn d-block" href="javascript:void(0)" onclick="add_to_cart('<?php echo e($bproduct->id); ?>')">Add to cart</a>
-                                         </div>
-                                     <?php else: ?>
-                                         <div class="add_to_cart_box">
-                                             <a class="btn cart_btn d-block" href="<?php echo e(route('product.detail',$featureProduct->slug)); ?>">View</a>
-                                         </div>
-                                     <?php endif; ?>
-
-                                        
-
-                                    </div>
-                                </div>
-                            </div>
-                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
+                          </div>
+                        </div>
+            
+                        <div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><i
+                                class="fa fa-chevron-left"></i></button><button type="button" role="presentation"
+                            class="owl-next"><i class="fa fa-chevron-right"></i></button></div>
+                        <div class="owl-dots disabled"><button role="button" class="owl-dot active"><span></span></button></div>
+                        <div class="owl-nav"><button type="button" role="presentation" class="owl-prev"><i
+                                class="fa fa-chevron-left"></i></button><button type="button" role="presentation"
+                            class="owl-next"><i class="fa fa-chevron-right"></i></button></div>
+                        <div class="owl-dots"><button role="button" class="owl-dot active"><span></span></button><button
+                            role="button" class="owl-dot"><span></span></button><button role="button"
+                            class="owl-dot"><span></span></button></div>
                         </div>
                     </div>
-                </section>
+                </div>
+            </section>
+
+            <div class="container">
+                
                 <section class="ps-about--info mt-5 pb-5">
                     <h2 class="ps-about__title">Why Stegpearl ?</h2>
                     <div class="ps-about__extent">

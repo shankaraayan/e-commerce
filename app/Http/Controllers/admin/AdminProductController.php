@@ -65,11 +65,15 @@ class AdminProductController extends Controller
         $input['thumb_image'] = $filename ?? '';
         $input['type'] = $request->type;
         $input['status'] = $request->status;
+
         $selectedOptions = $request->input('options', []);
         $selectedOptionsTerms = $request->input('optionTerms', []);
-        $input['categories'] =$request->categories;
+        $categories = $request->input('categories', []);
+
+        $input['categories'] = implode(',', $categories);
+
         $input['subcategory_id'] = $request->subcategory;
-        $input['estimate_deliver_date'] = $request->estimate_deliver_date;
+        $input['product_availability'] = $request->product_availability;
         $input['attributes_id'] = implode(',', $selectedOptions);
         $input['attributesTerms_id'] = implode(',', $selectedOptionsTerms);
         $input['shipping_class'] = $request->shipping;
@@ -102,6 +106,9 @@ class AdminProductController extends Controller
     {
         $options = is_array($request->options) ? implode(',', $request->options) : '';
         $dropdowns = is_array($request->dropdowns) ? implode(',', $request->dropdowns) : '';
+        
+        $categories = is_array($request->categories) ? implode(',', $request->categories) : '';
+
         $editproduct = Product::find($request->productId);
         $editproduct->product_name = $request->product_name;
         $editproduct->attributes_id = $options;
@@ -119,12 +126,14 @@ class AdminProductController extends Controller
         $editproduct->sale_price = $request->sale_price;
         $editproduct->offer_price = $request->offer_price;
         $editproduct->mp_option3 = $request->mp_option3;
-        $editproduct->categories = $request->categories;
+
+        $editproduct->categories = $categories;
+        
         $editproduct->subcategory_id = $request->subcategory;
         $editproduct->status = $request->status;
         $editproduct->sku = $request->sku;
         $editproduct->quantity = $request->quantity;
-        $editproduct->estimate_deliver_date = $request->estimate_deliver_date;
+        $editproduct->product_availability = $request->product_availability;
         $editproduct->solar_product = $request->solar_product;
         if ($request->hasFile('images')) {
             $images = $request->file('images');

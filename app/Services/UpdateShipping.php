@@ -85,7 +85,7 @@ class UpdateShipping
                     $afterDiscount = ($subtotal * $discount_value) / 100;
                     
                     
-                    if($cart[$item["product_id"]]["bank_trnsfer"]=="yes"){
+                    if($cart[$item["product_id"]]["bank_transfer"]=="yes"){
                          
                         $bank_dis = ($subtotal - $afterDiscount + $shipping_price)*3/100;
                         
@@ -117,7 +117,7 @@ class UpdateShipping
                         (($item["price"] * $tax["vat_tax"]) / 100) *
                             $item["quantity"];
                      
-                     if($cart[$item["product_id"]]["bank_trnsfer"]=="yes"){
+                     if($cart[$item["product_id"]]["bank_transfer"]=="yes"){
                          
                         $bank_dis = ($subtotal + $shipping_price)*3/100;
                         $total =  ($subtotal + $shipping_price)-$bank_dis;

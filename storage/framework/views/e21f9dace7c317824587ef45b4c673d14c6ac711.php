@@ -52,17 +52,12 @@
 <?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
 <?php endif; ?>
             <div class="container">
-                <!--<h1 class="ps-categogy__name mt-5">Shop</h1>-->
                 <?php
-                    
                     $currentUri = $_SERVER['REQUEST_URI'];
                     $segments = explode('/', $currentUri);
                     $lastSegment = end($segments);
-
                 ?>
-                
             </div>
-
             <div class="ps-categogy__main pb-40">
                 <div class="container">
                     <div class="ps-categogy__widget">
@@ -114,8 +109,16 @@
                                                         <div class="col-9 pl-3">
                                                         <div class="product_info_rel">
                                                             <p class="product_info_name ps-product__title"><?php echo e($product->product_name); ?></p>
-                                                            
-                                                            
+                                                            <?php
+                                                                $attributeIDs = ($product->attributes_id);
+                                                                $result = explode(',', $attributeIDs);
+                                                                $prices = minmaxPrice($result);
+                                                            ?>
+                                                            <?php if($product->type==='variable'): ?>
+                                                                <span class="ps-product__price text-green">aus  - <?php echo e(formatPrice($prices['sum_of_max_prices'])); ?></span>
+                                                            <?php else: ?>
+                                                                <span class="ps-product__price text-green""><?php echo e(formatPrice($product->price)); ?></span>
+                                                            <?php endif; ?>
                                                         </div>
                                                     </div>
                                                     </div>
@@ -123,8 +126,6 @@
                                             
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <?php endif; ?>
-
-
                             </div>
                          </div>
                     </div>
@@ -146,69 +147,20 @@
                             </div>
                         </div>
                         <div class="row m-0 no-gutters" id="responseContainer">
+                            
                             <?php if(!empty(@$products)): ?>
-                                <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                                        <div class="ps-product ps-product--standard">
-                                            <div class="ps-product__thumbnail"><a class="ps-product__image" onclick="addSimiliarProductId(<?php echo e($product->id); ?>)" href="<?php echo e(route('product.detail',$product->slug)); ?>">
-                                                    <figure>
-                                                        <img src="<?php echo e(asset('root/public/uploads/'.$product->thumb_image)); ?>" alt="alt" class="img-fluid" />
-                                                        <img src="<?php echo e(asset('root/public/uploads/'.$product->thumb_image)); ?>" class="img-fluid" alt="alt" />
-                                                    </figure>
-                                                </a>
-                                               
-                                                <div class="ps-product__badge">
-                                                    <div class="ps-badge ps-badge--hot">Hot</div>
-                                                </div>
-                                            </div>
-                                            <div class="ps-product__content text-center">
-                                            
-                                                <a class="fs-5" href="<?php echo e(route('shop', ['slug' => categories()->where('id', $product->categories)->pluck('slug')->first()])); ?>">
-                                                    <?php echo e(categories()->where('id', $product->categories)->pluck('name')->first()); ?>
-
-                                                </a>
-                                                
-                                                
-                                                
-                                                <a onclick="addSimiliarProductId(<?php echo e($product->id); ?>)"  href="<?php echo e(route('product.detail',$product->slug)); ?>"><h5 class="ps-product__title"><?php echo e($product->product_name); ?></h5></a>
-                                                <div class="ps-product__meta text-center">
-                                                    <?php
-                                                        $attributeIDs = ($product->attributes_id);
-                                                        $result = explode(',', $attributeIDs);
-                                                        $prices = minmaxPrice($result);
-                                                        // @dd($prices);die;
-                                                    ?>
-
-                                                    
-                                                    
-                                                    <?php if($product->type==='variable'): ?>
-                                                        <span class="ps-product__price text-green"><?php echo e(formatPrice($prices['min_price']) .' - '.formatPrice($prices['sum_of_max_prices'])); ?></span>
-                                                    <?php else: ?>
-                                                        <span class="ps-product__del text-muted"><?php echo e(formatPrice($product->price)); ?></span>
-                                                        <span class="ps-product__price text-green"><?php echo e(formatPrice($product->sale_price)); ?></span>
-                                                    <?php endif; ?>
-                                                </div>
-
-                                                
-
-                                                
-                                                <div class="ps-product__actions ps-product__group-mobile d-block">
-                                                    <div class="ps-product__cart d-block">
-                                                        <?php if($product->type !='variable'): ?>
-                                                        <div class="add_to_cart_box"><a class="btn cart_btn d-block" href="javascript:void(0)" onclick="add_to_cart('<?php echo e($product->id); ?>')">Add to cart</a>
-                                                        </div>
-                                                    <?php else: ?>
-                                                    <div class="add_to_cart_box">
-                                                            <a onclick="addSimiliarProductId(<?php echo e($product->id); ?>)" class="btn cart_btn d-block" href="<?php echo e(route('product.detail',$product->slug)); ?>">View</a>
-                                                        </div>
-                                                    <?php endif; ?>
-                                                    </div>
-                                                    <!-- <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="Wishlist"><a href="wishlist.html"><i class="fa fa-heart-o"></i></a></div> -->
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
+<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.product-card','data' => ['productData' => $products]]); ?>
+<?php $component->withName('product-card'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php $component->withAttributes(['productData' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($products)]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
+<?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
+<?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
+<?php endif; ?>
                            <?php endif; ?>
 
                         </div>
@@ -424,6 +376,7 @@
                 data: { category: lastSegment,shortBy: sortValue},
                 success: function(response)
                 {
+                    console.log(response);
                 var data = response.products;
                 $('#responseContainer').empty();
                 if (data.length > 0) {
@@ -656,8 +609,8 @@
                         "_token": "<?php echo e(csrf_token()); ?>",
                 },
                 success: function(response) {
-                    console.log(response);
-                    return false;
+                    // console.log(response);
+                    
                     response.map((item, index) => {
                     data += `
                     <a href="/product-detail/${item.slug}">
@@ -671,7 +624,9 @@
                                 <div class="col-9 pl-3">
                                     <div class="product_info_rel">
                                         <p class="product_info_name ps-product__title">${item.product_name}</p>
-                                        <div class="product_info_price fs-4">€${item.price}</div>
+                                        <div class="ps-product__price text-green">
+                                            ${item.type === "variable" ? `aus - €${item.sum_of_max_prices}` : `€${item.price}`}
+                                        </div>
                                     </div>
                                 </div>
                             </div>

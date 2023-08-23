@@ -45,6 +45,7 @@ class FrontendController extends Controller
     public function addToCart(Request $request)
     {
         $id = @$request->id;
+        $url = @$request->url;
         $qty = @$request->quantity;
         if (empty($qty))
             $qty = 1;
@@ -78,7 +79,8 @@ class FrontendController extends Controller
                         "solar_product" => $product['solar_product'] ? 'yes' : 'no',
                         "shipping_country" => @$shipping_country,
                         "shipping_class" => @$shipping_class,
-                        "bank_trnsfer" => "yes"
+                        "bank_transfer" => "yes",
+                        "product_availability" => $product['product_availability']
 
                     ];
                     $message = "Product Added to Cart";
@@ -107,7 +109,9 @@ class FrontendController extends Controller
                         $cart[$id]['product_id'] = $id;
                         $cart[$id]['solar_product'] = $product['solar_product'] ? 'yes' : 'no';
                         $cart[$id]['shipping_class'] = @$shipping_class;
-                         $cart[$id]['bank_trnsfer'] = "yes";
+                        $cart[$id]['bank_transfer'] = "yes";
+                        $cart[$id]['cart_product_url'] = @$url ? @$url : '';
+                        $cart[$id]["product_availability"] = $product['product_availability'];
                    
                         $message = "Product Updated to Cart";
                     } else {
@@ -128,7 +132,10 @@ class FrontendController extends Controller
                             "product_id" => $id,
                             "shipping_class" => @$shipping_class,
                             "solar_product" => @$product['solar_product'] ? 'yes' :'no',
-                            "bank_trnsfer" => "yes"
+                            "bank_transfer" => "yes",
+                            "cart_product_url" => isset($url) ? $url : '',
+                            "product_availability" => $product['product_availability']
+
                         ];
                         $message = "Product Added to Cart";
                     }
@@ -481,7 +488,7 @@ class FrontendController extends Controller
     
         // Get the category of the current product
         $category = $product->categories;
-    
+        $all_product = [];
         // Get a random product from the same category
         $randomProduct = Product::where('categories',  $category)
             ->where('id', '!=', $productId)
@@ -495,11 +502,15 @@ class FrontendController extends Controller
 
                 if($product['type']=="variable"){
                     $response = $price->minmaxPrice(explode(',', $product->attributes_id));
-                    print_r($response);die;
+                    $product['sum_of_max_prices'] = $response['sum_of_max_prices'];
+                    $product['min_price'] = $response['min_price'];
+                    $all_product [] = $product;
+                }else{
+                    $all_product [] = $product;
                 }
                 
             }
-        return response()->json($randomProduct);
+        return response()->json($all_product);
     }
 
 
@@ -520,7 +531,7 @@ class FrontendController extends Controller
           
             foreach($cart as $item){
                 
-                 $cart[$item["product_id"]]["bank_trnsfer"] = "yes";
+                 $cart[$item["product_id"]]["bank_transfer"] = "yes";
             }
             session()->put("cart", $cart);
          }
@@ -535,7 +546,7 @@ class FrontendController extends Controller
           
             foreach($cart as $item){
                 
-                 $cart[$item["product_id"]]["bank_trnsfer"] = "no";
+                 $cart[$item["product_id"]]["bank_transfer"] = "no";
             }
             session()->put("cart", $cart);
          }

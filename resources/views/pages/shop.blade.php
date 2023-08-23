@@ -44,17 +44,12 @@
         <div class="ps-categogy ps-categogy--separate">
             <x-filtter :value="__('na')">Shop</x-filtter>
             <div class="container">
-                <!--<h1 class="ps-categogy__name mt-5">Shop</h1>-->
                 @php
-                    
                     $currentUri = $_SERVER['REQUEST_URI'];
                     $segments = explode('/', $currentUri);
                     $lastSegment = end($segments);
-
                 @endphp
-                
             </div>
-
             <div class="ps-categogy__main pb-40">
                 <div class="container">
                     <div class="ps-categogy__widget">
@@ -106,8 +101,16 @@
                                                         <div class="col-9 pl-3">
                                                         <div class="product_info_rel">
                                                             <p class="product_info_name ps-product__title">{{ $product->product_name }}</p>
-                                                            {{-- <div class="product_info_price">€{{formatPrice($product->price)}} - €{{formatPrice($product->sale_price)}}</div> --}}
-                                                            {{-- <div class="product_info_price fs-4">{{ formatPrice($product->sale_price) }}</div> --}}
+                                                            @php
+                                                                $attributeIDs = ($product->attributes_id);
+                                                                $result = explode(',', $attributeIDs);
+                                                                $prices = minmaxPrice($result);
+                                                            @endphp
+                                                            @if ($product->type==='variable')
+                                                                <span class="ps-product__price text-green">aus  - {{formatPrice($prices['sum_of_max_prices']) }}</span>
+                                                            @else
+                                                                <span class="ps-product__price text-green"">{{ formatPrice($product->price) }}</span>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                     </div>
@@ -115,8 +118,6 @@
                                             
                                         @endforeach
                                     @endif
-
-
                             </div>
                          </div>
                     </div>
@@ -138,73 +139,9 @@
                             </div>
                         </div>
                         <div class="row m-0 no-gutters" id="responseContainer">
+                            
                             @if(!empty(@$products))
-                                @foreach($products as $product)
-                                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
-                                        <div class="ps-product ps-product--standard">
-                                            <div class="ps-product__thumbnail"><a class="ps-product__image" onclick="addSimiliarProductId({{$product->id}})" href="{{route('product.detail',$product->slug)}}">
-                                                    <figure>
-                                                        <img src="{{asset('root/public/uploads/'.$product->thumb_image)}}" alt="alt" class="img-fluid" />
-                                                        <img src="{{asset('root/public/uploads/'.$product->thumb_image)}}" class="img-fluid" alt="alt" />
-                                                    </figure>
-                                                </a>
-                                               {{-- <div class="ps-product__actions">
-                                                    <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="" id="{{$product->id}}" onclick="add_wishlist(this.id)" data-original-title="Wishlist"><a><i class="fa fa-heart-o"></i></a></div>
-                                                    <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="" data-original-title="Quick view"><a href="javascript:void(0);" onclick="quickViewProducts( '{{$product->slug}}' );"><i class="fa fa-search"></i></a></div>
-                                                </div> --}}
-                                                <div class="ps-product__badge">
-                                                    <div class="ps-badge ps-badge--hot">Hot</div>
-                                                </div>
-                                            </div>
-                                            <div class="ps-product__content text-center">
-                                            
-                                                <a class="fs-5" href="{{ route('shop', ['slug' => categories()->where('id', $product->categories)->pluck('slug')->first()]) }}">
-                                                    {{ categories()->where('id', $product->categories)->pluck('name')->first() }}
-                                                </a>
-                                                {{-- <a class="ps-product__branch" href="{{route('product.detail',$product->slug)}}">{{ categories()->where('id',$product->categories)->pluck('name')->first();}}</a> --}}
-                                                {{-- <span>,</span> <a class="ps-product__branch" href="#">Subcategory</a> --}}
-                                                
-                                                <a onclick="addSimiliarProductId({{$product->id}})"  href="{{route('product.detail',$product->slug)}}"><h5 class="ps-product__title">{{$product->product_name}}</h5></a>
-                                                <div class="ps-product__meta text-center">
-                                                    @php
-                                                        $attributeIDs = ($product->attributes_id);
-                                                        $result = explode(',', $attributeIDs);
-                                                        $prices = minmaxPrice($result);
-                                                        // @dd($prices);die;
-                                                    @endphp
-
-                                                    {{-- @dd($prices['min_price']); --}}
-                                                    {{-- @dd($product->type); --}}
-                                                    @if ($product->type==='variable')
-                                                        <span class="ps-product__price text-green">{{ formatPrice($prices['min_price']) .' - '.formatPrice($prices['sum_of_max_prices']) }}</span>
-                                                    @else
-                                                        <span class="ps-product__del text-muted">{{ formatPrice($product->price) }}</span>
-                                                        <span class="ps-product__price text-green">{{ formatPrice($product->sale_price) }}</span>
-                                                    @endif
-                                                </div>
-
-                                                
-
-                                                {{-- <div class="ps-product__desc mb-4">
-                                                    <p>{{$product->slug}} </p>
-                                                </div> --}}
-                                                <div class="ps-product__actions ps-product__group-mobile d-block">
-                                                    <div class="ps-product__cart d-block">
-                                                        @if($product->type !='variable')
-                                                        <div class="add_to_cart_box"><a class="btn cart_btn d-block" href="javascript:void(0)" onclick="add_to_cart('{{ $product->id }}')">Add to cart</a>
-                                                        </div>
-                                                    @else
-                                                    <div class="add_to_cart_box">
-                                                            <a onclick="addSimiliarProductId({{$product->id}})" class="btn cart_btn d-block" href="{{route('product.detail',$product->slug)}}">View</a>
-                                                        </div>
-                                                    @endif
-                                                    </div>
-                                                    <!-- <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="Wishlist"><a href="wishlist.html"><i class="fa fa-heart-o"></i></a></div> -->
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
+                                <x-product-card :productData="$products" />
                            @endif
 
                         </div>
@@ -419,6 +356,7 @@
                 data: { category: lastSegment,shortBy: sortValue},
                 success: function(response)
                 {
+                    console.log(response);
                 var data = response.products;
                 $('#responseContainer').empty();
                 if (data.length > 0) {
@@ -660,8 +598,8 @@
                         "_token": "{{ csrf_token() }}",
                 },
                 success: function(response) {
-                    console.log(response);
-                    return false;
+                    // console.log(response);
+                    
                     response.map((item, index) => {
                     data += `
                     <a href="/product-detail/${item.slug}">
@@ -675,7 +613,9 @@
                                 <div class="col-9 pl-3">
                                     <div class="product_info_rel">
                                         <p class="product_info_name ps-product__title">${item.product_name}</p>
-                                        <div class="product_info_price fs-4">€${item.price}</div>
+                                        <div class="ps-product__price text-green">
+                                            ${item.type === "variable" ? `aus - €${item.sum_of_max_prices}` : `€${item.price}`}
+                                        </div>
                                     </div>
                                 </div>
                             </div>

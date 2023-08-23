@@ -8,7 +8,7 @@
                        @include("user.sidebar")
             </div>
             <div class="col-xl-9 col-lg-9 col-md-12 col-12 col-xs-12">
-                <div class="dashboard_right_details bg-white p-5 shadow border">
+                <div class="dashboard_right_details bg-white p-2 p-md-3 p-lg-5 shadow border">
                     <div class="tab-content" id="CG_Dashboard_UI">
                         <div class="tab-pane fade show active" id="v-pills-dashboard" role="tabpanel"
                             aria-labelledby="v-pills-dashboard-tab">

@@ -31,16 +31,17 @@
     <link rel="stylesheet" href="{{ asset('assets/plugins/lightGallery/dist/css/lightgallery.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/plugins/noUiSlider/nouislider.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <link rel="stylesheet" href="{{ asset('assets/css/home-1.css') }}">
     <script src="{{ asset('assets/plugins/jquery.min.js') }}"></script>
-    
+
+
     @yield('style')
 </head>
 
 <body>
 
- 
     @include('Layout.header')
     <div class="ps-page">
         @yield('content')
@@ -49,7 +50,7 @@
 
     @include('includes.include')
     <script src="{{ asset('assets/plugins/jquery.min.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.js"></script>-->
     <script src="{{ asset('assets/plugins/popper.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/bootstrap4/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/select2/dist/js/select2.full.min.js') }}"></script>
@@ -58,9 +59,13 @@
     <script src="{{ asset('assets/plugins/lightGallery/dist/js/lightgallery-all.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/slick/slick/slick.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/noUiSlider/nouislider.min.js') }}"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@flasher/flasher@1.1.1/dist/flasher.min.js"></script>
     <!-- custom code-->
+   
     <script src="{{ asset('assets/js/main.js') }}"></script>
     <script type="module" src="{{ asset('assets/js/custom.js')}}" async></script>
 </body>
+
+
 
 </html>

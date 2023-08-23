@@ -61,7 +61,10 @@
                             </th>
 
                             <th scope="col" class=" table-th ">
-                              Artical Number
+                              SKU
+                            </th>
+                            <th scope="col" class=" table-th ">
+                              Stock
                             </th>
                             <th scope="col" class=" table-th ">
                               Type
@@ -84,7 +87,8 @@
                             <td class="table-td">{{++$key}}</td>
                             <td class="table-td ">{{$values->product_name}}</td>
                             <td class="table-td ">€{{$values->price}}</td>
-                            <td class="table-td ">NYRGGHVH678</td>
+                            <td class="table-td ">{{$values->sku}}</td>
+                            <td class="table-td ">{{$values->quantity}}</td>
                             <td class="table-td ">{{$values->type}}</td>
                             <td class="table-td ">{{shippingClass()->where('id',$values->shipping_class)->pluck('name')->first()}}</td>
                             <td class="table-td ">

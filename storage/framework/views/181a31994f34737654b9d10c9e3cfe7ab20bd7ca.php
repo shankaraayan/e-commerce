@@ -57,15 +57,25 @@
                         <div class="col-12 col-md-4">
                             <div class="ps-footer--address">
                                 <div class="ps-logo"><a href="<?php echo e(route('homepage')); ?>"> <img
-                                            src="<?php echo e(asset('assets/img/stegpearl/Stegpearl-de-white.png')); ?>" alt></a>
+                                            src="<?php echo e(asset('assets/img/stegpearl/epp-green-white.png')); ?>" alt="epp.solar"></a>
                                 </div>
                                 <div class="ps-footer__title">Our store</div>
                                 <p>Neuer Wall 50, <br>20354 Hamburg, <br>Deutschland</p>
-                                <p><a target="_blank"
-                                        href="https://www.google.com/maps/place/Stegpearl+Germany+GmbH+-+Osnabr%C3%BCck/@52.2782942,7.8986899,12z/data=!4m10!1m2!2m1!1sSolar+Energy+Company!3m6!1s0x6c9f7d61a8f1fd47:0x294e29b9efd94a44!8m2!3d52.2779866!4d8.0554296!15sChRTb2xhciBFbmVyZ3kgQ29tcGFueZIBFHNvbGFyX2VuZXJneV9jb21wYW554AEA!16s%2Fg%2F11shcvx0ys?entry=ttu">Show
-                                        on map</a></p>
+                               
                                 <ul class="ps-social">
-                                    <li><a class="ps-social__link linkedin" href="#"><i
+                                    <li><a class="ps-social__link facebook" href="https://www.facebook.com/EPP-SOLAR-105342695473034/" target="_blank"><i
+                                                class="fa fa-facebook"></i><span class="ps-tooltip">Facebook</span></a>
+                                    </li>
+                                    <li><a class="ps-social__link twitter" href="https://twitter.com/eppsolar" target="_blank"><i
+                                                class="fa fa-twitter"></i><span class="ps-tooltip">Twitter</span></a>
+                                    </li>
+                                    <li><a class="ps-social__link youtube" href="https://www.youtube.com/channel/UC3O8XlirDTittHT2xV6yBHg" target="_blank"><i
+                                                class="fa fa-youtube"></i><span class="ps-tooltip">Youtube</span></a>
+                                    </li>
+                                    <li><a class="ps-social__link instagram" href="https://www.instagram.com/epp_solar_/" target="_blank"><i
+                                                class="fa fa-instagram"></i><span class="ps-tooltip">Instagram</span></a>
+                                    </li>
+                                    <li><a class="ps-social__link linkedin" href="https://www.linkedin.com/company/eppsolar" target="_blank"><i
                                                 class="fa fa-linkedin"></i><span class="ps-tooltip">Linkedin</span></a>
                                     </li>
                                 </ul>
@@ -74,13 +84,12 @@
                         <div class="col-12 col-md-8">
                             <div class="ps-footer--contact">
                                 <h5 class="ps-footer__title">Kontakt Informationen</h5>
-                                <div class="ps-footer__fax"><i class="icon-telephone"></i><a href="tel:4904042308603">49
-                                        (0) 40 4230 8603</a></div>
+                                <div class="ps-footer__fax"><i class="icon-telephone"></i><a href="tel:+49 541 96251000">+49 541 96251000</a></div>
                                 <p class="ps-footer__work">Geschäftszeiten: <br> Montag bis Freitag: 09:00 -
                                     16:00 Uhr</p>
                                 <hr style="border-top-color: var(--green-color);">
                                 <p class="text-white"><i class="icon-envelope"></i><a class="ps-footer__email"
-                                        href="mailto:germany@stegpearl.com"> germany@stegpearl.com </a></p>
+                                        href="mailto:contact@epp.solar">contact@epp.solar</a></p>
                             </div>
                         </div>
                     </div>
@@ -105,11 +114,11 @@
                                 <h5 class="ps-block__title">Schnelllinks</h5>
                                 <ul class="ps-block__list">
                                     <li><a href="#">Über uns</a></li>
-                                    <li><a href="#">Impressum</a></li>
-                                    <li><a href="#">Datenschutzerklärung</a></li>
-                                    <li><a href="#">Agb</a></li>
-                                    <li><a href="#">Kontakt</a></li>
-                                    <li><a href="#">Support ticket</a></li>
+                                    <li><a href="/impressum">Impressum</a></li>
+                                    <li><a href="/data-sheet">Datenschutzerklärung</a></li>
+                                    <li><a href="/agb">Agb</a></li>
+                                    <li><a href="/contact-us">Kontakt</a></li>
+                                    <li><a href="/support-ticket">Support ticket</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -118,14 +127,14 @@
                 </div>
             </div>
         </div>
-        <div class="ps-footer--bottom">
-            <div class="row">
-                <div class="col-12 col-md-6">
-                    <p>Copyright © 2023 Stegpearl. Alle Rechte vorbehalten</p>
+        <div class="ps-footer--bottom py-2">
+            <div class="row align-items-center">
+                <div class="col-md-6 col-12 text-md-left text-center">
+                    <p class="fs-5">Copyright © EPP.Solar <?= date("Y"); ?>. Alle Rechte vorbehalten</p>
                 </div>
-                <div class="col-12 col-md-6 text-right"><img
+                <div class="col-12 col-md-6 text-md-right text-center"><img
                         src="https://campergold.net/wp-content/uploads/elementor/thumbs/paypal-plus-logo-p6reqcckrq9vz2hup9uo8cw42gewnawmxylsyq0w62.png"
-                        alt><img class="payment-light" src="<?php echo e(asset('assets/img/payment-light.png')); ?>" alt></div>
+                        alt="payment-icon" style="width: 150px;"><img class="payment-light" src="<?php echo e(asset('assets/img/payment-light.png')); ?>" alt></div>
             </div>
         </div>
     </div>

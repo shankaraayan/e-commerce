@@ -14,9 +14,9 @@
                   response = JSON.parse(response);
                   if (response.status == true) {
                       $(".my_cart_count").text(response.data);
-                      toastr.success(response.message);
+                      flasher.success(response.message);
                   } else {
-                      toastr.success(response.message);
+                    flasher.success(response.message);
                   }
   
               }
@@ -36,9 +36,9 @@
                   response = JSON.parse(response);
                   if (response.status == true) {
                       $("#session_value_count").text(response.data);
-                      toastr.success(response.message);
+                      flasher.success(response.message);
                   } else {
-                      toastr.warning("Something went wrong");
+                    flasher.warning("Something went wrong");
                   }
   
               }

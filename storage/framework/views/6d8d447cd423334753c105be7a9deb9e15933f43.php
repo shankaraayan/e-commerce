@@ -1,3 +1,6 @@
+<style>
+   
+</style>
 <header class="ps-header ps-header--1">
     <div class="ps-noti py-2">
         <div class="container">
@@ -6,18 +9,20 @@
                     <ul class="list-inline text-white">
                         <li class="list-inline-item"><a class="ps-social__link facebook" href="#"><i
                                     class="fa fa-facebook fs-3"></i></a></li>
-                        <li class="list-inline-item"><a class="ps-social__link linkedin" href="#"><i
-                                    class="fa fa-linkedin fs-3"></i></a></li>
                         <li class="list-inline-item"><a class="ps-social__link twitter" href="#"><i
                                     class="fa fa-twitter fs-3"></i></a></li>
                         <li class="list-inline-item"><a class="ps-social__link youtube" href="#"><i
                                     class="fa fa-youtube fs-3"></i></a></li>
+                        <li class="list-inline-item"><a class="ps-social__link instagram" href="#"><i
+                                    class="fa fa-instagram fs-3"></i></a></li>
+                        <li class="list-inline-item"><a class="ps-social__link linkedin" href="#"><i
+                                    class="fa fa-linkedin fs-3"></i></a></li>
                     </ul>
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-3 d-xl-flex d-none">
-                    <div class="topheader_runningtxt w-100">
-                        <marquee behavior="scroll" direction="left" scrollamount="5" class="text-white">Reach us now on
-                            our new hotline number +49 541 96251000.</marquee>
+                    <div class="topheader_runningtxt text-white fw-600">
+                        
+                        Hotline: <a href="tel:+49 541 96251000"> +49 541 96251000</a> <span class="fs-6 ml-2">(Montag Bis Freitag : 10:00 - 12:30 & 14:00 - 17:00)</span>
                     </div>
                 </div>
                 <div
@@ -25,24 +30,24 @@
                     <ul class="list-inline text-white d-flex align-items-center">
                         <!-- <li class="list-inline-item"><a href="#" class="font-weight-light">Über uns</a></li> -->
                         <!--<li class="list-inline-item">-->
-
+                        <li class="list-inline-item"><a href="<?php echo e(route('login')); ?>"
+                                class="">Main Konto</a></li>
+                        <li class="list-inline-item"><a href="javascript:void(0)"
+                                    class="">Über uns</a></li>
                         <li class="list-inline-item"><a href="<?php echo e(route('cart')); ?>"
                                 class="">Warenkorb</a></li>
                         <!--<li class="list-inline-item"><a href="#" class="font-weight-light">Kontakt</a></li>-->
 
                         <?php if(auth()->guard()->check()): ?>
                         <li class="dropdown user_dropdown">
-                            <a href="<?php echo e(route('user.dashboard')); ?>"  class="btn dropdown-toggle" type="button" id="loginuser_dropdown" data-toggle="dropdown"
+                            <a href="<?php echo e(route('user.dashboard')); ?>"  class="dropdown-toggle shadow-none mr-0" type="button" id="loginuser_dropdown" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false"><?php echo e(Auth::user()->name); ?></a>
-                            <div class="dropdown-menu dropdown-menu-right p-4" aria-labelledby="loginuser_dropdown">
-                                <a class="dropdown-item user_link" href="<?php echo e(route('user.dashboard')); ?>">Dashboard</a>
-                                <a class="dropdown-item user_link" href="<?php echo e(route('user.account')); ?>">Profile</a>
-                                <a class="dropdown-item user_link" href="<?php echo e(route('user.orders')); ?>">Orders</a>
-                                <a class="dropdown-item user_link" href="<?php echo e(route('user.address')); ?>">Address</a>
-                                <a href="<?php echo e(route('logout')); ?>" class="user_link">
-                                    <i class="fa fa-sign-in mr-1"></i>
-                                    <span>Logout</span>
-                                </a>
+                            <div class="dropdown-menu dropdown-menu-right p-2" aria-labelledby="loginuser_dropdown">
+                                <a class="dropdown-item user_link d-flex align-items-center justify-content-between" href="<?php echo e(route('user.dashboard')); ?>">Dashboard <i class="icon-grid fw-700"></i></a>
+                                <a class="dropdown-item user_link d-flex align-items-center justify-content-between" href="<?php echo e(route('user.account')); ?>">Profile <i class="icon-user fw-700"></i></a>
+                                <a class="dropdown-item user_link d-flex align-items-center justify-content-between" href="<?php echo e(route('user.orders')); ?>">Orders <i class="icon-outbox fw-700"></i></a>
+                                <a class="dropdown-item user_link d-flex align-items-center justify-content-between" href="<?php echo e(route('user.address')); ?>">Address <i class="icon-map2 fw-700"></i></a>
+                                <a href="<?php echo e(route('logout')); ?>" class="user_link d-flex align-items-center justify-content-between mr-0"><span>Logout</span><i class="fa fa-sign-in mr-1"></i></a>
                             </div>
                         </li>
                         <?php else: ?>
@@ -72,7 +77,7 @@
     <div class="ps-header__middle">
         <div class="container">
             <div class="ps-logo"><a href="/"><img class="<?php echo e(asset('assets/sticky-logo')); ?>"
-                        src="<?php echo e(asset('assets/img/stegpearl/Stegpearl-de-white.png')); ?>" alt></a></div><a class="ps-menu--sticky"
+                        src="<?php echo e(asset('assets/img/stegpearl/epp-green-white.png')); ?>" alt="epp.solar"></a></div><a class="ps-menu--sticky"
                 href="#"><i class="fa fa-bars"></i></a>
             <div class="ps-header__right">
                 <ul class="ps-header__icons">
@@ -141,7 +146,7 @@ unset($__errorArgs, $__bag); ?>
                             <div class="input-group">
                                 <input class="form-control ps-input" type="text" placeholder="Producten zoeken"
                                     id="keyword" name="keyword">
-                                <div class="input-group-append"><a href="javascript:void(0);"><i
+                                <div class="input-group-append bg-light"><a href="javascript:void(0);"><i
                                             class="fa fa-search"></i></a>
                                 </div>
                             </div>
@@ -150,10 +155,8 @@ unset($__errorArgs, $__bag); ?>
                     <div class="ps-search--result">
                         <div class="ps-result__content">
                             <div class="row m-0" id="search-results-dropdown">
-
-
                             </div>
-                            <div class="ps-result__viewall"><a href="<?php echo e(route('catalog')); ?>">View all results</a>
+                            <div class="ps-result__viewall"><a href="<?php echo e(route('catalog')); ?>">Alle Ergebnisse anzeigen</a>
                             </div>
                         </div>
                     </div>
@@ -164,7 +167,11 @@ unset($__errorArgs, $__bag); ?>
     <div class="ps-navigation">
         <div class="container">
             <div class="row">
-                <div class="col-12">
+                <div class="col-12 d-flex align-items-center">
+                    <div class="sticky_logo d-none">
+                        <a href="/"><img class="mr-5" style="width: calc(500px - 400px);"
+                            src="<?php echo e(asset('assets/img/stegpearl/epp-green-white.png')); ?>" alt="epp.solar"></a>
+                    </div>
                     <div class="ps-navigation__left">
                         <nav class="ps-main-menu">
                             <ul class="menu" id="main_menu">
@@ -185,8 +192,7 @@ unset($__errorArgs, $__bag); ?>
                 </div>
             </div>
             <div class="ps-navigation__right d-none"><strong><a class="d-flex align-items-center justify-content-end"
-                        href="tel:4904042308603"><i class="icon-telephone fs-2 font-weight-bold mr-2"></i> : 49 (0) 40
-                        4230 8603</a></strong>
+                        href="tel:+49 541 96251000"><i class="icon-telephone fs-2 font-weight-bold mr-2"></i> : +49 541 96251000</a></strong>
             </div>
         </div>
     </div>
@@ -195,15 +201,14 @@ unset($__errorArgs, $__bag); ?>
     <div class="ps-noti">
         <div class="container">
             <p class="m-0 text-white py-3"><strong><a class="d-flex align-items-center justify-content-center"
-                        href="tel:4904042308603"><i class="icon-telephone fs-2 font-weight-bold mr-2"></i> : 49 (0) 40
-                        4230 8603</a></strong>
+                        href="tel:+49 541 96251000"><i class="icon-telephone fs-2 font-weight-bold mr-2"></i> : +49 541 96251000</a></strong>
             </p>
         </div> </a>
     </div>
     <div class="ps-header__middle">
         <div class="container">
-            <div class="ps-logo"><a href="<?php echo e(route('homepage')); ?>"> <img
-                        src="<?php echo e(asset('assets/img/stegpearl/Stegpearl-de-white.png')); ?>" alt></a></div>
+            <div class="ps-logo py-2"><a href="<?php echo e(route('homepage')); ?>"> <img
+                        src="<?php echo e(asset('assets/img/stegpearl/epp-green-white.png')); ?>" alt="epp.solar"></a></div>
             <div class="ps-header__right">
                 <ul class="ps-header__icons">
                     <li><a class="ps-header__item open-search" href="javascript: void(0)"><i
@@ -217,6 +222,7 @@ unset($__errorArgs, $__bag); ?>
 
 <script>
     $(document).ready(function() {
+       
         $('#keyword').keyup(function() {
             var keyword = $(this).val();
                 $('form').on('submit', function(event) {
@@ -273,5 +279,7 @@ unset($__errorArgs, $__bag); ?>
             }
         });
     });
+    
 </script>
+
 <?php /**PATH /home/customstegpearl/public_html/root/resources/views/Layout/header.blade.php ENDPATH**/ ?>

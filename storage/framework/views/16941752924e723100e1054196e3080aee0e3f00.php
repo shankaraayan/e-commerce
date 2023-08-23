@@ -84,40 +84,34 @@
                                 <span class="text-danger"><?php echo e($errors->first('type')); ?></span>
                                 <?php endif; ?>
                             </div>
+                            </div>
+                            <div class="grid xl:grid-cols-1 grid-cols-1 gap-6">
 
                             <div class="input-area">
                                 <label for="name" class="form-label"> Product Category*</label>
-                                <select class="form-control" name="categories" id="category" required="required" >
-                                    <option>Select Product Category</option>
+                                
+                                <select name="categories[]" class="select2 dropdown-select" id="category" multiple required="required">
+                                    <option value=""><b>Select an option</b></option>
+                                    
                                     <?php $__currentLoopData = categories(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <option value="<?php echo e($cat->id); ?>" <?php echo e($cat->id == $editData->categories ? 'selected' : ''); ?>>
-                                    <?php echo e($cat->name); ?>
-
-                                    </option>
-
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
+                                    <option value="<?php echo e($cat->id); ?>"
+                                        <?php
+                                            $categories = explode(',', $editData->categories);
+                                            if(in_array($cat->id, $categories))
+                                            echo 'selected';
+                                        ?>
+                                        ><b><?php echo e($cat->name); ?></b></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    
                                 </select>
                                 <?php if($errors->has('categories')): ?>
-                                <span class="text-danger"><?php echo e($errors->first('categories')); ?></span>
+                                    <span class="text-danger"><?php echo e($errors->first('categories')); ?></span>
                                 <?php endif; ?>
-                            </div>
 
-                            <div class="input-area">
-                                <label for="name" class="form-label"> Sub Category</label>
-                                <select class="form-control" name="subcategory" id="subcategory">
-                                    <option value="">Select Sub Category</option>
-                                    <?php $__currentLoopData = categories()->where('parent_id',$editData->categories); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subCat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <option value="<?php echo e($cat->id); ?>" <?php echo e($subCat->id == $editData->subcategory_id ? 'selected' : ''); ?>>
-                                        <?php echo e($subCat->name); ?>
-
-                                        </option>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                </select>
-                                <?php if($errors->has('subcategory')): ?>
-                                    <span class="text-danger"><?php echo e($errors->first('subcategory')); ?></span>
-                                <?php endif; ?>
                             </div>
+                            </div>
+                            <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
+                            
 
                             <div class="input-area">
                             <label for="name" class="form-label">Product Name*</label>
@@ -140,7 +134,7 @@
 
                              <div class="input-area">
                                 <label for="name" class="form-label">Product Quantity*</label>
-                                <input value="<?php echo e($editData->quantity); ?>"  type="number" class="form-control required" name="quantity">
+                                <input value="<?php echo e($editData->quantity); ?>" min="1" type="number" class="form-control required" name="quantity">
                                 <?php if($errors->has('quantity')): ?>
                                     <span class="text-danger"><?php echo e($errors->first('quantity')); ?></span>
                                 <?php endif; ?>
@@ -214,11 +208,11 @@
                             </select>
                             </div>
                             <div class="input-area">
-                                <label for="estimate_deliver_date" class="form-label">Estimate Delivery Date*</label>
-                                <input id="estimate_deliver_date" name="estimate_deliver_date" type="date" class="form-control"
-                                       value="<?php echo e(date('Y-m-d', strtotime($editData->estimate_deliver_date))); ?>" required>
-                                <?php if($errors->has('estimate_deliver_date')): ?>
-                                    <span class="text-danger"><?php echo e($errors->first('estimate_deliver_date')); ?></span>
+                                <label for="product_availability" class="form-label">Product availability days*</label>
+                                <input id="product_availability" name="product_availability" type="number" min="1" class="form-control"
+                                       value="<?php echo e($editData->product_availability); ?>" required>
+                                <?php if($errors->has('product_availability')): ?>
+                                    <span class="text-danger"><?php echo e($errors->first('product_availability')); ?></span>
                                 <?php endif; ?>
                             </div>
                             
@@ -235,6 +229,23 @@
                                     <option value="<?php echo e($shipping->id); ?>" <?php echo e(($editData->shipping_class == $shipping->id) ? 'selected' : ''); ?>><?php echo e($shipping->name); ?></option>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
+                            </div>
+
+                            <div class="input-area mb-5">
+                                <label style="margin-right: 10px;">
+                                    <input type="checkbox" name="best_selling" value="1" <?php if($editData->best_selling == 1): ?> checked <?php endif; ?> >
+                                    BEST SELLING
+                                    <?php if($errors->has('best_selling')): ?>
+                                    <span class="text-danger"><?php echo e($errors->first('best_selling')); ?></span>
+                                    <?php endif; ?>
+                                </label>
+                                <label style="margin-right: 10px;">
+                                    <input type="checkbox" name="featured" value="1" <?php if($editData->featured == 1): ?> checked <?php endif; ?>>
+                                    FEATURED
+                                    <?php if($errors->has('featured')): ?>
+                                    <span class="text-danger"><?php echo e($errors->first('featured')); ?></span>
+                                    <?php endif; ?>
+                                </label>
                             </div>
 
                         </div>

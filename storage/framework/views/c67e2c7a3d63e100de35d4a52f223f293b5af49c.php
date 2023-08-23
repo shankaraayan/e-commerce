@@ -1,9 +1,4 @@
 <?php $__env->startSection("content"); ?>
- 
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-
 
   <div class="ps-page--product4 mt-2 ps-categogy--separate">
     <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
@@ -11,7 +6,7 @@
 <?php $component->withName('filtter'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php $component->withAttributes(['value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('DisabledShortBy')),'filterIcon' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('d-none')),'productName' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__($product->product_name))]); ?><?php echo e(categories()->where('id',$product->categories)->pluck('name')->first()); ?> <?php echo $__env->renderComponent(); ?>
+<?php $component->withAttributes(['value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('DisabledShortBy')),'filterIcon' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('d-none')),'productName' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__($product->product_name))]); ?><a href="<?php echo e(route('shop',[$category])); ?>"><?php echo e($category); ?></a> <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
 <?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
@@ -58,6 +53,7 @@
                     <div class="ps-product__info mb-3">
                     <div class="ps-product__branch"><a href="#"><?php if(isset($product->categories->name)): ?> <?php echo e($product->categories->name); ?> <?php endif; ?></a></div>
                     <div class="ps-product__title"><?php echo e($product->product_name); ?></div>
+                    <div class="sku_wrapper ean_wrapper bg-light fs-5 text-blue mb-2"><?php echo e($category); ?></div>
                     <div class="ps-product__meta pt-2 mt-2 mb-3">
                       <span class="<?php echo e($product->type == 'variable'? '':'ps-product__del'); ?> fs-3 text-muted"><?php if($product->type == 'variable'): ?> <?php else: ?><?php echo e(formatPrice($product->price)); ?> <?php endif; ?></span>
                       <span class="ps-product__price sale fs-3" id="totalPrice">
@@ -65,6 +61,8 @@
                         <?php else: ?> <?php echo e(formatPrice($product->sale_price)); ?> 
                         <?php endif; ?>
                       </span>
+
+                      
                     </div>
                     <h5 class="mb-4 text-dark" id="nameDiv" style="display: none;"></h5>
                     <div id="priceDiv" style="display: none;"></div>
@@ -117,7 +115,14 @@
                                         <p class="ps-desc"><?php echo e($vales->attribute_term_description); ?></p>
                                         </div>
                                         <div class="<?php echo e(@$vales->image ? 'col-12 col-md-3' : 'col-3'); ?>  text-right mt-md-0 mt-2">
-                                          <small class="attribute_price"><?php echo e(formatPrice($vales->price)); ?></small>
+                                          
+                                         
+                                              <small class="attribute_price">
+                                                  <?php if($vales->price > 0): ?>
+                                                      <?php echo e(formatPrice($vales->price)); ?>
+
+                                                  <?php endif; ?>
+                                              </small>
                                         </div>
                                     </div>
                                     </label>
@@ -145,7 +150,13 @@
                                         <p class="ps-desc"><?php echo e($vales->attribute_term_description); ?></p>
                                         </div>
                                         <div class="<?php echo e(@$vales->image ? 'col-12 col-md-3' : 'col-3'); ?>  text-right mt-md-0 mt-2">
-                                          <small class="attribute_price"><?php echo e(formatPrice($vales->price)); ?></small>
+                                          
+                                          <small class="attribute_price">
+                                              <?php if($vales->price > 0): ?>
+                                                  <?php echo e(formatPrice($vales->price)); ?>
+
+                                              <?php endif; ?>
+                                          </small>
                                         </div>
                                     </div>
                                     </label>
@@ -172,7 +183,13 @@
                                         <p class="ps-desc"><?php echo e($vales->attribute_term_description); ?></p>
                                         </div>
                                         <div class="  <?php echo e(@$vales->image ? 'col-12 col-md-3' : 'col-3'); ?>  text-right mt-md-0 mt-2">
-                                          <small class="attribute_price"><?php echo e(formatPrice($vales->price)); ?></small>
+                                          
+                                          <small class="attribute_price">
+                                            <?php if($vales->price > 0): ?>
+                                                <?php echo e(formatPrice($vales->price)); ?>
+
+                                            <?php endif; ?>
+                                        </small>
                                         </div>
                                     </div>
                                     </label>
@@ -185,15 +202,12 @@
 
                             </div>
                             </div>
-
                         </div>
-
-
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
                     </div>
                     <?php endif; ?>
-
+                    
                     <div class="ps-product__quantity">
                       
                         <h6>Quantity</h6> 
@@ -249,9 +263,15 @@
                             </select>
                       </div>
                       
-                    </div>
-                    <div class="shipping_box">
-                      <div class="well shippingDate rounded-0 d-inline-block bg-light fs-5 text-blue">Estimate Shipping date <?php echo e(date('d-M-Y',strtotime(@$product->estimate_deliver_date) )); ?></div>
+                    </div>  
+                    
+                    <div class="shipping_box"> 
+                      <div class="well shippingDate rounded-0 d-inline-block bg-light fs-5 text-blue">
+                        
+                        
+                        Estimate Shipping date <?php echo e(working_days($product->product_availability )); ?>
+
+                      </div>
                     </div>
                     
 
@@ -259,10 +279,18 @@
                         <div class="sku_wrapper ean_wrapper">EAN: <span class="ean">000001000</span></div>
                         <div class="sku_wrapper">Artikelnummer: <span class="sku"><?php echo e($product->sku); ?></span></div>
                         <div class="sku_wrapper">Kategorien: <span class="productCat">
-                          <a href="<?php echo e(route('shop', ['slug' => categories()->where('id', $product->categories)->pluck('slug')->first()])); ?>">
-                            <?php echo e(categories()->where('id',$product->categories)->pluck('name')->first()); ?>
-
-                          </a></span>
+                          <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
+<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.category-list','data' => ['prdoductCategories' => $product->categories]]); ?>
+<?php $component->withName('category-list'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php $component->withAttributes(['prdoductCategories' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute($product->categories)]); ?> <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
+<?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
+<?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
+<?php endif; ?>
+                        </span>
                         </div>
                     </div>
 
@@ -307,14 +335,15 @@
         
 
         <div class="ps-product__content">
-            <section class="pro_des panel mb-5">
+          
+            <section class="pro_des bg-light-blue panel mb-5">
                 <div class="container">
                     <div class="ps-promo mt-5 ps-category--image mt-5">
-                        <div class="bg-gray rounded <?php echo e(@$components ? '':'d-none'); ?>">
-                            <div class="row align-self-center justify-content-center" id="short_des_html">
+                        <div class="<?php echo e(@$components ? '':'d-none'); ?>">
+                            <div class="row align-self-center justify-content-around" id="short_des_html">
                                 <?php if(!empty(@$components)): ?>
                                     <?php $__currentLoopData = $components; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $component): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <div class="col-xl-3 col-lg-4 col-md-6 col-6">
+                                    <div class="col-xl-2 col-lg-3 col-md-6 col-6">
                                         <div class="ps-block--about p-0 py-5">
                                             <div class="ps-block__icon mb-3"><img decoding="async"
                                                 src="<?php echo e(asset('root/public/uploads/'.$component->image)); ?>" class="img-fluid" alt="">
@@ -323,13 +352,10 @@
                                         </div>
                                     </div>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
-                                    
                                 <?php endif; ?>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </section>
             
@@ -341,8 +367,10 @@
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 
               <?php elseif(@$components==null && @$product['type']==="single"): ?>
-              <?php echo $product->product_description; ?>
-
+              <?php
+                  echo $product->product_description;
+              ?>
+              
               <?php endif; ?>
           </div>
         </div>
@@ -356,11 +384,12 @@
                             <h3 class="ps-section__title font-weight-400">Die besten Deals der Woche!</h3>
                         </div>
                         <div class="ps-section__carousel related_product_view">
-                          <div class="owl-carousel owl-loaded owl-drag" data-owl-auto="false" data-owl-loop="true" data-owl-speed="13000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="4" data-owl-item-xs="2" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-item-xl="4" data-owl-duration="1000" data-owl-mousedrag="on">
+                          <div class="owl-carousel owl-loaded owl-drag" data-owl-auto="false" data-owl-loop="true" data-owl-speed="13000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="4" data-owl-item-xs="1" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-item-xl="4" data-owl-duration="1000" data-owl-mousedrag="on">
                 
                             
-                            <div class="owl-stage-outer shadow-sm">
-                                <div class="owl-stage" style="transform: translate3d(-2228px, 0px, 0px); transition: all 1s ease 0s; width: 4706px;">
+                            <div class="owl-stage-outer">
+                              <div class="owl-stage" style="transform: translate3d(-2228px, 0px, 0px); transition: all 1s ease 0s; width: 4706px;">
+                               
                                 <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
 <?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.product-small-card','data' => ['productData' => $products]]); ?>
 <?php $component->withName('product-small-card'); ?>
@@ -373,8 +402,8 @@
 <?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
 <?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
 <?php endif; ?>
-                
-                                </div>
+
+                              </div>
                             </div>
                 
                             <div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><i
@@ -392,7 +421,6 @@
                     </div>
                 </div>
             </div>
-
         </section>
         </div>
       </div>
@@ -401,7 +429,7 @@
   </div>
 
     <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    
  
  
     <!-- kartik -->
@@ -495,6 +523,7 @@
 
 
       function saveValue(element, attributeId, name = null, pids, term_id, attribute_name) {
+        // console.log(element);
 
         var id = parseInt(pids.split("heading_Var")[1]);
         var collapse_id = "collapse_var_" + id;
@@ -507,14 +536,16 @@
         var atr_name = element.getAttribute('data-atr-name');
         var atr_price = element.getAttribute('data-atr-price');
         atr_price = formatPrice(atr_price);
-
+        console.log(atr_price);
 
         $("#" + pids).find("small").remove();
 
         if (atr_price != '€0.00') {
           $("#" + pids).append(`<small class="font-weight-bold">${atr_name}</small> <small class="mr-5 pl-2 selected_price">${atr_price}</small>`);
         }
-
+        if(atr_price < 0){
+          console.log(atr_price);
+        }
 
         // console.log('col');
         // alert('ok');
@@ -626,11 +657,11 @@
 
       };
 
+    sessionStorage.setItem('sessionData', JSON.stringify(sessionData));
       // Check if termsID is an array and add it to sessionData
 
-      let session = sessionStorage.setItem('sessionData', JSON.stringify(sessionData));
-
-      html_components(session);
+      html_components();
+      
       // toggleAccordion(header)
       }
 
@@ -679,7 +710,9 @@
                     </div>
                 </div>
                 <div class="${user.image !== null ?'col-12 col-md-3' : 'col-3'}  text-right mt-md-0 mt-2">
-                  <small class="attribute_price">€${user.price}</small>  
+                  <small class="attribute_price">
+                      ${user.price > 0 ? `€ ${user.price}` : ''}
+                  </small>
                 </div>
             </div>`
               );
@@ -699,7 +732,7 @@
       }
 
 
-      function add_to_cart(id) {
+      function add_to_cart(id,url=null) {
         var product_details = sessionStorage.getItem('sessionData');
         var shippingClassSelect = document.getElementById('shipping_class');
         var shippingCountry = shippingClassSelect.value;
@@ -712,22 +745,26 @@
           data: {
             "_token": "<?php echo e(csrf_token()); ?>",
             "id": id,
+            "url" : url,
             "product_details": product_details,
             "quantity": qty,
             "shipping_country": shippingCountry,
           },
           success: function (response) {
-
             response = JSON.parse(response);
 
             if (response.status == true) {
 
               $(".my_cart_count").text(response.data);
-              toastr.success(response.message);
+              // toastr.success(response.message);
+              flasher.success(response.message);
             } else {
 
-              toastr.warning(response.message);
+              toastr.error(response.message);
             }
+          },
+          error : function(error){
+              console.log(error);
           }
         });
 
@@ -768,17 +805,136 @@
         if (plusCount + 1 < countAttributes) {
           
           // console.log(countAttributes);
-          toastr.error("Please select all attribute combinations!!");
+          // toastr.options.closeButton = true;
+          // toastr.error("Please select all attribute combinations!!");
+          flasher.error("Please select all attribute combinations!!");
         } else {
-          
-          add_to_cart(productId);
+          let url = window.location.href;
+          add_to_cart(productId,url);
         }
 
       }
 
-
+   
       // get attribute term html
-      function html_components(session) {
+
+      
+
+
+      // opend components code
+
+      $(document).ready(function () {
+        const url = window.location.href;
+        const search = new URL(window.location.href);
+        if (search.search) {
+          $("#totalPrice").css('display', "none");
+          let paramString = url.split('?')[1];
+          paramString = paramString.split("&");
+          let firstQueryId = paramString[0].split("=")[1];
+
+          // if (sessionStorage.getItem('sessionData')) {
+          //   const data = sessionStorage.getItem('sessionData')
+
+          //   const { termIds, prices, names } = JSON.parse(data);
+          //   let terms = termIds.split(",");
+          //   let price = prices.split(",");
+          //   let name = names.split(",");
+          //   let total_price = 0;
+
+          //   terms && terms.map((item, index) => {
+          //       console.log(price[index]);
+
+          //       total_price = total_price + parseInt(price[index]); // Use parseFloat to handle decimal prices
+
+          //       $(".term-select-" + item).css("border-color", "var(--blue-color)");
+          //       let el = $(".term-select-" + item);
+
+          //       if (el[0]) {
+          //           el = el[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+          //           let card_header_inner = el.querySelector(".card_header_inner");
+
+          //           const ps = card_header_inner.parentElement;
+          //           if (parseFloat(price[index]) !== 0) {
+          //               $(ps).append(`<small class="font-weight-bold">${name[index]}</small> <small class="ml-3 font-weight-bold selected_price">${formatPrice(price[index])}</small>`);
+          //           }
+          //       }
+          //   });
+
+          //   // Update the total price in the HTML
+          //   $("#totalPrice").html(formatPrice(total_price)); 
+          //   $("#totalPrice").css('display', 'block');
+
+          // }
+          var termIdss = [];
+          for (par of paramString) {
+            termIdss.push(par.split('=')[1]);
+          }
+ 
+          $.ajax({
+              type: 'get',
+              url: '<?php echo e(url('/term-html')); ?>',
+              data: {
+                "_token": "<?php echo e(csrf_token()); ?>",
+                "ids": termIdss,
+              },
+              success: function (response) {
+                console.log(response);
+                let total_price = 0;
+                response && response.map((item, index) => {
+                  console.log(item);
+                    total_price = total_price + parseInt(item.price); // Use parseFloat to handle decimal prices
+                  
+                    $(".term-select-" + item.id).css("border-color", "var(--blue-color)");
+                    let el = $(".term-select-" + item.id);
+
+                    if (el[0]) {
+                        el = el[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+                        let card_header_inner = el.querySelector(".card_header_inner");
+
+                        const ps = card_header_inner.parentElement;
+                        if (parseFloat(item.price) !== 0) {
+                            $(ps).append(`<small class="font-weight-bold">${item.attribute_term_name}</small> <small class="ml-3 font-weight-bold selected_price">${formatPrice(item.price)}</small>`);
+                        }
+                    }
+                  });
+
+                // Update the total price in the HTML
+                $("#totalPrice").html(formatPrice(total_price)); 
+                $("#totalPrice").css('display', 'block');
+
+              },
+              error : function(error){
+                console.log('error');
+              }
+          })
+
+        }
+
+      })
+
+      // update after page load attribute set name
+      
+      $(document).ready(function () {
+        var nameDiv = document.getElementById('nameDiv');
+        if (sessionStorage.getItem('sessionData')) {
+          var sessionData = sessionStorage.getItem('sessionData');
+          let { names } = JSON.parse(sessionData);
+          names = names.split(",").join(' + ');
+          nameDiv.textContent = names;
+        } else {
+          // $("#html_component").html('');
+          $(".bg-gray").addClass("d-none");
+          // reset url
+          // let url = new URL(window.location.href);
+          // window.history.pushState({ path: url.pathname }, '', url.pathname);
+        }
+
+      });
+
+    </script>
+    
+    <script>
+        function html_components() {
 
         const data = sessionStorage.getItem('sessionData');
         let { termIds, prices, attribute } = JSON.parse(data);
@@ -830,23 +986,25 @@
             // console.log(response);
             let short_des_html = '';
             let htmlComponent = '';
-            response&&response.map((item, index) => {
-              // console.log(item);
-              // Generate the HTML for each response item
-              let short_des = `
-                    <div class="col-12 col-md-6 col-lg-3">
-                        <div class="ps-block--about p-3">
-                            <div class="ps-block__icon"><img decoding="async" src="<?php echo e(asset('root/public/uploads')); ?>/${item.image}" class="img-fluid w-50" alt=""></div>
-                            <span class="fs-4 text-blue">${item.attribute_term_name}</span>
-                        </div>
-                    </div>`;
+            if (response) {
+                  response.map((item, index) => {
+                      console.log(item);
+                      // Generate the HTML for each response item
+                      let short_des = `
+                          ${item.attribute_term_name !== "ohne DTU" ? `
+                              <div class="col-12 col-md-6 col-lg-3">
+                                  <div class="ps-block--about p-3">
+                                      <div class="ps-block__icon"><img decoding="async" src="<?php echo e(asset('root/public/uploads')); ?>/${item.image}" class="img-fluid w-50" alt=""></div>
+                                      <span class="fs-4 text-blue">${item.attribute_term_name}</span>
+                                  </div>
+                              </div>
+                          ` : ''}
+                      `;
+                      short_des_html += short_des;
+                      htmlComponent += item.component_description;
+                  });
+              }
 
-              // if (item.price != 0) {
-              //   short_des_html += short_des;
-              // }
-              short_des_html += short_des;
-              htmlComponent += item.component_description;
-            });
             // console.log(short_des_html);
             $(short_des_div).html(short_des_html);
             $(htmlComponentDiv).html(htmlComponent);
@@ -856,75 +1014,6 @@
           }
         })
       }
-
-
-      // opend components code
-
-      $(document).ready(function () {
-        const url = window.location.href;
-        const search = new URL(window.location.href);
-        if (search.search) {
-          $("#totalPrice").css('display', "none");
-          let paramString = url.split('?')[1];
-          paramString = paramString.split("&");
-          let firstQueryId = paramString[0].split("=")[1];
-          // console.log(firstQueryId);
-          // let queryString = new URLSearchParams(paramString);
-          if (sessionStorage.getItem('sessionData')) {
-            const data = sessionStorage.getItem('sessionData')
-
-            const { termIds, prices, names } = JSON.parse(data);
-            let terms = termIds.split(",");
-            let price = prices.split(",");
-            let name = names.split(",");
-            let total_price = 0;
-
-            terms && terms.map((item, index) => {
-                console.log(price[index]);
-                total_price = total_price + parseInt(price[index]); // Use parseFloat to handle decimal prices
-
-                $(".term-select-" + item).css("border-color", "var(--blue-color)");
-                let el = $(".term-select-" + item);
-
-                if (el[0]) {
-                    el = el[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
-                    let card_header_inner = el.querySelector(".card_header_inner");
-
-                    const ps = card_header_inner.parentElement;
-                    if (parseFloat(price[index]) !== 0) {
-                        $(ps).append(`<small class="font-weight-bold">${name[index]}</small> <small class="ml-3 font-weight-bold selected_price">${formatPrice(price[index])}</small>`);
-                    }
-                }
-            });
-
-            // Update the total price in the HTML
-            $("#totalPrice").html(formatPrice(total_price)); 
-            $("#totalPrice").css('display', 'block');
-
-          }
-
-        }
-
-      })
-
-      // update after page load attribute set name
-      $(document).ready(function () {
-        var nameDiv = document.getElementById('nameDiv');
-        if (sessionStorage.getItem('sessionData')) {
-          var sessionData = sessionStorage.getItem('sessionData');
-          let { names } = JSON.parse(sessionData);
-          names = names.split(",").join(' + ');
-          nameDiv.textContent = names;
-        } else {
-          // $("#html_component").html('');
-          $(".bg-gray").addClass("d-none");
-          // reset url
-          let url = new URL(window.location.href);
-          window.history.pushState({ path: url.pathname }, '', url.pathname);
-        }
-
-      });
-
     </script>
 
 <?php $__env->stopSection(); ?>

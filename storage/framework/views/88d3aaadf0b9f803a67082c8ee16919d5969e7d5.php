@@ -72,6 +72,10 @@
                                     <label for="description" class="form-label">Image</label>
                                     <input type="file" name="category_image">
                                 </div>
+                                <div class="input-area mb-4">
+                                    <label for="description" class="form-label">Banner Image</label>
+                                    <input type="file" name="banner">
+                                </div>
 
                                 <div class="input-area mb-4">
                                     <label for="description" class="form-label">Show on header ?</label>

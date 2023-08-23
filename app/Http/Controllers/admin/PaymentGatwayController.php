@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\FrontendController;
 use Illuminate\Http\Request;
 use App\Models\admin\PaymentGatway;
+use App\Services\PaymentGatway\MolliesPayService;
 use App\Services\PaymentGatway\PaypalService;
 
 class PaymentGatwayController extends Controller
@@ -93,4 +94,21 @@ class PaymentGatwayController extends Controller
         return "Do again";
     }
     
+
+    public function molliesPayCreate()
+    {
+        $response = (new MolliesPayService)->CreatePayment();
+        return $response;
+    }
+
+    public function molliesPaySuccess(){
+        echo 'payment has been received';
+    }
+
+
+    public function molliesPayCencel()
+    {
+        echo 'payment has been Cenceled';
+    }
+
 }

@@ -13,6 +13,7 @@
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
+        "mollie/laravel-mollie": "^2.20",
         "nesbot/carbon": "^2.67",
         "srmklive/paypal": "~3.0",
         "tymon/jwt-auth": "*",

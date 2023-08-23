@@ -23,7 +23,7 @@
     }
     
 </style>
-
+{{-- @dd(session('cart')); --}}
 <div class="ps-shopping__content bg-light pt-40 pb-40">
     <div class="container">
         <div class="row">
@@ -35,6 +35,7 @@
                         @php $total = 0 @endphp
                         @if (session('cart'))
                             @foreach (session('cart') as $id => $details)
+                            {{-- @dd($details); --}}
                                 @php
                                     $tax = getTaxCountry($details['shipping_country']);
                                             if(empty($tax)){
@@ -66,6 +67,7 @@
                                             <div class="ps-product__content">
                                                 <h5 class="ps-product__title d-block text-left">
                                                     <a href="{{ route('product.detail', $details['slug']) }}"><span class="mb-2 d-block cart_producttitle">{{ @$details['name'] }}</span></a>
+                                                    
                                                     <span class="fs-5 font-weight-bold border-bottom text-muted">Components</span>
                                                         @if (!empty(@$details['details']))
                                                         <div class="card card-body border-0 p-1 mt-1">
@@ -211,7 +213,7 @@
 
                     <div class="ps-shopping__table table-responsive shadow bg-white p-3">
                         <div class="ps-table ps-table--product">
-                            
+                            {{-- @dd(session('cart')); --}}
                             <div class="container">
                                 @php $total = 0 @endphp
                                 @if (session('cart'))
@@ -236,7 +238,8 @@
                                             <div class="row variable_table mb-3 border-bottom p-3">
                                             <div class="col-md-2">
                                                 <div class="cartproduct__thumbnail"><a class="cartproduct__image"
-                                                    href="{{ route('product.detail', @$details['slug']) }}">
+                                                    {{-- {{ route('product.detail', @$details['slug']) }}  --}}
+                                                    href="{{ url($details['cart_product_url']) }}">
                                                     <figure><img src="{{ asset('root/public/uploads/' . $details['images']) }}"
                                                             alt="{{ @$details['name'] }}" class="rounded border p-1"></figure>
                                                         </a>
@@ -246,7 +249,7 @@
                                             <div class="col-md-9">
                                                 <div class="ps-product__name">
                                                     <div class="cart_product_name">
-                                                        <a href="{{ route('product.detail', $details['slug']) }}"><span class="mb-0 d-block cart_producttitle ps-product__title">{{ @$details['name'] }}</span></a>
+                                                        <a href="{{ url($details['cart_product_url']) }}"><span class="mb-0 d-block cart_producttitle ps-product__title">{{ @$details['name'] }}</span></a>
                                                     </div>
                                                     <div class="attribute_vals">
                                                         <span class="fs-5 font-weight-bold border-bottom text-muted">Components</span>
@@ -279,12 +282,17 @@
                                                     
                                                     </div>
                                                     <div class="cart_product_shipping">
-                                                        <span class="text-muted fs-5">Voraussichtliches Versanddatum Juli 14,
-                                                            2023</span>
+                                                        <span class="text-muted fs-5"> 
+                                                            Estimate Shipping date 
+                                                            {{-- @dd($details['product_availability']); --}}
+                                                            {{-- {{ date('d-M-Y',strtotime(@today()->addDays($details->product_availability ?? 10)))}}  --}}
+                                                            {{ working_days(@$details['product_availability'] ?? 10 ) }}
+                                                        </span>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
-
+                                            
                                             <div class="col-md-1 d-flex align-items-center justify-content-center">
                                                 <div class="ps-product__remove"><a href="javascript::void(0)" onclick="remove_to_cart(<?= $id ?>)"><i class="icon-trash2 text-danger"></i></a>
                                                 </div>
@@ -338,8 +346,9 @@
                                                         </div>
                                                         
                                                         <div class="cart_product_shipping">
-                                                            <span class="text-muted fs-5">Voraussichtliches Versanddatum Juli 14,
-                                                                2023</span>
+                                                            <span class="text-muted fs-5">Estimate Shipping date 
+                                                                
+                                                                {{ working_days(@$details['product_availability'] ?? 10  ) }}</span>
                                                         </div>
                                                     </div>
                                                 </div>   

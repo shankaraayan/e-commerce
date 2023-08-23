@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Models\admin\Category;
 use App\Models\admin\Slider;
 use App\Models\admin\AttributeTerm;
@@ -9,6 +8,7 @@ use App\Models\Shipping;
 use App\Models\countryModel;
 use App\Models\Country;
 use App\Models\Wishlist;
+use Carbon\Carbon;
 
    function formatPrice($price)
    {
@@ -121,8 +121,14 @@ $max_total = array_sum($allMaxprices);
   ];
 
  }
+
+
+ function working_days($days){
+   $datee = date('Y-m-d');
+   $date = \Carbon\Carbon::createFromFormat('Y-m-d', $datee);
+   return $date->addWeekdays($days)->format('d-m-Y');
+}
  
- 
- 
+
 
 ?>

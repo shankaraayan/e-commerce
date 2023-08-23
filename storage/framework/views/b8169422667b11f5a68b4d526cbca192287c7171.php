@@ -50,13 +50,13 @@
                   <div class="card-title text-slate-900 dark:text-white"><?php echo e($attributeName->attribute_name); ?> Attribute Terms</div>
                 </div>
               </header>
-              <form id="multipleValidation" action="<?php echo e(route('admin.product.attribute_terms.store')); ?>" method="post" enctype="multipart/form-data">
+              <form action="<?php echo e(route('admin.product.attribute_terms.store')); ?>" method="post" enctype="multipart/form-data">
                 <?php echo csrf_field(); ?>
               <div class="card-text h-full space-y-4">
                 <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
                 <div class="input-area">
                   <label for="name" class="form-label">Attribute Terms Name*</label>
-                  <input id="attribute_term_name" name="attribute_term_name" type="text" class="form-control" placeholder="Attribute Term Name" required="required">
+                  <input id="attribute_term_name" name="attribute_term_name" type="text" class="form-control" placeholder="Attribute Term Name">
                   <?php if($errors->has('attribute_term_name')): ?>
                     <span class="text-danger"><?php echo e($errors->first('attribute_term_name')); ?></span>
                   <?php endif; ?>
@@ -64,7 +64,7 @@
                 <?php if($attributeName->attribute_type=='panel'): ?>
                 <div class="input-area">
                   <label for="name" class="form-label">kWh*</label>
-                  <input id="attribute_term_kWh_name" name="attribute_term_kWh_name" type="text" class="form-control" placeholder="kWh" required="required">
+                  <input id="attribute_term_kWh_name" name="attribute_term_kWh_name" type="text" class="form-control" placeholder="kWh">
                   <?php if($errors->has('attribute_term_kWh_name')): ?>
                     <span class="text-danger"><?php echo e($errors->first('attribute_term_kWh_name')); ?></span>
                   <?php endif; ?>
@@ -77,7 +77,7 @@
                   <?php $__currentLoopData = $attributesTermsWh; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                   <?php if(isset($value->attribute_term_kWh_name)): ?>
                   <label>
-                    <input type="checkbox" name="supported_wh[]" value="<?php echo e($value->attribute_term_kWh_name); ?>" required="required">
+                    <input type="checkbox" name="supported_wh[]" value="<?php echo e($value->attribute_term_kWh_name); ?>">
                     <?php echo e($value->attribute_term_kWh_name); ?>
 
                   </label>
@@ -95,7 +95,7 @@
                 <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
                 <div class="input-area">
                   <label for="name" class="form-label">Price*</label>
-                  <input id="price" name="price" type="text" class="form-control" placeholder="price" required="required">
+                  <input id="price" name="price" type="number" class="form-control" placeholder="price" >
                   <?php if($errors->has('price')): ?>
                     <span class="text-danger"><?php echo e($errors->first('price')); ?></span>
                   <?php endif; ?>
@@ -103,7 +103,7 @@
                 
                 <div class="input-area">
                   <label for="name" class="form-label">SKU*</label>
-                  <input id="sku" name="sku" type="text" class="form-control" placeholder="sku" required="required">
+                  <input id="sku" name="sku" type="text" class="form-control" placeholder="sku">
                   <?php if($errors->has('sku')): ?>
                     <span class="text-danger"><?php echo e($errors->first('sku')); ?></span>
                   <?php endif; ?>
@@ -111,47 +111,41 @@
 
                 <div class="input-area">
                   <label for="name" class="form-label">Quantity*</label>
-                  <input id="quantity" name="quantity" type="text" class="form-control" placeholder="quantity" required="required">
+                  <input id="quantity" name="quantity" type="text" class="form-control" placeholder="quantity" >
                   <?php if($errors->has('quantity')): ?>
                     <span class="text-danger"><?php echo e($errors->first('quantity')); ?></span>
                   <?php endif; ?>
                 </div>
 
+                <div class="input-area">
+                  <label for="name" class="form-label">Product availability days*</label>
+                  <input id="product_availability" name="product_availability" min="1" type="number" class="form-control required"
+                      placeholder="Product availability days">
+                  <?php if($errors->has('product_availability')): ?>
+                      <span class="text-danger"><?php echo e($errors->first('product_availability')); ?></span>
+                  <?php endif; ?>
+              </div>
+
                 </div>
                 <div class="input-area">
                   <label for="description" class="form-label">Attribute Term Description*</label>
-                  <textarea id="description" name="attribute_term_description" rows="5" class="form-control" placeholder="Type Here" required="required"></textarea>
+                  <textarea id="description" name="attribute_term_description" rows="5" class="form-control" placeholder="Type Here"></textarea>
                   <?php if($errors->has('attribute_term_description')): ?>
                   <span class="text-danger"><?php echo e($errors->first('attribute_term_description')); ?></span>
                 <?php endif; ?>
                 </div>
                 <div class="input-area">
                     <label for="description" class="form-label">Attribute Term Html*</label>
-                    <textarea id="description" name="component_description" rows="5" class="form-control" placeholder="Type Here" required="required"></textarea>
-                    <?php if($errors->has('attribute_term_description')): ?>
-                    <span class="text-danger"><?php echo e($errors->first('attribute_term_html')); ?></span>
+                    <textarea id="description" name="component_description" rows="5" class="form-control" placeholder="Type Here" ></textarea>
+                    <?php if($errors->has('component_description')): ?>
+                    <span class="text-danger"><?php echo e($errors->first('component_description')); ?></span>
                   <?php endif; ?>
                   </div>
-                  <div class="input-area">
-                    <label for="" class="priority">Priority</label>
-                    <select  name="component_priority"  class="form-control">
-                        <option  value="0"  class="dark:bg-slate-700">Choose priority</option>
-                        <option value="1" class="dark:bg-slate-700">1</option>
-                        <option value="2" class="dark:bg-slate-700">2</option>
-                        <option value="3" class="dark:bg-slate-700">3</option>
-                        <option value="4" class="dark:bg-slate-700">4</option>
-                        <option value="5" class="dark:bg-slate-700">5</option>
-                        <option value="6" class="dark:bg-slate-700">6</option>
-                        <option value="7" class="dark:bg-slate-700">7</option>
-                        <option value="8" class="dark:bg-slate-700">8</option>
-                        <option value="9" class="dark:bg-slate-700">9</option>
-                        <option value="10" class="dark:bg-slate-700">10</option>
-                    </select>
-                  </div>
+                  
 
                 <div class="input-area mb-5">
                   <label for="select" class="form-label">Image</label>
-                  <input type="file" name="image" required="required">
+                  <input type="file" name="image">
                 </div>
                 <div class="input-area mb-5">
                   <label for="select" class="form-label">Status</label>

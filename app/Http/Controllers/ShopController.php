@@ -27,7 +27,10 @@ class ShopController extends Controller
         if($slug){
             $category_id = Category::where('slug',$slug)->pluck('id')->first();
 
-            $products = Product::where('categories',$category_id)->with('categories')
+            $products = Product::where(function($q) use ($category_id){
+                $q->whereRaw("FIND_IN_SET($category_id, categories)");
+            })
+            ->with('categories')
             ->where('status', 1)
             ->paginate(10);
              if($products->count() === 0){
@@ -49,22 +52,24 @@ class ShopController extends Controller
             $category_id  = $request->category_id;
         }
         
-        $products = Product::where('categories',$category_id)->
-        orWhere('subcategory_id',$category_id)
-        ->where('status', 1);
+        $products = Product::where('status', 1)
+            ->where(function ($query) use ($category_id) {
+                $query->where('categories', $category_id)
+                    ->orWhere('subcategory_id', $category_id);
+            });
 
-        if($request->shortBy == 'high_to_low'){
-            $products = $products->orderBy('price','DESC')->where('status', 1);
+        if(isset($request->shortBy) && $request->shortBy === 'high_to_low'){
+            $products = $products->orderBy('price','DESC');
         }
-        
-        if($request->shortBy == 'low_to_high'){
-            $products = $products->orderBy('price','ASC')->where('status', 1);
+        if(isset($request->shortBy) && $request->shortBy === 'low_to_high'){
+            $products = $products->orderBy('price','ASC');
         }
-        // return $request->shortBy;
-        if($request->shortBy == 'popularity'){
-            $products =  $products->where('best_selling',1)->where('status', 1);
+        if(isset($request->shortBy) && $request->shortBy === 'popularity'){
+            $products =  $products->where('best_selling',1);
         }
+
         $products = $products->get();
+       
         return response()->json(['products'=>$products]);
     }
 
