@@ -28,7 +28,7 @@
                             }
 
                             if(isset($product['solar_product']) && $product['solar_product'] === 'yes'){
-                                if($tax['short_code'] == 'DE'){
+                                if(@$tax['short_code'] == 'DE'){
                                     $tax['vat_tax'] = 0;
                                 }
                             }

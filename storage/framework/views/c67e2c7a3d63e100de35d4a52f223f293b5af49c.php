@@ -1,6 +1,47 @@
+<?php $__env->startSection('style'); ?>
+
+<style>
+  /* CSS */
+.magnifier {
+  position: relative;
+}
+
+.magnifier img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.magnifier:hover img {
+  transform: scale(1.2); /* Adjust the scale factor as needed */
+  transition: transform 0.3s ease-in-out;
+  z-index: 1;
+}
+
+.magnifier .magnifier-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust the overlay color and opacity as needed */
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: none;
+}
+
+.magnifier:hover .magnifier-overlay {
+  opacity: 1;
+  z-index: 2;
+}
+
+</style>
+
+<?php $__env->stopSection(); ?>
 <?php $__env->startSection("content"); ?>
 
-  <div class="ps-page--product4 mt-2 ps-categogy--separate">
+
+  <div class="ps-page--product4 ps-categogy--separate">
     <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
 <?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.filtter','data' => ['value' => __('DisabledShortBy'),'filterIcon' => __('d-none'),'productName' => __($product->product_name)]]); ?>
 <?php $component->withName('filtter'); ?>
@@ -18,30 +59,26 @@
         <div class="ps-product--detail ps-product--full pt-40 pb-40 bg-light">
           
           <div class="container">
-            <div class="row product-container">
-                <div class="col-12 col-xl-5 col-md-5 product-image">
+            <div class="row product-container" style="overflow:unset">
+                <div class="col-12 col-xl-5 pt-5 col-md-5 product-image">
                     <div class="ps-section__carousel related_product_view">
-                    <div class="main-image owl-carousel owl-loaded owl-drag" data-owl-loop="true" data-owl-auto="false"
-                        data-owl-nav="false" data-owl-dots="false">
+                    <div class="main-image owl-carousel owl-loaded owl-drag" data-owl-loop="true" data-owl-auto="false" data-owl-nav="false" data-owl-dots="false">
                         <div class="item">
-                        <img src="<?php echo e(asset('root/public/uploads/' . $product->thumb_image)); ?>" alt="alt" />
+                          <img src="<?php echo e(asset('root/public/uploads/' . $product->thumb_image)); ?>" alt="alt" />
                         </div>
                         <?php $__currentLoopData = $product->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                   
                         <div class="item">
-                         
-                        <img src="<?php echo e(asset('root/public/uploads/' . $image->images)); ?>" alt="alt" />
+                          <img src="<?php echo e(asset('root/public/uploads/' . $image->images)); ?>" alt="alt" />
                         </div>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </div>
-                    <div class="gallery owl-carousel owl-loaded owl-drag" data-owl-loop="true" data-owl-auto="false"
-                        data-owl-nav="true" data-owl-dots="false" data-owl-item="4" data-owl-item-xs="2" data-owl-item-sm="3"
-                        data-owl-item-md="4" data-owl-item-lg="4" data-owl-item-xl="4">
-                        <div class="item" style="padding:10px;">
+                  
+                        <div class="gallery owl-carousel owl-loaded owl-drag" data-owl-auto="false" data-owl-loop="false" data-owl-speed="13000" data-owl-gap="10" data-owl-nav="true" data-owl-dots="false" data-owl-item="4" data-owl-item-xs="4" data-owl-item-sm="4" data-owl-item-md="3" data-owl-item-lg="4" data-owl-item-xl="4" data-owl-duration="1000" data-owl-mousedrag="on">
+                        <div class="item">
                         <img src="<?php echo e(asset('root/public/uploads/' . $product->thumb_image)); ?>" alt="alt" data-index="0" />
                         </div>
                         <?php $__currentLoopData = $product->images; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $image): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <div class="item" style="padding:10px;">
+                        <div class="item">
                         <img src="<?php echo e(asset('root/public/uploads/' . $image->images)); ?>" alt="alt"
                             data-index="<?php echo e($loop->index+1); ?>" />
                         </div>
@@ -50,14 +87,13 @@
                     </div>
                 </div>
                 <div class="col-12 col-xl-7 col-md-7 bg-white">
-                    <div class="ps-product__info mb-3">
-                    <div class="ps-product__branch"><a href="#"><?php if(isset($product->categories->name)): ?> <?php echo e($product->categories->name); ?> <?php endif; ?></a></div>
+                    <div class="ps-product__info mb-3 pt-md-0 pt-3">
+                     <div class="sku_wrapper ean_wrapper text-secondary text-capitalize d-inline-block fs-5 fw-500 mb-2"><a href="/shop/<?php echo e($category); ?>"><?php echo e($category); ?></a></div>
                     <div class="ps-product__title"><?php echo e($product->product_name); ?></div>
-                    <div class="sku_wrapper ean_wrapper bg-light fs-5 text-blue mb-2"><?php echo e($category); ?></div>
                     <div class="ps-product__meta pt-2 mt-2 mb-3">
                       <span class="<?php echo e($product->type == 'variable'? '':'ps-product__del'); ?> fs-3 text-muted"><?php if($product->type == 'variable'): ?> <?php else: ?><?php echo e(formatPrice($product->price)); ?> <?php endif; ?></span>
                       <span class="ps-product__price sale fs-3" id="totalPrice">
-                        <?php if($product->type == 'variable'): ?> Please Select Attributes for best price 
+                        <?php if($product->type == 'variable'): ?>Description will be available once you chose components.
                         <?php else: ?> <?php echo e(formatPrice($product->sale_price)); ?> 
                         <?php endif; ?>
                       </span>
@@ -80,7 +116,7 @@
                                 <h3 class="attribute_title mb-0"><?php echo e($data->attribute_name); ?></h3>
                                 </a>
                             </div>
-                            <span class="float-right text-secondary fs-4">Change</span>
+                            <span class="float-right text-secondary fs-4">Ändern</span>
                             </div>
 
                             <div id="collapse_var_<?php echo e($key); ?>" class="collapse<?php echo e($key == 0 ? ' show' : ''); ?>"
@@ -208,44 +244,28 @@
                     </div>
                     <?php endif; ?>
                     
-                    <div class="ps-product__quantity">
-                      
-                        <h6>Quantity</h6> 
-                        <div class="d-flex align-items-center">
-                        <div class="def-number-input number-input safari_only">
-                            <button class="minus" id="minus-btn"><i class="icon-minus"></i></button>
-                            <input class="quantity" min="1" id="quantity" name="quantity" value="1" type="number" />
-                            <button class="plus" id="plus-btn"><i class="icon-plus"></i></button>
-
-                        </div>
-                        <script>
-                            // get the input element and the +/- buttons
-                            const input = document.getElementById("quantity");
-                            const plusBtn = document.getElementById("plus-btn");
-                            const minusBtn = document.getElementById("minus-btn");
-
-                            // add event listeners to the buttons
-                            plusBtn.addEventListener("click", function () {
-                            // increase the quantity value by 1
-                            input.value = parseInt(input.value) + 1;
-                            });
-
-                            minusBtn.addEventListener("click", function () {
-                            // decrease the quantity value by 1
-                            if (parseInt(input.value) > 1) {
-                                input.value = parseInt(input.value) - 1;
-                            }
-                            });
-                        </script>
-                     
-                        <?php
+                    <div class="d-flex align-items-center">
+                      <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
+<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.quantity','data' => []]); ?>
+<?php $component->withName('quantity'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php $component->withAttributes([]); ?> <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
+<?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
+<?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
+<?php endif; ?>
+                    
+                    <?php
                         $countAttribites = count($attributes);
-                        ?>
-                        <a class="ps-btn ps-btn--warning"
-                            onclick="checkSessionCount('<?php echo e($product->id); ?>', '<?php echo e($countAttribites); ?>')"
-                            href="javascript:void(0)">ADD TO CART</a>
-                        </div>
+                    ?>
+
+                    <a class="ps-btn ps-btn--warning"
+                        onclick="checkSessionCount('<?php echo e($product->id); ?>', '<?php echo e($countAttribites); ?>')"
+                        href="javascript:void(0)">In den Warenkorb</a>
                     </div>
+
                     <div class="select_shipping_area align-items-center mt-4 mb-0">
                       <a class="btn ps-btn--primary ps-btn--rounded for-label fs-4 px-4 py-2 shadow-none" data-toggle="collapse" href="#shipping_area" role="button" aria-expanded="false" aria-controls="shipping_area">
                           Lieferort auswählen
@@ -269,7 +289,7 @@
                       <div class="well shippingDate rounded-0 d-inline-block bg-light fs-5 text-blue">
                         
                         
-                        Estimate Shipping date <?php echo e(working_days($product->product_availability )); ?>
+                        Voraussichtliches Lieferdatum <?php echo e(working_days($product->product_availability )); ?>
 
                       </div>
                     </div>
@@ -334,63 +354,92 @@
         
         
 
-        <div class="ps-product__content">
+        <div class="ps-product__content mt-5">
           
-            <section class="pro_des bg-light-blue panel mb-5">
-                <div class="container">
-                    <div class="ps-promo mt-5 ps-category--image mt-5">
-                        <div class="<?php echo e(@$components ? '':'d-none'); ?>">
-                            <div class="row align-self-center justify-content-around" id="short_des_html">
-                                <?php if(!empty(@$components)): ?>
-                                    <?php $__currentLoopData = $components; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $component): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <div class="col-xl-2 col-lg-3 col-md-6 col-6">
-                                        <div class="ps-block--about p-0 py-5">
-                                            <div class="ps-block__icon mb-3"><img decoding="async"
-                                                src="<?php echo e(asset('root/public/uploads/'.$component->image)); ?>" class="img-fluid" alt="">
-                                            </div>
-                                            <span class="fs-4 text-blue"><?php echo e($component->attribute_term_name); ?></span>
-                                        </div>
-                                    </div>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+          
+
+
+
+
+
+
+
+
+          <section id="term_short_des_container" class="attribute_appendArea <?php echo e(@$components ? 'd-block' : 'd-none'); ?>">
+            <div class="text-center mb-20 text-blue fs-1 fw-600">Lieferumfang</div>
+            <div class="container border px-0">
+                <div class="attribute_configure" id="short_des_html">
+                    <?php if(!empty(@$components) && @$product->type === "variable"): ?>
+                        <div class="atta_img_block bg-light-blue pb-10">
+                            <?php $__currentLoopData = $components; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $component): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php if(strtolower($component->attribute_term_name) !== "ohne dtu"): ?>
+                                <div class="vari_imgs">
+                                  <img src="<?php echo e(asset('root/public/uploads/' . $component->image)); ?>" class="img-fluid" alt="<?php echo e($component->attribute_term_name); ?>">  
+                                </div> 
+                                 
                                 <?php endif; ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </div> <!-- Closing div tag for atta_img_block -->
+        
+                        <div class="atta_caps_block">
+                            <?php $__currentLoopData = $components; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $component): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php if(strtolower($component->attribute_term_name) !== "ohne dtu"): ?>
+                                <div class="atta_title">
+                                  <span><?php echo e($component->attribute_term_name); ?></span>
+                                </div>
+                                   
+                                <?php endif; ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </div> <!-- Closing div tag for atta_caps_block -->
+                    <?php endif; ?>
+                </div>
+            </div>
+        </section>
+        
+       
+            <?php if(!empty(@$product->product_description) && @$product->type !== "variable" ): ?>
+                <div class="ps-product__content bg-light-blue">
+                    <div class="container">
+                      <div class="row align-items-center">
+                          <div class="col-md-12">
+                          <div class="productDescription">
+                            <p><?php echo $product->product_description; ?></p>
                             </div>
+                          </div>
+                        
                         </div>
                     </div>
                 </div>
-            </section>
-            
-            <div id="html_component">
-              <?php if(!empty($components)): ?>
-                <?php $__currentLoopData = $components; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $component): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <?php echo $component->component_description; ?>
+            <?php endif; ?>
+        
+            <div id="html_component" class="mt-5">
+              <?php if(!empty(@$components) && @$product->type === "variable"): ?>
+                <?php $__currentLoopData = @$components; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $component): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php if(strtolower($component->attribute_term_name) !== "ohne dtu"): ?>
+                        <?php echo $component->component_description; ?>
 
+                    <?php endif; ?>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                
-              <?php elseif(@$components==null && @$product['type']==="single"): ?>
-              <?php
-                  echo $product->product_description;
-              ?>
-              
               <?php endif; ?>
-          </div>
+            </div>
+
         </div>
 
         
-        <section class="ps-section--deals py-5">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="ps-section__header">
-                            <h3 class="ps-section__title font-weight-400">Die besten Deals der Woche!</h3>
-                        </div>
-                        <div class="ps-section__carousel related_product_view">
-                          <div class="owl-carousel owl-loaded owl-drag" data-owl-auto="false" data-owl-loop="true" data-owl-speed="13000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="4" data-owl-item-xs="1" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-item-xl="4" data-owl-duration="1000" data-owl-mousedrag="on">
-                
-                            
-                            <div class="owl-stage-outer">
-                              <div class="owl-stage" style="transform: translate3d(-2228px, 0px, 0px); transition: all 1s ease 0s; width: 4706px;">
-                               
-                                <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
+
+            <section class="ps-section--deals pb-4 bg-light-blue pt-5">
+                <div class="container">
+                <div class="ps-section__header mb-0">
+                    <h2 class="ps-section__title">Die besten Deals der Woche!</h2>
+                </div>
+                <div class="ps-section__carousel border-0">
+                    <div class="owl-carousel owl-loaded owl-drag" data-owl-auto="false" data-owl-loop="true" data-owl-speed="13000" data-owl-gap="20" data-owl-nav="true" data-owl-dots="false" data-owl-item="4" data-owl-item-xs="1" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-item-xl="4" data-owl-duration="1000" data-owl-mousedrag="on">
+            
+                        
+                        <div class="owl-stage-outer py-md-5 py-2">
+                        <div class="owl-stage" style="transform: translate3d(-2228px, 0px, 0px); transition: all 1s ease 0s; width: 4706px;">
+                        
+                            <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
 <?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.product-small-card','data' => ['productData' => $products]]); ?>
 <?php $component->withName('product-small-card'); ?>
 <?php if ($component->shouldRender()): ?>
@@ -403,25 +452,23 @@
 <?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
 <?php endif; ?>
 
-                              </div>
-                            </div>
-                
-                            <div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><i
-                                    class="fa fa-chevron-left"></i></button><button type="button" role="presentation"
-                                class="owl-next"><i class="fa fa-chevron-right"></i></button></div>
-                            <div class="owl-dots disabled"><button role="button" class="owl-dot active"><span></span></button></div>
-                            <div class="owl-nav"><button type="button" role="presentation" class="owl-prev"><i
-                                    class="fa fa-chevron-left"></i></button><button type="button" role="presentation"
-                                class="owl-next"><i class="fa fa-chevron-right"></i></button></div>
-                            <div class="owl-dots"><button role="button" class="owl-dot active"><span></span></button><button
-                                role="button" class="owl-dot"><span></span></button><button role="button"
-                                class="owl-dot"><span></span></button></div>
-                            </div>
+                        </div>
+                        </div>
+            
+                        <div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><i
+                                class="fa fa-chevron-left"></i></button><button type="button" role="presentation"
+                            class="owl-next"><i class="fa fa-chevron-right"></i></button></div>
+                        <div class="owl-dots disabled"><button role="button" class="owl-dot active"><span></span></button></div>
+                        <div class="owl-nav"><button type="button" role="presentation" class="owl-prev"><i
+                                class="fa fa-chevron-left"></i></button><button type="button" role="presentation"
+                            class="owl-next"><i class="fa fa-chevron-right"></i></button></div>
+                        <div class="owl-dots"><button role="button" class="owl-dot active"><span></span></button><button
+                            role="button" class="owl-dot"><span></span></button><button role="button"
+                            class="owl-dot"><span></span></button></div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
         </div>
       </div>
 
@@ -451,14 +498,15 @@
           nav: true,
           dots: false,
           responsive: {
-            0: { items: 2 },
-            576: { items: 3 },
-            768: { items: 4 },
-            992: { items: 4 },
-            1200: { items: 4 }
+            0: { items: 4, margin: 10 },
+            576: { items: 4, margin: 10 },
+            768: { items: 4, margin: 10 },
+            992: { items: 4, margin: 10 },
+            1200: { items: 4, margin: 10 }
           }
         });
 
+         
         // Function to handle main image change on gallery click
         $('.gallery').on('click', '.item img', function () {
           var index = $(this).data('index');
@@ -494,11 +542,11 @@
 
     <script>
 
-      function formatPrice(price) {
-        var formattedPrice = parseFloat(price).toFixed(2);
-        formattedPrice = formattedPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        return '€' + formattedPrice;
-      }
+      // function formatPrice(price) {
+      //   var formattedPrice = parseFloat(price).toFixed(2);
+      //   formattedPrice = formattedPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      //   return '€' + formattedPrice;
+      // }
 
       // PRice Formater
 
@@ -535,19 +583,15 @@
 
         var atr_name = element.getAttribute('data-atr-name');
         var atr_price = element.getAttribute('data-atr-price');
-        atr_price = formatPrice(atr_price);
-        console.log(atr_price);
+        atr_price = price_normal_to_euro(atr_price);
+     
 
         $("#" + pids).find("small").remove();
 
-        if (atr_price != '€0.00') {
-          $("#" + pids).append(`<small class="font-weight-bold">${atr_name}</small> <small class="mr-5 pl-2 selected_price">${atr_price}</small>`);
+        if (atr_price != '0,00') {
+          $("#" + pids).append(`<small class="font-weight-bold">${atr_name}</small> <small class="mr-5 pl-2 selected_price">€${atr_price}</small>`);
         }
-        if(atr_price < 0){
-          console.log(atr_price);
-        }
-
-        // console.log('col');
+      
         // alert('ok');
         var id = element.getAttribute('id');
         var value = element.getAttribute('data-value');
@@ -643,10 +687,10 @@
         }, 0).toFixed(2);
 
         // Update totalPriceDiv
-        totalPriceDiv.textContent = '€' + priceDiv.textContent;
+        totalPriceDiv.textContent = '€' + price_normal_to_euro( priceDiv.textContent);
 
         // Save values in session
-        var totalPrice = parseFloat(priceDiv.textContent);
+        // var totalPrice = parseFloat(priceDiv.textContent);
 
         var sessionData = {
           product_id: <?php echo e($product-> id); ?>,
@@ -663,6 +707,21 @@
       html_components();
       
       // toggleAccordion(header)
+
+      // sku code
+      if (sessionStorage.getItem("savedValues")) {
+          let data = sessionStorage.getItem("savedValues");
+          data = JSON.parse(data);
+          var obj_sku = [];
+          for (const key in data) {
+            obj_sku[key] = data[key].termid; 
+          }
+          let attr_count = document.getElementById('nameDiv').innerHTML;
+          console.log(attr_count);
+          console.log(obj_sku);
+
+        }
+         
       }
 
       function show_name() {
@@ -711,7 +770,7 @@
                 </div>
                 <div class="${user.image !== null ?'col-12 col-md-3' : 'col-3'}  text-right mt-md-0 mt-2">
                   <small class="attribute_price">
-                      ${user.price > 0 ? `€ ${user.price}` : ''}
+                      ${user.price > 0 ? `${ price_normal_to_euro(user.price)}` : ''}
                   </small>
                 </div>
             </div>`
@@ -809,6 +868,7 @@
           // toastr.error("Please select all attribute combinations!!");
           flasher.error("Please select all attribute combinations!!");
         } else {
+          
           let url = window.location.href;
           add_to_cart(productId,url);
         }
@@ -818,53 +878,18 @@
    
       // get attribute term html
 
-      
-
-
       // opend components code
 
       $(document).ready(function () {
         const url = window.location.href;
         const search = new URL(window.location.href);
+
         if (search.search) {
           $("#totalPrice").css('display', "none");
           let paramString = url.split('?')[1];
           paramString = paramString.split("&");
           let firstQueryId = paramString[0].split("=")[1];
 
-          // if (sessionStorage.getItem('sessionData')) {
-          //   const data = sessionStorage.getItem('sessionData')
-
-          //   const { termIds, prices, names } = JSON.parse(data);
-          //   let terms = termIds.split(",");
-          //   let price = prices.split(",");
-          //   let name = names.split(",");
-          //   let total_price = 0;
-
-          //   terms && terms.map((item, index) => {
-          //       console.log(price[index]);
-
-          //       total_price = total_price + parseInt(price[index]); // Use parseFloat to handle decimal prices
-
-          //       $(".term-select-" + item).css("border-color", "var(--blue-color)");
-          //       let el = $(".term-select-" + item);
-
-          //       if (el[0]) {
-          //           el = el[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
-          //           let card_header_inner = el.querySelector(".card_header_inner");
-
-          //           const ps = card_header_inner.parentElement;
-          //           if (parseFloat(price[index]) !== 0) {
-          //               $(ps).append(`<small class="font-weight-bold">${name[index]}</small> <small class="ml-3 font-weight-bold selected_price">${formatPrice(price[index])}</small>`);
-          //           }
-          //       }
-          //   });
-
-          //   // Update the total price in the HTML
-          //   $("#totalPrice").html(formatPrice(total_price)); 
-          //   $("#totalPrice").css('display', 'block');
-
-          // }
           var termIdss = [];
           for (par of paramString) {
             termIdss.push(par.split('=')[1]);
@@ -878,11 +903,11 @@
                 "ids": termIdss,
               },
               success: function (response) {
-                console.log(response);
+                // console.log(response);
                 let total_price = 0;
                 response && response.map((item, index) => {
-                  console.log(item);
-                    total_price = total_price + parseInt(item.price); // Use parseFloat to handle decimal prices
+                  
+                    total_price = total_price + parseFloat(item.price); // Use parseFloat to handle decimal prices
                   
                     $(".term-select-" + item.id).css("border-color", "var(--blue-color)");
                     let el = $(".term-select-" + item.id);
@@ -893,15 +918,14 @@
 
                         const ps = card_header_inner.parentElement;
                         if (parseFloat(item.price) !== 0) {
-                            $(ps).append(`<small class="font-weight-bold">${item.attribute_term_name}</small> <small class="ml-3 font-weight-bold selected_price">${formatPrice(item.price)}</small>`);
+                            $(ps).append(`<small class="font-weight-bold">${item.attribute_term_name}</small> <small class="ml-3 font-weight-bold selected_price">${'€'+price_normal_to_euro(item.price)}</small>`);
                         }
                     }
                   });
 
                 // Update the total price in the HTML
-                $("#totalPrice").html(formatPrice(total_price)); 
+                $("#totalPrice").html('€'+price_normal_to_euro(total_price)); 
                 $("#totalPrice").css('display', 'block');
-
               },
               error : function(error){
                 console.log('error');
@@ -915,7 +939,9 @@
       // update after page load attribute set name
       
       $(document).ready(function () {
+
         var nameDiv = document.getElementById('nameDiv');
+
         if (sessionStorage.getItem('sessionData')) {
           var sessionData = sessionStorage.getItem('sessionData');
           let { names } = JSON.parse(sessionData);
@@ -982,31 +1008,45 @@
             "ids": ids,
           },
           success: function (response) {
-            $(".bg-gray").removeClass("d-none");
+            $("#term_short_des_container").removeClass("d-none");
             // console.log(response);
+            let short_des_img = '';
+            let short_des_text = '';
             let short_des_html = '';
             let htmlComponent = '';
             if (response) {
                   response.map((item, index) => {
-                      console.log(item);
+                      // console.log(item);
                       // Generate the HTML for each response item
-                      let short_des = `
-                          ${item.attribute_term_name !== "ohne DTU" ? `
-                              <div class="col-12 col-md-6 col-lg-3">
-                                  <div class="ps-block--about p-3">
-                                      <div class="ps-block__icon"><img decoding="async" src="<?php echo e(asset('root/public/uploads')); ?>/${item.image}" class="img-fluid w-50" alt=""></div>
-                                      <span class="fs-4 text-blue">${item.attribute_term_name}</span>
-                                  </div>
-                              </div>
+                      let short_des_im = `
+                      ${item.attribute_term_name.toLowerCase() !== "ohne dtu" ? `
+                            <div class="vari_imgs">
+                                <img src="<?php echo e(asset('root/public/uploads/')); ?>/${item.image}" class="img-fluid" alt="abc">  
+                            </div>` : ''}
+                      `;
+
+                      let short_des_tx = `${item.attribute_term_name.toLowerCase() !== "ohne dtu" ? `
+                      <div class="atta_title">
+                      <span>${item.attribute_term_name}</span>
+                    </div>
+                        
                           ` : ''}
                       `;
-                      short_des_html += short_des;
-                      htmlComponent += item.component_description;
-                  });
-              }
+                      short_des_img += short_des_im;
+                      short_des_text += short_des_tx;
 
-            // console.log(short_des_html);
-            $(short_des_div).html(short_des_html);
+                      if(item.attribute_term_name.toLowerCase() !== "ohne dtu"){
+                          htmlComponent += item.component_description;
+                      }
+                      
+                  });
+                  
+              }
+               
+            // console.log(short_des_img);
+                  let res_img_con = `<div class="atta_img_block bg-light-blue pb-10"> ${short_des_img}</div>`;
+                  let res_txt_con = `<div class="atta_caps_block">${short_des_text}</div>`;
+            $(short_des_div).html(res_img_con+res_txt_con);
             $(htmlComponentDiv).html(htmlComponent);
           },
           error: function (err) {
@@ -1015,6 +1055,8 @@
         })
       }
     </script>
+
+
 
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('../Layout.Layout', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /home/customstegpearl/public_html/root/resources/views/pages/product-detail.blade.php ENDPATH**/ ?>

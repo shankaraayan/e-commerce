@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link href="<?php echo e(asset('assets/img/favicon.png')); ?>" rel="apple-touch-icon-precomposed">
@@ -31,12 +31,11 @@
     <link rel="stylesheet" href="<?php echo e(asset('assets/plugins/lightGallery/dist/css/lightgallery.min.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('assets/plugins/noUiSlider/nouislider.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('css/style.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/customhtml.css')); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <link rel="stylesheet" href="<?php echo e(asset('assets/css/home-1.css')); ?>">
     <script src="<?php echo e(asset('assets/plugins/jquery.min.js')); ?>"></script>
-
-
     <?php echo $__env->yieldContent('style'); ?>
 </head>
 
@@ -63,10 +62,28 @@
     <!-- custom code-->
    
     <script src="<?php echo e(asset('assets/js/main.js')); ?>"></script>
+
     <script type="module" src="<?php echo e(asset('assets/js/custom.js')); ?>" async></script>
+   <script>
+    
+// *************** price format ******************************
+function price_euro_to_normal(number){
+  var ht = number;
+  var aaa = ht.replace('.','');
+  var bbb = aaa.replace(',','.');
+  return bbb;
+}
+
+function price_normal_to_euro(number){
+    var locale = 'de';
+    var options = { currency: 'eur', minimumFractionDigits: 2, maximumFractionDigits: 2};
+    var formatter = new Intl.NumberFormat(locale, options);
+    return formatter.format(number);
+}
+
+
+// *************** end price format ******************************
+   </script>
 </body>
-
-
-
 </html>
 <?php /**PATH /home/customstegpearl/public_html/root/resources/views/Layout/Layout.blade.php ENDPATH**/ ?>

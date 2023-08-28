@@ -159,7 +159,7 @@
                         </div>
                         <div class="input-area">
                             <label for="description" class="form-label">Product Description*</label>
-                            <textarea id="product_description" name="product_description" rows="5" class="form-control" placeholder="Type Here" required="required">{{$editData->product_description}}</textarea>
+                            <textarea id="product_description" name="product_description" rows="5" class="form-control" placeholder="Type Here">{{$editData->product_description}}</textarea>
                             @if ($errors->has('product_description'))
                             <span class="text-danger">{{ $errors->first('product_description') }}</span>
                             @endif

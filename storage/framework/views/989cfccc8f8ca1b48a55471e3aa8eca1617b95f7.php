@@ -91,8 +91,6 @@ padding: 1.5rem!important;
                                 <h6 class="ml-5">
                                     E-Mail:</h6>
                                 <p class="ml-5 pb-0">contact@epp.solar</p>
-
-
                             </div>
                         </div>
 

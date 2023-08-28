@@ -20,7 +20,7 @@
 <?php $component->withName('filtter'); ?>
 <?php if ($component->shouldRender()): ?>
 <?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php $component->withAttributes(['value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('DisabledShortBy'))]); ?>Shop by categories <?php echo $__env->renderComponent(); ?>
+<?php $component->withAttributes(['value' => \Illuminate\View\Compilers\BladeCompiler::sanitizeComponentAttribute(__('DisabledShortBy'))]); ?>Einkaufen nach Kategorien <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
 <?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
@@ -84,7 +84,7 @@
                                                 <div class="ps-product__actions ps-product__group-mobile d-block">
                                                     <div class="ps-product__cart d-block">
                                            <div class="add_to_cart_box">
-                                                <a class="btn cart_btn d-block" href="<?php echo e(route('shop',$product->slug)); ?>">View Cataloge</a>
+                                                <a class="btn cart_btn d-block" href="<?php echo e(route('shop',$product->slug)); ?>">Kataloge anzeigen</a>
                                             </div>
                                                     </div>
                                                 </div>

@@ -1,3 +1,4 @@
+
 <style>
     .ps-shopping .ps-shopping__footer .ps-btn {
         display: inline-block;
@@ -35,6 +36,13 @@
                         <?php $total = 0 ?>
                         <?php if(session('cart')): ?>
                             <?php $__currentLoopData = session('cart'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $id => $details): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <?php
+                                $productCat = App\Models\admin\Product::where('id',$details['product_id'])->pluck('categories')->first();
+                                $cat = explode(',',$productCat);
+                                shuffle($cat);
+                                $categoryName = categories()->where('id',$cat[0])->pluck('slug')->first();
+                                $category = $categoryName;
+                            ?>
                             
                                 <?php
                                     $tax = getTaxCountry($details['shipping_country']);
@@ -59,14 +67,14 @@
                                                     onclick="remove_to_cart(<?= $id ?>)"><i
                                                         class="icon-trash2 text-danger"></i></a></div>
                                             <div class="ps-product__thumbnail"><a class="ps-product__image"
-                                                    href="<?php echo e(route('product.detail', $details['slug'])); ?>">
+                                                    href="<?php echo e(route('product.detail', [$category,$details['slug']])); ?>">
                                                     <figure><img src="<?php echo e(asset('root/public/uploads/' . @$details['images'])); ?>"
                                                             alt="alt">
                                                     </figure>
                                                 </a></div>
                                             <div class="ps-product__content">
                                                 <h5 class="ps-product__title d-block text-left">
-                                                    <a href="<?php echo e(route('product.detail', $details['slug'])); ?>"><span class="mb-2 d-block cart_producttitle"><?php echo e(@$details['name']); ?></span></a>
+                                                    <a href="<?php echo e(route('product.detail', [$category,$details['slug']])); ?>"><span class="mb-2 d-block cart_producttitle"><?php echo e(@$details['name']); ?></span></a>
                                                     
                                                     <span class="fs-5 font-weight-bold border-bottom text-muted">Components</span>
                                                         <?php if(!empty(@$details['details'])): ?>
@@ -120,7 +128,7 @@
                                                         <div class="def-number-input number-input safari_only">
                                                             <button class="minus" onclick="QtyUpdate(<?= $id ?>,0)"><i
                                                                     class="icon-minus"></i></button>
-                                                            <input class="quantity" step="1" min="1"
+                                                            <input class="quantity" step="1" max="25" min="1"
                                                                 id="qty<?= $id ?>" name="quantity" type="number"
                                                                 onchange="update_to_cart(<?= $id ?>)" name="qty[]"
                                                                 value="<?php echo e($details['quantity']); ?>"
@@ -148,7 +156,7 @@
                                                         class="icon-trash2 text-danger"></i></a>
                                             </div>
                                             <div class="ps-product__thumbnail"><a class="ps-product__image"
-                                                    href="<?php echo e(route('product.detail', @$details['slug'])); ?>">
+                                                    href="<?php echo e(route('product.detail', [$category,@$details['slug']])); ?>">
                                                     <figure><img
                                                             src="<?php echo e(asset('root/public/uploads/' . @$details['images'])); ?>"
                                                             alt="alt">
@@ -156,7 +164,7 @@
                                                 </a></div>
                                             <div class="ps-product__content">
                                                 <h5 class="ps-product__title d-block text-left">
-                                                    <a href="<?php echo e(route('product.detail', @$details['slug'])); ?>"><span class="cart_producttitle"><?php echo e(@$details['name']); ?></span></a>
+                                                    <a href="<?php echo e(route('product.detail',[$category, @$details['slug']])); ?>"><span class="cart_producttitle"><?php echo e(@$details['name']); ?></span></a>
                                                 </h5>
                                                 <div class="ps-product__row">
                                                     <div class="ps-product__label">Price:</div>
@@ -180,7 +188,7 @@
                                                         <div class="def-number-input number-input safari_only">
                                                             <button class="minus" onclick="QtyUpdate(<?= $id ?>,0)"><i
                                                                     class="icon-minus"></i></button>
-                                                            <input class="quantity" step="1" min="1"
+                                                            <input class="quantity" step="1" min="1" max="25"
                                                                 id="qty<?= $id ?>" name="quantity" type="number"
                                                                 onchange="update_to_cart(<?= $id ?>)" name="qty[]"
                                                                 value="<?php echo e(@$details['quantity']); ?>"
@@ -191,6 +199,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
                                                 <div class="ps-product__row ps-product__subtotal">
                                                     <div class="ps-product__label">Subtotal:</div>
                                                     <div class="ps-product__value">
@@ -229,7 +238,7 @@
                                         ?>
         
                                         <?php @$shipping_country = (@$details['shipping_country']) ?>
-        
+                                
                                         <?php if($details['type'] == 'variable'): ?>
                                             <div class="row variable_table mb-3 border-bottom p-3">
                                             <div class="col-md-2">
@@ -332,7 +341,7 @@
                                         <?php else: ?>
                                             <div class="row single_product mb-3 border-bottom p-3 justify-content-start ">
                                                 <div class="col-md-2">
-                                                <div class="cartproduct__thumbnail"><a class="cartproduct__image" href="<?php echo e(route('product.detail', @$details['slug'])); ?>">
+                                                <div class="cartproduct__thumbnail"><a class="cartproduct__image" href="<?php echo e(route('product.detail',[$category, @$details['slug']])); ?>">
                                                     <figure><img src="<?php echo e(asset('root/public/uploads/' . $details['images'])); ?>" alt="<?php echo e(@$details['name']); ?>" class="rounded border p-1"></figure></a>
                                                 </div>
                                                 </div> 
@@ -340,7 +349,7 @@
                                                 <div class="col-md-9">
                                                     <div class="ps-product__name">
                                                         <div class="cart_product_name">
-                                                            <a class="cart_producttitle" href="<?php echo e(route('product.detail', @$details['slug'])); ?>"><span class="mb-2 d-block cart_producttitle ps-product__title"><?php echo e(@$details['name']); ?></span></a>
+                                                            <a class="cart_producttitle" href="<?php echo e(route('product.detail',[$category, @$details['slug']])); ?>"><span class="mb-2 d-block cart_producttitle ps-product__title"><?php echo e(@$details['name']); ?></span></a>
                                                         </div>
                                                         
                                                         <div class="cart_product_shipping">
@@ -363,21 +372,19 @@
                                                 </div>
 
                                                 <div class="col-md-3 mt-4 d-flex justify-content-start align-items-center">
-                                                    <span class="d-block fs-4 font-weight-normal mr-1">Menge:</span>
-                                                <div class="ps-product__quantity mx-auto">
-                                                    <div class="def-number-input number-input safari_only">
-                                                    <button class="minus" onclick="QtyUpdate(<?= $id ?>,0)"><i class="icon-minus"></i></button>
-                                                            <input class="quantity" step="1" min="1"
-                                                                id="qty<?= $id ?>" name="quantity" type="number"
-                                                                onchange="update_to_cart(<?= $id ?>)" name="qty[]"
-                                                                value="<?php echo e(@$details['quantity']); ?>"
-                                                                onkeypress="return isNumber(event)" inputmode="numeric">
-                                                            <button class="plus" onclick="QtyUpdate(<?= $id ?>,1)"><i
-                                                                    class="icon-plus"></i></button>
-                                                    </div>
+                                                    <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
+<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.quantity','data' => []]); ?>
+<?php $component->withName('quantity'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php $component->withAttributes([]); ?>Menge <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
+<?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
+<?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
+<?php endif; ?>
                                                 </div>
-                                                </div>
-                                                
+                                               
                                                 <div class="col-md-6 mt-4 d-flex justify-content-start align-items-center">
                                                     <span class="d-block fs-4 font-weight-normal mr-3">Zwischensumme:</span>
                                                     <div class="ps-product__subtotal text-green">

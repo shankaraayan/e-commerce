@@ -17,7 +17,7 @@
     <div class="ps-page">
 
         <div class="ps-categogy ps-categogy--separate">
-            <x-filtter :value="__('DisabledShortBy')">Shop by categories</x-filtter>
+            <x-filtter :value="__('DisabledShortBy')">Einkaufen nach Kategorien</x-filtter>
           
             <div class="ps-categogy__main pb-40">
                 <div class="container">
@@ -76,7 +76,7 @@
                                                 <div class="ps-product__actions ps-product__group-mobile d-block">
                                                     <div class="ps-product__cart d-block">
                                            <div class="add_to_cart_box">
-                                                <a class="btn cart_btn d-block" href="{{route('shop',$product->slug)}}">View Cataloge</a>
+                                                <a class="btn cart_btn d-block" href="{{route('shop',$product->slug)}}">Kataloge anzeigen</a>
                                             </div>
                                                     </div>
                                                 </div>

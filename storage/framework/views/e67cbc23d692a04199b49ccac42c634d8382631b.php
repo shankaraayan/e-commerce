@@ -34,6 +34,12 @@
             return redirect()->back();
         }
 
+
+
+
+
+
+
         $cart = session('cart');
         $class = [];
         foreach ($cart as $item) {
@@ -62,10 +68,16 @@
             }
         }
 
-// dd([
-//     'common_countries' => $commonCountries,
-//     'uncommon_countries' => $uncommonCountries,
-// ]);
+        // Handle the case when there's only one shipping class or both are the same
+        if (count(array_unique($class)) <= 1) {
+            $uncommonCountries = [];
+        }
+
+        // dd([
+        //     'common_countries' => $commonCountries,
+        //     'uncommon_countries' => $uncommonCountries,
+        // ]);
+
 
     
     ?>
@@ -194,7 +206,7 @@ unset($__errorArgs, $__bag); ?>
                                             <div class="ps-checkout__group">
                                                 <label for="email" class="ps-checkout__label">E-Mail Adresse<span
                                                         class="text-danger">*</span></label>
-                                                <input class="ps-input" type="email" name="email"
+                                                <input class="ps-input" type="email" name="email" id="user_email""
                                                     value="<?php echo e(old('email') ?? auth()->user()->email ?? ''); ?>">
                                                 <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -206,6 +218,7 @@ $message = $__bag->first($__errorArgs[0]); ?>
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
+                                                <span class="text-danger" style="font-size: small;" id="loginValidation"></span>
                                             </div>
                                         </div>
     
@@ -285,7 +298,7 @@ unset($__errorArgs, $__bag); ?>
                                             <div class="ps-checkout__group">
                                                 <label class="ps-checkout__label">Postleitzahl <span
                                                         class="text-danger">*</span></label>
-                                                <input class="ps-input"  type="number" id="postal_code"
+                                                <input class="ps-input"  type="text" id="postal_code"
                                                     name="postal_code" value="<?php echo e(old('postal_code')); ?>">
                                                 <?php $__errorArgs = ['postal_code'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -304,7 +317,7 @@ unset($__errorArgs, $__bag); ?>
                                             <div class="ps-checkout__group">
                                                 <label class="ps-checkout__label">Telefon <span
                                                         class="text-danger">*</span></label>
-                                                <input class="ps-input" type="number" id="phone_number" name="phone_number"
+                                                <input class="ps-input" type="text" id="phone_number" name="phone_number"
                                                     value="<?php echo e(old('phone_number')); ?>">
                                                 <?php $__errorArgs = ['phone_number'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -457,7 +470,7 @@ unset($__errorArgs, $__bag); ?>
                                                 <div class="col-12 col-md-6">
                                                     <div class="ps-checkout__group">
                                                         <label class="ps-checkout__label">Postleitzahl <span class="text-danger">*</span></label>
-                                                        <input class="ps-input" type="number" id="shipping_postal_code" name="shipping_postal_code" value="<?php echo e(old('shipping_postal_code')); ?>">
+                                                        <input class="ps-input" type="text" id="shipping_postal_code" name="shipping_postal_code" value="<?php echo e(old('shipping_postal_code')); ?>">
                                                         <?php $__errorArgs = ['shipping_postal_code'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -474,7 +487,7 @@ unset($__errorArgs, $__bag); ?>
                                     <div class="col-12">
                                         <div class="ps-checkout__group">
                                             <label class="ps-checkout__label">Telefon <span class="text-danger">*</span></label>
-                                            <input class="ps-input" type="number" id="shipping_phone_number" name="shipping_phone_number" value="<?php echo e(old('shipping_phone_number')); ?>">
+                                            <input class="ps-input" type="text" id="shipping_phone_number" name="shipping_phone_number" value="<?php echo e(old('shipping_phone_number')); ?>">
                                             <?php $__errorArgs = ['shipping_phone_number'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -670,7 +683,7 @@ unset($__errorArgs, $__bag); ?>
                                             <div class="form-check">
                                                 <input class="form-check-input payment_method" name="payment_method" type="radio" id="bank_transfer" value="Direkte Banküberweisung" <?php echo e($cart_data['bank_transfer'] === 'yes' ? 'checked' : ''); ?> >
                                                 <label class="form-check-label" for="bank_transfer">Direkte Banküberweisung
-                                                    <p class="text-danger">Sonderrabatt Aktion 3% Rabatt bei Banküberweisung (inklusive Käuferschutz)</p>
+                                                    <p class="text-blue">Sonderrabatt Aktion 3% Rabatt bei Banküberweisung (inklusive Käuferschutz)</p>
                                                 </label>
                                                 <?php $__errorArgs = ['payment_method'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -692,10 +705,20 @@ unset($__errorArgs, $__bag); ?>
     
                                         <div class="check-faq">
                                             <div class="form-check">
-                                                <input class="form-check-input" required type="checkbox" id="agree-faq"/>
+                                                <input class="form-check-input" type="checkbox" name="agree-faq" id="agree-faq"/>
                                                 <label class="form-check-label" for="agree-faq">Ich habe die Allgemeinen
                                                     Geschäftsbedingungen für die Website gelesen und stimme ihnen zu <span
                                                         class="text-danger">*</span></label>
+                                                        <?php $__errorArgs = ['agree-faq'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                                    <span class="text-danger"><?php echo e($message); ?></span>
+                                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                             </div>
                                         </div>
                                         <?php if(count((array) session('cart')) > 0): ?>
@@ -731,28 +754,28 @@ unset($__errorArgs, $__bag); ?>
                 url: "/coupon/apply",
                 method: 'post',
                 data: {
-                        "_token": "<?php echo e(csrf_token()); ?>",
-                        "code": couponCode,
-                        "country": country,
-                    },
-                    beforeSend : function(){
-                        $(".loader").removeClass("d-none");
-                    },
-                    success: function(response) {
+                    "_token": "<?php echo e(csrf_token()); ?>",
+                    "code": couponCode,
+                    "country": country,
+                },
+                beforeSend: function () {
+                    $(".loader").removeClass("d-none");
+                },
+                success: function(response) {
                         $(".loader").addClass("d-none");
                         console.log(response);
-
-                        // const {message,status,data} = JSON.parse(response);
-                        // ${item.details ? item.details.map((val) => (
-                        //             `<span>${val}</span><br>`
-                        //             )).join('') : ''}
-                        // if(response.cart){
+                        
+                        if(response.cart){
 
                             let product = response.cart.map((item, index) => {
                             return `
                             ${item.type === "variable" ? `
                             <div class="ps-checkout__row ps-product">
-                                <div class="ps-product__name">${item.name}<span>x</span><span>${item.quantity}</span><br></div>
+                                <div class="ps-product__name">${item.name}<span>x</span><span>${item.quantity}</span><br>
+                                    ${item.details ? item.details.map((val) => (
+                                    `<span>${val}</span><br>`
+                                    )).join('') : ''}
+                                </div>
                                 <div class="ps-product__price">
                                     ${item.price_with_tax}
                                 </div>
@@ -794,21 +817,19 @@ unset($__errorArgs, $__bag); ?>
 
                                     </div>
                                 </div>
-                                <div id="bank_dis_container"> 
-                                    ${response.bank_dis? 
-                                        `<div class="ps-checkout__row">
-                                                <div class="ps-title">Rabatt(3%)</div>
-                                                <div class="ps-checkout__checkbox">
-                                                    <div class="form-check">
-                                                        
-                                                        <label for="bank_discount" id="bank_discount_price">
-                                                        ${response.bank_dis}
-                                                        </label>
-                                                    </div>
-
+                                ${response.bank_dis? 
+                                    `<div class="ps-checkout__row">
+                                            <div class="ps-title">Rabatt(3%)</div>
+                                            <div class="ps-checkout__checkbox">
+                                                <div class="form-check">
+                                                    
+                                                    <label for="bank_discount" id="bank_discount_price">
+                                                    ${response.bank_dis}
+                                                    </label>
                                                 </div>
-                                    </div>` : ''}
-                                </div>
+
+                                            </div>
+                                </div>` : ''}
                                 <div class="ps-checkout__row">
                                     <div class="ps-title final_price">Total</div>
                                     <div class="ps-product__price final_priceEuro text-green">
@@ -823,10 +844,11 @@ unset($__errorArgs, $__bag); ?>
                             toastr.error(response.message);
                         }
                     },
-                    error : function(err){
-                        console.log(err);
-                    }
+                error: function (err) {
+                    console.log(err);
+                }
             });
+
        }
 
 
@@ -1055,9 +1077,9 @@ unset($__errorArgs, $__bag); ?>
                 </div>
                 `);
                 $('input[name="token_price"]').val(btoa(unescape(encodeURIComponent(response.total))));
-                toastr.success(response.message);
+                flasher.success(response.message);
             } else {
-                toastr.error(response.message);
+                flasher.error(response.message);
             }
             },
             error: function (err) {
@@ -1066,12 +1088,30 @@ unset($__errorArgs, $__bag); ?>
         });
     }
 
-
-    
-
-    
-
   </script>
+
+
+<script>
+document.getElementById('user_email').addEventListener('blur', function() {
+    var email = this.value;
+    $.ajax({
+        url: "/user-check",
+        method: 'post',
+        data: {
+        "_token": "<?php echo e(csrf_token()); ?>",
+        "email" : email
+        },
+        success: function(response) {
+            // console.log(response);
+            if(response == 'found'){
+                $('#loginValidation').html('This email is registered with us, Please login your account. <a href="/login">Login Here</a>');
+            }else{
+                $('#loginValidation').html('');
+            }
+        }
+    });
+});
+</script>
 
 <?php $__env->stopSection(); ?>
 

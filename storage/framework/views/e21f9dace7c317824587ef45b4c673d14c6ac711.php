@@ -87,7 +87,7 @@
                                     </ul>
                                 </div>
                             </div>
-
+                            
                             <div class="ps-widget__block">
                                 <h4 class="ps-widget__title">Ähnliche Produkte</h4><a class="ps-block-control" href="#"><i class="fa fa-angle-down"></i></a>
                                 <div class="ps-widget__content" id="similarProductCon">
@@ -117,17 +117,16 @@
                                                             <?php if($product->type==='variable'): ?>
                                                                 <span class="ps-product__price text-green">aus  - <?php echo e(formatPrice($prices['sum_of_max_prices'])); ?></span>
                                                             <?php else: ?>
-                                                                <span class="ps-product__price text-green""><?php echo e(formatPrice($product->price)); ?></span>
+                                                                <span class="ps-product__price text-green"><?php echo e(formatPrice($product->price)); ?></span>
                                                             <?php endif; ?>
                                                         </div>
                                                     </div>
                                                     </div>
                                                 </div>
-                                            
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <?php endif; ?>
+                                </div>
                             </div>
-                         </div>
                     </div>
                     </div>
                     
@@ -173,78 +172,10 @@
                 </div>
             </div>
         </div>
-
-
-        </div>
+      </div>
     </div>
 
-    <div class="ps-search">
-        <div class="ps-search__content ps-search--mobile"><a class="ps-search__close" href="#" id="close-search"><i class="icon-cross"></i></a>
-            <h3>Search</h3>
-            <form action="do_action" method="post">
-                <div class="ps-search-table">
-                    <div class="input-group">
-                        <input class="form-control ps-input" type="text" placeholder="Producten zoeken">
-                        <div class="input-group-append"><a href="#"><i class="fa fa-search"></i></a></div>
-                    </div>
-                </div>
-            </form>
-            <div class="ps-search__result">
-                <div class="ps-search__item">
-                    <div class="ps-product ps-product--horizontal">
-                        <div class="ps-product__thumbnail"><a class="ps-product__image" href="#">
-                                <figure><img src="img/products/052.jpg" alt="alt" /></figure>
-                            </a></div>
-                        <div class="ps-product__content">
-                            <h5 class="ps-product__title"><a>3-layer <span class='hightlight'>mask</span> with an elastic band (1 piece)</a></h5>
-                            <p class="ps-product__desc">Study history up to 30 days Up to 5 users simultaneously Has HEALTH certificate</p>
-                            <div class="ps-product__meta"><span class="ps-product__price">$38.24</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="ps-search__item">
-                    <div class="ps-product ps-product--horizontal">
-                        <div class="ps-product__thumbnail"><a class="ps-product__image" href="#">
-                                <figure><img src="img/products/033.jpg" alt="alt" /></figure>
-                            </a></div>
-                        <div class="ps-product__content">
-                            <h5 class="ps-product__title"><a>3 Layer Disposable Protective Face <span class='hightlight'>mask</span>s</a></h5>
-                            <p class="ps-product__desc">Study history up to 30 days Up to 5 users simultaneously Has HEALTH certificate</p>
-                            <div class="ps-product__meta"><span class="ps-product__price sale">$14.52</span><span class="ps-product__del">$17.24</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="ps-search__item">
-                    <div class="ps-product ps-product--horizontal">
-                        <div class="ps-product__thumbnail"><a class="ps-product__image" href="#">
-                                <figure><img src="img/products/051.jpg" alt="alt" /></figure>
-                            </a></div>
-                        <div class="ps-product__content">
-                            <h5 class="ps-product__title"><a>3-Ply Ear-Loop Disposable Blue Face <span class='hightlight'>mask</span></a></h5>
-                            <p class="ps-product__desc">Study history up to 30 days Up to 5 users simultaneously Has HEALTH certificate</p>
-                            <div class="ps-product__meta"><span class="ps-product__price sale">$14.99</span><span class="ps-product__del">$38.24</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="ps-search__item">
-                    <div class="ps-product ps-product--horizontal">
-                        <div class="ps-product__thumbnail"><a class="ps-product__image" href="#">
-                                <figure><img src="img/products/050.jpg" alt="alt" /></figure>
-                            </a></div>
-                        <div class="ps-product__content">
-                            <h5 class="ps-product__title"><a>Disposable Face <span class='hightlight'>mask</span> for Unisex</a></h5>
-                            <p class="ps-product__desc">Study history up to 30 days Up to 5 users simultaneously Has HEALTH certificate</p>
-                            <div class="ps-product__meta"><span class="ps-product__price sale">$8.15</span><span class="ps-product__del">$12.24</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
     <button class="btn scroll-top"><i class="fa fa-angle-double-up"></i></button>
     <!-- Quick view modal -->
@@ -613,7 +544,7 @@
                     
                     response.map((item, index) => {
                     data += `
-                    <a href="/product-detail/${item.slug}">
+                    <a href="/product-detail/${item.category_name}/${item.slug}">
                         <div class="ps-widget__item">
                             <div class="row no-gutters">
                                 <div class="col-3">
@@ -625,7 +556,7 @@
                                     <div class="product_info_rel">
                                         <p class="product_info_name ps-product__title">${item.product_name}</p>
                                         <div class="ps-product__price text-green">
-                                            ${item.type === "variable" ? `aus - €${item.sum_of_max_prices}` : `€${item.price}`}
+                                            ${item.type === "variable" ? `aus - €${price_normal_to_euro(item.sum_of_max_prices)}` : `€${price_normal_to_euro(item.price)}`}
                                         </div>
                                     </div>
                                 </div>

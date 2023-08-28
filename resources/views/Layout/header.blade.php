@@ -1,5 +1,9 @@
 <style>
    
+   .fl-main-container .fl-container.fl-flasher{
+       line-height: 1.5 !important
+    }
+
 </style>
 <header class="ps-header ps-header--1">
     <div class="ps-noti py-2">
@@ -32,7 +36,7 @@
                         <!-- <li class="list-inline-item"><a href="#" class="font-weight-light">Über uns</a></li> -->
                         <!--<li class="list-inline-item">-->
                         <li class="list-inline-item"><a href="{{ route('login') }}"
-                                class="">Main Konto</a></li>
+                                class="">Mein Konto</a></li>
                         <li class="list-inline-item"><a href="javascript:void(0)"
                                     class="">Über uns</a></li>
                         <li class="list-inline-item"><a href="{{ route('cart') }}"
@@ -165,17 +169,11 @@
                     <div class="ps-navigation__left">
                         <nav class="ps-main-menu">
                             <ul class="menu" id="main_menu">
-                                <li class="has-mega-menu"><a href="/">Home</a></li>
-                                <li class="has-mega-menu">
-                                    <a href="{{ route('catalog') }}">Shop</a>
-                                </li>
+                                <li class="has-mega-menu"><a class="menuName" href="/">Home</a></li>
+                                <li class="has-mega-menu"><a class="menuName" href="{{ route('catalog') }}">Shop</a></li>
                                 @foreach (headerCategories() as $cat)
-                                    <li class="has-mega-menu"><a
-                                            href="{{ route('shop', $cat->slug) }}">{{ $cat->name }}</a></li>
+                                    <li class="has-mega-menu"><a class="menuName" href="{{ route('shop', $cat->slug) }}">{{ $cat->name }}</a></li>
                                 @endforeach
-
-                                <!--<li class="has-mega-menu"><a href="javascript:void(0);">Blog</a></li>-->
-                                <!--<li class="has-mega-menu"><a href="contact-us.html">Contact</a></li>-->
                             </ul>
                         </nav>
                     </div>
@@ -209,6 +207,21 @@
     </div>
 </header>
 
+ 
+<script>
+    // Add active class to the current button (highlight it)
+    var header = document.getElementById("main_menu");
+    var btns = header.getElementsByClassName("menuName");
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("click", function() {
+      var current = document.getElementsByClassName("active");
+      if (current.length > 0) { 
+        current[0].className = current[0].className.replace(" active", "");
+      }
+      this.className += " active";
+      });
+    }
+</script>
 
 <script>
     $(document).ready(function() {

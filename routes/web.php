@@ -324,3 +324,5 @@ Route::get('mollie-payment-cencel',[PaymentGatwayController::class, 'molliesPayC
 Route::post('ajax-test', function(){
     return response()->json(['message'=>'success']);
 });
+
+Route::post('user-check',[FrontendController::class,'userCheck']);

@@ -1,6 +1,5 @@
-
 <div class="ps-product__thumbnail mb-1"><a class="ps-product__image" onclick="addSimiliarProductId({{$product->id}})" href="{{route('product.detail',[$category,$product->slug] )}}">
-        <figure>
+        <figure class="card-image-container">
             <img src="{{asset('root/public/uploads/'.$product->thumb_image)}}" alt="alt" class="img-fluid" />
             <img src="{{asset('root/public/uploads/'.$product->thumb_image)}}" class="img-fluid" alt="alt" />
         </figure>
@@ -8,6 +7,7 @@
     <div class="ps-product__badge">
         <div class="ps-badge ps-badge--hot">
             @php
+            if($product->type == 'single'){
                 if(isset($product->sale_price)){
                     if($product->sale_price < $product->price){
                         $dicount = (($product->price - $product->sale_price) / $product->price ) * 100 ;
@@ -16,12 +16,15 @@
                         $dicount = '';
                     }
                 }
+            }else {
+                $dicount = 'Best Seller';
+            }
             @endphp
             {{($dicount)}}
         </div>
     </div>
 </div>
-<div class="ps-product__content text-center">
+<div class="ps-product__content text-center mt-2">
     
     <a onclick="addSimiliarProductId({{$product->id}})"  href="{{route('product.detail',[$category,$product->slug])}}">
         <h5 class="ps-product__title mb-1">{{$product->product_name}}</h5>
@@ -44,11 +47,11 @@
     <div class="ps-product__actions ps-product__group-mobile d-block">
         <div class="ps-product__cart d-block">
             @if($product->type !='variable')
-            <div class="add_to_cart_box"><a class="btn cart_btn d-block p-2" href="javascript:void(0)" onclick="add_to_cart('{{ $product->id }}')">Add to cart</a>
+            <div class="add_to_cart_box"><a class="btn cart_btn d-block" href="javascript:void(0)" onclick="add_to_cart('{{ $product->id }}')">In den Warenkorb</a>
             </div>
         @else
-        <div class="add_to_cart_box ">
-                <a onclick="addSimiliarProductId({{$product->id}})" class="btn cart_btn d-block p-2" href="{{route('product.detail',[$category,$product->slug] )}}">View</a>
+        <div class="add_to_cart_box">
+                <a onclick="addSimiliarProductId({{$product->id}})" class="btn cart_btn d-block" href="{{route('product.detail',[$category,$product->slug] )}}">Variationen auswählen</a>
             </div>
         @endif
         </div>

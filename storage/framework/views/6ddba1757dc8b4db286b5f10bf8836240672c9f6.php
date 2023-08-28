@@ -11,22 +11,18 @@
 
 <?php
  
-$currentUrl = url()->current();
-$path = parse_url($currentUrl, PHP_URL_PATH);
-$pathSegments = explode('/', trim($path, '/'));
-$category = end($pathSegments);
-if($category == null || $category == ''){
+
     $cat = explode(',',$product->categories);
     shuffle($cat);
     $categoryName = categories()->where('id',$cat[0])->pluck('slug')->first();
     $category = $categoryName;
-}
+
 
 ?>
 
 <div class="owl-item">
-    <div class="ps-section__product m-4">
-        <div class="ps-product ps-product--standard">
+    <div class="ps-section__product">
+        <div class="ps-product ps-product--standard m-0">
             <?php echo $__env->make('components.card-design', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         </div>
     </div>

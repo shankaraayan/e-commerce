@@ -57,7 +57,7 @@
                                     $result = Category::all();
                                 @endphp
                                 <select name="parent_cat" class="form-control">
-                                    <option>Select... </option>
+                                    <option value="0">Select... </option>
                                     @foreach ($result as $category)
                                         <option value="{{$category->id}}">{{$category->name}}</option>
                                     @endforeach

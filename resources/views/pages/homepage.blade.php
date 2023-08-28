@@ -16,15 +16,15 @@
                 {{-- @dd($sliders); --}}
                 @if(!empty($sliders))
                     @foreach($sliders as $values)
-                       
                             <!-- Image for desktop -->
+                            <a href="{{$values->slider_url}}">
                             <div class="ps-banner">
                                 <picture>
                                     <source media="(min-width: 768px)" srcset="{{ asset('root/public/uploads/sliders/desktop/' . $values['desktop']) }}" class="img-fluid">
                                     <img src="{{ asset('root/public/uploads/sliders/phone/' . $values['phone']) }}" alt="Stegpearl" class="img-fluid">
                                 </picture>
                             </div>
-
+                        </a>
                     @endforeach
                 @endif
  
@@ -36,13 +36,18 @@
             <div class="container">
                 <div class="ps-promo my-5 ps-section--category ps-section--latest ps-category--image mt-5">
                     <h2 class="ps-section__title">Beliebte Kategorien</h2>
-                    <div class="row">
+                    <div class="row justify-content-center">
                         @foreach(categories()->where('parent_id','0') as $cat)
-                            <div class="col-6 col-md-3 mb-2 px-1 p-0">
-                                <div class="ps-promo__item">
-                                    <a class="ps-category__image ps-promo__banner" href="{{route('shop',$cat->slug)}}">
-                                        <img class="ps-promo__banner" src="{{asset('root/public/uploads/category/'.$cat->image)}}" alt="{{ @$cat->image }}">
-                                    </a>
+                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-lg-0 mb-4 px-3">
+                                <div class="homepage_category rounded border p-1">
+                                    <div class="ps-promo__item">
+                                        <a class="ps-category__image ps-promo__banner" href="{{route('shop',$cat->slug)}}">
+                                            <img class="ps-promo__banner" src="{{asset('root/public/uploads/category/'.$cat->image)}}" alt="{{ @$cat->image }}">
+                                        </a>
+                                    </div>
+                                    <div class="text-center fs-3 fw-600 text-blue my-3">
+                                        {{ $cat->name }}
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -52,13 +57,13 @@
             </div>
 
             
-                <section class="ps-section--deals pb-4 bg-light-blue">
+                <section class="ps-section--deals pb-5 bg-light-blue">
                     <div class="container">
                     <div class="ps-section__header mb-0">
                         <h2 class="ps-section__title">Bestseller-Produkte</h2>
                     </div>
                     <div class="ps-section__carousel border-0">
-                          <div class="owl-carousel owl-loaded owl-drag" data-owl-auto="false" data-owl-loop="true" data-owl-speed="13000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="4" data-owl-item-xs="1" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-item-xl="4" data-owl-duration="1000" data-owl-mousedrag="on">
+                          <div class="owl-carousel owl-loaded owl-drag" data-owl-auto="false" data-owl-loop="true" data-owl-speed="13000" data-owl-gap="20" data-owl-nav="true" data-owl-dots="true" data-owl-item="4" data-owl-item-xs="1" data-owl-item-sm="2" data-owl-item-md="2" data-owl-item-lg="4" data-owl-item-xl="4" data-owl-duration="1000" data-owl-mousedrag="on">
                 
                             {{-- product Card --}}
                             <div class="owl-stage-outer py-md-5 py-2">
@@ -102,13 +107,13 @@
                 </div>
             </div>
 
-            <section class="ps-section--deals pb-0 bg-light-blue">
+            <section class="ps-section--deals pb-5 bg-light-blue">
                 <div class="container">
                 <div class="ps-section__header mb-0">
                     <h2 class="ps-section__title">Die besten Deals der Woche!</h2>
                 </div>
                 <div class="ps-section__carousel border-0">
-                      <div class="owl-carousel owl-loaded owl-drag" data-owl-auto="false" data-owl-loop="true" data-owl-speed="13000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="true" data-owl-item="4" data-owl-item-xs="1" data-owl-item-sm="2" data-owl-item-md="3" data-owl-item-lg="4" data-owl-item-xl="4" data-owl-duration="1000" data-owl-mousedrag="on">
+                      <div class="owl-carousel owl-loaded owl-drag" data-owl-auto="false" data-owl-loop="true" data-owl-speed="13000" data-owl-gap="20" data-owl-nav="true" data-owl-dots="true" data-owl-item="4" data-owl-item-xs="1" data-owl-item-sm="2" data-owl-item-md="2" data-owl-item-lg="4" data-owl-item-xl="4" data-owl-duration="1000" data-owl-mousedrag="on">
             
                         {{-- product Card --}}
                         <div class="owl-stage-outer py-md-5 py-2">
@@ -174,13 +179,13 @@
 
             </div>
             <section class="ps-section--reviews" data-background="{{ asset('assets/img/stegpearl/roundbg.png') }}">
-                <h3 class="ps-section__title"> Unsere Marktplätze</h3>
+                <h2 class="ps-section__title"> Unsere Marktplätze</h2>
                 <div class="ps-section__content pt-5">
                     <div class="owl-carousel container text-center mx-auto" data-owl-auto="true" data-owl-loop="true"
-                        data-owl-speed="5000" data-owl-gap="0" data-owl-nav="true" data-owl-dots="true"
+                        data-owl-speed="5000" data-owl-gap="0" data-owl-nav="false" data-owl-dots="false"
                         data-owl-item="4" data-owl-item-xs="2" data-owl-item-sm="2" data-owl-item-md="3"
                         data-owl-item-lg="3" data-owl-item-xl="4" data-owl-duration="1000" data-owl-mousedrag="on">
-                        <a href="#">
+                        <a href="javascript:void(0)">
                             <div class="ps-review">
                                 <div class="ps-review__text">
                                     <img src="{{ asset('assets/img/stegpearl/kaufland.webp') }}" class="img-fluid"
@@ -188,7 +193,7 @@
                                 </div>
                             </div>
                         </a>
-                        <a href="#">
+                        <a href="javascript:void(0)">
                             <div class="ps-review">
                                 <div class="ps-review__text">
                                     <img src="{{ asset('assets/img/stegpearl/amazon.webp') }}" class="img-fluid"
@@ -196,7 +201,7 @@
                                 </div>
                             </div>
                         </a>
-                        <a href="#">
+                        <a href="javascript:void(0)">
                             <div class="ps-review">
                                 <div class="ps-review__text">
                                     <img src="{{ asset('assets/img/stegpearl/otto.webp') }}" class="img-fluid"
@@ -204,7 +209,7 @@
                                 </div>
                             </div>
                         </a>
-                        <a href="#">
+                        <a href="javascript:void(0)">
                             <div class="ps-review">
                                 <div class="ps-review__text">
                                     <img src="{{ asset('assets/img/stegpearl/ebay.webp') }}" class="img-fluid"
@@ -217,7 +222,6 @@
                 </div>
             </section>
             <div class="container">
-
                 <section class="ps-section--newsletter" data-background="{{ asset('assets/img/newsletter-bg.jpg') }}">
                     <h3 class="ps-section__title">Abonnieren Sie unseren Newsletter<br> und erhalten Sie die
                         neuesten Produktangebote</h3>

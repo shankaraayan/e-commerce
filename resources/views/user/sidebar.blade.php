@@ -1,7 +1,7 @@
 <div id="accordion">
     <div class="card shadow">
       <div class="card-header bg-white py-4" id="headingOne">
-          <a class="btn btn-link d-flex align-items-center justify-content-between fs-3 fw-600 text-uppercase mainkonto_btn" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Main Konto<i class="icon-chevron-down arrow_icon fw-700"></i></a>
+          <a class="btn btn-link d-flex align-items-center justify-content-between fs-3 fw-600 text-uppercase mainkonto_btn" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Mein Konto<i class="icon-chevron-down arrow_icon fw-700"></i></a>
       </div>
   
       <div id="collapseOne" class="collapse show user_dashboard" aria-labelledby="headingOne" data-parent="#accordion">

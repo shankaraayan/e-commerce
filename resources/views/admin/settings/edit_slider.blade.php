@@ -37,10 +37,10 @@
                       <div class="card-text h-full space-y-4">
                         <form method="post" action="{{route('admin.settings.slider.update_slider',$slider->id)}}"  enctype="multipart/form-data">
                         @csrf
-                            {{-- <div class="input-area mb-4">
+                            <div class="input-area mb-4">
                                 <label for="name" class="form-label" required>Slider url</label>
                                 <input value="{{$slider->slider_url}}"  name="slider_url" type="text" class="form-control" placeholder="url">
-                            </div> --}}
+                            </div>
                           <div class="input-area mb-4">
                                 <label for="select" class="form-label">Status</label>
                 

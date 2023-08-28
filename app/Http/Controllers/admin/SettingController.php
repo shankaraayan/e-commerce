@@ -89,13 +89,15 @@ class SettingController extends Controller
 
     public function delete_slider($id){
         $slider = Slider::find($id);
+        
         if(@$slider->desktop){
-            $file_path = public_path('uploads/sliders/desktop/'.$slider->slider);
+            $file_path = public_path('uploads/sliders/desktop/'.$slider->desktop);
         }
 
         if(@$slider->phone){
-            $file_path = public_path('uploads/sliders/phone/'.$slider->slider);
+            $file_path = public_path('uploads/sliders/phone/'.$slider->phone);
         }
+
         
         unlink($file_path);
         $slider->delete();

@@ -13,6 +13,7 @@ use App\Models\admin\AttributeTerm;
 use App\Models\admin\ProductAttribute;
 use App\Models\admin\ProductTerm;
 use App\Models\Product as ModelsProduct;
+use App\Models\SkuCombination;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
 
@@ -80,6 +81,7 @@ class AdminProductController extends Controller
         $input['quantity'] = $request->quantity;
         $input['solar_product'] = $request->solar_product;
         $product = Product::create($input);
+
         if ($request->hasFile('images')) {
             $images = $request->file('images');
             foreach ($images as $image) {
@@ -91,8 +93,72 @@ class AdminProductController extends Controller
                 $imageModel->save();
             }
         }
+        // dd($product);
+        $response  = $this->skuGroupCombination($product,$selectedOptions,$selectedOptionsTerms);
+        // die;
         return response()->json(['message' => 'Product Uploaded Successfully']);
     }
+
+    /**
+     * this function is creating sku and variations
+     * @param array product is array of new product
+     * @param array $variations 
+     * @param array $options is attribute terms of component
+     */
+
+    private function skuGroupCombination($product,$variations, $options)
+    {
+        //* Creating pair and matching with attribute and given options
+        $attribute = [];
+        foreach ($variations as $variation) {
+            $attributeTerms = AttributeTerm::where('attributes_id', $variation)->pluck('id')->toArray();
+            foreach($attributeTerms as $terms){
+                if(in_array($terms,$options)){
+                    $attribute[$variation][] = $terms;
+                }
+            }   
+        }
+        $attributes =  ($attribute);
+        //* Genrating Combitions with given variations
+        function generateCombinations($attributes, $currentIndex = 0, $currentCombination = [], &$allCombinations) {
+            if ($currentIndex >= count($attributes)) {
+                $allCombinations[] = $currentCombination;
+                return;
+            }
+            $currentKey = array_keys($attributes)[$currentIndex];
+            $currentOptions = $attributes[$currentKey];
+        
+            foreach ($currentOptions as $option) {
+                $newCombination = $currentCombination;
+                $newCombination[$currentKey] = $option;
+                generateCombinations($attributes, $currentIndex + 1, $newCombination, $allCombinations);
+            }
+        }
+        //* genrating New SKU and assigning to variations
+        $allCombinations = [];
+        generateCombinations($attributes, 0, [], $allCombinations);
+        $res = [];
+        foreach ($allCombinations as $combination) {
+            $res[rand(1111,9999)] = $combination;
+        }
+        
+        //* Deleting old variations
+        SkuCombination::where('product_id',$product->id)->delete();
+
+        //* Entry with new SKU and variation
+        foreach($res as $key=>$result)
+        {
+            $sku = new SkuCombination;
+            $sku->product_id = $product->id;
+            $sku->combination_ids = $result;
+            $sku->save();
+            //* Update with SKU
+            $sku->sku = $product->sku.'-'.$sku->id;
+            $sku->update();
+        }
+        return true;
+    }
+    
 
     public function edit($id){
         $attributes = Attribute::get();
@@ -104,11 +170,25 @@ class AdminProductController extends Controller
 
     public function update(ProductAdminRequest $request)
     {
+
         $options = is_array($request->options) ? implode(',', $request->options) : '';
         $dropdowns = is_array($request->dropdowns) ? implode(',', $request->dropdowns) : '';
-        
-        $categories = is_array($request->categories) ? implode(',', $request->categories) : '';
 
+        $record = Product::where('id',$request->productId)->first();
+        if (
+            $request->has('options') && $options !== $record->attributes_id ||
+            $request->has('sku') && $request->input('sku') !== $record->sku ||
+            $request->has('dropdowns') && $dropdowns !== $record->attributesTerms_id
+            ) {
+            $change  = true;
+        }
+        else{$change  = false;}
+
+
+        $variations = $request->options;
+        $terms = $request->dropdowns;
+
+        $categories = is_array($request->categories) ? implode(',', $request->categories) : '';
         $editproduct = Product::find($request->productId);
         $editproduct->product_name = $request->product_name;
         $editproduct->attributes_id = $options;
@@ -126,15 +206,14 @@ class AdminProductController extends Controller
         $editproduct->sale_price = $request->sale_price;
         $editproduct->offer_price = $request->offer_price;
         $editproduct->mp_option3 = $request->mp_option3;
-
         $editproduct->categories = $categories;
-        
         $editproduct->subcategory_id = $request->subcategory;
         $editproduct->status = $request->status;
         $editproduct->sku = $request->sku;
         $editproduct->quantity = $request->quantity;
         $editproduct->product_availability = $request->product_availability;
         $editproduct->solar_product = $request->solar_product;
+
         if ($request->hasFile('images')) {
             $images = $request->file('images');
             foreach ($images as $image) {
@@ -154,6 +233,11 @@ class AdminProductController extends Controller
             $editproduct['thumb_image'] = $filename ?? '';
         }
         $editproduct->save();
+
+        if ($change) {
+            $response  = $this->skuGroupCombination($editproduct,$variations,$terms);
+        }
+
         return redirect()->route('admin.product.list')->with('success', 'Product Updated Sucessfully.');
    }
 

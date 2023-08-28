@@ -24,6 +24,7 @@ use App\Services\PaymentGatway\PaypalService;
 use App\Services\UpdateShipping;
 use App\Services\MinMaxPrice;
 use Illuminate\Http\RedirectResponse;
+use App\Models\admin\Category;
 
 class FrontendController extends Controller
 {
@@ -268,6 +269,8 @@ class FrontendController extends Controller
             'country'=>'required',
             'postal_code' => 'required',
             'payment_method'=>'required',
+             'agree-faq' => 'required',
+
         ]);
 
         if ($validator->fails()) {
@@ -276,7 +279,7 @@ class FrontendController extends Controller
 
         if(!auth()->user()){
 
-            if(User::where('email',$request->email)->exists()) return redirect()->back()->with('error',"Please Login Your Account");
+            if(User::where('email',$request->email)->exists()) return redirect()->back()->with('error',"Please Login Your Account")->withInput();
             $user = new User;
             $user->email = $request->email;
             $user->phone = $request->phone_number;
@@ -489,6 +492,8 @@ class FrontendController extends Controller
         // Get the category of the current product
         $category = $product->categories;
         $all_product = [];
+        $category_name = Category::find($category)->pluck('name')->first();
+
         // Get a random product from the same category
         $randomProduct = Product::where('categories',  $category)
             ->where('id', '!=', $productId)
@@ -504,8 +509,10 @@ class FrontendController extends Controller
                     $response = $price->minmaxPrice(explode(',', $product->attributes_id));
                     $product['sum_of_max_prices'] = $response['sum_of_max_prices'];
                     $product['min_price'] = $response['min_price'];
+                    $product['category_name'] = $category_name;
                     $all_product [] = $product;
                 }else{
+                    $product['category_name'] = $category_name;
                     $all_product [] = $product;
                 }
                 
@@ -557,6 +564,18 @@ class FrontendController extends Controller
           $response['payment_method'] = $payment;
           return response()->json($response);
     }
+}
+
+public function userCheck(Request $request)
+{
+    $response  = User::where('email',$request->email)->exists();
+    
+    if($response){
+        return "found";
+    }else{
+        return "not";
+    }
+
 }
 
     

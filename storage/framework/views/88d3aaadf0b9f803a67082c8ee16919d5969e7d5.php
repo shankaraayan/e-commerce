@@ -54,7 +54,7 @@
                                     $result = Category::all();
                                 ?>
                                 <select name="parent_cat" class="form-control">
-                                    <option>Select... </option>
+                                    <option value="0">Select... </option>
                                     <?php $__currentLoopData = $result; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <option value="<?php echo e($category->id); ?>"><?php echo e($category->name); ?></option>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
