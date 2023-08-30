@@ -68,15 +68,15 @@
                     <span class="text-danger">{{ $errors->first('attribute_term_name') }}</span>
                   @endif
                 </div>
-               {{-- @dd($attributeTerms->toarray()) --}}
-                {{-- @if($attributeTerms->attribute->attribute_type=='inverter')
+               {{-- @dd($attributeTerms->wh_range) --}}
+                @if($attributeTerms->attribute->attribute_type=='inverter')
                 <div class="input-area">
                   <label for="name" class="form-label">Supported Wh</label>
 
                   @foreach ($attributesTermsWh as $value)
                   @if(isset($value->attribute_term_kWh_name))
                   <label>
-                    <input type="checkbox" name="supported_wh[]" value="{{ $value->attribute_term_kWh_name }}">
+                    <input type="checkbox" name="wh_range[]" value="{{ $value->attribute_term_kWh_name }}" @if($value->attribute_term_kWh_name == $attributeTerms->wh_range) checked @endif>
                     {{ $value->attribute_term_kWh_name }}
                   </label>
                   @endif
@@ -86,7 +86,7 @@
                     <span class="text-danger">{{ $errors->first('attribute_term_kWh_name') }}</span>
                   @endif
                 </div>
-                  @endif --}}
+                  @endif
 
 
                 @if($attributeTerms->attribute->attribute_type == 'panel') 

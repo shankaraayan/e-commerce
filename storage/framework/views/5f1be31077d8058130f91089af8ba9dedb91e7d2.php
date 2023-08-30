@@ -371,19 +371,23 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-3 mt-4 d-flex justify-content-start align-items-center">
-                                                    <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
-<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.quantity','data' => []]); ?>
-<?php $component->withName('quantity'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php $component->withAttributes([]); ?>Menge <?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
-<?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
-<?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
-<?php endif; ?>
-                                                </div>
+                                                    <div class="col-md-3 mt-4 d-flex justify-content-start align-items-center">
+                                                        <span class="fs-4 font-weight-normal mr-1">Menge:</span>
+                                                        <div class="ps-product__quantity mx-auto">
+                                                            <div class="def-number-input number-input safari_only">
+                                                                <button class="minus" onclick="QtyUpdate(<?= $id ?>,0)"><i
+                                                                        class="icon-minus"></i></button>
+                                                                <input class="quantity" step="1" min="1"
+                                                                    id="qty<?= $id ?>" name="quantity" type="number"
+                                                                    onchange="update_to_cart(<?= $id ?>)" name="qty[]"
+                                                                    value="<?php echo e($details['quantity']); ?>"
+                                                                    onkeypress="return isNumber(event)" size="4" placeholder=""
+                                                                    inputmode="numeric">
+                                                                <button class="plus" onclick="QtyUpdate(<?= $id ?>,1)"><i
+                                                                        class="icon-plus"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                
                                                 <div class="col-md-6 mt-4 d-flex justify-content-start align-items-center">
                                                     <span class="d-block fs-4 font-weight-normal mr-3">Zwischensumme:</span>

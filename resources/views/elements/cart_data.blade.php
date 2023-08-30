@@ -373,9 +373,23 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-3 mt-4 d-flex justify-content-start align-items-center">
-                                                    <x-quantity >Menge</x-quantity>
-                                                </div>
+                                                    <div class="col-md-3 mt-4 d-flex justify-content-start align-items-center">
+                                                        <span class="fs-4 font-weight-normal mr-1">Menge:</span>
+                                                        <div class="ps-product__quantity mx-auto">
+                                                            <div class="def-number-input number-input safari_only">
+                                                                <button class="minus" onclick="QtyUpdate(<?= $id ?>,0)"><i
+                                                                        class="icon-minus"></i></button>
+                                                                <input class="quantity" step="1" min="1"
+                                                                    id="qty<?= $id ?>" name="quantity" type="number"
+                                                                    onchange="update_to_cart(<?= $id ?>)" name="qty[]"
+                                                                    value="{{ $details['quantity'] }}"
+                                                                    onkeypress="return isNumber(event)" size="4" placeholder=""
+                                                                    inputmode="numeric">
+                                                                <button class="plus" onclick="QtyUpdate(<?= $id ?>,1)"><i
+                                                                        class="icon-plus"></i></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                
                                                 <div class="col-md-6 mt-4 d-flex justify-content-start align-items-center">
                                                     <span class="d-block fs-4 font-weight-normal mr-3">Zwischensumme:</span>

@@ -64,7 +64,25 @@
                   <?php endif; ?>
                 </div>
                
-                
+                <?php if($attributeTerms->attribute->attribute_type=='inverter'): ?>
+                <div class="input-area">
+                  <label for="name" class="form-label">Supported Wh</label>
+
+                  <?php $__currentLoopData = $attributesTermsWh; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                  <?php if(isset($value->attribute_term_kWh_name)): ?>
+                  <label>
+                    <input type="checkbox" name="wh_range[]" value="<?php echo e($value->attribute_term_kWh_name); ?>" <?php if($value->attribute_term_kWh_name == $attributeTerms->wh_range): ?> checked <?php endif; ?>>
+                    <?php echo e($value->attribute_term_kWh_name); ?>
+
+                  </label>
+                  <?php endif; ?>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                  <?php if($errors->has('attribute_term_kWh_name')): ?>
+                    <span class="text-danger"><?php echo e($errors->first('attribute_term_kWh_name')); ?></span>
+                  <?php endif; ?>
+                </div>
+                  <?php endif; ?>
 
 
                 <?php if($attributeTerms->attribute->attribute_type == 'panel'): ?> 

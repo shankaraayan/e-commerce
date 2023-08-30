@@ -623,8 +623,6 @@
               let imageUrl = "{{ asset('root/public/uploads/') }}/" + user.image;
               $("#test").append(`
               <div class="form-check col-12 mb-4">
-                <label class="form-check-label mx-2" for="var_radios2_${i}">
-
                       <div class="row select_var_row align-items-center mx-0 mb-4 p-2 term-select-${id}}" onclick="highlightDiv(this);saveValue(this, '${user.attributes_id}','','heading_Var${sid}',${id},'${user.attribute_term_name}');" data-atr-name="${user.attribute_term_name}" data-atr-price="${user.price}" data-value="${user.attribute_term_name},${user.price},${user.id},${user.attribute_name}">
                           <div class="ps-section__thumbnail ${user.image !== null ?'d-block col-md-2 col-3':'d-none'}">
                               <img src="${imageUrl}" alt="" width="100px">
@@ -642,7 +640,6 @@
                             </small>
                           </div>
                       </div>
-                  </label>
                  </div>
                   `
               );
@@ -663,7 +660,7 @@
      
       const all_selected = element.parentElement.parentElement.parentElement;  
       const selectVarRows = all_selected.querySelectorAll('.select_var_row');
-      console.log(selectVarRows.length);
+      // console.log(selectVarRows.length);
       selectVarRows.forEach(selectVarRow => {
           selectVarRow.style.border = ""; // Remove border from all elements
       });
@@ -705,7 +702,6 @@
         });
       }
 
- 
       function toggleAccordion(header) {
         var accordion = header.parentNode;
         var accordions = document.getElementsByClassName('accordion');

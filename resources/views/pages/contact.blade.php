@@ -32,7 +32,7 @@
                             </div>
                             <div>
                                 <h6>Büro adresse:</h6>
-                                <p class="pl-0">EPP Energy Peak Power GmbH <br>
+                                <p class="pl-0">EPP Energy Peak Power GmbH, <br>
                                     Neuer Wall 50,<br>
                                     20354 Hamburg,<br> Deutschland.</p>
                             </div>

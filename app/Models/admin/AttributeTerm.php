@@ -27,6 +27,7 @@ class AttributeTerm extends Model
         'sku',
         'quantity',
         'product_availability',
+        'wh_range',
     ];
 
     protected $table = 'attribute_terms';

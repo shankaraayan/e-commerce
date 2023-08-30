@@ -3,6 +3,10 @@
    .fl-main-container .fl-container.fl-flasher{
        line-height: 1.5 !important
     }
+    .activeNav{
+        background-color: #1d7937;
+        padding: 0px 12px !important;
+    }
 
 </style>
 <header class="ps-header ps-header--1">
@@ -179,10 +183,10 @@ unset($__errorArgs, $__bag); ?>
                     <div class="ps-navigation__left">
                         <nav class="ps-main-menu">
                             <ul class="menu" id="main_menu">
-                                <li class="has-mega-menu"><a class="menuName" href="/">Home</a></li>
-                                <li class="has-mega-menu  "><a class="menuName" href="<?php echo e(route('catalog')); ?>">Shop</a></li>
+                                <li class="has-mega-menu <?php echo e(Request::is('/') ? 'activeNav' : ''); ?>"><a class="menuName " href="/">Home</a></li>
+                                <li class="has-mega-menu <?php echo e(Request::is('catalog') ? 'activeNav' : ''); ?> "><a class="menuName" href="<?php echo e(route('catalog')); ?>">Shop</a></li>
                                 <?php $__currentLoopData = headerCategories(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <li class="has-mega-menu"><a class="menuName" href="<?php echo e(route('shop', $cat->slug)); ?>"><?php echo e($cat->name); ?></a></li>
+                                    <li class="has-mega-menu <?php echo e(Request::is('shop/'.$cat->slug) ? 'activeNav' : ''); ?>"><a class="menuName" href="<?php echo e(route('shop', $cat->slug)); ?>"><?php echo e($cat->name); ?></a></li>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </ul>
                         </nav>

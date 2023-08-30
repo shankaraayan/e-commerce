@@ -59,29 +59,26 @@ class ProductAttributeTermsController extends Controller
     {
 
         $attributeTerms = AttributeTerm::with('attribute')->find($id);
+        $attributesTermsWh = AttributeTerm::select('attribute_term_kWh_name')->get()->unique('attribute_term_kWh_name');
         // dd($attributeName);
-        return view('admin.attributeTerms.edit',compact('attributeTerms'));
+        return view('admin.attributeTerms.edit',compact('attributeTerms','attributesTermsWh'));
     }
 
     public function update($id,Request $request ){
         $attributeTerms = AttributeTerm::find($id);
 
         $input = $request->all();
-        // dd($input);
+        if (!empty($request->wh_range)) {
+            $input['wh_range'] = implode(',',$request->wh_range);
+        }
         if($request->image){
-
             $image = $request->file('image');
-
-            // Generate a unique filename with timestamp
             $filename = uniqid() . '.' . $image->getClientOriginalExtension();
             $image->move(public_path('uploads'), $filename);
-
-            // Save the image to the storage folder
             $input['image'] = $filename;
         }
 
         $result = $attributeTerms->update($input);
-        // dd($result);
         return back()->with('success', 'Attribute Terms Updated successfully.');
     }
 
