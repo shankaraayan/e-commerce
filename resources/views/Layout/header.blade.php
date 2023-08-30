@@ -107,15 +107,15 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Passwort</label>
-                                    <input class="form-control" id="password" type="password" name="password"
-                                        value="{{ old('password') }}">
+                                    <input class="form-control" type="password" name="password"
+                                        value="{{ old('password') }}"  />
                                     @error('password')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group form-check">
                                     <input class="form-check-input" name="remember-me"
-                                        {{ old('remember-me') ? 'checked' : '' }} type="checkbox">
+                                        {{ old('remember-me') ? 'checked' : '' }} type="checkbox" />
                                     <label>Remember Me</label>
                                 </div>
                                 <button class="ps-btn ps-btn--warning" type="submit">Log In</button>
@@ -170,7 +170,7 @@
                         <nav class="ps-main-menu">
                             <ul class="menu" id="main_menu">
                                 <li class="has-mega-menu"><a class="menuName" href="/">Home</a></li>
-                                <li class="has-mega-menu"><a class="menuName" href="{{ route('catalog') }}">Shop</a></li>
+                                <li class="has-mega-menu  "><a class="menuName" href="{{ route('catalog') }}">Shop</a></li>
                                 @foreach (headerCategories() as $cat)
                                     <li class="has-mega-menu"><a class="menuName" href="{{ route('shop', $cat->slug) }}">{{ $cat->name }}</a></li>
                                 @endforeach

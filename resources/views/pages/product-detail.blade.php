@@ -1,43 +1,6 @@
 @extends('../Layout.Layout')
 @section('style')
 
-<style>
-  /* CSS */
-.magnifier {
-  position: relative;
-}
-
-.magnifier img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-.magnifier:hover img {
-  transform: scale(1.2); /* Adjust the scale factor as needed */
-  transition: transform 0.3s ease-in-out;
-  z-index: 1;
-}
-
-.magnifier .magnifier-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Adjust the overlay color and opacity as needed */
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-  pointer-events: none;
-}
-
-.magnifier:hover .magnifier-overlay {
-  opacity: 1;
-  z-index: 2;
-}
-
-</style>
-
 @endsection
 @section("content")
 
@@ -45,13 +8,13 @@
   <div class="ps-page--product4 ps-categogy--separate">
     <x-filtter :value="__('DisabledShortBy')" :filterIcon="__('d-none')" :productName="__($product->product_name)"><a href="{{route('shop',[$category])}}">{{$category}}</a></x-filtter>
      {{-- @dd($components); --}}
-
+    <input type="hidden" id="product_id" value="${{@$product->id}}">
       <div class="ps-page__content pt-2">
         <div class="ps-product--detail ps-product--full pt-40 pb-40 bg-light">
           {{-- Product details --}}
           <div class="container">
-            <div class="row product-container" style="overflow:unset">
-                <div class="col-12 col-xl-5 pt-5 col-md-5 product-image">
+            <div class="row product-container">
+                <div class="col-12 col-xl-5 col-md-5 product-image">
                     <div class="ps-section__carousel related_product_view">
                     <div class="main-image owl-carousel owl-loaded owl-drag" data-owl-loop="true" data-owl-auto="false" data-owl-nav="false" data-owl-dots="false">
                         <div class="item">
@@ -84,7 +47,7 @@
                     <div class="ps-product__meta pt-2 mt-2 mb-3">
                       <span class="{{$product->type == 'variable'? '':'ps-product__del'}} fs-3 text-muted">@if($product->type == 'variable') @else{{ formatPrice($product->price) }} @endif</span>
                       <span class="ps-product__price sale fs-3" id="totalPrice">
-                        @if($product->type == 'variable')Description will be available once you chose components.
+                        @if($product->type == 'variable')Die Beschreibung wird verfügbar sein, sobald Sie Komponenten ausgewählt haben.
                         @else {{ formatPrice($product->sale_price) }} 
                         @endif
                       </span>
@@ -117,114 +80,117 @@
                                   <p class="ps-desc mb-0">
                                     {{$data->attribute_description}}</p>
                                 </div>
-                                <div class="ps-checkout__checkbox row">
+                                <div class="ps-checkout__checkbox row" @if (@$data->attribute_type == 'inverter') id="test" @endif>
 
-                                @foreach ($data->attributeTerms as $keyss => $vales)
+                                    @foreach ($data->attributeTerms as $keyss => $vales)
 
-                                @if ($key == 0 && $data->attribute_type == 'panel')
-                                <div class="form-check col-12 mb-4">
-                                    <input class="form-check-input" type="radio" name="var_radios{{$key}}"
-                                    id="var_radios{{$key}}_{{$keyss}}" value="option{{$keyss}}"
-                                    data-atr-name="{{ $vales->attribute_term_name }}" data-atr-price="{{ $vales->price }}"
-                                    data-value="{{ $vales->attribute_term_name }},{{ $vales->price }},{{$vales->id}},{{$data->attribute_name}}"
-                                    onclick="getData({{ $vales->id }},{{ $product->id }},{{ $key+1 }}); saveValue(this, '{{ $data->id }}','Panel','heading_Var{{$key}}',{{$vales->id}},'{{$data->attribute_name}}')">
+                                    @if ($key == 0 && $data->attribute_type == 'panel')
+                                    <div class="form-check col-12 mb-4">
+                                        <input class="form-check-input" type="radio" name="var_radios{{$key}}"
+                                        id="var_radios{{$key}}_{{$keyss}}" value="option{{$keyss}}"
+                                        data-atr-name="{{ $vales->attribute_term_name }}" data-atr-price="{{ $vales->price }}"
+                                        data-value="{{ $vales->attribute_term_name }},{{ $vales->price }},{{$vales->id}},{{$data->attribute_name}}"
+                                        onclick="getData({{ $vales->id }},{{ $product->id }},{{ $key+1 }}); saveValue(this, '{{ $data->id }}','Panel','heading_Var{{$key}}',{{$vales->id}},'{{$data->attribute_name}}')">
 
-                                    <label class="form-check-label mx-2" for="var_radios{{$key}}_{{$keyss}}">
-                                    <div class="row align-items-center select_var_row p-2 term-select-{{$vales->id}}">
-                                        @if(@$vales->image)
+                                        <label class="form-check-label mx-2" for="var_radios{{$key}}_{{$keyss}}">
+                                        <div class="row align-items-center select_var_row p-2 term-select-{{$vales->id}}">
+                                            @if(@$vales->image)
 
-                                        <div class="ps-section__thumbnail col-md-2 col-3">
-                                        <img src="{{asset('root/public/uploads/'.$vales->image)}}" alt="" class="img-fluid">
-                                        </div>
-                                        @endif
-                                        <div class="align-middle {{ @$vales->image ? 'col-md-7 col-9' : 'col-9' }}">
-                                        <h3 class="attribute_title_name py-2 d-flex justify-content-between">{{ $vales->attribute_term_name }}</h3>
-                                        <p class="ps-desc">{{ $vales->attribute_term_description }}</p>
-                                        </div>
-                                        <div class="{{ @$vales->image ? 'col-12 col-md-3' : 'col-3' }}  text-right mt-md-0 mt-2">
-                                          {{-- <small class="attribute_price">{{formatPrice($vales->price) }}</small> --}}
-                                         
-                                              <small class="attribute_price">
-                                                  @if($vales->price > 0)
-                                                      {{ formatPrice($vales->price) }}
-                                                  @endif
-                                              </small>
-                                        </div>
-                                    </div>
-                                    </label>
-                                </div>
-                                @elseif($key == 1 && $data->attribute_type == 'inverter')
-
-                                <div class="form-check col-12 mb-4" id="test">
-                                    <input class="form-check-input" type="radio" name="var_radios{{$key}}"
-                                    id="var_radios{{$key}}_{{$keyss}}" value="option{{$keyss}}"
-                                    data-atr-price="{{ $vales->price }}" data-atr-name="{{ $vales->attribute_term_name }}"
-                                    data-value="{{ $vales->attribute_term_name }},{{ $vales->price }},{{$vales->id}},{{$data->attribute_name}}"
-                                    onclick="saveValue(this, '{{ $data->id }}','','heading_Var{{$key}}',{{$vales->id}},'{{$data->attribute_name}}')">
-
-                                    <label class="form-check-label mx-2" for="var_radios{{$key}}_{{$keyss}}">
-                                    <div class="row align-items-center select_var_row p-2 term-select-{{$vales->id}}">
-                                        @if(@$vales->image)
-                                        <div class="ps-section__thumbnail col-md-2 col-3">
-                                        <img src="{{asset('root/public/uploads/'.$vales->image)}}" alt="" class="img-fluid">
-                                        </div>
-                                        @endif
-                                        <div class="align-middle {{ @$vales->image ? 'col-9 col-md-7' : 'col-9' }}">
-                                        <h3 class="attribute_title_name py-2 d-flex justify-content-between">
-                                            {{ $vales->attribute_term_name }} 
-                                        </h3>
-                                        <p class="ps-desc">{{$vales->attribute_term_description}}</p>
-                                        </div>
-                                        <div class="{{ @$vales->image ? 'col-12 col-md-3' : 'col-3' }}  text-right mt-md-0 mt-2">
-                                          {{-- <small class="attribute_price">
-                                            {{formatPrice($vales->price) }}
-                                          </small>
-                                          Copy code --}}
-                                          <small class="attribute_price">
-                                              @if($vales->price > 0)
-                                                  {{ formatPrice($vales->price) }}
-                                              @endif
-                                          </small>
-                                        </div>
-                                    </div>
-                                    </label>
-                                </div>
-                                @else
-
-                                <div class="form-check col-12 mb-4">
-                                    <input class="form-check-input" type="radio" name="var_radios{{$key}}"
-                                    id="var_radios{{$key}}_{{$keyss}}" value="option{{$keyss}}"
-                                    data-atr-price="{{ $vales->price }}" data-atr-name="{{ $vales->attribute_term_name }}"
-                                    data-value="{{ $vales->attribute_term_name }},{{ $vales->price }},{{$vales->id}},{{$data->attribute_name}}"
-                                    onclick="saveValue(this, '{{ $data->id }}','','heading_Var{{$key}}',{{$vales->id}},'{{$data->attribute_name}}')">
-                                    <label class="form-check-label mx-2" for="var_radios{{$key}}_{{$keyss}}">
-                                    <div class="row align-items-center select_var_row p-2 term-select-{{$vales->id}}">
-                                        @if(@$vales->image)
-                                        <div class="ps-section__thumbnail col-md-2 col-3">
-                                        <img src="{{asset('root/public/uploads/'.$vales->image)}}" alt="" class="img-fluid">
-                                        </div>
-                                        @endif
-                                        <div class="align-middle  {{ @$vales->image ? 'col-9 col-md-7' : 'col-9' }}">
-                                        <h3 class="attribute_title_name py-2 d-flex justify-content-between">
-                                            {{ $vales->attribute_term_name }} 
-                                        </h3>
-                                        <p class="ps-desc">{{$vales->attribute_term_description}}</p>
-                                        </div>
-                                        <div class="  {{ @$vales->image ? 'col-12 col-md-3' : 'col-3' }}  text-right mt-md-0 mt-2">
-                                          {{-- <small class="attribute_price">{{formatPrice($vales->price) }}</small> --}}
-                                          <small class="attribute_price">
-                                            @if($vales->price > 0)
-                                                {{ formatPrice($vales->price) }}
+                                            <div class="ps-section__thumbnail col-md-2 col-3">
+                                            <img src="{{asset('root/public/uploads/'.$vales->image)}}" alt="" class="img-fluid">
+                                            </div>
                                             @endif
-                                        </small>
+                                            <div class="align-middle {{ @$vales->image ? 'col-md-7 col-9' : 'col-9' }}">
+                                            <h3 class="attribute_title_name py-2 d-flex justify-content-between">{{ $vales->attribute_term_name }}</h3>
+                                            <p class="ps-desc">{{ $vales->attribute_term_description }}</p>
+                                            </div>
+                                            <div class="{{ @$vales->image ? 'col-12 col-md-3' : 'col-3' }}  text-right mt-md-0 mt-2">
+                                              {{-- <small class="attribute_price">{{formatPrice($vales->price) }}</small> --}}
+                                            
+                                                  <small class="attribute_price">
+                                                      @if($vales->price > 0)
+                                                          {{ formatPrice($vales->price) }}
+                                                      @endif
+                                                  </small>
+                                            </div>
                                         </div>
+                                        </label>
                                     </div>
-                                    </label>
-                                </div>
+                                    
+                                    @elseif($key == 1 && $data->attribute_type == 'inverter')
 
-                                @endif
+                                        <div class="form-check col-12 mb-4">
+                                              <label class="form-check-label mx-2" for="var_radios{{$key}}_{{$keyss}}">
+                                                <input class="form-check-input" type="radio" name="var_radios{{$key}}"
+                                                id="var_radios{{$key}}_{{$keyss}}" value="option{{$keyss}}"
+                                                data-atr-price="{{ $vales->price }}" data-atr-name="{{ $vales->attribute_term_name }}"
+                                                data-value="{{ $vales->attribute_term_name }},{{ $vales->price }},{{$vales->id}},{{$data->attribute_name}}"
+                                                onclick="saveValue(this, '{{ $data->id }}','','heading_Var{{$key}}',{{$vales->id}},'{{$data->attribute_name}}')">
+                                              </label>
+                                              
+                                              <label class="form-check-label mx-2" for="var_radios{{$key}}_{{$keyss}}">
+                                                <div class="row align-items-center select_var_row p-2 term-select-{{$vales->id}}" onclick="highlightDiv(this)">
+                                                    @if(@$vales->image)
+                                                    <div class="ps-section__thumbnail col-md-2 col-3">
+                                                    <img src="{{asset('root/public/uploads/'.$vales->image)}}" alt="" class="img-fluid">
+                                                    </div>
+                                                    @endif
+                                                    <div class="align-middle {{ @$vales->image ? 'col-9 col-md-7' : 'col-9' }}">
+                                                    <h3 class="attribute_title_name py-2 d-flex justify-content-between">
+                                                        {{ $vales->attribute_term_name }} 
+                                                    </h3>
+                                                    <p class="ps-desc">{{$vales->attribute_term_description}}</p>
+                                                    </div>
+                                                    <div class="{{ @$vales->image ? 'col-12 col-md-3' : 'col-3' }}  text-right mt-md-0 mt-2">
+                                                      {{-- <small class="attribute_price">
+                                                        {{formatPrice($vales->price) }}
+                                                      </small>
+                                                      Copy code --}}
+                                                      <small class="attribute_price">
+                                                          @if($vales->price > 0)
+                                                              {{ formatPrice($vales->price) }}
+                                                          @endif
+                                                      </small>
+                                                    </div>
+                                                </div>
+                                              </label>
+                                        </div>
+                                    @else
+                                        
+                                    <div class="form-check col-12 mb-4">
+                                        <input class="form-check-input" type="radio" name="var_radios{{$key}}"
+                                        id="var_radios{{$key}}_{{$keyss}}" value="option{{$keyss}}"
+                                        data-atr-price="{{ $vales->price }}" data-atr-name="{{ $vales->attribute_term_name }}"
+                                        data-value="{{ $vales->attribute_term_name }},{{ $vales->price }},{{$vales->id}},{{$data->attribute_name}}"
+                                        onclick="saveValue(this, '{{ $data->id }}','','heading_Var{{$key}}',{{$vales->id}},'{{$data->attribute_name}}')">
+                                        <label class="form-check-label mx-2" for="var_radios{{$key}}_{{$keyss}}">
+                                        <div class="row align-items-center select_var_row p-2 term-select-{{$vales->id}}">
+                                            @if(@$vales->image)
+                                            <div class="ps-section__thumbnail col-md-2 col-3">
+                                            <img src="{{asset('root/public/uploads/'.$vales->image)}}" alt="" class="img-fluid">
+                                            </div>
+                                            @endif
+                                            <div class="align-middle  {{ @$vales->image ? 'col-9 col-md-7' : 'col-9' }}">
+                                            <h3 class="attribute_title_name py-2 d-flex justify-content-between">
+                                                {{ $vales->attribute_term_name }} 
+                                            </h3>
+                                            <p class="ps-desc">{{$vales->attribute_term_description}}</p>
+                                            </div>
+                                            <div class="  {{ @$vales->image ? 'col-12 col-md-3' : 'col-3' }}  text-right mt-md-0 mt-2">
+                                              {{-- <small class="attribute_price">{{formatPrice($vales->price) }}</small> --}}
+                                              <small class="attribute_price">
+                                                @if($vales->price > 0)
+                                                    {{ formatPrice($vales->price) }}
+                                                @endif
+                                            </small>
+                                            </div>
+                                        </div>
+                                        </label>
+                                    </div>
 
-                                @endforeach
+                                    @endif
+
+                                    @endforeach
                                 </div>
 
                             </div>
@@ -277,7 +243,7 @@
 
                     <div class="product_meta">
                         <div class="sku_wrapper ean_wrapper">EAN: <span class="ean">000001000</span></div>
-                        <div class="sku_wrapper">Artikelnummer: <span class="sku">{{$product->sku}}</span></div>
+                        <div class="sku_wrapper">Artikelnummer: <span class="sku" id="sku">{{$product->sku}}</span></div>
                         <div class="sku_wrapper">Kategorien: <span class="productCat">
                           <x-category-list :prdoductCategories="$product->categories"></x-category-list>
                         </span>
@@ -430,15 +396,15 @@
       
   </div>
 
-    <!-- Swiper JS -->
-    {{-- <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script> --}}
- 
- 
+<!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+
     <!-- kartik -->
 
     <script>
       $(document).ready(function () {
-        // Initialize Owl Carousel for the main image
+// Initialize Owl Carousel for the main image
         var mainCarousel = $('.main-image').owlCarousel({
           items: 1,
           nav: true,
@@ -448,7 +414,7 @@
           autoplayTimeout: 5000
         });
 
-        // Initialize Owl Carousel for the gallery
+// Initialize Owl Carousel for the gallery
         var galleryCarousel = $('.gallery').owlCarousel({
           nav: true,
           dots: false,
@@ -461,19 +427,20 @@
           }
         });
 
-         
-        // Function to handle main image change on gallery click
+        
+// Function to handle main image change on gallery click
         $('.gallery').on('click', '.item img', function () {
           var index = $(this).data('index');
           mainCarousel.trigger('to.owl.carousel', index);
         });
       });
-    </script>
+</script>
     <!-- kartik -->
 
+      
 
-    <!-- Initialize Swiper -->
-    <script>
+<!-- Initialize Swiper -->
+<script>
       var swiper = new Swiper(".mySwiper", {
         loop: true,
         spaceBetween: 10,
@@ -493,9 +460,9 @@
           swiper: swiper,
         },
       });
-    </script>
-
-    <script>
+</script>
+  
+<script>
 
       // function formatPrice(price) {
       //   var formattedPrice = parseFloat(price).toFixed(2);
@@ -507,7 +474,6 @@
 
       var isFirstIteration = true;
       var savedValues;
-
       if (sessionStorage.getItem('savedValues')) {
         const url = window.location.href;
         const search = new URL(window.location.href);
@@ -518,81 +484,53 @@
           sessionStorage.removeItem('sessionData');
           savedValues = {};
         }
-
-        // console.log(savedValues);
       } else {
         savedValues = {};
       }
-
+      
 
       function saveValue(element, attributeId, name = null, pids, term_id, attribute_name) {
-        // console.log(element);
 
         var id = parseInt(pids.split("heading_Var")[1]);
         var collapse_id = "collapse_var_" + id;
-
         $("#" + collapse_id).collapse('toggle');
         id++;
-
         $("#" + "collapse_var_" + id).addClass('show');
-
         var atr_name = element.getAttribute('data-atr-name');
         var atr_price = element.getAttribute('data-atr-price');
         atr_price = price_normal_to_euro(atr_price);
-     
-
         $("#" + pids).find("small").remove();
 
         if (atr_price != '0,00') {
           $("#" + pids).append(`<small class="font-weight-bold">${atr_name}</small> <small class="mr-5 pl-2 selected_price">€${atr_price}</small>`);
         }
       
-        // alert('ok');
         var id = element.getAttribute('id');
         var value = element.getAttribute('data-value');
-        //console.log(id,value);
         var values = value.split(',');
-
-        // console.log(value);
-
         var attributeTermName = values[0];
         var attributeTermPrice = parseFloat(values[1]); // Parse price as a float
         var attributeTermID = parseFloat(values[2]); // Parse price as a float
         var attributeName = values[3];
-
-
         var nameDiv = document.getElementById('nameDiv');
         var priceDiv = document.getElementById('priceDiv');
         var totalPriceDiv = document.getElementById('totalPrice');
 
 
         if (name === 'Panel') {
-
-          // Clear saved values when "panel" attribute is selected
           savedValues = {};
-
           $("#html_component").html('');
-          // reset url
           let url = new URL(window.location.href);
 
           attribute_name = attribute_name.toLowerCase().split(" ").join("-");
-          // Remove any existing occurrences of the parameter
           const params = new URLSearchParams(url.search);
           params.delete(attribute_name);
-
-          // Add the new parameter
           params.append(attribute_name, term_id);
-
-          // Update the search part of the URL with the updated parameters
           url.search = params.toString();
-
-          // Use pushState to update the URL without reloading the page
           window.history.pushState({ path: url.pathname }, '', url.pathname);
         }
 
         if (attributeId in savedValues) {
-
-          // Replace existing values
           savedValues[attributeId].name = attributeTermName;
           savedValues[attributeId].price = attributeTermPrice;
           savedValues[attributeId].termid = attributeTermID;
@@ -600,7 +538,6 @@
 
         }
         else {
-          // Add new values
           savedValues[attributeId] = {
             name: attributeTermName,
             price: attributeTermPrice,
@@ -611,10 +548,7 @@
         sessionStorage.setItem('savedValues', JSON.stringify(savedValues));
 
         var attributeIds = Object.keys(savedValues);
-
         var count = attributeIds.length;
-
-        // Update nameDiv
         var names = Object.values(savedValues).map(function (item) {
           return item.name;
         });
@@ -633,7 +567,6 @@
           return item.attribute;
         });
 
-        // Update priceDiv
         var prices = Object.values(savedValues).map(function (item) {
           return item.price;
         });
@@ -641,44 +574,26 @@
           return sum + price;
         }, 0).toFixed(2);
 
-        // Update totalPriceDiv
         totalPriceDiv.textContent = '€' + price_normal_to_euro( priceDiv.textContent);
-
-        // Save values in session
-        // var totalPrice = parseFloat(priceDiv.textContent);
 
         var sessionData = {
           product_id: {{ $product-> id
-      }},
-      prices: prices.join(','),
-        termIds: termIds.join(','),
-          names : names.join(','),
-            attribute : attributeName.join(',')
+        }},
+        prices: prices.join(','),
+          termIds: termIds.join(','),
+            names : names.join(','),
+              attribute : attributeName.join(',')
 
-      };
+        };
 
-    sessionStorage.setItem('sessionData', JSON.stringify(sessionData));
-      // Check if termsID is an array and add it to sessionData
-
-      html_components();
+        $(".attribute_box").each(function(index){
+            $(this).removeClass('disabled-attr-box');    
+        });
       
-      // toggleAccordion(header)
-
-      // sku code
-      if (sessionStorage.getItem("savedValues")) {
-          let data = sessionStorage.getItem("savedValues");
-          data = JSON.parse(data);
-          var obj_sku = [];
-          for (const key in data) {
-            obj_sku[key] = data[key].termid; 
-          }
-          let attr_count = document.getElementById('nameDiv').innerHTML;
-          console.log(attr_count);
-          console.log(obj_sku);
-
-        }
-         
-      }
+      sessionStorage.setItem('sessionData', JSON.stringify(sessionData));
+      html_components();
+      fetch_sku();
+  }
 
       function show_name() {
         $('.select_var_row').each(function () {
@@ -696,40 +611,40 @@
       }
 
       function getData(id, idpro, sid) {
-
-        // console.log(id,idpro);
-        // Send an AJAX request to the backend
         $.ajax({
           url: '{{ route("product.attributeTerms") }}',
           method: 'GET',
           data: { id: id, productid: idpro }, // Pass the ID as a parameter
           success: function (response) {
             // console.log(response);
-            var tableBody = $('#test');
-            tableBody.empty();
+            $("#test").html('');
             for (var i = 0; i < response.length; i++) {
               var user = response[i];
-           
               let imageUrl = "{{ asset('root/public/uploads/') }}/" + user.image;
-             
-              tableBody.append(`
-            <div class="row select_var_row align-items-center mx-0 p-2 term-select-${id}}" onclick="highlightDiv(this);saveValue(this, '${user.attributes_id}','','heading_Var${sid}',${id},'${user.attribute_term_name}');" data-atr-name="${user.attribute_term_name}" data-atr-price="${user.price}" data-value="${user.attribute_term_name},${user.price},${user.id},${user.attribute_name}">
-                 <div class="ps-section__thumbnail ${user.image !== null ?'d-block col-md-2 col-3':'d-none'}">
-                    <img src="${imageUrl}" alt="" width="100px">
-                </div>
-                <div class="${user.image !== null ?'col-md-7 col-9':'col-9'}">
-                    <div class="mb-3">
-                        <h3 class="attribute_title_name py-2 d-flex justify-content-between">
-                            ${user.attribute_term_name}</h3>
-                        <p class="ps-desc">${user.attribute_term_description}</p>
-                    </div>
-                </div>
-                <div class="${user.image !== null ?'col-12 col-md-3' : 'col-3'}  text-right mt-md-0 mt-2">
-                  <small class="attribute_price">
-                      ${user.price > 0 ? `${ price_normal_to_euro(user.price)}` : ''}
-                  </small>
-                </div>
-            </div>`
+              $("#test").append(`
+              <div class="form-check col-12 mb-4">
+                <label class="form-check-label mx-2" for="var_radios2_${i}">
+
+                      <div class="row select_var_row align-items-center mx-0 mb-4 p-2 term-select-${id}}" onclick="highlightDiv(this);saveValue(this, '${user.attributes_id}','','heading_Var${sid}',${id},'${user.attribute_term_name}');" data-atr-name="${user.attribute_term_name}" data-atr-price="${user.price}" data-value="${user.attribute_term_name},${user.price},${user.id},${user.attribute_name}">
+                          <div class="ps-section__thumbnail ${user.image !== null ?'d-block col-md-2 col-3':'d-none'}">
+                              <img src="${imageUrl}" alt="" width="100px">
+                          </div>
+                          <div class="${user.image !== null ?'col-md-7 col-9':'col-9'}">
+                              <div class="mb-3">
+                                  <h3 class="attribute_title_name py-2 d-flex justify-content-between">
+                                      ${user.attribute_term_name}</h3>
+                                  <p class="ps-desc">${user.attribute_term_description}</p>
+                              </div>
+                          </div>
+                          <div class="${user.image !== null ?'col-12 col-md-3' : 'col-3'}  text-right mt-md-0 mt-2">
+                            <small class="attribute_price">
+                                ${user.price > 0 ? `€${ price_normal_to_euro(user.price)}` : ''}
+                            </small>
+                          </div>
+                      </div>
+                  </label>
+                 </div>
+                  `
               );
 
               show_name();
@@ -742,16 +657,26 @@
         });
       }
 
-      function highlightDiv(element) {
-        element.style.border = '2px solid #075095';
-      }
+            
 
+      function highlightDiv(element) {
+     
+      const all_selected = element.parentElement.parentElement.parentElement;  
+      const selectVarRows = all_selected.querySelectorAll('.select_var_row');
+      console.log(selectVarRows.length);
+      selectVarRows.forEach(selectVarRow => {
+          selectVarRow.style.border = ""; // Remove border from all elements
+      });
+
+    element.style.border = '2px solid #075095'; // Add border to the clicked element
+}
+
+            
 
       function add_to_cart(id,url=null) {
         var product_details = sessionStorage.getItem('sessionData');
         var shippingClassSelect = document.getElementById('shipping_class');
         var shippingCountry = shippingClassSelect.value;
-        // console.log(shippingCountry);
 
         var qty = $("#quantity").val();
         $.ajax({
@@ -767,14 +692,10 @@
           },
           success: function (response) {
             response = JSON.parse(response);
-
             if (response.status == true) {
-
               $(".my_cart_count").text(response.data);
-              // toastr.success(response.message);
               flasher.success(response.message);
             } else {
-
               toastr.error(response.message);
             }
           },
@@ -782,61 +703,42 @@
               console.log(error);
           }
         });
-
       }
-    </script>
 
-    <script>
  
       function toggleAccordion(header) {
-        // Get the parent accordion element
         var accordion = header.parentNode;
-
-        // Close all other accordions
         var accordions = document.getElementsByClassName('accordion');
         for (var i = 0; i < accordions.length; i++) {
           if (accordions[i] !== accordion) {
             accordions[i].classList.remove('active');
           }
         }
-
-        // Toggle the active class on the clicked accordion
         accordion.classList.toggle('active');
       }
-    </script>
+</script>
     <script>
       function checkSessionCount(productId, countAttributes) {
         var nameDiv = document.getElementById('nameDiv');
         var values = nameDiv.innerHTML;
         var plusCount = 0;
-
         for (var i = 0; i < values.length; i++) {
           if (values[i] === '+') {
             plusCount++;
           }
         }
         var sessionData = sessionStorage.getItem('sessionData');
-        // console.log(sessionData);
         if (plusCount + 1 < countAttributes) {
-          
-          // console.log(countAttributes);
-          // toastr.options.closeButton = true;
-          // toastr.error("Please select all attribute combinations!!");
           flasher.error("Please select all attribute combinations!!");
-        } else {
-          
+        } else { 
           let url = window.location.href;
           add_to_cart(productId,url);
         }
-
       }
 
-   
-      // get attribute term html
-
-      // opend components code
 
       $(document).ready(function () {
+       
         const url = window.location.href;
         const search = new URL(window.location.href);
 
@@ -859,15 +761,11 @@
                 "ids": termIdss,
               },
               success: function (response) {
-                // console.log(response);
                 let total_price = 0;
                 response && response.map((item, index) => {
-                  
                     total_price = total_price + parseFloat(item.price); // Use parseFloat to handle decimal prices
-                  
                     $(".term-select-" + item.id).css("border-color", "var(--blue-color)");
                     let el = $(".term-select-" + item.id);
-
                     if (el[0]) {
                         el = el[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
                         let card_header_inner = el.querySelector(".card_header_inner");
@@ -879,7 +777,6 @@
                     }
                   });
 
-                // Update the total price in the HTML
                 $("#totalPrice").html('€'+price_normal_to_euro(total_price)); 
                 $("#totalPrice").css('display', 'block');
               },
@@ -887,69 +784,43 @@
                 console.log('error');
               }
           })
-
         }
-
       })
-
-      // update after page load attribute set name
       
+            
+
       $(document).ready(function () {
-
         var nameDiv = document.getElementById('nameDiv');
-
         if (sessionStorage.getItem('sessionData')) {
           var sessionData = sessionStorage.getItem('sessionData');
           let { names } = JSON.parse(sessionData);
           names = names.split(",").join(' + ');
           nameDiv.textContent = names;
+          fetch_sku();
         } else {
-          // $("#html_component").html('');
           $(".bg-gray").addClass("d-none");
-          // reset url
-          // let url = new URL(window.location.href);
-          // window.history.pushState({ path: url.pathname }, '', url.pathname);
         }
-
       });
 
-    </script>
-    
-    <script>
-        function html_components() {
+</script>
+
+<script>
+      function html_components() {
 
         const data = sessionStorage.getItem('sessionData');
         let { termIds, prices, attribute } = JSON.parse(data);
         const url = new URL(window.location.href);
-
-        // Create an empty URLSearchParams object
         const emptySearchParams = new URLSearchParams();
-
-        // Update the search params of the URL with the empty URLSearchParams
         url.search = emptySearchParams.toString();
-
-        // Update the URL in the browser's history without reloading the page
         window.history.pushState({ path: url.pathname }, '', url.pathname);
-
         attribute = attribute.split(",");
         termIds = termIds.split(",");
-
         termIds.map((item, index) => {
 
           let attr_name = attribute[index].toLowerCase().split(" ").join("-");
-          //   console.log(term_name);
-          // Remove any existing occurrences of the parameter
           const params = new URLSearchParams(url.search);
-          // params.delete(attr_name);
-
-          // Add the new parameter
-
           params.append(attr_name, item);
-
-          // Update the search part of the URL with the updated parameters
           url.search = params.toString();
-
-          // Use pushState to update the URL without reloading the page
           window.history.pushState({ path: url.href }, '', url.href);
         });
 
@@ -972,15 +843,12 @@
             let htmlComponent = '';
             if (response) {
                   response.map((item, index) => {
-                      // console.log(item);
-                      // Generate the HTML for each response item
                       let short_des_im = `
                       ${item.attribute_term_name.toLowerCase() !== "ohne dtu" ? `
                             <div class="vari_imgs">
                                 <img src="{{asset('root/public/uploads/')}}/${item.image}" class="img-fluid" alt="abc">  
                             </div>` : ''}
                       `;
-
                       let short_des_tx = `${item.attribute_term_name.toLowerCase() !== "ohne dtu" ? `
                       <div class="atta_title">
                       <span>${item.attribute_term_name}</span>
@@ -993,13 +861,10 @@
 
                       if(item.attribute_term_name.toLowerCase() !== "ohne dtu"){
                           htmlComponent += item.component_description;
-                      }
-                      
-                  });
-                  
+                      } 
+                  });   
               }
                
-            // console.log(short_des_img);
                   let res_img_con = `<div class="atta_img_block bg-light-blue pb-10"> ${short_des_img}</div>`;
                   let res_txt_con = `<div class="atta_caps_block">${short_des_text}</div>`;
             $(short_des_div).html(res_img_con+res_txt_con);
@@ -1010,24 +875,60 @@
           }
         })
       }
+</script>
+
+<script>
+            
+      // fetch sku 
+      function fetch_sku() {
+        if (sessionStorage.getItem("savedValues")) {
+          let data = sessionStorage.getItem("savedValues");
+          data = JSON.parse(data);
+          let attr_count = $('.attribute_box').length;
+          var obj_sku = {};
+    
+          for (const key in data) {
+            obj_sku[key] = data[key].termid;
+          }
+    
+          if (Object.keys(data).length === attr_count) {
+            let productId = $("#product_id").val().replace('$', '');
+
+            const final_sku = { [productId]: obj_sku };
+
+            $.ajax({
+              url: '{{ url('/sku-fetch') }}', // Make sure this is properly parsed by your server-side framework
+              method: 'POST',
+              data: {
+                "_token": "{{ csrf_token() }}", // Make sure this is properly parsed by your server-side framework
+                sku: final_sku,
+                url : window.location.href
+              },
+              success: function (response) {
+                console.log(response);
+                if(response.status==true){
+                  $("#sku").html(response.sku);
+                }
+              }
+            });
+          }
+        }
+      }
+
     </script>
+    
+    <script>
+      // disabled attribute box
+      $(document).ready(function(){
+        const search = new URL(window.location.href);
+          $(".attribute_box").each(function(index){
+              if (index > 0 && sessionStorage.getItem('savedValues') == null && search.search==="") {
+                  $(this).addClass('disabled-attr-box');
+              }else{
+                  $(this).removeClass('disabled-attr-box');
+              }
+          });
+      });
 
-{{-- <script>
-
-  function price_euro_to_normal(number){
-    var ht = number;
-    var aaa = ht.replace('.','');
-    var bbb = aaa.replace(',','.');
-    return bbb;
-}
-
-  function price_normal_to_euro(number){
-      var locale = 'de';
-      var options = { currency: 'eur', minimumFractionDigits: 2, maximumFractionDigits: 2};
-      var formatter = new Intl.NumberFormat(locale, options);
-      return formatter.format(number);
-  }
-
-    </script> --}}
-
+    </script>
 @endsection

@@ -326,3 +326,7 @@ Route::post('ajax-test', function(){
 });
 
 Route::post('user-check',[FrontendController::class,'userCheck']);
+
+Route::post('sku-fetch',[ProductController::class,'getSku']);
+
+

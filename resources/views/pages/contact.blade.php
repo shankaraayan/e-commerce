@@ -1,104 +1,66 @@
 @extends('Layout.Layout')
 @section("style")
 <style>
-    .home-icon {
-        padding-left: 12px;
-    }
+  
+ 
 
-    .home-icon i {
-        background: #335080;
-        color: #fff;
-        padding: 16px;
-        border-radius: 50%;
-    }
-
-    .contact-left-box h1 {
-        font-size: 18px;
-        color: #4c9f64;
-    }
-
-    .contact-left-box h4 {
-        font-size: 18px;
-        color: #4c9f64;
-        margin-bottom: 5%;
-    }
-
-    .contact-right-box {
-        border-left: 1px dotted #222222
-    }
-    .contact-right-box  h1 {
-        font-size: 18px;
-        color: #4c9f64;
-    }
+ 
+     
     .support_ticket {
         height: 800px;
     }
-   .contact-right-box .support_ticket .mx-auto{
-        padding: 0 !important;
-    }
-    @media only screen and (min-width: 320px) and (max-width: 767px) { 
-        .contact-left-box .col-md-11 {
-            margin-top: 5%;
-        }
-        .contact-left-box .ml-5, .mx-5 {
-margin-left: 2rem!important;
-}
-.contact-left-box .p-2 {
-padding: 1.5rem!important;
-}
-    }
+    
+   
 
 </style>
 @endsection
 @section("content")
-<div class=" pt-70 pb-70 bg-light">
+<x-filtter :value="__('DisabledShortBy')" :filterIcon="__('d-none')">Kontakt</x-filtter>
+<div class="bg-light-blue pt-50 pb-50">
     <div class="container">
-        <div class="bg-white p-xl-5 p-lg-5 p-md-3 p-2 shadow">
-            <div class="row  justify-content-center d-flex ">
-                <div class="col-md-6 col-12">
+        <div class="bg-white p-5 shadow">
+            <div class="row">
+                <div class="col-md-6 col-12 border-right">
                     <div class="contact-left-box">
-                        <h1>In Kontakt kommen</h1>
+                        <h1 class="fs-2">In Kontakt kommen</h1>
                         <p>Kontaktieren Sie uns und wir werden uns so schnell wie möglich mit einer Lösung für
                             Ihre Probleme bei Ihnen melden.</p>
-                        <span class="divider-separator">
-                        </span>
-
-                        <!-- <h4>Das Büro</h4> -->
-
-
-                        <div class="row">
-                            <div class="col-md-1">
-                                <div class="home-icon">
-                                    <i class="fa fa-home"></i>
-                                </div>
+                   
+                        <div class="d-flex mt-5">
+                            <div class="home-icon mr-5">
+                                    <i class="fa fa-building bg-blue-theme text-white rounded-circle p-4"></i>
                             </div>
-                            <div class="col-md-11">
-                                <h6 class="ml-5">Büro adresse:</h6>
-                                <p class="ml-5 pb-0">EPP Energy Peak Power GmbH
-                                    Neuer Wall 50,
-                                    20354 Hamburg.</p>
-                                <br>
-
+                            <div>
+                                <h6>Büro adresse:</h6>
+                                <p class="pl-0">EPP Energy Peak Power GmbH <br>
+                                    Neuer Wall 50,<br>
+                                    20354 Hamburg,<br> Deutschland.</p>
                             </div>
                         </div>
 
-                        <div class="row mt-3">
-                            <div class="col-md-1">
-                                <div class="home-icon">
-                                    <i class="fa fa-envelope"></i>
-                                </div>
+                        <div class="d-flex mt-3">
+                            <div class="home-icon mr-5">
+                                <i class="fa fa-envelope bg-blue-theme text-white rounded-circle p-4"></i>
                             </div>
-                            <div class="col-md-11">
-                                <h6 class="ml-5">
-                                    E-Mail:</h6>
-                                <p class="ml-5 pb-0">contact@epp.solar</p>
+                            <div>
+                                <h6>E-Mail:</h6>
+                                <p class="pb-0"><a href="mailto:contact@epp.solar">contact@epp.solar</a></p>
+                            </div>
+                        </div>
+                        <div class="d-flex mt-3">
+                            <div class="home-icon mr-5">
+                                <i class="fa fa-phone bg-blue-theme text-white rounded-circle p-4"></i>
+                            </div>
+                            <div>
+                                <h6>Hotline:</h6>
+                                <p class="pb-0"><a href="tel:49 541 96251000">49 541 96251000</a></p>
                             </div>
                         </div>
 
                     </div>
                 </div>
-                <div class="col-md-6 col-12 contact-right-box">
-                    <h1>Kontaktieren Sie uns</h1>
+                <div class="col-md-6 col-12 contact-right-box mt-md-0 mt-5">
+                    <h1 class="fs-2">Kontaktieren Sie uns</h1>
                     <iframe class="support_ticket" src="https://stegback.com/api/ticket_generate/1/0"></iframe>
                 </div>
             </div>

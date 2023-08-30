@@ -10,6 +10,7 @@ use App\Models\admin\ProductImages;
 use App\Http\Requests\ProductAdminRequest;
 use App\Models\admin\Attribute as AdminAttribute;
 use App\Models\admin\AttributeTerm;
+use App\Models\admin\Category;
 use App\Models\admin\ProductAttribute;
 use App\Models\admin\ProductTerm;
 use App\Models\Product as ModelsProduct;
@@ -93,7 +94,7 @@ class AdminProductController extends Controller
                 $imageModel->save();
             }
         }
-        // dd($product);
+
         $response  = $this->skuGroupCombination($product,$selectedOptions,$selectedOptionsTerms);
         // die;
         return response()->json(['message' => 'Product Uploaded Successfully']);
@@ -246,19 +247,28 @@ class AdminProductController extends Controller
         return view('admin.product.view',compact('product'));
     }
 
-
     public function delete($id){
+        SkuCombination::where('product_id',$id)->delete();
         $product = Product::find($id);
         $product->delete();
         return redirect()->back()->with('success', $product->product_name . ' Deleted Successfully');
     }
 
-    // feed 
     public function generateProductFeed($slug)
     {
-        $product = Product::with('images')
-        ->where('slug',$slug)
+        $product = Product::with([
+            'images',
+            'groupSkus'
+        ])
+        ->where('slug', $slug)
         ->first();
+    
+        if ($product) {
+            $categoryIds = explode(',', $product->categories); // Assuming column name is 'categories'
+            $categories = Category::whereIn('id', $categoryIds)->get();
+            $product['categories'] = $categories;
+        } 
+        
         $feedContent = view('admin.product.feed', ['product' => $product])->render();
         return response($feedContent)->header('Content-Type', 'text/xml');
     }

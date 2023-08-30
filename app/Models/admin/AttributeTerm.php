@@ -34,6 +34,6 @@ class AttributeTerm extends Model
 
     public function attribute()
     {
-        return $this->hasMany(Attribute::class,'attributes_id');
+        return $this->belongsTo(Attribute::class,'attributes_id');
     }
 }

@@ -102,7 +102,7 @@
                             <div class="ps-footer--block">
                                 <h5 class="ps-block__title">Schnelllinks</h5>
                                 <ul class="ps-block__list">
-                                    <li><a href="#">Über uns</a></li>
+                                    <li><a href="/about-us">Über uns</a></li>
                                     <li><a href="/impressum">Impressum</a></li>
                                     <li><a href="/data-sheet">Datenschutzerklärung</a></li>
                                     <li><a href="/agb">Agb</a></li>

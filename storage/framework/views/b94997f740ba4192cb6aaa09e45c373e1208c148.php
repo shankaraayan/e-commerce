@@ -63,7 +63,11 @@
                     <span class="text-danger"><?php echo e($errors->first('attribute_term_name')); ?></span>
                   <?php endif; ?>
                 </div>
+               
                 
+
+
+                <?php if($attributeTerms->attribute->attribute_type == 'panel'): ?> 
                 <div class="input-area">
                   <label for="name" class="form-label">kWh*</label>
                   <input id="attribute_term_kWh_name" name="attribute_term_kWh_name" type="text" class="form-control" placeholder="kWh" value="<?php echo e($attributeTerms->attribute_term_kWh_name); ?>" >
@@ -71,6 +75,7 @@
                     <span class="text-danger"><?php echo e($errors->first('attribute_term_kWh_name')); ?></span>
                   <?php endif; ?>
                 </div>
+                <?php endif; ?>
 
                 </div>
 
@@ -104,7 +109,7 @@
                 <div class="input-area">
                   <label for="product_availability" class="form-label">Product availability days*</label>
                   <input id="product_availability" name="product_availability" type="number" min="1" class="form-control"
-                         value="<?php echo e($attributeTerms->product_availability); ?>" required>
+                         value="<?php echo e($attributeTerms->product_availability); ?>" >
                   <?php if($errors->has('product_availability')): ?>
                       <span class="text-danger"><?php echo e($errors->first('product_availability')); ?></span>
                   <?php endif; ?>

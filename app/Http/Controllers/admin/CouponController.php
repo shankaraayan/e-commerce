@@ -70,7 +70,7 @@ class CouponController extends Controller
 
             if(today() >= $coupon->expiry_date){
                 $response = ['message' => 'Coupon is already expired.','status' => 'faild',];
-                    return  response()->json($response);
+                return response()->json($response);
             }
 
             $applicableCountry = $coupon->applicable_country;
@@ -78,7 +78,7 @@ class CouponController extends Controller
             if(!in_array('all', $applicableCountry)){
                 if(!in_array($request->country, $applicableCountry)){
                     $response = ['message' => 'This coupon code is not applicable in your country.','status' => 'faild',];
-                    return json_encode($response);
+                    return response()->json($response);
                 }
             }
             if($coupon->specific_user == 1){
@@ -87,11 +87,11 @@ class CouponController extends Controller
 
                     if(!in_array(auth()->user()->email,$userList)){
                         $response = ['message' => 'This coupon code is only for limited user.','status' => 'faild',];
-                    return  response()->json($response);
+                        return response()->json($response);
                     }
                 }else{
                     $response = ['message' => 'This coupon code is only for limited user. please login','status' => 'faild',];
-                    return  response()->json($response);
+                    return response()->json($response);
                 }
             }
 
@@ -104,7 +104,7 @@ class CouponController extends Controller
             if($cartValue < $coupon->min_order){
 
                 $response = ['message' => 'Cart value is not enough for this code. Please add more product.','status' => 'faild',];
-                return json_encode($response);
+                return response()->json($response);
             }
             
             foreach ($cart as &$item) {

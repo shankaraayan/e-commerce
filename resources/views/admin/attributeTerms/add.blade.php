@@ -87,6 +87,7 @@
                   </label>
                   @endif
                 @endforeach
+
                   @if ($errors->has('attribute_term_kWh_name'))
                     <span class="text-danger">{{ $errors->first('attribute_term_kWh_name') }}</span>
                   @endif
@@ -123,7 +124,7 @@
 
                 <div class="input-area">
                   <label for="name" class="form-label">Product availability days*</label>
-                  <input id="product_availability" name="product_availability" min="1" type="number" class="form-control required"
+                  <input id="product_availability" name="product_availability" min="1" type="number" class="form-control"
                       placeholder="Product availability days">
                   @if ($errors->has('product_availability'))
                       <span class="text-danger">{{ $errors->first('product_availability') }}</span>
@@ -236,7 +237,11 @@
                                   </th>
 
                                   <th scope="col" class=" table-th ">
-                                    WH
+                                    @if($attributeName->attribute_type=='inverter' || $attributeName->attribute_type=='panel')
+                                    WH (Supported)
+                                    @else
+                                    unit
+                                    @endif
                                   </th>
                                   <th scope="col" class=" table-th ">
                                     Price
@@ -257,7 +262,7 @@
                                   <td class="table-td ">{{$values->attribute_term_name}}</td>
                                   <td class="table-td ">{{$values->sku}}</td>
                                   <td class="table-td ">{{$values->quantity}}</td>
-                                  <td class="table-td ">{{$values->attribute_term_kWh_name}}</td>
+                                  <td class="table-td ">{{$values->attribute_term_kWh_name ?? $values->wh_range}}</td>
 
                                   <td class="table-td ">{{$values->price}}</td>
 

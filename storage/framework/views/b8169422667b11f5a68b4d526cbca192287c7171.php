@@ -83,6 +83,7 @@
                   </label>
                   <?php endif; ?>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
                   <?php if($errors->has('attribute_term_kWh_name')): ?>
                     <span class="text-danger"><?php echo e($errors->first('attribute_term_kWh_name')); ?></span>
                   <?php endif; ?>
@@ -119,7 +120,7 @@
 
                 <div class="input-area">
                   <label for="name" class="form-label">Product availability days*</label>
-                  <input id="product_availability" name="product_availability" min="1" type="number" class="form-control required"
+                  <input id="product_availability" name="product_availability" min="1" type="number" class="form-control"
                       placeholder="Product availability days">
                   <?php if($errors->has('product_availability')): ?>
                       <span class="text-danger"><?php echo e($errors->first('product_availability')); ?></span>
@@ -217,7 +218,11 @@
                                   </th>
 
                                   <th scope="col" class=" table-th ">
-                                    WH
+                                    <?php if($attributeName->attribute_type=='inverter' || $attributeName->attribute_type=='panel'): ?>
+                                    WH (Supported)
+                                    <?php else: ?>
+                                    unit
+                                    <?php endif; ?>
                                   </th>
                                   <th scope="col" class=" table-th ">
                                     Price
@@ -236,7 +241,7 @@
                                   <td class="table-td "><?php echo e($values->attribute_term_name); ?></td>
                                   <td class="table-td "><?php echo e($values->sku); ?></td>
                                   <td class="table-td "><?php echo e($values->quantity); ?></td>
-                                  <td class="table-td "><?php echo e($values->attribute_term_kWh_name); ?></td>
+                                  <td class="table-td "><?php echo e($values->attribute_term_kWh_name ?? $values->wh_range); ?></td>
 
                                   <td class="table-td "><?php echo e($values->price); ?></td>
 

@@ -68,7 +68,28 @@
                     <span class="text-danger">{{ $errors->first('attribute_term_name') }}</span>
                   @endif
                 </div>
-                
+               {{-- @dd($attributeTerms->toarray()) --}}
+                {{-- @if($attributeTerms->attribute->attribute_type=='inverter')
+                <div class="input-area">
+                  <label for="name" class="form-label">Supported Wh</label>
+
+                  @foreach ($attributesTermsWh as $value)
+                  @if(isset($value->attribute_term_kWh_name))
+                  <label>
+                    <input type="checkbox" name="supported_wh[]" value="{{ $value->attribute_term_kWh_name }}">
+                    {{ $value->attribute_term_kWh_name }}
+                  </label>
+                  @endif
+                @endforeach
+
+                  @if ($errors->has('attribute_term_kWh_name'))
+                    <span class="text-danger">{{ $errors->first('attribute_term_kWh_name') }}</span>
+                  @endif
+                </div>
+                  @endif --}}
+
+
+                @if($attributeTerms->attribute->attribute_type == 'panel') 
                 <div class="input-area">
                   <label for="name" class="form-label">kWh*</label>
                   <input id="attribute_term_kWh_name" name="attribute_term_kWh_name" type="text" class="form-control" placeholder="kWh" value="{{$attributeTerms->attribute_term_kWh_name}}" >
@@ -76,6 +97,7 @@
                     <span class="text-danger">{{ $errors->first('attribute_term_kWh_name') }}</span>
                   @endif
                 </div>
+                @endif
 
                 </div>
 
@@ -109,7 +131,7 @@
                 <div class="input-area">
                   <label for="product_availability" class="form-label">Product availability days*</label>
                   <input id="product_availability" name="product_availability" type="number" min="1" class="form-control"
-                         value="{{ $attributeTerms->product_availability }}" required>
+                         value="{{ $attributeTerms->product_availability }}" >
                   @if ($errors->has('product_availability'))
                       <span class="text-danger">{{ $errors->first('product_availability') }}</span>
                   @endif

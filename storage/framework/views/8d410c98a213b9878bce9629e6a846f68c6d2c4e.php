@@ -277,7 +277,7 @@
 																				<td class="table-td" colspan="2" ></td>
 																						<td class="table-td" >
 																								Discount (<?php echo e($discount['discount']['code'] ?? 'N/A'); ?>)
-																						<td class="table-td">
+																				<td class="table-td">
 																				
 																				<?php echo $discountPrice; ?>
 
@@ -302,7 +302,7 @@
 																						<td class="table-td">
 																			 <?php
 																						if(isset($discount['discount']) && $discount['discount']['type'] == 'flat'){
-																						$fianlPrice = $fianlPrice - $discount['discount']['discount_value'];
+																								$fianlPrice = $fianlPrice - $discount['discount']['discount_value'];
 																						}
 																						elseif(isset($discount['discount']) && $discount['discount']['type'] == 'Percentage'){
 																								$fianlPrice = $fianlPrice - ($fianlPrice * $discount['discount']['discount_value'] / 100 );

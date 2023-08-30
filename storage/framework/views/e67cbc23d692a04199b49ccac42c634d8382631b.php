@@ -630,7 +630,7 @@ unset($__errorArgs, $__bag); ?>
                                                         $dis =  $total * ($discountValue)/100;
                                                         $afterDiscount = $total - $dis;
                                                     }
-                                                    
+                                                   
                                                 ?>
                                         <div id="bank_dis_container">      
                                            
@@ -640,6 +640,7 @@ unset($__errorArgs, $__bag); ?>
                                                       $bank_dis = (@$afterDiscount +  $shipping_price)*3/100;
                                                       $final_price =  (@$afterDiscount +  $shipping_price)-@$bank_dis;
                                                   ?>
+
                                                  
                                                       <div class="ps-checkout__row">
                                                         <div class="ps-title">Rabatt(3%)</div>
@@ -838,10 +839,12 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                             `);
                             $('input[name="token_price"]').val(btoa(unescape(encodeURIComponent(response.total))));
-                            toastr.success(response.message);
+                            console.log(response);
+                            
+                            flasher.success(response.message);
                         }else{
 
-                            toastr.error(response.message);
+                            flasher.error(response.message);
                         }
                     },
                 error: function (err) {

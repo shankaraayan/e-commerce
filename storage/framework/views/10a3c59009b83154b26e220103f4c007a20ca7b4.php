@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="<?php echo e(asset('css/style.css')); ?>">
     <link rel="stylesheet" href="<?php echo e(asset('css/customhtml.css')); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    
     <link rel="stylesheet" href="<?php echo e(asset('assets/css/home-1.css')); ?>">
     <script src="<?php echo e(asset('assets/plugins/jquery.min.js')); ?>"></script>
     <?php echo $__env->yieldContent('style'); ?>
@@ -49,6 +49,7 @@
 
     <?php echo $__env->make('includes.include', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <script src="<?php echo e(asset('assets/plugins/jquery.min.js')); ?>"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
     <!--<script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.js"></script>-->
     <script src="<?php echo e(asset('assets/plugins/popper.min.js')); ?>"></script>
     <script src="<?php echo e(asset('assets/plugins/bootstrap4/js/bootstrap.min.js')); ?>"></script>

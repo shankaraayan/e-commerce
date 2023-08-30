@@ -41,6 +41,7 @@
                                     $name = \App\Models\User::whereId($order->user_id)->pluck('name')->first();
                                     $billing = json_decode($order['billing_details'], true);
                                 @endphp
+                               
                                 {{$name}} !</span> </h4>
                             <h5 class="mb-4 font-weight-normal">Your order <a class="d-inline-block" href="javascript:(void);"><span class="order_ID font-weight-bold d-inline-block text-green mx-1 fs-3">#{{ $order->order_id }}</span></a> has been placed.</h5> 
                             <p class="fs-4" style="line-height: 1.6em;">Your order confirmation and receipt have been included in an email dispatched to <span class="text-blue font-weight-bold">{{ $billing['email']}}</span>. If this email doesn't materialize in your inbox within a span of two minutes, we recommend perusing your spam folder to verify if it was channeled there.</p> 
@@ -72,7 +73,7 @@
                             $subtotal = 0;
                             $totalPrice = 0;
                             $shipping_data = (end($data));
-
+                    
                             foreach ($data as $product) {
                                 
                                 $tax = getTaxCountry((int)$product['shipping_country']);
@@ -95,9 +96,11 @@
 
                             if(isset($discount['discount']) && $discount['discount']['type'] == 'flat'){
                                     $discountPrice = $discount['discount']['discount_value'] . " ".$discount['discount']['type'] . " OFF";
+                                    $totalPrice =  $totalPrice - $discount['discount']['discount_value'];
                             }
                             elseif(isset($discount['discount']) && $discount['discount']['type'] == 'Percentage'){
                                     $discountPrice = $discount['discount']['discount_value'] . " ". " %OFF";
+                                    $totalPrice = $totalPrice - ($totalPrice * $discount['discount']['discount_value'] / 100 );
                             }
                             else{
                                     $discountPrice = '0';
@@ -123,9 +126,9 @@
                     <div class="product_list pt-30">
                         @php
                         $products = json_decode($order['product_details'], true);
-                        
+                        $ban_transfer = end($products)
                     @endphp
-
+                        
                     @foreach($products as $product)
                         @php
                             $ProducttotalPrice = $product['price'] * $product['quantity'];
@@ -163,8 +166,29 @@
                             <div class="d-flex align-items-center justify-content-between mb-3">
                                 <span class="fs-4 order_summary_title">Versand :</span><span class="order_summary_finale">{{ formatPrice($product['shipping_price'] ?? 0)}}</span>
                             </div>
+                            
+                            @if(isset($discount['discount']))
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <span class="fs-4 order_summary_title">
+                                        Gutschein <span class="text-green font-weight-bold">{{$discount['discount']['code'] }}</span> :
+                                    </span>
+                                    <span class="order_summary_finale">
+                                       {!! $discountPrice !!}
+                                    </span>
+                                </div>
+                            @endif
                             <div class="d-flex align-items-center justify-content-between mb-3">
-                                <span class="fs-4 order_summary_title">Rabatt :</span><span class="order_summary_finale">{{ formatPrice($discountPrice)}}</span>
+                                <span class="fs-4 order_summary_title">Rabatt :</span><span class="order_summary_finale">
+                                    @if($ban_transfer['bank_transfer']==="yes")
+                                            @php 
+                                              $bank_dis = ($totalPrice+$product['shipping_price'])*3/100;
+                                            @endphp
+                                             {{formatPrice($bank_dis)}}
+                                    @else
+                                       NA
+                                    @endif
+                                    
+                                </span>
                             </div>
                             <div class="d-flex align-items-center justify-content-between">
                                 <span class="fs-4 order_summary_title">Zahlungsmethode :</span><span class="text-right order_summary_finale">{{$order->payment_method}}</span>
@@ -173,7 +197,14 @@
 
                         <div class="d-flex align-items-center justify-content-between pt-5 pb-4 px-3">
                             <span class="fs-2 font-weight-bold">Total</span>
-                            <span class="fs-2 font-weight-bold text-green">{{ formatPrice($totalPrice+$product['shipping_price'] ?? 0)}}</span>
+                            <span class="fs-2 font-weight-bold text-green">
+                                @if($ban_transfer['bank_transfer']==="yes")
+                                    {{ formatPrice( ($totalPrice+$product['shipping_price'])-$bank_dis) }}
+                                @else
+                                {{ formatPrice($totalPrice+$product['shipping_price'] ?? 0)}}
+                                @endif
+                               
+                            </span>
                         </div>
                     </div>
                 </div>

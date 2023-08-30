@@ -173,7 +173,22 @@
                           <h4 class="text-xl font-medium dark:text-white text-black mb-2">
                             <span class="block font-normal  ">Good evening,</span>
 
-                            <span class="block">Mr. {{auth()->user()->name ?? 'User'}}</span>
+                            {{-- <span class="block">
+                              Mr. {{auth()->user()->name ?? 'User'}}
+                            </span> --}}
+                            <span class="block">
+                              @php
+                                  $userName = auth()->user()->name ?? 'User';
+                                  $title = 'Mr.';
+                                  if (str_ends_with($userName, 'Kumar')) {
+                                      $title = 'Mr.';
+                                  } elseif (str_ends_with($userName, 'Kumari')) {
+                                      $title = 'Ms.';
+                                  }
+                              @endphp
+                              {{ $title }} {{ $userName }}
+                          </span>
+                          
                           </h4>
                           <p class="text-sm dark:text-white text-black font-normal">
                             Welcome to Dashcode

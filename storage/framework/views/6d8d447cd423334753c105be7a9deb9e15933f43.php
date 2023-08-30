@@ -113,8 +113,8 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                                 <div class="form-group">
                                     <label>Passwort</label>
-                                    <input class="form-control" id="password" type="password" name="password"
-                                        value="<?php echo e(old('password')); ?>">
+                                    <input class="form-control" type="password" name="password"
+                                        value="<?php echo e(old('password')); ?>"  />
                                     <?php $__errorArgs = ['password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
@@ -128,7 +128,7 @@ unset($__errorArgs, $__bag); ?>
                                 </div>
                                 <div class="form-group form-check">
                                     <input class="form-check-input" name="remember-me"
-                                        <?php echo e(old('remember-me') ? 'checked' : ''); ?> type="checkbox">
+                                        <?php echo e(old('remember-me') ? 'checked' : ''); ?> type="checkbox" />
                                     <label>Remember Me</label>
                                 </div>
                                 <button class="ps-btn ps-btn--warning" type="submit">Log In</button>
@@ -180,7 +180,7 @@ unset($__errorArgs, $__bag); ?>
                         <nav class="ps-main-menu">
                             <ul class="menu" id="main_menu">
                                 <li class="has-mega-menu"><a class="menuName" href="/">Home</a></li>
-                                <li class="has-mega-menu"><a class="menuName" href="<?php echo e(route('catalog')); ?>">Shop</a></li>
+                                <li class="has-mega-menu  "><a class="menuName" href="<?php echo e(route('catalog')); ?>">Shop</a></li>
                                 <?php $__currentLoopData = headerCategories(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <li class="has-mega-menu"><a class="menuName" href="<?php echo e(route('shop', $cat->slug)); ?>"><?php echo e($cat->name); ?></a></li>
                                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

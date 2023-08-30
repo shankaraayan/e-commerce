@@ -28,8 +28,6 @@ class ProductAttributeTermsController extends Controller
 
     public function store(ProductTermRequest $request)
     {
-       
-        
         $terms = new AttributeTerm;
         $terms->attribute_term_name = $request->attribute_term_name;
         $terms->attributes_id = $request->attributes_id;
@@ -60,7 +58,7 @@ class ProductAttributeTermsController extends Controller
     public function edit($id)
     {
 
-        $attributeTerms = AttributeTerm::find($id);
+        $attributeTerms = AttributeTerm::with('attribute')->find($id);
         // dd($attributeName);
         return view('admin.attributeTerms.edit',compact('attributeTerms'));
     }

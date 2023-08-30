@@ -24,12 +24,12 @@ class ProductTermRequest extends FormRequest
     public function rules()
     {
         return [
-            'attribute_term_kWh_name'=> 'required',
-            'supported_wh[]' =>'required',
-            'attribute_term_name' => 'required',             
+            // 'attribute_term_kWh_name'=> 'required',
+            // 'supported_wh[]' =>'required',
+            // 'attribute_term_name' => 'required',             
             'price' => 'required',
-            'attribute_term_description' => 'required', 
-            'component_description' => 'required',
+            // 'attribute_term_description' => 'required', 
+            // 'component_description' => 'required',
             'quantity' => 'required',
             'sku' => 'required'
         ];

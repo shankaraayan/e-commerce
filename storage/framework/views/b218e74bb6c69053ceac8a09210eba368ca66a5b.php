@@ -1,9 +1,12 @@
 <?php $__env->startSection('dasboard_content'); ?>
 <?php
     $data = json_decode($orders['product_details'], true);
-
+    $bank_transfer = end($data);
+    $discount = end($data);
     $totalPrice = 0;
 
+
+    // @dd($data);
     foreach ($data as $product) {
         $tax = getTaxCountry((int)$product['shipping_country']);
 																
@@ -17,6 +20,19 @@
             }
         }
         $totalPrice+=($product['price']*$product['quantity'] + (@$product['price'] * $tax['vat_tax'] /100 * @$product['quantity']) );
+    }
+
+
+    if(isset($discount['discount']) && $discount['discount']['type'] == 'flat'){
+            $discountPrice = $discount['discount']['discount_value'] . " ".$discount['discount']['type'] . " OFF";
+            $totalPrice =  $totalPrice - $discount['discount']['discount_value'];
+     }
+    elseif(isset($discount['discount']) && $discount['discount']['type'] == 'Percentage'){
+            $discountPrice = $discount['discount']['discount_value'] . " ". " %OFF";
+            $totalPrice = $totalPrice - ($totalPrice * $discount['discount']['discount_value'] / 100 );
+    }
+    else{
+            $discountPrice = '0';
     }
 ?>
 <div class="container-fluid">
@@ -62,6 +78,7 @@
                                 <td><?php echo e('Zwischensumme(including tax):'); ?></td>
                                 <td class="text-right"><?php echo e(formatPrice($totalPrice)); ?></td>
                             </tr>
+                            
                             <tr>
                                 <td>Versand :</td>
                                 <td class="text-right">
@@ -69,13 +86,38 @@
 
                                 </td>
                             </tr>
+                            <?php if(isset($discount['discount'])): ?>
+                                <tr>
+                                    <td>Gutschein <span class="text-green font-weight-bold"><?php echo e($discount['discount']['code']); ?></span> :</td>
+                                    <td class="text-right"> <?php echo $discountPrice; ?></td>
+                                </tr>
+                                
+                            <?php endif; ?>
+                            <?php if($bank_transfer['bank_transfer']==="yes"): ?>
+                                    <?php 
+                                        $bank_dis = ($totalPrice+$shipping_data['shipping_price'])*3/100;
+                                    ?>
+                                    <tr>
+                                        <td>Rabatt :</td>
+                                        <td class="text-right"><?php echo e(formatPrice($bank_dis)); ?></td>
+                                    </tr>
+                            <?php endif; ?>
                             <tr>
                                 <td>Zahlungsmethode :</td>
                                 <td class="text-right"><?php echo e($orders->payment_method); ?></td>
                             </tr>
                             <tr>
                                 <td class="font-weight-bold fs-2">Insgesamt</td>
-                                <td class="font-weight-bold text-right fs-2"><?php echo e(formatPrice($totalPrice + $shipping_data['shipping_price'])); ?></td>
+                                <td class="font-weight-bold text-right fs-2">
+                                    
+                                    <?php if($bank_transfer['bank_transfer']==="yes"): ?>
+                                        <?php echo e(formatPrice( ($totalPrice+$product['shipping_price'])-$bank_dis)); ?>
+
+                                    <?php else: ?>
+                                        <?php echo e(formatPrice($totalPrice+$product['shipping_price'] ?? 0)); ?>
+
+                                    <?php endif; ?>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

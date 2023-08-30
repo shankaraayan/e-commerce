@@ -6,6 +6,13 @@
     /* Set your desired background color for the active state */
     /* Add any other desired styles for the active state */
   }
+  .black_logo{
+    background-color:#065092;
+    padding:12px 64px;
+  }
+  .logo-segment{
+    padding: 0;
+  }
   .icon-arrow{
       color:white;
   }
@@ -14,7 +21,7 @@
       <div id="bodyOverlay" class="w-screen h-screen fixed top-0 bg-slate-900 bg-opacity-50 backdrop-blur-sm z-10 hidden"></div>
       <div class="logo-segment">
         <a class="flex items-center" href="<?php echo e(route('admin')); ?>">
-          <img src="https://stegback.com/root/storage/uploads/stegbacklogo.jpg" class="black_logo" alt="logo">
+          <img src="https://eppsolar.de/assets/img/stegpearl/epp-green-white.png" class="black_logo" alt="logo">
           <!--<img src="https://stegback.com/root/storage/uploads/white-logo.png" class="white_logo" alt="logo">-->
           <!--<span class="ltr:ml-3 rtl:mr-3 text-xl font-Inter font-bold text-slate-900 dark:text-white">StegBack</span>-->
         </a>

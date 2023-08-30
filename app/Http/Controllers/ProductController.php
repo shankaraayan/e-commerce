@@ -114,15 +114,34 @@ class ProductController extends Controller
 
     public function attributeTerms(Request $request)
     {
+        $productId = $request->productid;
+        $productTerms = Product::where('id',$productId)->pluck('attributesTerms_id')->first();
+        $productTerms = explode(',',$productTerms);
+        // dd($productTerms);
+        $attribute = [];
+
         $getpanel = AttributeTerm::find($request->id);
         $panglwh = $getpanel->attribute_term_kWh_name;
+
+        $attributeTerms = AttributeTerm::where('attributes_id', $getpanel->attributes_id)->pluck('id')->toArray();
+
+      
         $absdk = AttributeTerm::select('*')
-            ->whereRaw("FIND_IN_SET('$panglwh', wh_range) > 0")
-            ->get();
+        ->whereRaw("FIND_IN_SET('$panglwh', wh_range) > 0")
+        ->get();
+
+
+        
+        foreach($absdk as $terms){
+            if(in_array($terms->id,$productTerms)){
+                $attribute[$terms->id] = $terms;
+            }
+        } 
+
 
         $data = [];
 
-        foreach ($absdk as $ab) {
+        foreach ($attribute as $ab) {
             $attributes = [
                 'attribute_name' => Attribute::find($ab->attributes_id)->attribute_name,
                 'id' => $ab['id'],
@@ -134,7 +153,7 @@ class ProductController extends Controller
             ];
             $data[] = $attributes;
         }
-       
+    //    dd($data);
         return response()->json($data);
     }
 
@@ -164,6 +183,32 @@ class ProductController extends Controller
             // If the product with the specified ID is not found, you may return an error response or an empty response.
             return response()->json(['error' => 'Product not found'], 404);
         }
+    }
+
+    function getSku(Request $request)
+    {
+        $combinations = ($request->sku);
+        $url = $request->url;
+        $data = reset($combinations);
+        foreach ($data as $key => $value) {
+            $data[$key] = intval($value);
+        }
+        $jsonArray = json_encode($data);
+
+        $results = DB::table('sku_combinations')
+        ->whereRaw("JSON_CONTAINS(combination_ids, '$jsonArray')")->pluck('sku')
+        ->first();
+
+        if($results){
+            DB::table('sku_combinations')
+            ->where('sku',$results)
+            ->whereNull('url')
+            ->update(['url' => $url]);
+
+            return response()->json(['sku'=>$results,'status'=>true]);
+        }
+
+        return response()->json(['status'=>false]);
     }
 
    

@@ -2,6 +2,7 @@
 
 namespace App\Models\admin;
 
+use App\Models\SkuCombination;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -50,6 +51,16 @@ class Product extends Model
     public function images()
     {
         return $this->hasMany(ProductImages::class,'product_id');
+    }
+
+    public function groupSkus()
+    {
+        return $this->hasMany(SkuCombination::class);
+    }
+
+    public function categories()
+    {
+        return $this->hasMany(Category::class);
     }
 
     public function sluggable(): array

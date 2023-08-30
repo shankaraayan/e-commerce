@@ -3,9 +3,12 @@
 @section('dasboard_content')
 @php
     $data = json_decode($orders['product_details'], true);
-
+    $bank_transfer = end($data);
+    $discount = end($data);
     $totalPrice = 0;
 
+
+    // @dd($data);
     foreach ($data as $product) {
         $tax = getTaxCountry((int)$product['shipping_country']);
 																
@@ -19,6 +22,19 @@
             }
         }
         $totalPrice+=($product['price']*$product['quantity'] + (@$product['price'] * $tax['vat_tax'] /100 * @$product['quantity']) );
+    }
+
+
+    if(isset($discount['discount']) && $discount['discount']['type'] == 'flat'){
+            $discountPrice = $discount['discount']['discount_value'] . " ".$discount['discount']['type'] . " OFF";
+            $totalPrice =  $totalPrice - $discount['discount']['discount_value'];
+     }
+    elseif(isset($discount['discount']) && $discount['discount']['type'] == 'Percentage'){
+            $discountPrice = $discount['discount']['discount_value'] . " ". " %OFF";
+            $totalPrice = $totalPrice - ($totalPrice * $discount['discount']['discount_value'] / 100 );
+    }
+    else{
+            $discountPrice = '0';
     }
 @endphp
 <div class="container-fluid">
@@ -64,19 +80,43 @@
                                 <td>{{'Zwischensumme(including tax):'}}</td>
                                 <td class="text-right">{{ formatPrice($totalPrice)}}</td>
                             </tr>
+                            
                             <tr>
                                 <td>Versand :</td>
                                 <td class="text-right">
                                     {{formatPrice($shipping_data['shipping_price'])}}
                                 </td>
                             </tr>
+                            @if(isset($discount['discount']))
+                                <tr>
+                                    <td>Gutschein <span class="text-green font-weight-bold">{{$discount['discount']['code'] }}</span> :</td>
+                                    <td class="text-right"> {!! $discountPrice !!}</td>
+                                </tr>
+                                
+                            @endif
+                            @if($bank_transfer['bank_transfer']==="yes")
+                                    @php 
+                                        $bank_dis = ($totalPrice+$shipping_data['shipping_price'])*3/100;
+                                    @endphp
+                                    <tr>
+                                        <td>Rabatt :</td>
+                                        <td class="text-right">{{formatPrice($bank_dis)}}</td>
+                                    </tr>
+                            @endif
                             <tr>
                                 <td>Zahlungsmethode :</td>
                                 <td class="text-right">{{$orders->payment_method}}</td>
                             </tr>
                             <tr>
                                 <td class="font-weight-bold fs-2">Insgesamt</td>
-                                <td class="font-weight-bold text-right fs-2">{{ formatPrice($totalPrice + $shipping_data['shipping_price'])}}</td>
+                                <td class="font-weight-bold text-right fs-2">
+                                    {{-- {{ formatPrice($totalPrice + $shipping_data['shipping_price'])}} --}}
+                                    @if($bank_transfer['bank_transfer']==="yes")
+                                        {{ formatPrice( ($totalPrice+$product['shipping_price'])-$bank_dis) }}
+                                    @else
+                                        {{ formatPrice($totalPrice+$product['shipping_price'] ?? 0)}}
+                                    @endif
+                                </td>
                             </tr>
                         </tbody>
                     </table>
