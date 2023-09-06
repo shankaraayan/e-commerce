@@ -17,6 +17,6 @@
 
 @foreach($category as $key=>$category)
 <a href="{{ route('shop', [$key]) }}">
-    {{$category}}
+    {{$category}},
 </a>
 @endforeach

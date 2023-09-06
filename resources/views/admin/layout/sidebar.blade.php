@@ -40,7 +40,7 @@
       </div>
       <div id="nav_shadow" class="nav_shadow h-[60px] absolute top-[80px] nav-shadow z-[1] w-full transition-all duration-200 pointer-events-none
       opacity-0"></div>
-      <div class="sidebar-menus bg-white dark:bg-slate-800 py-2 px-4 h-[calc(100%-80px)] overflow-y-auto z-50" id="sidebar_menus">
+      <div style="margin-top:16px;" class="sidebar-menus bg-white dark:bg-slate-800 py-2 px-4 h-[calc(100%-80px)] overflow-y-auto z-50" id="sidebar_menus">
         <ul class="sidebar-menu">
           <li class="{{ Request::is('admin') ? 'active' : '' }}">
             <a href="{{route('admin')}}" class="navItem">
@@ -109,7 +109,7 @@
             <li class="{{ Request::is('admin/taxation/*') ? 'active' : '' }}">
                 <a href="{{route('admin.taxation.list')}}" class="navItem">
                     <span class="flex items-center">
-                    <iconify-icon class=" nav-icon" icon="heroicons-outline:cash"></iconify-icon>
+                    <iconify-icon class=" nav-icon" icon="heroicons-outline:receipt-tax"></iconify-icon>
                     <span>Taxation</span>
                     </span>
                 </a>
@@ -148,7 +148,7 @@
           <li class="{{ Request::is('admin/users/*') ? 'active' : '' }}">
             <a href="{{route('admin.users.list')}}" class="navItem">
               <span class="flex items-center">
-            <iconify-icon class=" nav-icon" icon="heroicons:cog-8-tooth"></iconify-icon>
+            <iconify-icon class=" nav-icon" icon="heroicons:user"></iconify-icon>
             <span>Users</span>
               </span>
               

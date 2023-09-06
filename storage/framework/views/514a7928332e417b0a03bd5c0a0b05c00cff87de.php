@@ -15,7 +15,7 @@
 
         // add event listeners to the buttons
         plusBtn.addEventListener("click", function () {
-        if (parseInt(input.value) < 25) {
+        if (parseInt(input.value) < 250) {
             input.value = parseInt(input.value) + 1;
         }
         });

@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- Template Name: DashCode - HTML, React, Vue, Tailwind Admin Dashboard Template Author: Codeshaper Website: https://codeshaper.net Contact: support@codeshaperbd.net Like: https://www.facebook.com/Codeshaperbd Purchase: https://themeforest.net/item/dashcode-admin-dashboard-template/42600453 License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project. -->
 <html lang="zxx" dir="ltr" class="light">
 
 <head>
@@ -7,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <title>StegBack - StegBack Website</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <link rel="icon" type="image/png" href="{{ asset('admin_assets/images/logo/favicon.svg') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
@@ -21,13 +22,15 @@
     <script src="{{ asset('admin_assets/js/settings.js') }}" sync></script>
     <script type="module" src="{{ asset('admin_assets/js/main.js') }}" sync></script>
     @yield('style')
+    <style>
+        tr {
+            cursor: grab;
+        }
+    </style>
 </head>
 
 <body class=" font-inter dashcode-app" id="body_class">
-    <!-- [if IE]> <p class="browserupgrade"> You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security. </p> <![endif] -->
     <main class="app-wrapper">
-
-        <!-- BEGIN: Header -->
         <div class="z-[9]" id="app_header">
             <div
                 class="app-header z-[999] ltr:ml-[248px] rtl:mr-[248px] bg-white dark:bg-slate-800 shadow-sm dark:shadow-slate-700">
@@ -77,20 +80,10 @@
                         </button>
 
                     </div>
-                    <!-- end horizental -->
-
-
-
                     <div class="main-menu">
                         <ul>
 
                             <li class="menu-item-has-children">
-                                <!--  Single menu -->
-
-                                <!-- has dropdown -->
-
-
-
                                 <a href="javascript:void()">
                                     <div class="flex flex-1 items-center space-x-[6px] rtl:space-x-reverse">
                                         <span class="icon-box">
@@ -102,73 +95,18 @@
                                         <iconify-icon icon="heroicons-outline:chevron-down"> </iconify-icon>
                                     </div>
                                 </a>
-
-                                <!-- Dropdown menu -->
-
-
-
-
-
-
-
-
                             </li>
 
                             <li class="
              menu-item-has-children
               ">
-
-
-
-
                                 <ul class="sub-menu">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                 </ul>
-
-                                <!-- Megamenu -->
-
-
                             </li>
 
                             <li class="
               menu-item-has-children has-megamenu
             ">
-                                <!--  Single menu -->
-
-                                <!-- has dropdown -->
-
-
-
-
-                                <!-- Dropdown menu -->
-
-
-                                <!-- Megamenu -->
-
-
-
                                 <div class="rt-mega-menu">
                                     <div class="flex flex-wrap space-x-8 justify-between rtl:space-x-reverse">
 
@@ -347,9 +285,6 @@
                                                 </div>
 
                                             </a>
-
-
-
                                             <a href=lock-screen-three.html>
 
                                                 <div
@@ -360,24 +295,13 @@
                                                         Lock Screen Three
                                                     </span>
                                                 </div>
-
                                             </a>
-
                                         </div>
-
-
-
                                         <div>
-                                            <!-- mega menu title -->
                                             <div
                                                 class="text-sm font-medium text-slate-900 dark:text-white mb-2 flex space-x-1 items-center">
-
                                                 <span> Components</span>
                                             </div>
-                                            <!-- single menu item* -->
-
-
-
                                             <a href=typography.html>
 
                                                 <div
@@ -388,11 +312,7 @@
                                                         typography
                                                     </span>
                                                 </div>
-
                                             </a>
-
-
-
                                             <a href=colors.html>
 
                                                 <div
@@ -403,68 +323,13 @@
                                                         colors
                                                     </span>
                                                 </div>
-
                                             </a>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                         </div>
                                     </div>
-
                             </li>
-
                             <li class="
              menu-item-has-children
               ">
-                                <!--  Single menu -->
-
-                                <!-- has dropdown -->
-
-
-
                                 <a href="javascript:void()">
                                     <div class="flex flex-1 items-center space-x-[6px] rtl:space-x-reverse">
                                         <span class="icon-box">
@@ -476,15 +341,7 @@
                                         <iconify-icon icon="heroicons-outline:chevron-down"> </iconify-icon>
                                     </div>
                                 </a>
-
-                                <!-- Dropdown menu -->
-
-
-
                                 <ul class="sub-menu">
-
-
-
                                     <li>
                                         <a href=basic-widgets.html>
                                             <div class="flex space-x-2 items-start rtl:space-x-reverse">
@@ -496,9 +353,6 @@
                                             </div>
                                         </a>
                                     </li>
-
-
-
                                     <li>
                                         <a href=statistics-widgets.html>
                                             <div class="flex space-x-2 items-start rtl:space-x-reverse">
@@ -510,23 +364,12 @@
                                             </div>
                                         </a>
                                     </li>
-
                                 </ul>
-
-                                <!-- Megamenu -->
-
-
                             </li>
 
                             <li class="
              menu-item-has-children
               ">
-                                <!--  Single menu -->
-
-                                <!-- has dropdown -->
-
-
-
                                 <a href="javascript:void()">
                                     <div class="flex flex-1 items-center space-x-[6px] rtl:space-x-reverse">
                                         <span class="icon-box">
@@ -538,15 +381,7 @@
                                         <iconify-icon icon="heroicons-outline:chevron-down"> </iconify-icon>
                                     </div>
                                 </a>
-
-                                <!-- Dropdown menu -->
-
-
-
                                 <ul class="sub-menu">
-
-
-
                                     <li>
                                         <a href=basic-table.html>
                                             <div class="flex space-x-2 items-start rtl:space-x-reverse">
@@ -558,9 +393,6 @@
                                             </div>
                                         </a>
                                     </li>
-
-
-
                                     <li>
                                         <a href=advance-table.html>
                                             <div class="flex space-x-2 items-start rtl:space-x-reverse">
@@ -572,9 +404,6 @@
                                             </div>
                                         </a>
                                     </li>
-
-
-
                                     <li>
                                         <a href=apex-chart.html>
                                             <div class="flex space-x-2 items-start rtl:space-x-reverse">
@@ -586,9 +415,6 @@
                                             </div>
                                         </a>
                                     </li>
-
-
-
                                     <li>
                                         <a href=chartjs.html>
                                             <div class="flex space-x-2 items-start rtl:space-x-reverse">
@@ -600,9 +426,6 @@
                                             </div>
                                         </a>
                                     </li>
-
-
-
                                     <li>
                                         <a href=map.html>
                                             <div class="flex space-x-2 items-start rtl:space-x-reverse">
@@ -614,21 +437,11 @@
                                             </div>
                                         </a>
                                     </li>
-
                                 </ul>
-
-                                <!-- Megamenu -->
-
-
                             </li>
-
                         </ul>
                     </div>
-                    <!-- end top menu -->
                     <div class="nav-tools flex items-center lg:space-x-5 space-x-3 rtl:space-x-reverse leading-0">
-
-                        <!-- BEGIN: Language Dropdown  -->
-
                         <div class="relative">
                             <button
                                 class="text-slate-800 dark:text-white focus:ring-0 focus:outline-none font-medium rounded-lg text-sm text-center
@@ -639,7 +452,6 @@
                                 <span class="text-sm md:block hidden font-medium text-slate-600 dark:text-slate-300">
                                     En</span>
                             </button>
-                            <!-- Language Dropdown menu -->
                             <div
                                 class="dropdown-menu z-10 hidden bg-white divide-y divide-slate-100 shadow w-44 dark:bg-slate-800 border dark:border-slate-900 !top-[25px] rounded-md
             overflow-hidden">
@@ -663,10 +475,6 @@
                                 </ul>
                             </div>
                         </div>
-                        <!-- Theme Changer -->
-                        <!-- END: Language Dropdown -->
-
-                        <!-- BEGIN: Toggle Theme -->
                         <div>
                             <button id="themeMood"
                                 class="h-[28px] w-[28px] lg:h-[32px] lg:w-[32px] lg:bg-gray-500-f7 bg-slate-50 dark:bg-slate-900 lg:dark:bg-slate-900 dark:text-white text-slate-900 cursor-pointer rounded-full text-[20px] flex flex-col items-center justify-center">
@@ -678,9 +486,6 @@
                                     icon="line-md:moon-filled-to-sunny-filled-loop-transition"></iconify-icon>
                             </button>
                         </div>
-                        <!-- END: TOggle Theme -->
-
-                        <!-- BEGIN: gray-scale Dropdown -->
                         <div>
                             <button id="grayScale"
                                 class="lg:h-[32px] lg:w-[32px] lg:bg-slate-100 lg:dark:bg-slate-900 dark:text-white text-slate-900 cursor-pointer
@@ -689,13 +494,6 @@
                                     icon="mdi:paint-outline"></iconify-icon>
                             </button>
                         </div>
-                        <!-- END: gray-scale Dropdown -->
-
-
-
-
-                        <!-- BEGIN: Profile Dropdown -->
-                        <!-- Profile DropDown Area -->
                         <div class="md:block hidden w-full">
                             <button
                                 class="text-slate-800 dark:text-white focus:ring-0 focus:outline-none font-medium rounded-lg text-sm text-center
@@ -715,7 +513,6 @@
                                         d="M19 9l-7 7-7-7"></path>
                                 </svg>
                             </button>
-                            <!-- Dropdown menu -->
                             <div
                                 class="dropdown-menu z-10 hidden bg-white divide-y divide-slate-100 shadow w-44 dark:bg-slate-800 border dark:border-slate-700 !top-[23px] rounded-md
       overflow-hidden">
@@ -729,10 +526,6 @@
                                             <span class="font-Inter">Dashboard</span>
                                         </a>
                                     </li>
-
-
-
-
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             class="block px-4 py-2 hover:bg-slate-100 dark:hover:bg-slate-600 dark:hover:text-white font-inter text-sm text-slate-600
@@ -745,19 +538,15 @@
                                 </ul>
                             </div>
                         </div>
-                        <!-- END: Header -->
                         <button class="smallDeviceMenuController md:hidden block leading-0">
                             <iconify-icon class="cursor-pointer text-slate-900 dark:text-white text-2xl"
                                 icon="heroicons-outline:menu-alt-3"></iconify-icon>
                         </button>
-                        <!-- end mobile menu -->
                     </div>
-                    <!-- end nav tools -->
                 </div>
             </div>
         </div>
 
-        <!-- BEGIN: Search Modal -->
         <div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
             id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
             <div class="modal-dialog relative w-auto pointer-events-none top-1/4">
@@ -775,8 +564,6 @@
                 </div>
             </div>
         </div>
-        <!-- END: Search Modal -->
-        <!-- END: Header -->
 
         @include('admin.layout.sidebar')
         <div class="" style="margin-left: 17%;">
@@ -784,25 +571,8 @@
         </div>
         @yield('content')
 
-        <!-- BEGIN: Footer For Desktop and tab -->
-        <!--<footer class="fixed bottom-0 md:block hidden" id="footer">-->
-        <!--      <div class="site-footer px-6 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-300 py-4 ltr:ml-[248px] rtl:mr-[248px]">-->
-        <!--        <div class="grid md:grid-cols-2 grid-cols-1 md:gap-5">-->
-        <!--          <div class="text-center ltr:md:text-start rtl:md:text-right text-sm">-->
-        <!--            COPYRIGHT ©-->
-        <!--            <span id="thisYear"></span>-->
-        <!--            DashCode, All rights Reserved-->
-        <!--          </div>-->
-        <!--          <div class="ltr:md:text-right rtl:md:text-end text-center text-sm">-->
-        <!--            Hand-crafted &amp; Made by-->
-        <!--            <a href="https://codeshaper.net" target="_blank" class="text-primary-500 font-semibold">-->
-        <!--              Codeshaper-->
-        <!--            </a>-->
-        <!--          </div>-->
-        <!--        </div>-->
-        <!--      </div>-->
-        <!--    </footer>-->
-        <!-- END: Footer For Desktop and tab -->
+
+        {{-- ###Only Content Here --}}
 
         <div
             class="bg-white bg-no-repeat custom-dropshadow footer-bg dark:bg-slate-700 flex justify-around items-center
@@ -853,6 +623,105 @@
         </div>
     </main>
     <!-- scripts -->
+
+<script>
+    (function () {
+    var table = document.getElementById('shorting-table');
+    var rows = table.rows;
+    var dragSrcEl = null;
+  
+    for (var i = 1; i < rows.length; i++) {
+        var row = rows[i];
+        row.draggable = true;
+        row.addEventListener('dragstart', function (e) {
+            dragSrcEl = this;
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.outerHTML);
+            this.classList.add('bg-gray-100');
+        });
+  
+        row.addEventListener('dragend', function (e) {
+            this.classList.remove('bg-gray-100');
+            table.querySelectorAll('.border-t-2', '.border-blue-300').forEach(function (el) {
+                el.classList.remove('border-t-2', 'border-blue-300');
+            });
+
+            updateRowPositions();
+
+        });
+  
+        row.addEventListener('dragover', function (e) {
+            e.preventDefault();
+            this.classList.add('border-t-2', 'border-blue-300');
+        });
+  
+        row.addEventListener('dragenter', function (e) {
+            e.preventDefault();
+            this.classList.add('border-t-2', 'border-blue-300');
+        });
+  
+        row.addEventListener('dragleave', function (e) {
+            this.classList.remove('border-t-2', 'border-blue-300');
+        });
+  
+        row.addEventListener('drop', function (e) {
+            e.preventDefault();
+            if (dragSrcEl != this) {
+                var sourceIndex = dragSrcEl.rowIndex;
+                var targetIndex = this.rowIndex;
+                if (sourceIndex < targetIndex) {
+                    table.tBodies[0].insertBefore(dragSrcEl, this.nextSibling);
+                } else {
+                    table.tBodies[0].insertBefore(dragSrcEl, this);
+                }
+            }
+            table.querySelectorAll('.border-t-2', '.border-blue-300').forEach(function (el) {
+              el.classList.remove('border-t-2', 'border-blue-300');
+                });
+            });
+        }
+
+
+        function updateRowPositions() {
+        var updatedPositions = [];
+
+         for (var i = 1; i < rows.length; i++) {
+            var row = rows[i];
+            var id = row.dataset.id;
+            var table = row.dataset.name;                                    
+            //  var id = document.getElementById('row_id').value;
+                           
+            updatedPositions.push({
+                row_id: id,
+                table: table,
+                position: i                                                                                           
+            });
+        }
+                // Send the updated positions to the server via AJAX
+                fetch('/update-row-positions', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Include Laravel CSRF token
+            },
+            body: JSON.stringify(updatedPositions)
+        })
+        .then(response => response.json())
+        .then(data => {
+            // window.reload.href;
+            console.log('Positions updated on the server:', data);
+        })
+        .catch(error => {
+            console.error('Error updating positions:', error);
+        });
+    }
+
+
+
+    })();
+    </script>
+
+
     <script src="{{ asset('admin_assets/js/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ asset('admin_assets/js/rt-plugins.js') }}"></script>
     <script src="{{ asset('admin_assets/js/app.js') }}"></script>

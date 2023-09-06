@@ -28,6 +28,7 @@ class AttributeTerm extends Model
         'quantity',
         'product_availability',
         'wh_range',
+        'serial',
     ];
 
     protected $table = 'attribute_terms';

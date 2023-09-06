@@ -39,7 +39,7 @@
                             <?php
                                 $productCat = App\Models\admin\Product::where('id',$details['product_id'])->pluck('categories')->first();
                                 $cat = explode(',',$productCat);
-                                shuffle($cat);
+                                // shuffle($cat);
                                 $categoryName = categories()->where('id',$cat[0])->pluck('slug')->first();
                                 $category = $categoryName;
                             ?>
@@ -56,7 +56,8 @@
                                                 }
                                             }
                                     @$shipping_country = (@$details['shipping_country']);
-        
+                                    @$shippingClass = (@$details['shipping_class']);
+                                            // dd($shippingClass);
                                     $total+=(@$details['price']*@$details['quantity']);
                                 ?>
         
@@ -66,8 +67,7 @@
                                             <div class="ps-product__remove"><a href="javascript::void(0)"
                                                     onclick="remove_to_cart(<?= $id ?>)"><i
                                                         class="icon-trash2 text-danger"></i></a></div>
-                                            <div class="ps-product__thumbnail"><a class="ps-product__image"
-                                                    href="<?php echo e(route('product.detail', [$category,$details['slug']])); ?>">
+                                            <div class="ps-product__thumbnail"><a class="ps-product__image" href="<?php echo e(route('product.detail', [$category,$details['slug']])); ?>">
                                                     <figure><img src="<?php echo e(asset('root/public/uploads/' . @$details['images'])); ?>"
                                                             alt="alt">
                                                     </figure>
@@ -188,7 +188,7 @@
                                                         <div class="def-number-input number-input safari_only">
                                                             <button class="minus" onclick="QtyUpdate(<?= $id ?>,0)"><i
                                                                     class="icon-minus"></i></button>
-                                                            <input class="quantity" step="1" min="1" max="25"
+                                                            <input class="quantity" step="1" min="1" readonly
                                                                 id="qty<?= $id ?>" name="quantity" type="number"
                                                                 onchange="update_to_cart(<?= $id ?>)" name="qty[]"
                                                                 value="<?php echo e(@$details['quantity']); ?>"
@@ -275,7 +275,7 @@
                                                                     <ul class="list-inline">
                                                                         <?php $__currentLoopData = $details['details']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                             <?php if($index >= 2): ?>
-                                                                                <li class="text-muted small mb-1">- <?php echo e($val); ?></li>
+                                                                                <li class="text-muted small mb-1"> - <?php echo e($val); ?></li>
                                                                             <?php endif; ?>
                                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                     </ul>
@@ -317,7 +317,7 @@
                                                         <div class="def-number-input number-input safari_only">
                                                             <button class="minus" onclick="QtyUpdate(<?= $id ?>,0)"><i
                                                                     class="icon-minus"></i></button>
-                                                            <input class="quantity" step="1" min="1"
+                                                            <input class="quantity" step="1" min="1" readonly
                                                                 id="qty<?= $id ?>" name="quantity" type="number"
                                                                 onchange="update_to_cart(<?= $id ?>)" name="qty[]"
                                                                 value="<?php echo e($details['quantity']); ?>"
@@ -377,7 +377,7 @@
                                                             <div class="def-number-input number-input safari_only">
                                                                 <button class="minus" onclick="QtyUpdate(<?= $id ?>,0)"><i
                                                                         class="icon-minus"></i></button>
-                                                                <input class="quantity" step="1" min="1"
+                                                                <input class="quantity" step="1" min="1" readonly
                                                                     id="qty<?= $id ?>" name="quantity" type="number"
                                                                     onchange="update_to_cart(<?= $id ?>)" name="qty[]"
                                                                     value="<?php echo e($details['quantity']); ?>"
@@ -424,7 +424,7 @@
                         <div class="ps-shopping__row">
                             <div class="ps-shopping__label">Versand</div>
                             <div class="ps-shopping__price text-green">
-                                <?php echo e(formatPrice($shipping_price = shippingCountry()->where('country', @$shipping_country)->pluck('price')->first())); ?>
+                                <?php echo e(formatPrice($shipping_price = shippingCountry()->where('country', @$shipping_country)->where('shipping_id',$shippingClass)->pluck('price')->first())); ?>
 
                             </div>
                         </div>

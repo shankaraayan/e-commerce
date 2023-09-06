@@ -1,3 +1,10 @@
+<?php $__env->startSection('style'); ?>
+<style>
+  tr {
+      cursor: auto!important;
+  }
+</style>
+<?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
 <div class="content-wrapper transition-all duration-150 ltr:ml-[248px] rtl:mr-[248px]" id="content_wrapper">
     <div class="page-content">
@@ -58,6 +65,9 @@
                               Status
                             </th>
                             <th scope="col" class=" table-th ">
+                              Register
+                            </th>
+                            <th scope="col" class=" table-th ">
                                 Action
                             </th>
 
@@ -71,20 +81,27 @@
                                 <td class="table-td"><?php echo e($user->name); ?></td>
                                 <td class="table-td "><?php echo e($user->email); ?></td>
                                 <td class="table-td">
-                                
+                                <?php if($user->email_verified_at): ?>
                                     <span class="badge bg-success-500 text-success-500 bg-opacity-30 capitalize">Active</span>
-                                
-                                    
-                                
+                                <?php else: ?> 
+                                    <span class="badge bg-success-500 text-danger-500 bg-opacity-30 capitalize">In active</span>
+                                <?php endif; ?>
                                 </td>
-
+                                <td class="table-td "><?php echo e(date('d-M-Y',strtotime($user->created_at))); ?></td>
 
                                 <td class="table-td ">
                                 <div class="flex space-x-3 rtl:space-x-reverse">
                                     <a href="view/<?php echo e($user->id); ?>">
-                                    <button class="action-btn" type="button">
-                                        <iconify-icon icon="heroicons:eye"></iconify-icon>
-                                    </button>
+                                        <button class="action-btn" type="button">
+                                            <iconify-icon icon="heroicons:eye"></iconify-icon>
+                                        </button>
+                                    </a>
+                                   
+                                    <a href=""> 
+                                        <button class="bg-blue-500 text-white px-2 py-1 rounded-md text-sm">
+                                            Total Order
+                                            <span class=" top-0 right-0 bg-red-500 text-white px-1 py-1 rounded-full text-xs"><?php echo e($user->orders_count); ?></span>
+                                        </button>
                                     </a>
 
 
@@ -97,8 +114,7 @@
                     </div>
                   </div>
                 </div>
-                <?php echo e($users->links()); ?>
-
+                
               </div>
             </div>
           </div>

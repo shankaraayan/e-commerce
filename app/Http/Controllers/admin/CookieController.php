@@ -12,7 +12,7 @@ class CookieController extends Controller
     {
         $cookieName = 'disclaimer';
         $cookieValue = 'Disclaimer accepted on website.';
-        $cookieDuration = 60*24; //*minutes
+        $cookieDuration = 60*72; //*minutes
 
         // Create a new response with the cookie
         $response = new Response('Cookie set successfully');

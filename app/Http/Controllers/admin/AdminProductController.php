@@ -15,8 +15,10 @@ use App\Models\admin\ProductAttribute;
 use App\Models\admin\ProductTerm;
 use App\Models\Product as ModelsProduct;
 use App\Models\SkuCombination;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
+use Symfony\Contracts\Service\Attribute\Required;
 
 class AdminProductController extends Controller
 {
@@ -35,11 +37,16 @@ class AdminProductController extends Controller
 
     public function store(Request $request)
     {
+        
         $validator = Validator::make($request->all(), [
             'product_name' => 'required',
             'product_description' => 'required',
-            'price' => 'required',
+            'price' => 'required|numeric|min:1',
+            'sale_price' => 'nullable|numeric|min:1',
             'shipping' => 'required',
+            'type' => 'required',
+            'options' => 'required_if:type,variable| min:1 | array',
+            'selectedOption' => 'array|min:1',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -271,6 +278,18 @@ class AdminProductController extends Controller
         
         $feedContent = view('admin.product.feed', ['product' => $product])->render();
         return response($feedContent)->header('Content-Type', 'text/xml');
+    }
+
+    public function shorting_row(Request $request)
+    {
+
+        foreach($request->all() as $input){
+            // $table = $input['table'];
+            // dd($table);
+            DB::table($input['table'])->where('id', $input['row_id'])->update(['serial' => $input['position']]);
+
+        }
+        return true;
     }
 
 }

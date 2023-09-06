@@ -25,6 +25,9 @@ use App\Services\UpdateShipping;
 use App\Services\MinMaxPrice;
 use Illuminate\Http\RedirectResponse;
 use App\Models\admin\Category;
+use App\Http\Requests\CheckoutRequest;
+use App\Models\admin\PaymentGatway;
+use App\Services\PaymentGatway\MolliesPayService;
 
 class FrontendController extends Controller
 {
@@ -50,7 +53,7 @@ class FrontendController extends Controller
         $qty = @$request->quantity;
         if (empty($qty))
             $qty = 1;
-
+            
         $shipping_country = $request->shipping_country ?? country()->where('short_code','DE')->pluck('id')->first();
 
 
@@ -60,6 +63,7 @@ class FrontendController extends Controller
         if (!empty($product)) {
             // for single product
             $cart = session()->get('cart', []);
+            $cartid = $id.rand(11,99);
             if ($product['type'] == 'single') {
                 if (isset($cart[$id])) {
                     if (!empty($qty))
@@ -70,8 +74,9 @@ class FrontendController extends Controller
                     $message = "Product Updated to Cart";
                 } else {
                     $cart[$id] = [
-                        "quantity" => $qty,
                         'product_id' => $id,
+                        'cart_id' =>$id,
+                        "quantity" => $qty,
                         "price" => $product['sale_price'],
                         "images" => $product['thumb_image'],
                         "name" => $product['product_name'],
@@ -88,39 +93,45 @@ class FrontendController extends Controller
                 }
             } else {
 
-                $product_details = @$request->product_details;
-                $decoded_json = json_decode($product_details);
+                // $product_details = @$request->product_details;
+                // $decoded_json = json_decode($product_details);
+                // print_r( $decoded_json);die;
                 $product_price = 0;
                 if (!empty($id)) {
+                   
                     $cart = session()->get('cart', []);
-                    if (isset($cart[$id])) {
-
+                    if (isset($cart[$cartid])) {
+                        
                         if (!empty($qty))
-                            $cart[$id]['quantity'] = $qty;
+                            $cart[$cartid]['quantity'] = $qty;
                         else
-                            $cart[$id]['quantity']++;
+                            $cart[$cartid]['quantity']++;
 
-                        $item_ids = explode(',', @$decoded_json->termIds);
+                        // $item_ids = explode(',', @$decoded_json->termIds);
+                        $item_ids = @$request->product_details;
                         $attributes_price = AttributeTerm::whereIn('id', $item_ids)->sum('price');
                         $details = AttributeTerm::whereIn('id', $item_ids)->pluck('attribute_term_name');
-                        $cart[$id]['attribute_ids'] = $item_ids;
-                        $cart[$id]['details'] = $details;
-                        $cart[$id]['price'] = $product_price + $attributes_price;
-                        $cart[$id]['shipping_country'] = $shipping_country;
-                        $cart[$id]['product_id'] = $id;
-                        $cart[$id]['solar_product'] = $product['solar_product'] ? 'yes' : 'no';
-                        $cart[$id]['shipping_class'] = @$shipping_class;
-                        $cart[$id]['bank_transfer'] = "yes";
-                        $cart[$id]['cart_product_url'] = @$url ? @$url : '';
-                        $cart[$id]["product_availability"] = $product['product_availability'];
+                        $cart[$cartid]['product_id'] = $id;
+                        $cart[$cartid]['cart_id'] = $cartid;
+                        $cart[$cartid]['attribute_ids'] = $item_ids;
+                        $cart[$cartid]['details'] = $details;
+                        $cart[$cartid]['price'] = $product_price + $attributes_price;
+                        $cart[$cartid]['shipping_country'] = $shipping_country;
+                        $cart[$cartid]['solar_product'] = $product['solar_product'] ? 'yes' : 'no';
+                        $cart[$cartid]['shipping_class'] = @$shipping_class;
+                        $cart[$cartid]['bank_transfer'] = "yes";
+                        $cart[$cartid]['cart_product_url'] = @$url ? @$url : '';
+                        $cart[$cartid]["product_availability"] = $product['product_availability'];
                    
                         $message = "Product Updated to Cart";
                     } else {
-                        $item_ids = explode(',', @$decoded_json->termIds);
+                        $item_ids = @$request->product_details;
                         $attributes_price = AttributeTerm::whereIn('id', $item_ids)->sum('price');
                         $details = AttributeTerm::whereIn('id', $item_ids)->pluck('attribute_term_name');
                     
-                        $cart[$id] = [
+                        $cart[$cartid] = [
+                            "product_id" => $id,
+                            "cart_id" => $cartid,
                             "quantity" => $qty,
                             "price" => $product_price + $attributes_price,
                             "details" => $details,
@@ -130,13 +141,11 @@ class FrontendController extends Controller
                             "slug" => $product['slug'],
                             "type" => 'variable',
                             "shipping_country" => $shipping_country,
-                            "product_id" => $id,
                             "shipping_class" => @$shipping_class,
                             "solar_product" => @$product['solar_product'] ? 'yes' :'no',
                             "bank_transfer" => "yes",
                             "cart_product_url" => isset($url) ? $url : '',
                             "product_availability" => $product['product_availability']
-
                         ];
                         $message = "Product Added to Cart";
                     }
@@ -224,7 +233,6 @@ class FrontendController extends Controller
                 Cart::where('cart_id',$request->id)->delete();
             }
         }
-        // return view('elements.cart_data');
 
         $cartData = view('elements.cart_data')->render();
     
@@ -252,33 +260,20 @@ class FrontendController extends Controller
 
     public function get_checkout(Request $request)
     {
-
-        return view('pages.checkout');
+        // dd(session('cart'));
+        $userAddress = '';
+        if(auth()->user()){
+            $userAddress = getUserDefaultAddress();
+        }
+        $paymentGatway = PaymentGatway::where('status',1)->get();
+        return view('pages.checkout',compact('userAddress','paymentGatway'));
     }
 
     
-    public function checkout(Request $request)
+    public function checkout(CheckoutRequest $request)
     {
-  
-        $validator = Validator::make($request->all(), [
-            'fullname' => 'required',
-            'email' => 'required',
-            'billing_address1' => 'required',
-            'city' => 'required',
-            'phone_number' => 'required',
-            'country'=>'required',
-            'postal_code' => 'required',
-            'payment_method'=>'required',
-             'agree-faq' => 'required',
-
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
+       
         if(!auth()->user()){
-
             if(User::where('email',$request->email)->exists()) return redirect()->back()->with('error',"Please Login Your Account")->withInput();
             $user = new User;
             $user->email = $request->email;
@@ -295,6 +290,8 @@ class FrontendController extends Controller
                 $details['data'] = $verificationLink;
                 Mail::to($details['email'])->send(new MyTestMail($details));
         }
+
+      
 
         $data = [];
         $order_data=[];
@@ -318,23 +315,26 @@ class FrontendController extends Controller
         $shipping_details['shipping_phone_number'] = @$request->shipping_phone_number;
         $shipping_details['shipping_country'] = @$request->shipping_country;
         $shipping_details['shipping_postal_code'] = @$request->shipping_postal_code;
-        // $order_id = md5(rand(10, 100000));
-        $transaction_id = mt_rand(1000000000, 9999999999);
+
+        // $transaction_id = mt_rand(1000000000, 9999999999);
         $order_id = mt_rand(10000000, 99999999);
 
-        $order->status = 'In-Progress';
+        $order->status = 'on-hold';
+        if ($request->payment_method === "KaufaufRechnung") {
+            $order->status = 'in-proccess';
+        }
         $order->billing_details = json_encode($billing_details);
         $order->shipping_address = json_encode($shipping_details);
         $order->product_details = $this->find_product_details();
         $order->payment_method = @$request->payment_method;
         
         $order->order_id = $order_id ;
-        $order->transaction_id = $transaction_id ;
+        $order->transaction_id = Null;
 
         $orderArray = (json_decode($order->product_details,true));
-
         $shipping_data = (end($orderArray));
-
+        // dd($this->find_product_details());
+        
         if (@auth()->user()->id) {
             $order->user_id = @auth()->user()->id;
             $order->user_type = 'auth';
@@ -343,14 +343,14 @@ class FrontendController extends Controller
             $order->user_type = 'guest';
         }
         $order_data['name'] = $request->fullname;
-        $order_data['status'] =  'In-Progress';
+        $order_data['status'] =  'on-hold';
         $order_data['shipping_address'] = json_encode($shipping_details);
         $order_data['billing_details'] = json_encode($billing_details);
         $order_data['payment_method'] =  @$request->payment_method;
         $order_data['final_payment'] =  @$request->token_price;
         $order_data['product_details'] = $this->find_product_details();
         $order_data['order_id'] = $order_id;
-        $order_data['transaction_id'] = $transaction_id;
+        $order_data['transaction_id'] = null;
         $order_data['shipping_price'] = $shipping_data['shipping_price'];
         $order->save();
         
@@ -361,12 +361,77 @@ class FrontendController extends Controller
         $details['data'] = $order_data;
         $data = $order_data;
         
-        if ($request->payment_method === "paypal") {
+        if ($request->payment_method === "PayPal") {
             return (new PaypalService)->payment($order,$order_data,$details);
         }
+        if ($request->payment_method === "Mollie") {
+            return (new MolliesPayService)->CreatePayment($order,$order_data,$details);
+        }
+
         $this->OrderProccess($order,$order_data,$details);
         $orderUrl = route('order_confirmation', ['id' => $order['order_id'] ]);
         return redirect($orderUrl)->with('success', 'Thanks for the Order');
+    }
+
+  
+    public function find_product_details()
+    {
+        if (session('cart')) {
+            $all_product_details = [];
+            foreach (session('cart') as $id => $details) {
+                $attribute_price = 0;
+                $product = Product::Find($details['product_id']);
+                if (!empty($product)) {
+
+                    if ($product['type'] == 'variable') {
+                        $attributes_price = AttributeTerm::whereIn('id', @$details['attribute_ids'])->sum('price');
+                        $attributes_terms = AttributeTerm::whereIn('id', @$details['attribute_ids'])->get();
+
+                        if (!empty($attributes_terms)) {
+                            $attributes_all = [];
+                            foreach ($attributes_terms as $key => $value) {
+                                $attributes['attribute_id'] = $value['id'];
+                                $attributes['attribute_term_name'] = $value['attribute_term_name'];
+                                $attributes['price'] = $value['price'];
+                                $attributes['attribute_term_description'] = $value['attribute_term_description'];
+                                $attributes['attribute_type'] = $value['attribute_type'];
+                                $attributes['attribute_image'] = $value['image'];
+                                $attributes['attribute_wh_range'] = $value['wh_range'];
+                                $attributes_all[] = $attributes;
+
+                                ((new UpdateQuantity)->reduceQuantity($value->sku, 1));
+                            }
+                            $product_details['attribute_terms'] = $attributes_all;
+                        }
+                    }
+                    if(isset($details['discount'])){
+                        $product_details['discount'] = $details['discount'];
+                    }
+                    $tax = getTaxCountry((int)$details['shipping_country']);
+                    $product_details['vat_tax'] = $tax['vat_tax'];
+                    $product_details['tax_price'] = @$details['price'] * $tax['vat_tax'] /100 ;
+                    $product_details['product_id'] = $product['id'];
+                    $product_details['product_name'] = $product['product_name'];
+                    $product_details['quantity'] = $details['quantity'];
+                    $product_details['price'] = $details['price'];
+                    $product_details['thumb_image'] = $product['thumb_image'];
+                    $product_details['slug'] = $product['slug'];
+                    $product_details['type'] = $product['type'];
+                    $product_details['sku'] = $product['sku'];
+                    $product_details['bank_transfer'] = $details['bank_transfer'];
+                    $product_details['solar_product'] = $product['solar_product'] ? 'yes' : 'no';
+                    $product_details['total_price'] = ($attribute_price + $details['price']) * $details['quantity'];
+                    $product_details['shipping_country'] = $details['shipping_country'];
+                    $product_details['shipping_price'] = shippingCountry()->where('country',$details['shipping_country'])->where('shipping_id',$details['shipping_class'])->pluck('price')->first();
+                    $product_details['price_with_tax'] = $details['price_with_tax'] ?? ($product_details['price'] + $product_details['tax_price']);
+                    ((new UpdateQuantity)->reduceQuantity($product->sku, $product_details['quantity']));
+                    $all_product_details[] = $product_details;
+                }
+            }
+
+            return json_encode($all_product_details);
+        }
+        return false;
     }
 
     public function OrderProccess($order,$order_data,$mailDetails){
@@ -418,74 +483,7 @@ class FrontendController extends Controller
     }
 
 
-    // order save json product_details with component
-    public function find_product_details()
-    {
-    
-        if (session('cart')) {
 
-            $all_product_details = [];
-            foreach (session('cart') as $id => $details) {
-
-                $attribute_price = 0;
-                $product = Product::Find($id);
-                if (!empty($product)) {
-                    if ($product['type'] == 'variable') {
-                        $attributes_price = AttributeTerm::whereIn('id', @$details['attribute_ids'])->sum('price');
-                        $attributes_terms = AttributeTerm::whereIn('id', @$details['attribute_ids'])->get();
-
-                        if (!empty($attributes_terms)) {
-                            $attributes_all = [];
-                            foreach ($attributes_terms as $key => $value) {
-                                $attributes['attribute_id'] = $value['id'];
-                                $attributes['attribute_term_name'] = $value['attribute_term_name'];
-                                $attributes['price'] = $value['price'];
-                                $attributes['attribute_term_description'] = $value['attribute_term_description'];
-                                $attributes['attribute_type'] = $value['attribute_type'];
-                                $attributes['attribute_image'] = $value['image'];
-                                $attributes['attribute_wh_range'] = $value['wh_range'];
-                                $attributes_all[] = $attributes;
-
-                                ((new UpdateQuantity)->reduceQuantity($value->sku, 1));
-                            }
-                            $product_details['attribute_terms'] = $attributes_all;
-                        }
-                    }
-                    if(isset($details['discount'])){
-                        $product_details['discount'] = $details['discount'];
-                    }
-                    $tax = getTaxCountry((int)$details['shipping_country']);
-                    $product_details['vat_tax'] = $tax['vat_tax'];
-                    $product_details['tax_price'] = @$details['price'] * $tax['vat_tax'] /100 ;
-
-                    $product_details['product_id'] = $product['id'];
-                    $product_details['product_name'] = $product['product_name'];
-                    $product_details['quantity'] = $details['quantity'];
-                    $product_details['price'] = $details['price'];
-                    $product_details['thumb_image'] = $product['thumb_image'];
-                    $product_details['slug'] = $product['slug'];
-                    $product_details['type'] = $product['type'];
-                    $product_details['sku'] = $product['sku'];
-                    $product_details['bank_transfer'] = $details['bank_transfer'];
-                    $product_details['solar_product'] = $product['solar_product'] ? 'yes' : 'no';
-                    $product_details['total_price'] = ($attribute_price + $details['price']) * $details['quantity'];
-                    $product_details['shipping_country'] = $details['shipping_country'];
-                    $product_details['shipping_price'] = shippingCountry()->where('country',$details['shipping_country'])->pluck('price')->first();
-                  
-                    $product_details['price_with_tax'] = $details['price_with_tax'] ?? ($product_details['price'] + $product_details['tax_price']);
-                    // dd($product_details['quantity']);
-                    ((new UpdateQuantity)->reduceQuantity($product->sku, $product_details['quantity']));
-
-                    $all_product_details[] = $product_details;
-                }
-            }
-            // dd($all_product_details);
-            return json_encode($all_product_details);
-        }
-        return false;
-    }
-
-    // find similar products
     public function getRandomProductFromSameCategory($productId)
     {
         $product = Product::findOrFail($productId);
@@ -505,7 +503,6 @@ class FrontendController extends Controller
             $price = new MinMaxPrice();
             
             foreach($randomProduct as $product){
-
                 if($product['type']=="variable"){
                     $response = $price->minmaxPrice(explode(',', $product->attributes_id));
                     $product['sum_of_max_prices'] = $response['sum_of_max_prices'];
@@ -516,11 +513,9 @@ class FrontendController extends Controller
                     $product['category_name'] = $category_name;
                     $all_product [] = $product;
                 }
-                
             }
         return response()->json($all_product);
     }
-
 
     public function threePercentDiscount(Request $request) {
         
@@ -539,7 +534,7 @@ class FrontendController extends Controller
           
             foreach($cart as $item){
                 
-                 $cart[$item["product_id"]]["bank_transfer"] = "yes";
+                 $cart[$item["cart_id"]]["bank_transfer"] = "yes";
             }
             session()->put("cart", $cart);
          }
@@ -554,7 +549,7 @@ class FrontendController extends Controller
           
             foreach($cart as $item){
                 
-                 $cart[$item["product_id"]]["bank_transfer"] = "no";
+                 $cart[$item["cart_id"]]["bank_transfer"] = "no";
             }
             session()->put("cart", $cart);
          }
@@ -577,6 +572,12 @@ public function userCheck(Request $request)
         return "not";
     }
 
+}
+
+public function subscribe_email()
+{
+    // $request->session()->flash('success', 'Login successfully');
+    return redirect()->back()->with('success',"Email Subscribed Successfully");
 }
 
     

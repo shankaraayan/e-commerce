@@ -1,11 +1,11 @@
 <?php $__env->startSection('content'); ?>
+
+
+
 <div class="content-wrapper transition-all duration-150 ltr:ml-[248px] rtl:mr-[248px]" id="content_wrapper">
     <div class="page-content">
       <div class="transition-all duration-150 container-fluid" id="page_layout">
         <div id="content_layout">
-
-
-
 
           <!-- BEGIN: Breadcrumb -->
           <div class="mb-5">
@@ -41,12 +41,15 @@
                   <span class="  col-span-4 hidden"></span>
                   <div class="inline-block min-w-full align-middle">
                     <div class="overflow-hidden ">
-                      <table class="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700 data-table">
+                      <table id="shorting-table" class="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700 data-table">
                         <thead class=" bg-slate-200 dark:bg-slate-700">
                           <tr>
 
                             <th scope="col" class=" table-th ">
                               Id
+                            </th>
+                            <th scope="col" class=" table-th ">
+                              Serial
                             </th>
 
                             <th scope="col" class=" table-th ">
@@ -72,54 +75,56 @@
                           </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
-                        <?php $__currentLoopData = $category; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$values): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                          <tr>
-                            <td class="table-td"><?php echo e(++$key); ?></td>
-                            <td class="table-td "><?php echo e($values->name); ?></td>
-                            <td class="table-td "><?php echo e($values->slug); ?></td>
-                            <td class="table-td "><?php echo e($values->where('id',$values->parent_id)->pluck('name')->first() ?? 'Null'); ?></td>
-                            <td class="table-td "><?php echo e($values->description); ?></td>
-                            <td class="table-td ">
-                                <img width="100" src="<?php echo e(asset('root/public/uploads/category/'.$values->image)); ?>" />
-                            </td>
-                            <td class="table-td ">
-                              <div class="flex space-x-3 rtl:space-x-reverse">
-                              <!-- <a href="#">
-                                  <button class="action-btn" type="button">
-                                    <iconify-icon icon="heroicons:eye"></iconify-icon>
-                                  </button>
-                              </a> -->
-                              <a href="<?php echo e(route('admin.category.edit',$values->id)); ?>">
-                                  <button class="action-btn" type="button">
-                                    <iconify-icon icon="heroicons:pencil-square"></iconify-icon>
-                                  </button>
-                              </a>
-                                <a href="<?php echo e(route('admin.category.delete',$values->id)); ?>">
-                                  <button class="action-btn" type="button">
-                                    <iconify-icon icon="heroicons:trash"></iconify-icon>
-                                  </button>
-                                </a>
+                                <?php $__currentLoopData = $category; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$values): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <tr data-id="<?php echo e($values->id); ?>" id="row_1"  data-name="categories" >
+                                    <td class="table-td"><?php echo e(++$key); ?></td>
+                                    <td class="table-td ">
+                                        
+                                       <?php echo e($values->serial); ?>
 
-                              </div>
-                            </td>
+                                    </td>
+                                    <td class="table-td "><?php echo e($values->name); ?></td>
+                                    <td class="table-td "><?php echo e($values->slug); ?></td>
+                                    <td class="table-td "><?php echo e($values->where('id',$values->parent_id)->pluck('name')->first() ?? 'Null'); ?></td>
+                                    <td class="table-td "><?php echo e($values->description); ?></td>
+                                    <td class="table-td ">
+                                        <img width="100" src="<?php echo e(asset('root/public/uploads/category/'.$values->image)); ?>" />
+                                    </td>
+                                    <td class="table-td ">
+                                    <div class="flex space-x-3 rtl:space-x-reverse">
+                                    <a href="<?php echo e(route('admin.category.edit',$values->id)); ?>">
+                                        <button class="action-btn" type="button">
+                                            <iconify-icon icon="heroicons:pencil-square"></iconify-icon>
+                                        </button>
+                                    </a>
+                                        <a href="<?php echo e(route('admin.category.delete',$values->id)); ?>">
+                                        <button class="action-btn" type="button">
+                                            <iconify-icon icon="heroicons:trash"></iconify-icon>
+                                        </button>
+                                        </a>
+
+                                    </div>
+                                    </td>
 
 
-                          </tr>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                </tr>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                           
                         </tbody>
                     </table>
                 </div>
+               
             </div>
         </div>
     </div>
 </div>
-<?php echo e($category->links()); ?>
 
 </div>
 </div>
 </div>
 </div>
 </div>
+
 
   <?php $__env->stopSection(); ?>
 

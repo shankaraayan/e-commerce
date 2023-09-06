@@ -92,7 +92,7 @@
                                 <div class="filegroup">
                                     <label>
                                       <span class="text-secondary-900 text-sm leading-6 capitalize">Phone Banner</span>
-                                        <input name="phone" type="file" class=" w-full hidden"  required>
+                                        <input name="phone" type="file" class=" w-full hidden"  >
                                         <span class="w-full h-[40px] file-control flex items-center custom-class">
                                         <span class="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
                                         <span class="text-slate-400">Choose a file or drop it here...</span>
@@ -106,7 +106,7 @@
                                 <div class="filegroup">
                                     <label>
                                       <span class="text-secondary-900 text-sm leading-6 capitalize">Desktop Banner</span>
-                                        <input name="desktop" type="file" class=" w-full hidden"  required>
+                                        <input name="desktop" type="file" class=" w-full hidden"  >
                                         <span class="w-full h-[40px] file-control flex items-center custom-class">
                                         <span class="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
                                         <span class="text-slate-400">Choose a file or drop it here...</span>

@@ -10,12 +10,19 @@ use App\Models\admin\Slider;
 use App\Models\admin\Category;
 use App\Models\admin\Order;
 use Illuminate\Support\Facades\DB;
+use Ramsey\Uuid\Type\Integer;
 
 class ProductController extends Controller
 {
 
     public function productDetail($category = null, $slug = null, Request $request)
     {
+        $intValue = intval($category);
+        if (is_int($intValue) && $intValue > 0)
+        {
+            $category = SingleCategory($category);
+
+        }
         if (!empty($request->all())) {
             $terms = $request->all();
             $components = [];
@@ -27,7 +34,7 @@ class ProductController extends Controller
                 
                 $components = AttributeTerm::whereIn('id', $termIds)
                     ->orderByRaw(DB::raw("FIELD(id, " . implode(',', $termIds) . ")"))
-                    ->get();
+                    ->orderBy('serial','ASC')->get();
             }
             
             if($request->page){
@@ -51,11 +58,11 @@ class ProductController extends Controller
             $products = Product::where('slug','<>',$slug)->get();
            
             $attributes = Attribute::with(['attributeTerms' => function ($query) use ($attributeTermsIds) {
-                $query->whereIn('id', $attributeTermsIds);
+                $query->whereIn('id', $attributeTermsIds)->orderBy('serial','ASC');
             }])
             ->whereIn('id', $attributeIds)
             ->whereHas('attributeTerms', function ($query) use ($attributeTermsIds) {
-                $query->whereIn('id', $attributeTermsIds);
+                $query->whereIn('id', $attributeTermsIds)->orderBy('serial','ASC');
             })
             ->get();
             
@@ -107,7 +114,7 @@ class ProductController extends Controller
     
         $featuredProducts = Product::with('images')->where('featured',1)->get();
         $easyProducts = Product::with('images')->where('easy_peak_power',1)->get();
-        $sliders = Slider::where('global_banner', '!=','1')->get();
+        $sliders = Slider::where('global_banner', '!=','1')->orderBy('serial','ASC')->get();
         
         return view('pages.homepage', compact('bestSellingProducts','featuredProducts','easyProducts','sliders'));
     }
@@ -123,21 +130,30 @@ class ProductController extends Controller
         $getpanel = AttributeTerm::find($request->id);
         $panglwh = $getpanel->attribute_term_kWh_name;
 
-        $attributeTerms = AttributeTerm::where('attributes_id', $getpanel->attributes_id)->pluck('id')->toArray();
+        // $attributeTerms = AttributeTerm::where('attributes_id', $getpanel->attributes_id)->pluck('id')->orderBy('serial','ASC')->toArray();
 
       
+        // $absdk = AttributeTerm::select('*')
+        // ->whereRaw("FIND_IN_SET('$panglwh', wh_range) > 0")
+        // ->orderBy('serial','ASC')
+        // ->get();
+
+        // foreach($absdk as $terms){
+        //     if(in_array($terms->id,$productTerms)){
+        //         $attribute[$terms->id] = $terms;
+        //     }
+        // } 
+
         $absdk = AttributeTerm::select('*')
         ->whereRaw("FIND_IN_SET('$panglwh', wh_range) > 0")
+        ->orderBy('serial', 'ASC')
         ->get();
 
-
-        
-        foreach($absdk as $terms){
-            if(in_array($terms->id,$productTerms)){
+        foreach ($absdk as $terms) {
+            if (in_array($terms->id, $productTerms)) {
                 $attribute[$terms->id] = $terms;
             }
-        } 
-
+        }
 
         $data = [];
 
@@ -188,8 +204,10 @@ class ProductController extends Controller
     function getSku(Request $request)
     {
         $combinations = ($request->sku);
+        // dd($request->sku);
         $url = $request->url;
         $data = reset($combinations);
+        
         foreach ($data as $key => $value) {
             $data[$key] = intval($value);
         }

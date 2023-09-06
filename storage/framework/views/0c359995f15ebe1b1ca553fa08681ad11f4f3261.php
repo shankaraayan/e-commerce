@@ -97,16 +97,16 @@
                         A-230, Vaishali Nagar
                         Near National Handloom,<br>
                         Jaipur, 302021, Rajasthan, India<br>
-                        Mobile: +91-9549-1234-23<br>
-                        Office: +91-9982902896<br>
-                        Email: contact@epp.solar
+                        Mobile: <a href="tel:+919549123423">+91-9549-1234-23</a><br>
+                        Office: <a href="tel:+919982902896">+91-9982902896</a><br>
+                        Email: <a href="mailto:contact@epp.solar">contact@epp.solar<a>
                     </p>
                     <h5 class="text-white fs-4 mt-5">Niederlassung Deutschland</h5>
                     <p class="text-white">EPP Energy Peak Power GmbH<br>Neuer Wall 50,<br>20354 Hamburg<br>Amtsgericht:
                         Hamburg<br>Handelsregister: HRB 172852</p>
                     <h5 class="text-white fs-4 mt-5">Vertreten durch</h5>
-                    <p class="text-white">Patrick Willemer<br>Kontakt<br>Telefon : +49 541 96251000 <small>(Montag Bis Freitag : 10:00
-                            – 12:30 &amp; 14:00 – 17:00)</small><br>E-Mail: contact@epp.solar</p>
+                    <p class="text-white">Patrick Willemer<br>Kontakt<br>Telefon :<a href="tel:+4954196251000"> +49 541 96251000 </a><small>(Montag Bis Freitag : 10:00
+                            – 12:30 &amp; 14:00 – 17:00)</small><br>E-Mail: <a href="mailto:contact@epp.solar">contact@epp.solar</a></p>
                     <h5 class="text-white fs-4 mt-5">Umsatzsteuer-ID</h5>
                     <p class="text-white">Umsatzsteuer-Identifikationsnummer gemäß § 27 a<br>Umsatzsteuergesetz: DE349116856</p>
                     <h5 class="text-white fs-4 mt-5">Zentral-Lager Deutschland</h5>

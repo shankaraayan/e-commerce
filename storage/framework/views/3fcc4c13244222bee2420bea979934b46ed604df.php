@@ -25,8 +25,7 @@
 
 <?php $__currentLoopData = $category; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 <a href="<?php echo e(route('shop', [$key])); ?>">
-    <?php echo e($category); ?>
-
+    <?php echo e($category); ?>,
 </a>
 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 <?php /**PATH /home/customstegpearl/public_html/root/resources/views/components/category-list.blade.php ENDPATH**/ ?>

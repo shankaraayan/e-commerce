@@ -108,7 +108,7 @@ class CouponController extends Controller
             }
             
             foreach ($cart as &$item) {
-                if (isset($item['product_id'])) {
+                if (isset($item['cart_id'])) {
                     $coupon_data =  $item['discount'] = [
                         'code' => $coupon->code,
                         'type' => $coupon->appliable_on,
@@ -136,7 +136,7 @@ class CouponController extends Controller
         $cart = session()->get('cart', []);
     
         foreach ($cart as $index => $item) {
-            if (isset($item['product_id'])) {
+            if (isset($item["cart_id"])) {
                 $cart[$index]['discount'] = [
                     'code' => null,
                     'type' => null,
@@ -147,47 +147,14 @@ class CouponController extends Controller
     
         session()->put('cart', $cart);
     
-        // $shippingCountry = end($cart);
-    
-        // $cart_items = [];
-        // $subtotal = 0;
-        // foreach ($cart as $index => $item) {
-
-        //     $tax = getTaxCountry((int) $shippingCountry['shipping_country']);
-        //     if (empty($tax)) {
-        //         $tax['vat_tax'] = 0;
-        //     }
-    
-        //     if ($item['solar_product'] == "yes") {
-        //         if ($tax['short_code'] == 'DE') {
-        //             $tax['vat_tax'] = 0;
-        //         }
-        //     }
-        //     $item['price_with_tax'] = formatPrice( ($item['price']*$item['quantity'] + ($item['price'] * $tax['vat_tax'] /100 * $item['quantity'])));
-        //     $subtotal += ($item['price'] * $item['quantity'] + ($item['price'] * $tax['vat_tax'] / 100 * $item['quantity']));
-        //     $cart[$index]['price_with_tax'] = formatPrice(($item['price'] * $item['quantity'] + $item['price'] * $tax['vat_tax'] / 100 * $item['quantity']));
-        //     array_push($cart_items,$item);
-        // }
-    
-        // $shipping_price = shippingCountry()->where('country', $shippingCountry['shipping_country'])->pluck('price')->first();
-    
-        // $total = ($subtotal + $shipping_price);
-        // $data = [
-        //     'subtotal' => formatPrice($subtotal),
-        //     'cart' => $cart_items,
-        //     'shipping_price' => formatPrice($shipping_price),
-        //     'total' => formatPrice($total),
-        // ];
-    
-        // $response = ['message' => 'Coupon removed!', 'status' => 'success', "data" => $data];
-    
-        // return response()->json($response);
+        
         
             $shipping = new UpdateShipping ;
             $response = $shipping->update($request);
             
             $response['message'] = 'Coupon removed!';
             $response['status'] = 'success';
+            
             return response()->json($response);
     }
     

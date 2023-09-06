@@ -57,7 +57,7 @@
                         <div class="row m-0 no-gutters" id="responseContainer">
                             @if(!empty(@$catalog))
                                 @foreach($catalog as $product)
-                                    <div class="col-12 col-lg-4">
+                                    <div class="col-lg-4 col-md-6 col-sm-6 col-12">
                                         <div class="ps-product ps-product--standard">
                                             <div class="ps-product__thumbnail"><a class="ps-product__image" href="{{route('shop',$product->slug)}}">
                                                     <figure>

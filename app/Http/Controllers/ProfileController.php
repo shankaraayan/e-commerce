@@ -53,6 +53,9 @@ class ProfileController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'phone'=>'required'
+        ],[
+            'name.required' => 'Der Name ist erforderlich.',
+            'phone.required' => 'Die Telefonnummer ist erforderlich.'
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -71,6 +74,11 @@ class ProfileController extends Controller
         $validator = Validator::make($request->all(), [
             'new_passwrod' => 'required|min:8|same:confirm_password',
             'confirm_password'=>'required'
+        ],[
+            'new_password.required' => 'Das neue Passwort ist erforderlich.',
+            'new_password.min' => 'Das neue Passwort muss mindestens 8 Zeichen lang sein.',
+            'new_password.same' => 'Das neue Passwort stimmt nicht mit der Bestätigung überein.',
+            'confirm_password.required' => 'Die Passwort-Bestätigung ist erforderlich.'
         ]);
 
         if ($validator->fails()) {
@@ -78,7 +86,6 @@ class ProfileController extends Controller
         }
          $user = Auth::user();
          $user->password = Hash::make($request->input('new_password'));
-         $user->save();
          $user->save();
          $request->session()->flash('success', 'password updated successfullly');
          return redirect()->route('user.account')->with('sucess','password updated successfullly');
@@ -97,6 +104,15 @@ class ProfileController extends Controller
             'city' => 'required',
             'phone' => 'required',
             'email' => 'required'
+        ],[
+            'fullname.required' => 'Der vollständige Name ist erforderlich.',
+            'country.required' => 'Das Land ist erforderlich.',
+            'street.required' => 'Die Straße ist erforderlich.',
+            'pincode.required' => 'Die Postleitzahl ist erforderlich.',
+            'apartment.required' => 'Die Apartmentnummer ist erforderlich.',
+            'city.required' => 'Die Stadt ist erforderlich.',
+            'phone.required' => 'Die Telefonnummer ist erforderlich.',
+            'email.required' => 'Die E-Mail-Adresse ist erforderlich.'
         ]);
 
         if ($validator->fails()) {
@@ -107,6 +123,7 @@ class ProfileController extends Controller
             }else if($request->address_type =="delivery"){
                 $error_type = $request->address_type;
             }
+            
            return redirect()->back()->with('address_error_type',$error_type)->withErrors($validator)->withInput();
         }
 

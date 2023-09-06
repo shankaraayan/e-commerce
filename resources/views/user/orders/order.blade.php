@@ -14,13 +14,15 @@
                 </tr>
             </thead>
             <tbody>
-
+                {{-- @dd($orders); --}}
                 @if(!empty($orders))
                     @foreach($orders as $order)
 
                     @php
                         $result = (json_decode($order['product_details'],true));
                         $shipping_data = (end($result));
+                        $discount = (end($result));
+                        $bank_transfer = (end($result));
                         $total = 0;
                         foreach($result as $product){
                             $tax = getTaxCountry((int)$product['shipping_country']);
@@ -36,8 +38,20 @@
                             }
                             $total+=($product['price']*$product['quantity'] + (@$product['price'] * $tax['vat_tax'] /100 * @$product['quantity']) );
                         }
-                        $finalPrice = $total + $shipping_data['shipping_price'];
 
+                        if(isset($discount['discount']) && $discount['discount']['type'] == 'flat'){
+                            $total =  $total - $discount['discount']['discount_value'];
+                        }
+                        elseif(isset($discount['discount']) && $discount['discount']['type'] == 'Percentage'){       
+                                $total = $total- ($total * $discount['discount']['discount_value'] / 100 );
+                        }
+                        if($bank_transfer['bank_transfer']==="yes"){
+                            $bank_dis = ($total+$shipping_data['shipping_price'])*3/100;
+                            $finalPrice = ($total+$product['shipping_price'])-$bank_dis;
+                        }else{
+                            $finalPrice = $total + $shipping_data['shipping_price'];
+                        }
+                                   
                     @endphp
 
                         <tr style="vertical-align: middle;">

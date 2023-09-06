@@ -62,7 +62,7 @@ class ShopController extends Controller
             $products = $products->orderBy('price','DESC');
         }
         if(isset($request->shortBy) && $request->shortBy === 'low_to_high'){
-            $products = $products->orderBy('price','ASC');
+            $products = $products->where('type','single')->orderBy('price','ASC');
         }
         if(isset($request->shortBy) && $request->shortBy === 'popularity'){
             $products =  $products->where('best_selling',1);

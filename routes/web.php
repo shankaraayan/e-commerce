@@ -164,10 +164,9 @@ Route::name('admin.coupon.')->prefix('admin/coupon/')->middleware('isAdmin')->gr
 Route::name('admin.users.')->prefix('admin/users/')->middleware('isAdmin')->group(function () {
     Route::get('list', [UsersController::class, 'index'])->name('list');
     Route::get('view/{id}', [UsersController::class, 'view_user'])->name('view');
-    // Route::get('add', [UsersController::class, 'add'])->name('add');
+    Route::get('order_list/{id}', [UsersController::class, 'order_list'])->name('order_list');
     // Route::post('update/{id}', [UsersController::class, 'update'])->name('update');
     // Route::get('delete/{id}', [UsersController::class, 'delete'])->name('delete');
-
 });
 
 
@@ -194,7 +193,6 @@ Route::name('admin.shipping.country.')->prefix('admin/shipping/country')->middle
 
 });
 
-
 Route::name('admin.product.')->prefix('admin/product/')->middleware('isAdmin')->group(function () {
     Route::get('list', [AdminProductController::class, 'index'])->name('list');
     Route::get('add', [AdminProductController::class, 'add'])->name('add');
@@ -204,7 +202,7 @@ Route::name('admin.product.')->prefix('admin/product/')->middleware('isAdmin')->
     Route::get('edit/{id}', [AdminProductController::class, 'edit'])->name('edit');
     Route::get('delete/{id}', [AdminProductController::class, 'delete'])->name('delete');
 });
-Route::get('product-feed/{slug}', [AdminProductController::class, 'generateProductFeed'])->name('feed');
+Route::get('product-feed/{slug}.xml', [AdminProductController::class, 'generateProductFeed'])->name('feed');
 // public routes
 
 Route::get('/products', function () {
@@ -328,5 +326,9 @@ Route::post('ajax-test', function(){
 Route::post('user-check',[FrontendController::class,'userCheck']);
 
 Route::post('sku-fetch',[ProductController::class,'getSku']);
+Route::post('update-row-positions',[AdminProductController::class,'shorting_row']);
+Route::post('subscribe-email',[FrontendController::class,'subscribe_email']);
+
+
 
 

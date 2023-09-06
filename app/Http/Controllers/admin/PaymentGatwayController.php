@@ -6,8 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\FrontendController;
 use Illuminate\Http\Request;
 use App\Models\admin\PaymentGatway;
+use App\Models\MollieTransaction;
+use App\Models\Order;
 use App\Services\PaymentGatway\MolliesPayService;
 use App\Services\PaymentGatway\PaypalService;
+use Mollie\Laravel\Facades\Mollie;
+use Srmklive\PayPal\Services\PayPal;
 
 class PaymentGatwayController extends Controller
 {
@@ -86,7 +90,19 @@ class PaymentGatwayController extends Controller
         // return view('pages.payment-success');
     }
 
-    public function cancel(){
+    public function cancel(Request $request)
+    {
+        $provider = new PayPal;
+        $provider->setApiCredentials(config('paypal'));
+        $provider->getAccessToken();
+        $response = $provider->capturePaymentOrder($request['token']);
+        $paymentData = session('paypal_payment_data');
+        Order::where('order_id',$paymentData['order_data']['order_id'])->update([
+            'payment_id' => null,
+            'payment_status' => 'failed',
+            'transaction_id' => null,
+            'status' => "failed"
+        ]);
         return view('pages.payment-cencel');
     }    
    
@@ -95,14 +111,41 @@ class PaymentGatwayController extends Controller
     }
     
 
-    public function molliesPayCreate()
-    {
-        $response = (new MolliesPayService)->CreatePayment();
-        return $response;
-    }
+    // public function molliesPayCreate()
+    // {
+    //     $response = (new MolliesPayService)->CreatePayment();
+    //     return $response;
+    // }
 
-    public function molliesPaySuccess(){
-        echo 'payment has been received';
+    public function molliesPaySuccess(Request $req)
+    {
+        $paymentData = session('mollie_payment_data');
+        
+        Mollie::api()->setApiKey('test_7wqahzQJ4f5mwhWKKbvaxymp3eqETR');
+        
+        $response = Mollie::api()->payments()->get($paymentData['payment_id']);
+        
+
+        $paypal = new MollieTransaction();
+        $paypal->transaction_id = $response->id;
+        $paypal->status = $response->status;
+        $paypal->payment_source = $response->details;
+        $paypal->purchase_units = null;
+        $paypal->payer = $response->profileId;
+        $paypal->order_id = $paymentData['order']['order_id'];
+        $paypal->save();
+
+        (new FrontendController)->OrderProccess($paymentData['order'],$paymentData['order_data'],$paymentData['details']);
+
+        Order::where('order_id',$paymentData['order']['order_id'])->update([
+            'payment_id' => $response->id,
+            'payment_status' => $response->status,
+            'transaction_id' => null,
+            'status' => 'in-proccess'
+        ]);
+
+        $orderUrl = route('order_confirmation', ['id' => $paymentData['order']['order_id'] ]);
+        return redirect($orderUrl)->with('success', 'Thanks for the Order');
     }
 
 

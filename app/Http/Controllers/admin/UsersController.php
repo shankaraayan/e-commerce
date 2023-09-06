@@ -11,7 +11,11 @@ class UsersController extends Controller
 {
 
     public function index(){
-        $users = User::paginate(10);
+        $users = User::
+        withCount(['orders'])
+        ->get();
+
+        // dd($users);
         return view('admin.users.view',compact('users'));
     }
 
@@ -20,4 +24,9 @@ class UsersController extends Controller
         $user = User::find($id);
         return view('admin.users.view-user', compact('user'));
     }
+
+    public function order_list($id){
+        return "men at work";
+    }
+
 }

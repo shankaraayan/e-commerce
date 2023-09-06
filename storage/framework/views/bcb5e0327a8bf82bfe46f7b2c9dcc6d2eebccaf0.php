@@ -38,12 +38,15 @@
                   <span class="  col-span-4 hidden"></span>
                   <div class="inline-block min-w-full align-middle">
                     <div class="overflow-hidden ">
-                      <table class="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700 data-table">
+                      <table id="shorting-table" class="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700 data-table">
                         <thead class=" bg-slate-200 dark:bg-slate-700">
                           <tr>
 
                             <th scope="col" class=" table-th ">
                               Id
+                            </th>
+                            <th scope="col" class=" table-th ">
+                              Serial
                             </th>
 
                             <th scope="col" class=" table-th ">
@@ -67,8 +70,12 @@
                         <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
                               <?php $__currentLoopData = $sliders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$slider): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 
-                              <tr>
+                              <tr data-id="<?php echo e($slider->id); ?>" id="row_1"  data-name="sliders" >
                             <td class="table-td"><?php echo e(++$key); ?></td>
+                            <td class="table-td ">
+                             <?php echo e($slider->serial); ?>
+
+                          </td>
                             
                             <td class="table-td ">
 
@@ -127,8 +134,7 @@
                     </div>
                   </div>
                 </div>
-                <?php echo e($sliders->links()); ?>
-
+                
               </div>
             </div>
           </div>

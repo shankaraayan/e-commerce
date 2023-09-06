@@ -1,29 +1,19 @@
-<style>
-   
-   .fl-main-container .fl-container.fl-flasher{
-       line-height: 1.5 !important
-    }
-    .activeNav{
-        background-color: #1d7937;
-        padding: 0px 12px !important;
-    }
-
-</style>
+<div id="app" data-session="<?php echo e(env("SESSION_SECRET_KEY")); ?>"></div>
 <header class="ps-header ps-header--1">
     <div class="ps-noti py-2">
         <div class="container">
             <div class="row">
                 <div class="col-xl-2 col-lg-4 col-md-4 d-flex align-items-center topleft_socialicons">
                     <ul class="list-inline text-white">
-                        <li class="list-inline-item"><a class="ps-social__link facebook" href="#"><i
+                        <li class="list-inline-item"><a class="ps-social__link facebook" target="_blank" href="https://www.facebook.com/EPP-SOLAR-105342695473034/#"><i
                                     class="fa fa-facebook fs-3"></i></a></li>
-                        <li class="list-inline-item"><a class="ps-social__link twitter" href="#"><i
+                        <li class="list-inline-item"><a class="ps-social__link twitter" href="https://twitter.com/eppsolar" target="_blank"><i
                                     class="fa fa-twitter fs-3"></i></a></li>
-                        <li class="list-inline-item"><a class="ps-social__link youtube" href="#"><i
+                        <li class="list-inline-item"><a class="ps-social__link youtube" target="_blank" href="https://www.youtube.com/channel/UC3O8XlirDTittHT2xV6yBHg"><i
                                     class="fa fa-youtube fs-3"></i></a></li>
-                        <li class="list-inline-item"><a class="ps-social__link instagram" href="#"><i
+                        <li class="list-inline-item"><a class="ps-social__link instagram" target="_blank" href="https://www.instagram.com/epp_solar_/"><i
                                     class="fa fa-instagram fs-3"></i></a></li>
-                        <li class="list-inline-item"><a class="ps-social__link linkedin" href="#"><i
+                        <li class="list-inline-item"><a class="ps-social__link linkedin" target="_blank" href="https://www.linkedin.com/company/eppsolar"><i
                                     class="fa fa-linkedin fs-3"></i></a></li>
                     </ul>
                 </div>
@@ -40,7 +30,7 @@
                         <!--<li class="list-inline-item">-->
                         <li class="list-inline-item"><a href="<?php echo e(route('login')); ?>"
                                 class="">Mein Konto</a></li>
-                        <li class="list-inline-item"><a href="javascript:void(0)"
+                        <li class="list-inline-item"><a href="/about-us"
                                     class="">Über uns</a></li>
                         <li class="list-inline-item"><a href="<?php echo e(route('cart')); ?>"
                                 class="">Warenkorb</a></li>
@@ -258,13 +248,14 @@ unset($__errorArgs, $__bag); ?>
 
                         if (response.length > 0) {
                             response.slice(0, 4).map(function(item) {
-                                let url = "<?php echo e(route('product.detail')); ?>/" + item
-                                    .slug;
+                                let categoryIds = item.categories.split(',')[0];
 
+                                let url = "<?php echo e(route('product.detail')); ?>/"+categoryIds+"/"+ item
+                                    .slug;
                                 let imageUrl =
                                     "<?php echo e(asset('root/public/uploads/')); ?>/" + item
                                     .thumb_image;
-                                console.log(item);
+                                // console.log(item);
                                 dropdown.append('<div class="col-12 col-lg-6">' +
                                     '<div class="ps-product ps-product--horizontal">' +
                                     '<div class="ps-product__thumbnail"><a class="ps-product__image" href="' +
@@ -273,7 +264,7 @@ unset($__errorArgs, $__bag); ?>
                                     '" alt="alt" /></figure>' +
                                     '</a></div>' +
                                     '<div class="ps-product__content">' +
-                                    '<h5 class="ps-product__title"><a href="/product-detail/'+ item.slug+'">' + item
+                                    '<h5 class="ps-product__title"><a href="/product-detail/'+categoryIds+'/'+ item.slug+'">' + item
                                     .product_name + '</a></h5>' +
                                     '<p class="ps-product__desc">Study history up to 30 days Up to 5 users simultaneously Has HEALTH certificate</p>' +
                                     '<div class="ps-product__meta"><span class="ps-product__price">' +

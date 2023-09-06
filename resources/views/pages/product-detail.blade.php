@@ -27,7 +27,7 @@
                         @endforeach
                     </div>
                   
-                        <div class="gallery owl-carousel owl-loaded owl-drag" data-owl-auto="false" data-owl-loop="false" data-owl-speed="13000" data-owl-gap="10" data-owl-nav="true" data-owl-dots="false" data-owl-item="4" data-owl-item-xs="4" data-owl-item-sm="4" data-owl-item-md="3" data-owl-item-lg="4" data-owl-item-xl="4" data-owl-duration="1000" data-owl-mousedrag="on">
+                        <div class="gallery owl-carousel owl-loaded owl-drag mt-4" data-owl-auto="false" data-owl-loop="false" data-owl-speed="13000" data-owl-gap="10" data-owl-nav="true" data-owl-dots="false" data-owl-item="4" data-owl-item-xs="4" data-owl-item-sm="4" data-owl-item-md="3" data-owl-item-lg="4" data-owl-item-xl="4" data-owl-duration="1000" data-owl-mousedrag="on">
                         <div class="item">
                         <img src="{{ asset('root/public/uploads/' . $product->thumb_image) }}" alt="alt" data-index="0" />
                         </div>
@@ -93,40 +93,38 @@
                                         onclick="getData({{ $vales->id }},{{ $product->id }},{{ $key+1 }}); saveValue(this, '{{ $data->id }}','Panel','heading_Var{{$key}}',{{$vales->id}},'{{$data->attribute_name}}')">
 
                                         <label class="form-check-label mx-2" for="var_radios{{$key}}_{{$keyss}}">
-                                        <div class="row align-items-center select_var_row p-2 term-select-{{$vales->id}}">
-                                            @if(@$vales->image)
+                                          <div class="row align-items-center select_var_row p-2 term-select-{{$vales->id}}">
+                                              @if(@$vales->image)
 
-                                            <div class="ps-section__thumbnail col-md-2 col-3">
-                                            <img src="{{asset('root/public/uploads/'.$vales->image)}}" alt="" class="img-fluid">
-                                            </div>
-                                            @endif
-                                            <div class="align-middle {{ @$vales->image ? 'col-md-7 col-9' : 'col-9' }}">
-                                            <h3 class="attribute_title_name py-2 d-flex justify-content-between">{{ $vales->attribute_term_name }}</h3>
-                                            <p class="ps-desc">{{ $vales->attribute_term_description }}</p>
-                                            </div>
-                                            <div class="{{ @$vales->image ? 'col-12 col-md-3' : 'col-3' }}  text-right mt-md-0 mt-2">
-                                              {{-- <small class="attribute_price">{{formatPrice($vales->price) }}</small> --}}
-                                            
-                                                  <small class="attribute_price">
-                                                      @if($vales->price > 0)
-                                                          {{ formatPrice($vales->price) }}
-                                                      @endif
-                                                  </small>
-                                            </div>
-                                        </div>
+                                              <div class="ps-section__thumbnail col-md-2 col-3">
+                                              <img src="{{asset('root/public/uploads/'.$vales->image)}}" alt="" class="img-fluid">
+                                              </div>
+                                              @endif
+                                              <div class="align-middle {{ @$vales->image ? 'col-md-7 col-9' : 'col-9' }}">
+                                              <h3 class="attribute_title_name py-2 d-flex justify-content-between">{{ $vales->attribute_term_name }}</h3>
+                                              <p class="ps-desc">{{ $vales->attribute_term_description }}</p>
+                                              </div>
+                                              <div class="{{ @$vales->image ? 'col-12 col-md-3' : 'col-3' }}  text-right mt-md-0 mt-2">
+                                                {{-- <small class="attribute_price">{{formatPrice($vales->price) }}</small> --}}
+                                              
+                                                    <small class="attribute_price">
+                                                        @if($vales->price > 0)
+                                                            {{ formatPrice($vales->price) }}
+                                                        @endif
+                                                    </small>
+                                              </div>
+                                          </div>
                                         </label>
                                     </div>
                                     
                                     @elseif($key == 1 && $data->attribute_type == 'inverter')
 
                                         <div class="form-check col-12 mb-4">
-                                              <label class="form-check-label mx-2" for="var_radios{{$key}}_{{$keyss}}">
                                                 <input class="form-check-input" type="radio" name="var_radios{{$key}}"
                                                 id="var_radios{{$key}}_{{$keyss}}" value="option{{$keyss}}"
                                                 data-atr-price="{{ $vales->price }}" data-atr-name="{{ $vales->attribute_term_name }}"
                                                 data-value="{{ $vales->attribute_term_name }},{{ $vales->price }},{{$vales->id}},{{$data->attribute_name}}"
                                                 onclick="saveValue(this, '{{ $data->id }}','','heading_Var{{$key}}',{{$vales->id}},'{{$data->attribute_name}}')">
-                                              </label>
                                               
                                               <label class="form-check-label mx-2" for="var_radios{{$key}}_{{$keyss}}">
                                                 <div class="row align-items-center select_var_row p-2 term-select-{{$vales->id}}" onclick="highlightDiv(this)">
@@ -164,27 +162,27 @@
                                         data-value="{{ $vales->attribute_term_name }},{{ $vales->price }},{{$vales->id}},{{$data->attribute_name}}"
                                         onclick="saveValue(this, '{{ $data->id }}','','heading_Var{{$key}}',{{$vales->id}},'{{$data->attribute_name}}')">
                                         <label class="form-check-label mx-2" for="var_radios{{$key}}_{{$keyss}}">
-                                        <div class="row align-items-center select_var_row p-2 term-select-{{$vales->id}}">
-                                            @if(@$vales->image)
-                                            <div class="ps-section__thumbnail col-md-2 col-3">
-                                            <img src="{{asset('root/public/uploads/'.$vales->image)}}" alt="" class="img-fluid">
-                                            </div>
-                                            @endif
-                                            <div class="align-middle  {{ @$vales->image ? 'col-9 col-md-7' : 'col-9' }}">
-                                            <h3 class="attribute_title_name py-2 d-flex justify-content-between">
-                                                {{ $vales->attribute_term_name }} 
-                                            </h3>
-                                            <p class="ps-desc">{{$vales->attribute_term_description}}</p>
-                                            </div>
-                                            <div class="  {{ @$vales->image ? 'col-12 col-md-3' : 'col-3' }}  text-right mt-md-0 mt-2">
-                                              {{-- <small class="attribute_price">{{formatPrice($vales->price) }}</small> --}}
-                                              <small class="attribute_price">
-                                                @if($vales->price > 0)
-                                                    {{ formatPrice($vales->price) }}
-                                                @endif
-                                            </small>
-                                            </div>
-                                        </div>
+                                          <div class="row align-items-center select_var_row p-2 term-select-{{$vales->id}}">
+                                              @if(@$vales->image)
+                                              <div class="ps-section__thumbnail col-md-2 col-3">
+                                              <img src="{{asset('root/public/uploads/'.$vales->image)}}" alt="" class="img-fluid">
+                                              </div>
+                                              @endif
+                                              <div class="align-middle  {{ @$vales->image ? 'col-9 col-md-7' : 'col-9' }}">
+                                              <h3 class="attribute_title_name py-2 d-flex justify-content-between">
+                                                  {{ $vales->attribute_term_name }} 
+                                              </h3>
+                                              <p class="ps-desc">{{$vales->attribute_term_description}}</p>
+                                              </div>
+                                              <div class="  {{ @$vales->image ? 'col-12 col-md-3' : 'col-3' }}  text-right mt-md-0 mt-2">
+                                                {{-- <small class="attribute_price">{{formatPrice($vales->price) }}</small> --}}
+                                                <small class="attribute_price">
+                                                  @if($vales->price > 0)
+                                                      {{ formatPrice($vales->price) }}
+                                                  @endif
+                                              </small>
+                                              </div>
+                                          </div>
                                         </label>
                                     </div>
 
@@ -209,7 +207,7 @@
                     @endphp
 
                     <a class="ps-btn ps-btn--warning"
-                        onclick="checkSessionCount('{{ $product->id }}', '{{ $countAttribites }}')"
+                        onclick="attributeCount('{{ $product->id }}', '{{ $countAttribites }}')"
                         href="javascript:void(0)">In den Warenkorb</a>
                     </div>
 
@@ -231,11 +229,9 @@
                       </div>
                       
                     </div>  
-                    {{-- {{$product->product_availability ?? 'NA'}} --}}
                     <div class="shipping_box"> 
                       <div class="well shippingDate rounded-0 d-inline-block bg-light fs-5 text-blue">
                         
-                        {{-- Estimate Shipping date {{ date('d-M-Y',strtotime(@today()->addDays($product->product_availability ?? 10)))}} --}}
                         Voraussichtliches Lieferdatum {{ working_days($product->product_availability ) }}
                       </div>
                     </div>
@@ -270,33 +266,7 @@
 
         <div class="ps-product__content mt-5">
           
-          {{-- <div class="container">
-            <div class="shadow border rounded">
-              <div class="attribute_configure">
-
-                <div class="atta_img_block bg-light-blue pb-10">
-                    <div class="vari_imgs">
-                      <img src="https://eppsolar.de/root/public/uploads/64da108282820.webp" class="img-fluid" alt="abc">  
-                    </div> 
-                
-                </div>
-                <div class="atta_caps_block">
-                    <div class="atta_title">
-                      <span>1000W</span>
-                    </div>
-                  
-                </div>
-
-              </div>
-            </div>
-          </div> --}}
-
-
-
-
-
-
-
+         
 
           <section id="term_short_des_container" class="attribute_appendArea {{ @$components ? 'd-block' : 'd-none' }}">
             <div class="text-center mb-20 text-blue fs-1 fw-600">Lieferumfang</div>
@@ -305,7 +275,7 @@
                     @if (!empty(@$components) && @$product->type === "variable")
                         <div class="atta_img_block bg-light-blue pb-10">
                             @foreach ($components as $component)
-                                @if (strtolower($component->attribute_term_name) !== "ohne dtu")
+                            @if (!preg_match('/ohne/', strtolower($component->attribute_term_name)))
                                 <div class="vari_imgs">
                                   <img src="{{ asset('root/public/uploads/' . $component->image) }}" class="img-fluid" alt="{{ $component->attribute_term_name }}">  
                                 </div> 
@@ -316,7 +286,7 @@
         
                         <div class="atta_caps_block">
                             @foreach ($components as $component)
-                                @if (strtolower($component->attribute_term_name) !== "ohne dtu")
+                            @if (!preg_match('/ohne/', strtolower($component->attribute_term_name)))
                                 <div class="atta_title">
                                   <span>{{ $component->attribute_term_name }}</span>
                                 </div>
@@ -331,12 +301,17 @@
         
        
             @if(!empty(@$product->product_description) && @$product->type !== "variable" )
+                 
                 <div class="ps-product__content bg-light-blue">
                     <div class="container">
                       <div class="row align-items-center">
                           <div class="col-md-12">
                           <div class="productDescription">
-                            <p>{!! $product->product_description !!}</p>
+                            @php
+                              $product->product_description = preg_replace('/<!--header-->([\s\S]*?)<!--header-->/', '', $product->product_description);
+                              $product_description = preg_replace('/<!--footer-->([\s\S]*?)<!--footer-->/', '', $product->product_description);
+                            @endphp
+                            <p>{!! $product_description !!}</p>
                             </div>
                           </div>
                         
@@ -347,10 +322,12 @@
         
             <div id="html_component" class="mt-5">
               @if(!empty(@$components) && @$product->type === "variable")
+                  
                 @foreach(@$components as $component)
-                    @if (strtolower($component->attribute_term_name) !== "ohne dtu")
-                        {!! $component->component_description !!}
-                    @endif
+                @if (!preg_match('/ohne/', strtolower($component->attribute_term_name)))
+                  {!! $component->component_description !!}
+                @endif
+
                 @endforeach
               @endif
             </div>
@@ -463,167 +440,78 @@
 </script>
   
 <script>
-
-      // function formatPrice(price) {
-      //   var formattedPrice = parseFloat(price).toFixed(2);
-      //   formattedPrice = formattedPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      //   return '€' + formattedPrice;
-      // }
-
-      // PRice Formater
-
-      var isFirstIteration = true;
-      var savedValues;
-      if (sessionStorage.getItem('savedValues')) {
-        const url = window.location.href;
-        const search = new URL(window.location.href);
-        if (search.search) {
-          savedValues = JSON.parse(sessionStorage.getItem('savedValues'));
-        } else {
-          sessionStorage.removeItem('savedValues');
-          sessionStorage.removeItem('sessionData');
-          savedValues = {};
-        }
-      } else {
-        savedValues = {};
-      }
-      
-
+      var global_obj_sku = {};
       function saveValue(element, attributeId, name = null, pids, term_id, attribute_name) {
+          // console.log(element);
+          var id = parseInt(pids.split("heading_Var")[1]);
+          var collapse_id = "collapse_var_" + id;
+          $("#" + collapse_id).collapse('toggle');
+          id++;
+          $("#" + "collapse_var_" + id).addClass('show');
+          var atr_name = element.getAttribute('data-atr-name');
+          var atr_price = element.getAttribute('data-atr-price');
+          atr_price = price_normal_to_euro(atr_price);
+          
+          let selectd_attribute = element.parentElement.parentElement.parentElement.parentElement.parentElement;
+          // console.log(selectd_attribute);
+          $(selectd_attribute).find(".card-header").find("small").remove();
+          if (atr_price != '0,00') {
+            $(selectd_attribute).find(".card-header").append(`<small class="font-weight-bold">${atr_name}</small> <small class="mr-5 pl-2 selected_price">€${atr_price}</small>`);
+          }
 
-        var id = parseInt(pids.split("heading_Var")[1]);
-        var collapse_id = "collapse_var_" + id;
-        $("#" + collapse_id).collapse('toggle');
-        id++;
-        $("#" + "collapse_var_" + id).addClass('show');
-        var atr_name = element.getAttribute('data-atr-name');
-        var atr_price = element.getAttribute('data-atr-price');
-        atr_price = price_normal_to_euro(atr_price);
-        $("#" + pids).find("small").remove();
+          if (name === 'Panel') {
+            $('.attribute_box').slice(1).find('.card-header small').remove();
+            const url = new URL(window.location.href);
 
-        if (atr_price != '0,00') {
-          $("#" + pids).append(`<small class="font-weight-bold">${atr_name}</small> <small class="mr-5 pl-2 selected_price">€${atr_price}</small>`);
-        }
+            attribute_name = attribute_name.toLowerCase().split(" ").join("-");
+            const params = new URLSearchParams();
+
+            // Append the new parameter with the updated term_id
+            params.append(attribute_name, term_id);
+
+            // Update the search parameter of the URL
+            url.search = params.toString();
+
+            // Push the updated URL to the browser's history without reloading the page
+            window.history.pushState({ path: url.pathname }, '', url.href);
+          }
+          else{
+            const url = new URL(window.location.href);
+            const params = new URLSearchParams(url.search);
+            if (params.has(attribute_name)) {
+              params.delete(attribute_name);
+            } 
+            params.append(attribute_name, term_id);
+            url.search = params.toString();
+            window.history.pushState({ path: url.href }, '', url.href);
+          }
+
+          $(".attribute_box").each(function(index){
+              $(this).removeClass('disabled-attr-box');    
+          });
+        html_components();
+        global_obj_sku[attributeId] = term_id;
+        fetch_sku(global_obj_sku);
       
-        var id = element.getAttribute('id');
-        var value = element.getAttribute('data-value');
-        var values = value.split(',');
-        var attributeTermName = values[0];
-        var attributeTermPrice = parseFloat(values[1]); // Parse price as a float
-        var attributeTermID = parseFloat(values[2]); // Parse price as a float
-        var attributeName = values[3];
-        var nameDiv = document.getElementById('nameDiv');
-        var priceDiv = document.getElementById('priceDiv');
-        var totalPriceDiv = document.getElementById('totalPrice');
-
-
-        if (name === 'Panel') {
-          savedValues = {};
-          $("#html_component").html('');
-          let url = new URL(window.location.href);
-
-          attribute_name = attribute_name.toLowerCase().split(" ").join("-");
-          const params = new URLSearchParams(url.search);
-          params.delete(attribute_name);
-          params.append(attribute_name, term_id);
-          url.search = params.toString();
-          window.history.pushState({ path: url.pathname }, '', url.pathname);
-        }
-
-        if (attributeId in savedValues) {
-          savedValues[attributeId].name = attributeTermName;
-          savedValues[attributeId].price = attributeTermPrice;
-          savedValues[attributeId].termid = attributeTermID;
-          savedValues[attributeId].attribute = attributeName;
-
-        }
-        else {
-          savedValues[attributeId] = {
-            name: attributeTermName,
-            price: attributeTermPrice,
-            termid: attributeTermID,
-            attribute: attributeName
-          };
-        }
-        sessionStorage.setItem('savedValues', JSON.stringify(savedValues));
-
-        var attributeIds = Object.keys(savedValues);
-        var count = attributeIds.length;
-        var names = Object.values(savedValues).map(function (item) {
-          return item.name;
-        });
-        nameDiv.textContent = names.join(' + ');
-
-        var names = Object.values(savedValues).map(function (item) {
-          return item.name;
-        });
-        nameDiv.textContent = names.join(' + ');
-
-        var termIds = Object.values(savedValues).map(function (item) {
-          return item.termid;
-        });
-
-        var attributeName = Object.values(savedValues).map(function (item) {
-          return item.attribute;
-        });
-
-        var prices = Object.values(savedValues).map(function (item) {
-          return item.price;
-        });
-        priceDiv.textContent = prices.reduce(function (sum, price) {
-          return sum + price;
-        }, 0).toFixed(2);
-
-        totalPriceDiv.textContent = '€' + price_normal_to_euro( priceDiv.textContent);
-
-        var sessionData = {
-          product_id: {{ $product-> id
-        }},
-        prices: prices.join(','),
-          termIds: termIds.join(','),
-            names : names.join(','),
-              attribute : attributeName.join(',')
-
-        };
-
-        $(".attribute_box").each(function(index){
-            $(this).removeClass('disabled-attr-box');    
-        });
-      
-      sessionStorage.setItem('sessionData', JSON.stringify(sessionData));
-      html_components();
-      fetch_sku();
-  }
-
-      function show_name() {
-        $('.select_var_row').each(function () {
-          $(this).click(function () {
-            // console.log(this);
-            let title = this.querySelector('.ps-section__title');
-            let parent = this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
-            let child = parent.children[0];
-            // console.log(parent);
-            let span = child.querySelector('h3.ps-section__title small');
-            // console.log(child);
-            $(span).html($(title).html());
-          })
-        })
       }
+
 
       function getData(id, idpro, sid) {
+        // console.log(idpro);
         $.ajax({
           url: '{{ route("product.attributeTerms") }}',
           method: 'GET',
           data: { id: id, productid: idpro }, // Pass the ID as a parameter
           success: function (response) {
-            // console.log(response);
+            
             $("#test").html('');
             for (var i = 0; i < response.length; i++) {
               var user = response[i];
+              // console.log(user);
               let imageUrl = "{{ asset('root/public/uploads/') }}/" + user.image;
               $("#test").append(`
-              <div class="form-check col-12 mb-4">
-                      <div class="row select_var_row align-items-center mx-0 mb-4 p-2 term-select-${id}}" onclick="highlightDiv(this);saveValue(this, '${user.attributes_id}','','heading_Var${sid}',${id},'${user.attribute_term_name}');" data-atr-name="${user.attribute_term_name}" data-atr-price="${user.price}" data-value="${user.attribute_term_name},${user.price},${user.id},${user.attribute_name}">
+                <div class="form-check col-12 mb-4">
+                      <div class="row select_var_row align-items-center mx-0 mb-4 p-2 term-select-${user.id}}" onclick="highlightDiv(this);saveValue(this, '${user.attributes_id}','','heading_Var${1}',${user.id},'${user.attribute_name}');" data-atr-name="${user.attribute_term_name}" data-atr-price="${user.price}" data-value="${user.attribute_term_name},${user.price},${user.id},${user.attribute_name}">
                           <div class="ps-section__thumbnail ${user.image !== null ?'d-block col-md-2 col-3':'d-none'}">
                               <img src="${imageUrl}" alt="" width="100px">
                           </div>
@@ -640,11 +528,11 @@
                             </small>
                           </div>
                       </div>
-                 </div>
+                 
+                  </div>
                   `
               );
 
-              show_name();
             }
 
           },
@@ -654,23 +542,18 @@
         });
       }
 
-            
-
       function highlightDiv(element) {
-     
-      const all_selected = element.parentElement.parentElement.parentElement;  
-      const selectVarRows = all_selected.querySelectorAll('.select_var_row');
-      // console.log(selectVarRows.length);
-      selectVarRows.forEach(selectVarRow => {
-          selectVarRow.style.border = ""; // Remove border from all elements
-      });
+            const all_selected = element.parentElement.parentElement.parentElement; 
+            const selectVarRows = all_selected.querySelectorAll('.select_var_row');
+            // console.log(selectVarRows.length);
+            selectVarRows.forEach(selectVarRow => {
+                selectVarRow.style.border = "";
+            });
 
-    element.style.border = '2px solid #075095'; // Add border to the clicked element
-}
+            element.style.border = '2px solid #075095';
+      }
 
-            
-
-      function add_to_cart(id,url=null) {
+      function add_to_cart(id,url=null,termIds) {
         var product_details = sessionStorage.getItem('sessionData');
         var shippingClassSelect = document.getElementById('shipping_class');
         var shippingCountry = shippingClassSelect.value;
@@ -683,17 +566,31 @@
             "_token": "{{ csrf_token() }}",
             "id": id,
             "url" : url,
-            "product_details": product_details,
+            "product_details": termIds,
             "quantity": qty,
             "shipping_country": shippingCountry,
           },
           success: function (response) {
+            console.log(response);
             response = JSON.parse(response);
             if (response.status == true) {
               $(".my_cart_count").text(response.data);
+              
               flasher.success(response.message);
-            } else {
-              toastr.error(response.message);
+              // iziToast.success({
+              //   icon : 'fa fa-check-circle-o',
+              //   message: response.message,
+              //   position: 'topRight',
+              // });
+            } 
+            else 
+            {
+              flasher.error(response.message);
+              // iziToast.error({
+              //       icon : 'fa fa-exclamation-circle',
+              //       position: 'topRight',
+              //       message: response.message,
+              //   });
             }
           },
           error : function(error){
@@ -712,113 +609,91 @@
         }
         accordion.classList.toggle('active');
       }
-</script>
-    <script>
-      function checkSessionCount(productId, countAttributes) {
+
+      function attributeCount(productId, countAttributes) {
         var nameDiv = document.getElementById('nameDiv');
-        var values = nameDiv.innerHTML;
-        var plusCount = 0;
-        for (var i = 0; i < values.length; i++) {
-          if (values[i] === '+') {
-            plusCount++;
-          }
-        }
-        var sessionData = sessionStorage.getItem('sessionData');
-        if (plusCount + 1 < countAttributes) {
+
+        let attr_count  = $(".attribute_box");
+        const url = new URL(window.location.href);
+        const url_data = url.search.split("&");
+        var termIds = [];
+
+        url_data.map((item,index)=>{
+          termIds.push(item.split("=")[1]);
+        })
+
+          if (attr_count.length !== termIds.length) {
           flasher.error("Please select all attribute combinations!!");
+
         } else { 
           let url = window.location.href;
-          add_to_cart(productId,url);
+          add_to_cart(productId,url,termIds);
         }
       }
+      function pageLoad(){
+          const url = window.location.href;
+          const search = new URL(window.location.href);
+    
+          if (search.search) {
+            $("#totalPrice").css('display', "none");
+            let paramString = url.split('?')[1];
+            paramString = paramString.split("&");
+            let firstQueryId = paramString[0].split("=")[1];
 
+            var termIdss = [];
+            for (par of paramString) {
+              termIdss.push(par.split('=')[1]);
+            }
+            $.ajax({
+                type: 'get',
+                url: '{{ url('/term-html') }}',
+                data: {
+                  "_token": "{{ csrf_token() }}",
+                  "ids": termIdss,
+                },
+                success: function (response) {
+                  // console.log(response);
+                  let total_price = 0;
+                  var obj_sku = {};
+  
+                  response && response.map((item, index) => {
+                      obj_sku[item.attributes_id] = item.id;
 
-      $(document).ready(function () {
-       
-        const url = window.location.href;
-        const search = new URL(window.location.href);
+                      total_price = total_price + parseFloat(item.price); 
+                      $(".term-select-" + item.id).css("border-color", "var(--blue-color)");
+                      let el = $(".term-select-" + item.id);
+                      if (el[0]) {
+                          el = el[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+                          // console.log(el);
+                          let card_header_inner = el.querySelector(".card_header_inner");
 
-        if (search.search) {
-          $("#totalPrice").css('display', "none");
-          let paramString = url.split('?')[1];
-          paramString = paramString.split("&");
-          let firstQueryId = paramString[0].split("=")[1];
+                          const ps = card_header_inner.parentElement;
+                          if (parseFloat(item.price) !== 0) {
+                              $(ps).append(`<small class="font-weight-bold">${item.attribute_term_name}</small> <small class="ml-3 font-weight-bold selected_price">${'€'+price_normal_to_euro(item.price)}</small>`);
+                          }
+                      }
+                    });
 
-          var termIdss = [];
-          for (par of paramString) {
-            termIdss.push(par.split('=')[1]);
+                  $("#totalPrice").html('€'+price_normal_to_euro(total_price)); 
+                  $("#totalPrice").css('display', 'block');
+                  fetch_sku(obj_sku);
+                },
+                error : function(error){
+                  console.log('error');
+                }
+            })
           }
- 
-          $.ajax({
-              type: 'get',
-              url: '{{ url('/term-html') }}',
-              data: {
-                "_token": "{{ csrf_token() }}",
-                "ids": termIdss,
-              },
-              success: function (response) {
-                let total_price = 0;
-                response && response.map((item, index) => {
-                    total_price = total_price + parseFloat(item.price); // Use parseFloat to handle decimal prices
-                    $(".term-select-" + item.id).css("border-color", "var(--blue-color)");
-                    let el = $(".term-select-" + item.id);
-                    if (el[0]) {
-                        el = el[0].parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
-                        let card_header_inner = el.querySelector(".card_header_inner");
+      }
 
-                        const ps = card_header_inner.parentElement;
-                        if (parseFloat(item.price) !== 0) {
-                            $(ps).append(`<small class="font-weight-bold">${item.attribute_term_name}</small> <small class="ml-3 font-weight-bold selected_price">${'€'+price_normal_to_euro(item.price)}</small>`);
-                        }
-                    }
-                  });
-
-                $("#totalPrice").html('€'+price_normal_to_euro(total_price)); 
-                $("#totalPrice").css('display', 'block');
-              },
-              error : function(error){
-                console.log('error');
-              }
-          })
-        }
-      })
-      
-            
-
-      $(document).ready(function () {
-        var nameDiv = document.getElementById('nameDiv');
-        if (sessionStorage.getItem('sessionData')) {
-          var sessionData = sessionStorage.getItem('sessionData');
-          let { names } = JSON.parse(sessionData);
-          names = names.split(",").join(' + ');
-          nameDiv.textContent = names;
-          fetch_sku();
-        } else {
-          $(".bg-gray").addClass("d-none");
-        }
-      });
-
-</script>
-
-<script>
       function html_components() {
-
-        const data = sessionStorage.getItem('sessionData');
-        let { termIds, prices, attribute } = JSON.parse(data);
+        
         const url = new URL(window.location.href);
-        const emptySearchParams = new URLSearchParams();
-        url.search = emptySearchParams.toString();
-        window.history.pushState({ path: url.pathname }, '', url.pathname);
-        attribute = attribute.split(",");
-        termIds = termIds.split(",");
-        termIds.map((item, index) => {
+        const url_data = url.search.split("&");
+        var termIds = [];
 
-          let attr_name = attribute[index].toLowerCase().split(" ").join("-");
-          const params = new URLSearchParams(url.search);
-          params.append(attr_name, item);
-          url.search = params.toString();
-          window.history.pushState({ path: url.href }, '', url.href);
-        });
+        url_data.map((item,index)=>{
+            termIds.push(item.split("=")[1]);
+        })
 
         let ids = termIds;
         let short_des_div = document.querySelector("#short_des_html");
@@ -837,15 +712,18 @@
             let short_des_text = '';
             let short_des_html = '';
             let htmlComponent = '';
+            let total_price = 0;
             if (response) {
+                 
                   response.map((item, index) => {
+                    total_price = total_price + parseFloat(item.price); 
                       let short_des_im = `
-                      ${item.attribute_term_name.toLowerCase() !== "ohne dtu" ? `
-                            <div class="vari_imgs">
-                                <img src="{{asset('root/public/uploads/')}}/${item.image}" class="img-fluid" alt="abc">  
-                            </div>` : ''}
-                      `;
-                      let short_des_tx = `${item.attribute_term_name.toLowerCase() !== "ohne dtu" ? `
+                      ${item.attribute_term_name.toLowerCase().includes('ohne') !==true ? `
+                      <div class="vari_imgs">
+                          <img src="{{asset('root/public/uploads/')}}/${item.image}" class="img-fluid" alt="abc">  
+                      </div>` : ''}`;
+
+                      let short_des_tx = `${item.attribute_term_name.toLowerCase().includes('ohne') !==true ? `
                       <div class="atta_title">
                       <span>${item.attribute_term_name}</span>
                     </div>
@@ -855,66 +733,65 @@
                       short_des_img += short_des_im;
                       short_des_text += short_des_tx;
 
-                      if(item.attribute_term_name.toLowerCase() !== "ohne dtu"){
+                      if(item.attribute_term_name.toLowerCase().includes('ohne') !==true){
                           htmlComponent += item.component_description;
                       } 
                   });   
               }
                
-                  let res_img_con = `<div class="atta_img_block bg-light-blue pb-10"> ${short_des_img}</div>`;
-                  let res_txt_con = `<div class="atta_caps_block">${short_des_text}</div>`;
+            let res_img_con = `<div class="atta_img_block bg-light-blue pb-10"> ${short_des_img}</div>`;
+            let res_txt_con = `<div class="atta_caps_block">${short_des_text}</div>`;
             $(short_des_div).html(res_img_con+res_txt_con);
             $(htmlComponentDiv).html(htmlComponent);
+            // console.log(total_price);
+            $("#totalPrice").html('€'+price_normal_to_euro(total_price)); 
+            $("#totalPrice").css('display', 'block');
           },
           error: function (err) {
             console.log(err);
           }
         })
       }
+
+       // fetch sku 
+       function fetch_sku($sku_data) {
+
+            let productId = $("#product_id").val().replace('$', '');
+            let attr_count = $('.attribute_box').length;
+            const sku_length = Object.keys($sku_data).length;
+            const final_sku = { [productId]: $sku_data };
+          
+            if(attr_count==sku_length){
+              
+                  $.ajax({
+                  url: '{{ url('/sku-fetch') }}', 
+                  method: 'POST',
+                  data: {
+                    "_token": "{{ csrf_token() }}", 
+                    sku: final_sku,
+                    url : window.location.href
+                  },
+                  success: function (response) {
+                    console.log(response,'sku');
+                    if(response.status==true){
+                      $("#sku").html(response.sku);
+                    }
+                  },
+                  error : function(err){
+                    console.log(err);
+                  }
+                });
+            }
+       
+        }
 </script>
 
 <script>
-            
-      // fetch sku 
-      function fetch_sku() {
-        if (sessionStorage.getItem("savedValues")) {
-          let data = sessionStorage.getItem("savedValues");
-          data = JSON.parse(data);
-          let attr_count = $('.attribute_box').length;
-          var obj_sku = {};
-    
-          for (const key in data) {
-            obj_sku[key] = data[key].termid;
-          }
-    
-          if (Object.keys(data).length === attr_count) {
-            let productId = $("#product_id").val().replace('$', '');
 
-            const final_sku = { [productId]: obj_sku };
-
-            $.ajax({
-              url: '{{ url('/sku-fetch') }}', // Make sure this is properly parsed by your server-side framework
-              method: 'POST',
-              data: {
-                "_token": "{{ csrf_token() }}", // Make sure this is properly parsed by your server-side framework
-                sku: final_sku,
-                url : window.location.href
-              },
-              success: function (response) {
-                console.log(response);
-                if(response.status==true){
-                  $("#sku").html(response.sku);
-                }
-              }
-            });
-          }
-        }
-      }
-
-    </script>
-    
-    <script>
-      // disabled attribute box
+      $(document).ready(function () {
+          pageLoad(); 
+      })
+       // disabled attribute box
       $(document).ready(function(){
         const search = new URL(window.location.href);
           $(".attribute_box").each(function(index){
@@ -926,5 +803,6 @@
           });
       });
 
-    </script>
+</script>
+
 @endsection

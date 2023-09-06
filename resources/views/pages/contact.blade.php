@@ -1,15 +1,11 @@
 @extends('Layout.Layout')
 @section("style")
 <style>
-  
- 
-
- 
      
     .support_ticket {
         height: 800px;
     }
-    
+  
    
 
 </style>
@@ -22,11 +18,32 @@
             <div class="row">
                 <div class="col-md-6 col-12 border-right">
                     <div class="contact-left-box">
+                        <div class="mb-5">
+                            <img src="{{ asset('assets/img/Contact-us-ep.png') }}" class="img-fluid" alt="Kontakt">
+                        </div>
                         <h1 class="fs-2">In Kontakt kommen</h1>
                         <p>Kontaktieren Sie uns und wir werden uns so schnell wie möglich mit einer Lösung für
                             Ihre Probleme bei Ihnen melden.</p>
-                   
-                        <div class="d-flex mt-5">
+
+                        <div class="d-flex mb-4">
+                            <div class="home-icon mr-5">
+                                <i class="fa fa-envelope bg-blue-theme text-white rounded-circle p-4"></i>
+                            </div>
+                            <div>
+                                <h6>E-Mail:</h6>
+                                <p class="pb-0"><a href="mailto:contact@epp.solar">contact@epp.solar</a></p>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-4">
+                            <div class="home-icon mr-5">
+                                <i class="fa fa-phone bg-blue-theme text-white rounded-circle p-4"></i>
+                            </div>
+                            <div>
+                                <h6>Hotline:</h6>
+                                <p class="pb-0"><a href="tel:49 541 96251000">49 541 96251000</a></p>
+                            </div>
+                        </div>
+                        <div class="d-flex mb-4">
                             <div class="home-icon mr-5">
                                     <i class="fa fa-building bg-blue-theme text-white rounded-circle p-4"></i>
                             </div>
@@ -37,26 +54,6 @@
                                     20354 Hamburg,<br> Deutschland.</p>
                             </div>
                         </div>
-
-                        <div class="d-flex mt-3">
-                            <div class="home-icon mr-5">
-                                <i class="fa fa-envelope bg-blue-theme text-white rounded-circle p-4"></i>
-                            </div>
-                            <div>
-                                <h6>E-Mail:</h6>
-                                <p class="pb-0"><a href="mailto:contact@epp.solar">contact@epp.solar</a></p>
-                            </div>
-                        </div>
-                        <div class="d-flex mt-3">
-                            <div class="home-icon mr-5">
-                                <i class="fa fa-phone bg-blue-theme text-white rounded-circle p-4"></i>
-                            </div>
-                            <div>
-                                <h6>Hotline:</h6>
-                                <p class="pb-0"><a href="tel:49 541 96251000">49 541 96251000</a></p>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
                 <div class="col-md-6 col-12 contact-right-box mt-md-0 mt-5">

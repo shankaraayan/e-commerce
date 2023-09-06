@@ -25,12 +25,12 @@ class AuthController extends Controller
             return redirect()->route('user.dashboard');
         }
         else{
-            return view('pages.login');
+            return view('auth.login');
         }
     }
 
     public function register_ui(){
-        return view('pages.register');
+        return view('auth.register');
     }
 
     public function register(Request $request){
@@ -39,6 +39,14 @@ class AuthController extends Controller
             'name'=> 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]+$/'
+        ],[
+            'name.required' => 'Der Name ist erforderlich.',
+            'email.required' => 'Die E-Mail-Adresse ist erforderlich.',
+            'email.email' => 'Bitte geben Sie eine gültige E-Mail-Adresse ein.',
+            'email.unique' => 'Diese E-Mail-Adresse ist bereits vergeben.',
+            'password.required' => 'Das Passwort ist erforderlich.',
+            'password.min' => 'Das Passwort muss mindestens 8 Zeichen lang sein.',
+            'password.regex' => 'Das Passwort muss mindestens einen Kleinbuchstaben, einen Großbuchstaben, eine Ziffer, und ein Sonderzeichen enthalten.'
         ]);
 
         if ($validator->fails()) {
@@ -67,32 +75,42 @@ class AuthController extends Controller
 
         $request->session()->flash('success','Registration successful. Please check your email to verify your account.');
         return redirect()->route('homepage');
-
-        // if(auth()->attempt(['email'=>$request->email,'password'=>$request->password])){
-        //     $request->session()->regenerateToken();
-        //     $request->session()->flash('success', 'Registration Successfully');
-        //     // Redirect to a specific route or page
-        //     return redirect()->route('user.dashboard');
-        // }else{
-        //     $request->session()->flash('error', 'Registration faild !');
-        //     return redirect()->back();
-        // }
-
+        // return redirect()->route('homepage')->with('success', 'Registration successful. Please check your email to verify your account.');
     }
 
     public function login_view(){
-        return view('pages.login');
+        if(auth()->user()) return redirect()->route('user.dashboard');
+        return view('auth.login');
     }
 
     public function forgot_password_view(){
-        return view('pages.forgot_password');
+        return view('auth.forgot_password');
     }
 
     public function login(Request $request){
+        
+        //* Redirect Back from checkout only
+        $previousUrl = url()->previous();
+        $urlComponents = parse_url($previousUrl);
+        if (isset($urlComponents['query'])) {
+            parse_str($urlComponents['query'], $queryParameters);
+            if (isset($queryParameters['redirect'])) {
+                $redirectParameter = $queryParameters['redirect'];
+            }else
+            {
+                $redirectParameter = '';
+            }
+        }
+
+        if(auth()->user()) return redirect()->route('user.dashboard');
 
         $validator = Validator::make($request->all(), [
             'email' => 'required',
             'password' => 'required'
+        ],
+        [
+            'email.required' => 'Das E-Mail-Feld ist erforderlich.',
+            'password.required' => 'Das Passwort-Feld ist erforderlich.',
         ]);
 
         if ($validator->fails()) {
@@ -122,7 +140,6 @@ class AuthController extends Controller
             $carts = session()->get('cart');
             if($carts != null){
                 foreach($carts as $key => $cart){
-                    // dd($cart,$key);
                     Cart::updateOrCreate(
                         [
                             'cart_id' => $key,
@@ -144,18 +161,20 @@ class AuthController extends Controller
                     session()->put('cart', $cart);
                 }
             }
-
+            if(!empty($redirectParameter)) return redirect()->route($redirectParameter);
             return redirect()->route('admin');
 
         }elseif(auth()->attempt($validator->validated()) && auth()->user()->is_admin == 0){
             $request->session()->regenerateToken();
             $request->session()->flash('success', 'Login successfully');
+            if(!empty($redirectParameter)) return redirect()->route($redirectParameter);
+            
+            return redirect()->route('user.dashboard');
 
-            // Redirect to a specific route or page
-           return redirect()->route('user.dashboard');
         }else{
             $request->session()->flash('error', 'Login faild ! Invalid email or password.');
             return redirect()->back();
+            // return redirect()->back()->withErrors(['error' => 'Login faild ! Invalid email or password.']);
         }
     }
 
@@ -164,8 +183,9 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        $request->session()->flash('success', 'Logout Success');
-        return redirect('/');
+        // $request->session()->flash('success', 'Logout Success');
+        // return redirect('/');
+        return redirect('/')->with('success', 'Logout Success');
     }
 
     // change password
@@ -176,6 +196,11 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(),[
             'current_password' => 'required',
             'new_password' => 'required|min:8|confirmed',
+        ],[
+            'current_password.required' => 'Das aktuelle Passwort ist erforderlich.',
+            'new_password.required' => 'Das neue Passwort ist erforderlich.',
+            'new_password.min' => 'Das neue Passwort muss mindestens 8 Zeichen lang sein.',
+            'new_password.confirmed' => 'Die Bestätigung des neuen Passworts stimmt nicht überein.',
         ]);
 
         if ($validator->fails()) {
@@ -238,7 +263,9 @@ class AuthController extends Controller
 
         $validator = Validator::make($request->all(),[
             'email' => 'required',
-        ]);
+        ],
+        ['email.required' => 'Das E-Mail-Feld ist erforderlich.']
+        );
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -280,7 +307,7 @@ class AuthController extends Controller
 
         if(isset($request->token)  && count($resetData) > 0){
             $user = User::where('email',$resetData[0]['email'])->get();
-            return view('pages.reset-password',compact('user'));
+            return view('auth.reset-password',compact('user'));
         }else{
             $request->session()->flash('error', 'Invalid token !');
             return redirect()->route('homepage');
@@ -292,6 +319,11 @@ class AuthController extends Controller
         // print_r($request->all());die;
         $validator = Validator::make($request->all(), [
             'password' => 'required|confirmed|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]+$/',
+        ],[
+            'password.required' => 'Das Passwort ist erforderlich.',
+            'password.confirmed' => 'Die Bestätigung des Passworts stimmt nicht überein.',
+            'password.min' => 'Das Passwort muss mindestens 8 Zeichen lang sein.',
+            'password.regex' => 'Das Passwort muss mindestens einen Kleinbuchstaben, einen Großbuchstaben, eine Ziffer, und ein Sonderzeichen enthalten.',
         ]);
 
         if ($validator->fails()) {

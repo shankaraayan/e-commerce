@@ -51,7 +51,7 @@ trait MockClientClasses
         return $mockHttpClient;
     }
 
-    private function mock_client($expectedResponse, $expectedMethod, $token = false)
+    private function mock_client($expectedResponse, $expectedMethod, $token = false, $additionalMethod = null)
     {
         $set_method_name = 'setMethods';
         if (function_exists('onlyMethods')) {
@@ -59,17 +59,21 @@ trait MockClientClasses
         }
 
         $methods = [$expectedMethod, 'setApiCredentials'];
-        if ($token) {
-            $methods[] = 'getAccessToken';
-        }
+        $methods[] = ($token) ? 'getAccessToken' : '';
+        $methods[] = isset($additionalMethod) ? $additionalMethod : '';
 
         $mockClient = $this->getMockBuilder(PayPalClient::class)
-            ->{$set_method_name}($methods)
+            ->{$set_method_name}(array_filter($methods))
             ->getMock();
 
         if ($token) {
             $mockClient->expects($this->exactly(1))
                 ->method('getAccessToken');
+        }
+
+        if (isset($additionalMethod)) {
+            $mockClient->expects($this->any())
+            ->method($additionalMethod);
         }
 
         $mockClient->expects($this->exactly(1))

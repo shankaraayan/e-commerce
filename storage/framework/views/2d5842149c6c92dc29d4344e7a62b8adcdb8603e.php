@@ -138,7 +138,7 @@
                                             <div class="grid xl:grid-cols-2 grid-cols-1 gap-6">
                                                 <div class="input-area">
                                                     <label for="name" class="form-label">Product Price(Regular)*</label>
-                                                    <input id="price" name="price" type="text" class="form-control required"
+                                                    <input id="price" name="price" type="number" min="1" class="form-control required"
                                                         placeholder="Price">
                                                     <?php if($errors->has('price')): ?>
                                                         <span class="text-danger"><?php echo e($errors->first('price')); ?></span>
@@ -146,9 +146,9 @@
                                                 </div>
 
                                                 <div class="input-area">
-                                                    <label for="name" class="form-label">Sale Price(sale)*</label>
-                                                    <input id="price" name="sale_price" type="text"
-                                                        class="form-control required" placeholder="Price">
+                                                    <label for="name" class="form-label">Sale Price(sale)</label>
+                                                    <input id="price" name="sale_price" type="number" 
+                                                        class="form-control" placeholder="Price">
                                                     <?php if($errors->has('sale_price')): ?>
                                                         <span class="text-danger"><?php echo e($errors->first('sale_price')); ?></span>
                                                     <?php endif; ?>
@@ -264,7 +264,7 @@
                                                     <div class="mb-2">
 
                                                         <?php if($values->attribute_status==1): ?>
-                                                            <input type="checkbox" class="myElement" name="options[]"
+                                                            <input type="checkbox" class="myElement" name="options[]" required
                                                             value="<?php echo e($values->id); ?>"
                                                             data-type="<?php echo e($values->attribute_type); ?>"
                                                             onclick="handleCheckboxClick(this)">
@@ -320,7 +320,7 @@
         </div>
     </div>
 
-    <div class="flash-message-container fixed flex-col top-0 right-0 flex gap-4 py-4">
+    <div class="flash-message-container fixed flex-col top-0 right-0 flex gap-4 py-4" style="z-index: 1000">
 
     </div>
 

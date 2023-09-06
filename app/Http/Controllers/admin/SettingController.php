@@ -14,7 +14,7 @@ class SettingController extends Controller
 
     //*Sliders
     public function index(){
-        $sliders = Slider::paginate(10);
+        $sliders = Slider::orderBy('serial','ASC')->get();
         return view('admin.settings.sliders',compact('sliders'));
     }
 

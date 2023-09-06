@@ -1,5 +1,11 @@
 @extends('admin.layout.header')
-
+@section('style')
+<style>
+  tr {
+      cursor: auto!important;
+  }
+</style>
+@endsection
 @section('content')
 <div class="content-wrapper transition-all duration-150 ltr:ml-[248px] rtl:mr-[248px]" id="content_wrapper">
     <div class="page-content">
@@ -60,6 +66,9 @@
                               Status
                             </th>
                             <th scope="col" class=" table-th ">
+                              Register
+                            </th>
+                            <th scope="col" class=" table-th ">
                                 Action
                             </th>
 
@@ -73,20 +82,27 @@
                                 <td class="table-td">{{$user->name}}</td>
                                 <td class="table-td ">{{$user->email}}</td>
                                 <td class="table-td">
-                                {{-- @if ($values->status == 1) --}}
+                                @if ($user->email_verified_at)
                                     <span class="badge bg-success-500 text-success-500 bg-opacity-30 capitalize">Active</span>
-                                {{-- @else --}}
-                                    {{-- <span class="badge bg-success-500 text-danger-500 bg-opacity-30 capitalize">In active</span> --}}
-                                {{-- @endif --}}
+                                @else 
+                                    <span class="badge bg-success-500 text-danger-500 bg-opacity-30 capitalize">In active</span>
+                                @endif
                                 </td>
-
+                                <td class="table-td ">{{date('d-M-Y',strtotime($user->created_at))}}</td>
 
                                 <td class="table-td ">
                                 <div class="flex space-x-3 rtl:space-x-reverse">
                                     <a href="view/{{$user->id}}">
-                                    <button class="action-btn" type="button">
-                                        <iconify-icon icon="heroicons:eye"></iconify-icon>
-                                    </button>
+                                        <button class="action-btn" type="button">
+                                            <iconify-icon icon="heroicons:eye"></iconify-icon>
+                                        </button>
+                                    </a>
+                                   
+                                    <a href=""> {{-- order_list/{{$user->id}} --}}
+                                        <button class="bg-blue-500 text-white px-2 py-1 rounded-md text-sm">
+                                            Total Order
+                                            <span class=" top-0 right-0 bg-red-500 text-white px-1 py-1 rounded-full text-xs">{{$user->orders_count}}</span>
+                                        </button>
                                     </a>
 
 
@@ -99,7 +115,7 @@
                     </div>
                   </div>
                 </div>
-                {{$users->links()}}
+                {{-- {{$users->links()}} --}}
               </div>
             </div>
           </div>

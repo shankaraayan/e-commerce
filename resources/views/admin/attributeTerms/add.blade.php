@@ -218,7 +218,7 @@
                         <span class="  col-span-4 hidden"></span>
                         <div class="inline-block min-w-full align-middle">
                           <div class="overflow-hidden ">
-                            <table class="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700 data-table">
+                            <table id="shorting-table" class="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700 data-table">
                               <thead class=" bg-slate-200 dark:bg-slate-700">
                                 <tr>
 
@@ -257,7 +257,7 @@
                               </thead>
                               <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
                                 @foreach($attributesTerms as $key=>$values)
-                                <tr>
+                                <tr data-id="{{$values->id}}" id="row_1"  data-name="attribute_terms" >
                                   <td class="table-td">{{++$key}}</td>
                                   <td class="table-td ">{{$values->attribute_term_name}}</td>
                                   <td class="table-td ">{{$values->sku}}</td>

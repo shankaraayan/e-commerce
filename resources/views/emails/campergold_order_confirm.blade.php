@@ -309,7 +309,8 @@
                                                 $subtotal = 0; 
                                                 $totalPrice = 0; 
                                                 $shipping_data = end($products);  
-                                                
+                                                $ban_transfer = end($products);
+                                                $discount = (end($products));
                                                 foreach ($products as $product) { 
                                                    $tax = getTaxCountry((int)$product['shipping_country']); 
                                                    
@@ -326,7 +327,20 @@
                                                    $taxAmount = @$product['price'] * $tax['vat_tax'] / 100 * @$product['quantity']; 
                                                    $subtotal += $product['price'] * $product['quantity'];
                                                    $totalPrice += ($product['price'] * $product['quantity']) + $taxAmount; 
-                                                } 
+                                                }
+                                                 
+
+                                                  if(isset($discount['discount']) && $discount['discount']['type'] == 'flat'){
+                                                          $discountPrice = $discount['discount']['discount_value'] . " ".$discount['discount']['type'] . " OFF";
+                                                          $totalPrice =  $totalPrice - $discount['discount']['discount_value'];
+                                                  }
+                                                  elseif(isset($discount['discount']) && $discount['discount']['type'] == 'Percentage'){
+                                                          $discountPrice = $discount['discount']['discount_value'] . " ". " %OFF";
+                                                          $totalPrice = $totalPrice - ($totalPrice * $discount['discount']['discount_value'] / 100 );
+                                                  }
+                                                  else{
+                                                          $discountPrice = '0';
+                                                  } 
                                              @endphp 
                                             
                                             @foreach($products as $product)
@@ -423,6 +437,49 @@
                                                 {{formatPrice($subtotal)}}
                                               </th>
                                             </tr>
+                                            @if(isset($discount['discount']))
+                                    
+                                              {{-- start --}}
+                                              <tr>
+                                                <th
+                                                  scope="row"
+                                                  colspan="2"
+                                                  style="
+                                                    border: 1px solid #e5e5e5;
+                                                    text-align: left;
+                                                    font-weight: bold;
+                                                    vertical-align: middle;
+                                                    padding: 12px;
+                                                    font-size: 14px;
+                                                    border-width: 1px;
+                                                    border-style: solid;
+                                                    border-color: #e5e5e5;
+                                                    color: #636363;
+                                                  "
+                                                >
+                                                Gutschein: {{$discount['discount']['code'] }}
+                                                </th>
+                                                <th
+                                                  scope="row"
+                                                  colspan="1"
+                                                  style="
+                                                    border: 1px solid #e5e5e5;
+                                                    font-weight: normal;
+                                                    text-align: left;
+                                                    vertical-align: middle;
+                                                    padding: 12px;
+                                                    font-size: 14px;
+                                                    border-width: 1px;
+                                                    border-style: solid;
+                                                    border-color: #e5e5e5;
+                                                    color: #636363;
+                                                  "
+                                                >
+                                                {!! $discountPrice !!}
+                                                </th>
+                                              </tr>
+                                              {{-- end --}}
+                                            @endif
                                             <tr>
                                               <th
                                                 scope="row"
@@ -458,7 +515,15 @@
                                                   color: #636363;
                                                 "
                                               >
+                                              @if($ban_transfer['bank_transfer']==="yes")
+                                              @php 
+                                                $bank_dis = ($totalPrice+$product['shipping_price'])*3/100;
+                                              @endphp
+                                               {{formatPrice($bank_dis)}}
+                                              @else
                                                 NA
+                                              @endif
+                                      
                                               </th>
                                             </tr>
 
@@ -575,7 +640,12 @@
                                                   color: #636363;
                                                 "
                                               >
-                                                {{(formatPrice($totalPrice + $details['shipping_price'] ))}}
+                                                {{-- {{(formatPrice($totalPrice + $details['shipping_price'] ))}} --}}
+                                                @if($ban_transfer['bank_transfer']==="yes")
+                                                    {{ formatPrice( ($totalPrice+$details['shipping_price'])-$bank_dis) }}
+                                                @else
+                                                {{ formatPrice($totalPrice+$details['shipping_price'] ?? 0)}}
+                                                @endif
                                               </th>
                                             </tr>
                                            

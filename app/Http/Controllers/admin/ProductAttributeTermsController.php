@@ -20,7 +20,7 @@ class ProductAttributeTermsController extends Controller
     {
 
         $attributeName = Attribute::select('attribute_name', 'id', 'attribute_type')->find($id);
-        $attributesTerms = AttributeTerm::where('attributes_id', $id)->get();
+        $attributesTerms = AttributeTerm::where('attributes_id', $id)->orderBy('serial','ASC')->get();
 
         $attributesTermsWh = AttributeTerm::select('attribute_term_kWh_name')->get()->unique('attribute_term_kWh_name');
         return view('admin.attributeTerms.add', compact('attributeName', 'attributesTerms', 'attributesTermsWh'));

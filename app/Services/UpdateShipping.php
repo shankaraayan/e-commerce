@@ -11,11 +11,13 @@ class UpdateShipping
         
         if ($request->shipping_country) {
              $shippingCountry = $request->shipping_country;
+             $shipping_class = $request->shipping_class;
         } 
         else 
         {
             foreach ($cart as $item) {
                 $shippingCountry = @$item["shipping_country"];
+                $shipping_class = @$item["shipping_class"];
             }
         }
         
@@ -25,9 +27,10 @@ class UpdateShipping
 
             $shipping_price = shippingCountry()
                 ->where("country", $shippingCountry)
+                ->where('shipping_id',$shipping_class)
                 ->pluck("price")
                 ->first();
-
+               
             $subtotal = 0;
             $cart_items = [];
             
@@ -37,7 +40,7 @@ class UpdateShipping
                 $code = $discount["code"];
                 
                 foreach ($cart as $item) {
-                    $cart[$item["product_id"]][
+                    $cart[$item["cart_id"]][
                         "shipping_country"
                     ] = $shippingCountry;
                     
@@ -85,7 +88,7 @@ class UpdateShipping
                     $afterDiscount = ($subtotal * $discount_value) / 100;
                     
                     
-                    if($cart[$item["product_id"]]["bank_transfer"]=="yes"){
+                    if($cart[$item["cart_id"]]["bank_transfer"]=="yes"){
                          
                         $bank_dis = ($subtotal - $afterDiscount + $shipping_price)*3/100;
                         
@@ -99,7 +102,7 @@ class UpdateShipping
             } else {
                 $total = 0;
                 foreach ($cart as $item) {
-                    $cart[$item["product_id"]][
+                    $cart[$item["cart_id"]][
                         "shipping_country"
                     ] = $shippingCountry;
                     $tax = getTaxCountry((int) $shippingCountry);
@@ -117,7 +120,7 @@ class UpdateShipping
                         (($item["price"] * $tax["vat_tax"]) / 100) *
                             $item["quantity"];
                      
-                     if($cart[$item["product_id"]]["bank_transfer"]=="yes"){
+                     if($cart[$item["cart_id"]]["bank_transfer"]=="yes"){
                          
                         $bank_dis = ($subtotal + $shipping_price)*3/100;
                         $total =  ($subtotal + $shipping_price)-$bank_dis;
@@ -153,4 +156,4 @@ class UpdateShipping
     }
 }
 
-?>
+

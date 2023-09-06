@@ -21,6 +21,7 @@
 @section('content')
 
     @php
+// dd(session('cart'));
         if(session('cart')){
         $cart = session('cart');
         
@@ -32,15 +33,8 @@
         $session_shipping_class = (int)@$lastCartItem['shipping_class'];
         $shippingCountry =  shippingCountry()->where('shipping_id',$session_shipping_class);
         }else {
-            return redirect()->back();
+            return redirect()->route('cart');
         }
-
-
-
-
-
-
-
         $cart = session('cart');
         $class = [];
         foreach ($cart as $item) {
@@ -69,30 +63,21 @@
             }
         }
 
-        // Handle the case when there's only one shipping class or both are the same
         if (count(array_unique($class)) <= 1) {
             $uncommonCountries = [];
         }
-
-        // dd([
-        //     'common_countries' => $commonCountries,
-        //     'uncommon_countries' => $uncommonCountries,
-        // ]);
-
-
-    
     @endphp
-    
     
     @php
        $cart_data =  end($cart);
+        if($userAddress){
+            $billingAddress = json_decode($userAddress['billing_address'],true);
+        }
     @endphp 
 
     <div class="ps-checkout ps-categogy--separate">
         <x-filtter :value="__('DisabledShortBy')" :filterIcon="__('d-none')" :productName="__('Checkout')"><a href="/cart">Cart</a></x-filtter>  
        
-            {{-- <h3 class="ps-checkout__title"> Checkout</h3>  --}}
-           
                 <div class="ps-checkout__content bg-light">
                     <div class="container">
                     <div class="ps-checkout__wapper">
@@ -128,7 +113,7 @@
                                                 <div class="ps-checkout__group">
                                                     <label for="fullname" class="ps-checkout__label">Vollständiger Name <span class="text-danger">*</span></label>
                                                     <input class="ps-input" type="text" name="fullname"
-                                                        value="{{ old('fullname') }}">
+                                                        value="{{ $billingAddress['fullname'] ?? old('fullname') ?? '' }}">
                                                     @error('fullname')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
@@ -195,7 +180,7 @@
                                             <div class="ps-checkout__group">
                                                 <label for="company_name" class="ps-checkout__label">Firmenname (optional)</label>
                                                 <input class="ps-input" type="text" name="company_name"
-                                                    value="{{ old('company_name') }}">
+                                                    value="{{ $billingAddress['company_name'] ?? old('company_name') }}">
                                                 @error('company_name')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
@@ -208,13 +193,13 @@
                                                     <span class="text-danger">*</span></label>
                                                 <input class="ps-input mb-3" type="text"
                                                     placeholder="Hausnummer und Straßenname" name="billing_address1"
-                                                    value="{{ old('billing_address1') }}">
+                                                    value="{{ $billingAddress['street'] ?? old('billing_address1') }}">
                                                 @error('billing_address1')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
                                                 <input class="ps-input" type="text"
                                                     placeholder="Wohnung, Appartement, Einheit usw. (fakultativ)"
-                                                    name="billing_address2" value="{{ old('billing_address2') }}">
+                                                    name="billing_address2" value="{{ $billingAddress['apartment'] ?? old('billing_address2') }}">
                                                 @error('billing_address2')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
@@ -228,7 +213,7 @@
                                                 <label class="ps-checkout__label" for="city">Stadt / Ortschaft <span
                                                         class="text-danger">*</span></label>
                                                 <input class="ps-input" type="text" id="city" name="city"
-                                                    value="{{ old('city') }}">
+                                                    value="{{ $billingAddress['city'] ?? old('city') }}">
                                                 @error('city')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
@@ -239,7 +224,7 @@
                                                 <label class="ps-checkout__label">Postleitzahl <span
                                                         class="text-danger">*</span></label>
                                                 <input class="ps-input"  type="text" id="postal_code"
-                                                    name="postal_code" value="{{ old('postal_code') }}">
+                                                    name="postal_code" value="{{ $billingAddress['pincode'] ??  old('postal_code') }}">
                                                 @error('postal_code')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
@@ -251,7 +236,7 @@
                                                 <label class="ps-checkout__label">Telefon <span
                                                         class="text-danger">*</span></label>
                                                 <input class="ps-input" type="text" id="phone_number" name="phone_number"
-                                                    value="{{ old('phone_number') }}">
+                                                    value="{{ $billingAddress['phone'] ?? old('phone_number') }}">
                                                 @error('phone_number')
                                                     <span class="text-danger">{{ $message }}</span>
                                                 @enderror
@@ -261,7 +246,7 @@
                                         <div class="col-12">
                                             <div class="ps-checkout__group">
                                                 <div class="form-check">
-                                                    <input class="form-check-input shipping_check" type="checkbox" name="ship-address"
+                                                    <input class="form-check-input shipping_check" type="checkbox" name="ship_address"
                                                         id="ship-address">
                                                     <label class="form-check-label" for="ship-address">Versand an eine andereAdresse?</label>
                                                 </div>
@@ -270,7 +255,6 @@
                                         
 
                                        <div class="col-12 ps-hidden" data-for="ship-address">
-                                           
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <div class="ps-checkout__group">
@@ -476,10 +460,10 @@
                                                         @php
                                                         // dd($details);
                                                         $shipping_country = $details['shipping_country'];
+                                                        $shippingClass = $details['shipping_class'];
     
-                                                        // dd($shipping_country);
                                                         @endphp
-                                                        {{ formatPrice($shipping_price = shippingCountry()->where('country',$shipping_country)->pluck('price')->first()) }}
+                                                        {{ formatPrice($shipping_price = shippingCountry()->where('country',$shipping_country)->where('shipping_id',$shippingClass)->pluck('price')->first()) }}
                                                         
                                                     </label>
                                                 </div>
@@ -553,10 +537,12 @@
                                                 @enderror
                                             </div>
                                             
+                                            @foreach($paymentGatway as $paymentOption)
                                             <div class="form-check">
-                                                <input class="form-check-input payment_method" name="payment_method" type="radio" id="dummy_checkbox" value="paypal">
-                                                <label class="form-check-label" for="dummy_checkbox">PayPal</label>
+                                                <input class="form-check-input payment_method" name="payment_method" type="radio" id="{{$paymentOption->app_name}}_checkbox" value="{{$paymentOption->app_name}}">
+                                                <label class="form-check-label" for="{{$paymentOption->app_name}}_checkbox">{{$paymentOption->app_name}}</label>
                                             </div>
+                                            @endforeach
                                         </div>
     
                                         <div class="check-faq">
@@ -606,25 +592,21 @@
                     "_token": "{{ csrf_token() }}",
                     "code": couponCode,
                     "country": country,
+                    "shipping_class":{{$shippingClass}}
                 },
                 beforeSend: function () {
                     $(".loader").removeClass("d-none");
                 },
                 success: function(response) {
                         $(".loader").addClass("d-none");
-                        console.log(response);
-                        
+                        console.log(response.cart);
                         if(response.cart){
 
                             let product = response.cart.map((item, index) => {
                             return `
                             ${item.type === "variable" ? `
                             <div class="ps-checkout__row ps-product">
-                                <div class="ps-product__name">${item.name}<span>x</span><span>${item.quantity}</span><br>
-                                    ${item.details ? item.details.map((val) => (
-                                    `<span>${val}</span><br>`
-                                    )).join('') : ''}
-                                </div>
+                                <div class="ps-product__name">${item.name}<span>x</span><span>${item.quantity}</span><br></div>
                                 <div class="ps-product__price">
                                     ${item.price_with_tax}
                                 </div>
@@ -687,12 +669,21 @@
                                 </div>
                             `);
                             $('input[name="token_price"]').val(btoa(unescape(encodeURIComponent(response.total))));
-                            console.log(response);
-                            
+                            // console.log(response);
                             flasher.success(response.message);
-                        }else{
+                            // iziToast.success({
+                            //     icon : 'fa fa-check-circle-o',
+                            //     message: response.message,
+                            //     position: 'topRight',
+                            // });
 
+                        }else{
                             flasher.error(response.message);
+                            // iziToast.error({
+                            //     icon : 'fa fa-exclamation-circle',
+                            //     position: 'topRight',
+                            //     message: response.message,
+                            // });
                         }
                     },
                 error: function (err) {
@@ -725,7 +716,9 @@
 
          if(sessionStorage.getItem("checkded")){
              $('.shipping_check').prop("checked", true);
+
              $(".ps-hidden").css('display',"block");
+
              $("#shipping_conuntry").on('change', function () {
                 var id = $(this).val();
 
@@ -736,6 +729,7 @@
         $(".shipping_check").on('click', function () {
 
             if ($(this).prop("checked")) {
+                $(this).val('shipping');
                 var id =  $("#shipping_conuntry").val();
                 // shipping_update(id, dynmicElChekout);
 
@@ -748,13 +742,15 @@
                 });
             }else{
                 sessionStorage.removeItem("checkded");
-               let id =  $("#country").val();
+                $(this).val('');
+               let id =  $("#country").val('');
             //    shipping_update(id, dynmicElChekout);
             }
         });
       });
 
     function shipping_update(id, dynmicElChekout,shipping=null) {
+
         $.ajax({
             url: "/admin/shipping/country/shipping_country_update",
             method: 'post',
@@ -762,6 +758,7 @@
             "_token": "{{ csrf_token() }}",
             "shipping":shipping,
             "shipping_country": id,
+            "shipping_class":{{$shippingClass}}
             },
             beforeSend : function(){
                 $(".loader").removeClass("d-none");
@@ -769,9 +766,10 @@
             success: function (response) {
                 $(".loader").addClass("d-none");
                 const {cart} = response;
-            console.log(response);
+          
                 var el="";
                 cart.map((item, index) => {
+                    
                 el+= `${item.type === "variable" ? `
                     <div class="ps-checkout__row ps-product">
                         <div class="ps-product__name">${item.name}<span>x</span><span>${item.quantity}</span><br></div>
@@ -929,6 +927,7 @@
                 `);
                 $('input[name="token_price"]').val(btoa(unescape(encodeURIComponent(response.total))));
                 flasher.success(response.message);
+                
             } else {
                 flasher.error(response.message);
             }
@@ -943,25 +942,118 @@
 
 
 <script>
-document.getElementById('user_email').addEventListener('blur', function() {
-    var email = this.value;
+    document.getElementById('user_email').addEventListener('blur', function() {
+        var email = this.value;
+        $.ajax({
+            url: "/user-check",
+            method: 'post',
+            data: {
+            "_token": "{{ csrf_token() }}",
+            "email" : email
+            },
+            success: function(response) {
+                // console.log(response);
+                if(response == 'found'){
+                    $('#loginValidation').html('This email is registered with us, Please login your account. <a href="/login?redirect=checkout">Login Here</a>');
+                }else{
+                    $('#loginValidation').html('');
+                }
+            }
+        });
+    });
+</script>
+<script>
+    // ***************  start 3% bank transfer code ******************
+
+$(document).ready(function(){
+    $(".payment_method").each(function() {
+        // store payment type in session to manage reload page
+        if (sessionStorage.getItem('p_m_t') && $(this).val() === sessionStorage.getItem("p_m_t")) {
+            $(this).prop('checked',true);
+
+            if(sessionStorage.getItem("p_m_t")==="PayPal"){
+                $("#payment_button").html('Pay with PayPal');
+            }else if(sessionStorage.getItem("p_m_t")==="Mollie"){
+                $("#payment_button").html('mit Mollie bezahlen'); 
+            }else if(sessionStorage.getItem("p_m_t")==="KaufaufRechnung"){
+                $("#payment_button").html('mit KaufaufRechnung'); 
+            }
+            else{
+                $("#payment_button").html('Bestellung aufgeben');
+            }
+        }
+        
+        $(this).on('change', function() {
+            // console.log($(this).val());
+            sessionStorage.setItem('p_m_t', $(this).val());
+            if($(this).val()==="Mollie"){
+                threePercentDiscount('other');
+                $("#payment_button").html('mit Mollie bezahlen'); 
+            }else if($(this).val()==="PayPal"){
+                threePercentDiscount('other');
+                $("#payment_button").html('mit Paypal bezahlen');
+
+            }else if($(this).val()==="KaufaufRechnung"){
+                threePercentDiscount('other');
+                $("#payment_button").html('mit KaufaufRechnung');
+            }
+            else{
+                $("#payment_button").html('Bestellung aufgeben');
+                threePercentDiscount('bank');
+            }
+        });
+        
+    });
+
+});
+
+
+
+// ***************  end 3% bank transfer code ******************
+
+</script>
+<script>
+    function threePercentDiscount(checked) {
+    var csrfToken = $('meta[name="csrf-token"]').attr('content');
+   
     $.ajax({
-        url: "/user-check",
+        url: "bank-transfer",
         method: 'post',
         data: {
-        "_token": "{{ csrf_token() }}",
-        "email" : email
+            "_token": csrfToken,
+            "checked": checked
         },
         success: function(response) {
             // console.log(response);
-            if(response == 'found'){
-                $('#loginValidation').html('This email is registered with us, Please login your account. <a href="/login">Login Here</a>');
+            if(response.payment_method==="bank"){ 
+                $("#bank_dis_container").html(`
+                    <div class="ps-checkout__row">
+                        <div class="ps-title">Rabatt(3%)</div>
+                        <div class="ps-checkout__checkbox">
+                            <div class="form-check">
+                                <label for="bank_discount" id="bank_discount_price">
+                                    ${response.bank_dis}
+                                </label>
+                            </div>
+                        </div>
+                        
+                    </div>
+                `);
+                $("#bank_dis_container").fadeIn();
+                $(".final_priceEuro").html(response.total_after_dis);
+                $('input[name="token_price"]').val(btoa(unescape(encodeURIComponent(response.total_after_dis))));
             }else{
-                $('#loginValidation').html('');
-            }
+                $("#bank_dis_container").fadeOut();
+                $('input[name="token_price"]').val(btoa(unescape(encodeURIComponent(response.total))));
+                $(".final_priceEuro").html(response.total);
+            }    
+        },
+        error: function(err) {
+            console.log(err);
         }
     });
-});
+}
+
 </script>
 
 @endsection

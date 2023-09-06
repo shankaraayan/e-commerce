@@ -39,7 +39,7 @@
                             @php
                                 $productCat = App\Models\admin\Product::where('id',$details['product_id'])->pluck('categories')->first();
                                 $cat = explode(',',$productCat);
-                                shuffle($cat);
+                                // shuffle($cat);
                                 $categoryName = categories()->where('id',$cat[0])->pluck('slug')->first();
                                 $category = $categoryName;
                             @endphp
@@ -56,7 +56,8 @@
                                                 }
                                             }
                                     @$shipping_country = (@$details['shipping_country']);
-        
+                                    @$shippingClass = (@$details['shipping_class']);
+                                            // dd($shippingClass);
                                     $total+=(@$details['price']*@$details['quantity']);
                                 @endphp
         
@@ -66,8 +67,7 @@
                                             <div class="ps-product__remove"><a href="javascript::void(0)"
                                                     onclick="remove_to_cart(<?= $id ?>)"><i
                                                         class="icon-trash2 text-danger"></i></a></div>
-                                            <div class="ps-product__thumbnail"><a class="ps-product__image"
-                                                    href="{{ route('product.detail', [$category,$details['slug']]) }}">
+                                            <div class="ps-product__thumbnail"><a class="ps-product__image" href="{{ route('product.detail', [$category,$details['slug']]) }}">
                                                     <figure><img src="{{ asset('root/public/uploads/' . @$details['images']) }}"
                                                             alt="alt">
                                                     </figure>
@@ -192,7 +192,7 @@
                                                         <div class="def-number-input number-input safari_only">
                                                             <button class="minus" onclick="QtyUpdate(<?= $id ?>,0)"><i
                                                                     class="icon-minus"></i></button>
-                                                            <input class="quantity" step="1" min="1" max="25"
+                                                            <input class="quantity" step="1" min="1" readonly
                                                                 id="qty<?= $id ?>" name="quantity" type="number"
                                                                 onchange="update_to_cart(<?= $id ?>)" name="qty[]"
                                                                 value="{{ @$details['quantity'] }}"
@@ -279,7 +279,7 @@
                                                                     <ul class="list-inline">
                                                                         @foreach ($details['details'] as $index => $val)
                                                                             @if ($index >= 2)
-                                                                                <li class="text-muted small mb-1">- {{ $val }}</li>
+                                                                                <li class="text-muted small mb-1"> - {{ $val }}</li>
                                                                             @endif
                                                                         @endforeach
                                                                     </ul>
@@ -320,7 +320,7 @@
                                                         <div class="def-number-input number-input safari_only">
                                                             <button class="minus" onclick="QtyUpdate(<?= $id ?>,0)"><i
                                                                     class="icon-minus"></i></button>
-                                                            <input class="quantity" step="1" min="1"
+                                                            <input class="quantity" step="1" min="1" readonly
                                                                 id="qty<?= $id ?>" name="quantity" type="number"
                                                                 onchange="update_to_cart(<?= $id ?>)" name="qty[]"
                                                                 value="{{ $details['quantity'] }}"
@@ -379,7 +379,7 @@
                                                             <div class="def-number-input number-input safari_only">
                                                                 <button class="minus" onclick="QtyUpdate(<?= $id ?>,0)"><i
                                                                         class="icon-minus"></i></button>
-                                                                <input class="quantity" step="1" min="1"
+                                                                <input class="quantity" step="1" min="1" readonly
                                                                     id="qty<?= $id ?>" name="quantity" type="number"
                                                                     onchange="update_to_cart(<?= $id ?>)" name="qty[]"
                                                                     value="{{ $details['quantity'] }}"
@@ -425,7 +425,7 @@
                         <div class="ps-shopping__row">
                             <div class="ps-shopping__label">Versand</div>
                             <div class="ps-shopping__price text-green">
-                                {{ formatPrice($shipping_price = shippingCountry()->where('country', @$shipping_country)->pluck('price')->first()) }}
+                                {{ formatPrice($shipping_price = shippingCountry()->where('country', @$shipping_country)->where('shipping_id',$shippingClass)->pluck('price')->first()) }}
                             </div>
                         </div>
         

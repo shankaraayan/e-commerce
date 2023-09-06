@@ -98,14 +98,14 @@
                     <div class="row">
                         <div class="col-6 col-md-6">
                             <div class="ps-footer--block">
-                                <h5 class="ps-block__title">Kategorie</h5>
+                                <h5 class="ps-block__title">Kategorien</h5>
                                 <ul class="ps-block__list">
-                                    <li><a href="#">Balkonkraftwerk</a></li>
-                                    <li><a href="#">Solar Komplettset</a></li>
-                                    <li><a href="#">Easy Peak Power</a></li>
-                                    <li><a href="#">Wechselrichter</a></li>
-                                    <li><a href="#">Balkonkraftwerk Solar Hook</a></li>
-                                    <li><a href="#">Balkonkraftwerk Marketing Produkt</a></li>
+                                    <?php if(!empty(categories())): ?>
+                                            <?php $__currentLoopData = categories()->where('parent_id',0)->take(5); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cat): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <li><a href="<?php echo e(route('shop',$cat->slug)); ?>" id="<?php echo e($cat->id); ?>" onclick="categoryProduct(this.id);"><?php echo e($cat->name); ?></a></li>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    <?php endif; ?>
+ 
                                 </ul>
                             </div>
                         </div>
@@ -183,15 +183,7 @@
                     <div class="w-100">
                     <a class="btn btn-link d-block fs-4 text-left" data-toggle="collapse" data-target="#cookies_collapseOne" aria-expanded="true" aria-controls="cookies_collapseOne">Functional</a>
                     </div>
-                    <!-- <div class="cookies_sec_tgl d-flex align-items-center justify-content-between">
-                        <span class="cookies_status fs-5 mr-1">Activate</span>
-                        <label class="toggle">
-                        <input type="checkbox" checked hidden>
-                        <span class="circle"></span>
-                    </label>
-                    </div> -->
-
-                    <!-- HTML code -->
+ 
                     <div class="cookies_sec_tgl d-flex align-items-center justify-content-between">
                         <span id="cookiesStatus" class="cookies_status fs-5 mr-1">Activate</span>
                         <label class="toggle">
@@ -213,15 +205,7 @@
                     <div class="w-100">
                     <a class="btn btn-link d-block fs-4 text-left" data-toggle="collapse" data-target="#cookies_collapseTwo" aria-expanded="true" aria-controls="cookies_collapseOne">Leistungs</a>
                     </div>
-                    <!-- <div class="cookies_sec_tgl d-flex align-items-center justify-content-between">
-                        <span class="cookies_status fs-5 mr-1">Activate</span>
-                        <label class="toggle">
-                        <input type="checkbox" checked hidden>
-                        <span class="circle"></span>
-                    </label>
-                    </div> -->
 
-                    <!-- HTML code -->
                     <div class="cookies_sec_tgl d-flex align-items-center justify-content-between">
                         <span id="cookiesStatus" class="cookies_status fs-5 mr-1">Activate</span>
                         <label class="toggle">
@@ -243,15 +227,7 @@
                     <div class="w-100">
                     <a class="btn btn-link d-block fs-4 text-left" data-toggle="collapse" data-target="#cookies_collapseThree" aria-expanded="true" aria-controls="cookies_collapseOne">Analytische</a>
                     </div>
-                    <!-- <div class="cookies_sec_tgl d-flex align-items-center justify-content-between">
-                        <span class="cookies_status fs-5 mr-1">Activate</span>
-                        <label class="toggle">
-                        <input type="checkbox" checked hidden>
-                        <span class="circle"></span>
-                    </label>
-                    </div> -->
-
-                    <!-- HTML code -->
+                   
                     <div class="cookies_sec_tgl d-flex align-items-center justify-content-between">
                         <span id="cookiesStatus" class="cookies_status fs-5 mr-1">Activate</span>
                         <label class="toggle">
@@ -273,15 +249,7 @@
                     <div class="w-100">
                     <a class="btn btn-link d-block fs-4 text-left" data-toggle="collapse" data-target="#cookies_collapseFour" aria-expanded="true" aria-controls="cookies_collapseOne">Anzeige</a>
                     </div>
-                    <!-- <div class="cookies_sec_tgl d-flex align-items-center justify-content-between">
-                        <span class="cookies_status fs-5 mr-1">Activate</span>
-                        <label class="toggle">
-                        <input type="checkbox" checked hidden>
-                        <span class="circle"></span>
-                    </label>
-                    </div> -->
 
-                    <!-- HTML code -->
                     <div class="cookies_sec_tgl d-flex align-items-center justify-content-between">
                         <span id="cookiesStatus" class="cookies_status fs-5 mr-1">Activate</span>
                         <label class="toggle">
@@ -303,15 +271,7 @@
                     <div class="w-100">
                     <a class="btn btn-link d-block fs-4 text-left" data-toggle="collapse" data-target="#cookies_collapseFive" aria-expanded="true" aria-controls="cookies_collapseOne">Andere</a>
                     </div>
-                    <!-- <div class="cookies_sec_tgl d-flex align-items-center justify-content-between">
-                        <span class="cookies_status fs-5 mr-1">Activate</span>
-                        <label class="toggle">
-                        <input type="checkbox" checked hidden>
-                        <span class="circle"></span>
-                    </label>
-                    </div> -->
-
-                    <!-- HTML code -->
+  
                     <div class="cookies_sec_tgl d-flex align-items-center justify-content-between">
                         <span id="cookiesStatus" class="cookies_status fs-5 mr-1">Activate</span>
                         <label class="toggle">
@@ -333,15 +293,7 @@
                     <div class="w-100">
                     <a class="btn btn-link d-block fs-4 text-left" data-toggle="collapse" data-target="#cookies_collapseSix" aria-expanded="true" aria-controls="cookies_collapseOne">Notwendige</a>
                     </div>
-                    <!-- <div class="cookies_sec_tgl d-flex align-items-center justify-content-between">
-                        <span class="cookies_status fs-5 mr-1">Activate</span>
-                        <label class="toggle">
-                        <input type="checkbox" checked hidden>
-                        <span class="circle"></span>
-                    </label>
-                    </div> -->
-
-                    <!-- HTML code -->
+    
                     <div class="cookies_sec_tgl d-flex align-items-center justify-content-between">
                         <span id="cookiesStatus" class="cookies_status fs-5 mr-1">Activate</span>
                         <label class="toggle">

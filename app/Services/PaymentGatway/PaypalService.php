@@ -39,7 +39,7 @@ class PaypalService
             "purchase_units" => [
                 0 => [
                     "amount" => [
-                        "currency_code" => "USD",
+                        "currency_code" => "EUR",
                         "value" => $final_payment,
                     ],
                 ]
@@ -75,7 +75,7 @@ class PaypalService
         $provider->setApiCredentials(config('paypal'));
         $provider->getAccessToken();
         $response = $provider->capturePaymentOrder($request['token']);
-        // dd($response);
+
         $paymentData = session('paypal_payment_data');
         
         $paypal = new PaypalTransaction;
@@ -89,10 +89,11 @@ class PaypalService
 
         (new FrontendController)->OrderProccess($paymentData['order'],$paymentData['order_data'],$paymentData['details']);
 
-        Order::where('order_id',$paymentData['order']['order_id'])->update([
-            'paypal_id' => $response['id'],
-            'paypal_status' => $response['status'],
+        Order::where('order_id',$paymentData['order_data']['order_id'])->update([
+            'payment_id' => $response['id'],
+            'payment_status' => $response['status'],
             'transaction_id' => null,
+            'status' => "in-proccess"
         ]);
 
         $orderUrl = route('order_confirmation', ['id' => $paymentData['order']['order_id'] ]);
@@ -102,7 +103,7 @@ class PaypalService
 
     public function auth()
     {
-        $auth =  paypalDetail()->toarray();
+        $auth =  paymentDetail('PayPal')->toarray();
         // dd($auth);
         return [
             'mode'    => ($auth['mode'] ? "live" : "sandbox") ?? "sandbox", // Can only be 'sandbox' Or 'live'. If empty or invalid, 'live' will be used.

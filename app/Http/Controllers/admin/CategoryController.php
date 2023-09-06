@@ -12,7 +12,7 @@ class CategoryController extends Controller
 {
     public function index(){
 
-        $category = Category::paginate(10);
+        $category = Category::orderBy('serial','ASC')->get();
         return view('admin.category.index', compact('category'));
     }
 
@@ -101,6 +101,7 @@ class CategoryController extends Controller
         $category->description = $request->input('description');
         $category->parent_id = $request->input('parent_cat');
         $category->on_catalog = $request->input('on_catalog');
+        $category->header = $request->input('heading');
         $category->update();
         return redirect()->back()->with('success', 'Category Updated Successfully.');
     }

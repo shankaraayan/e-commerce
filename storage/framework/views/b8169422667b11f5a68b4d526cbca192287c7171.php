@@ -199,7 +199,7 @@
                         <span class="  col-span-4 hidden"></span>
                         <div class="inline-block min-w-full align-middle">
                           <div class="overflow-hidden ">
-                            <table class="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700 data-table">
+                            <table id="shorting-table" class="min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700 data-table">
                               <thead class=" bg-slate-200 dark:bg-slate-700">
                                 <tr>
 
@@ -236,7 +236,7 @@
                               </thead>
                               <tbody class="bg-white divide-y divide-slate-100 dark:bg-slate-800 dark:divide-slate-700">
                                 <?php $__currentLoopData = $attributesTerms; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$values): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                <tr>
+                                <tr data-id="<?php echo e($values->id); ?>" id="row_1"  data-name="attribute_terms" >
                                   <td class="table-td"><?php echo e(++$key); ?></td>
                                   <td class="table-td "><?php echo e($values->attribute_term_name); ?></td>
                                   <td class="table-td "><?php echo e($values->sku); ?></td>

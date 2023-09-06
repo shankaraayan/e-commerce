@@ -14,8 +14,9 @@
 ?>
 <div class="ps-categogy__main pt-0">
     <?php if(isset($banner)): ?>
-        
+    <a href="<?php echo e($banner['slider_url']); ?>">
         <img src="<?php echo e(asset('root/public/uploads/sliders/desktop/' . $banner['desktop'])); ?>" class="img-fluid w-100 rounded">
+    </a>
     <?php else: ?>
         <img src="https://campergold.net/wp-content/uploads/2023/05/campergold-2.jpg" class="img-fluid w-100 rounded">
     <?php endif; ?>

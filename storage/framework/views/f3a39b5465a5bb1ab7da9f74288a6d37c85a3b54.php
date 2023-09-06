@@ -19,14 +19,12 @@
                             <div class="ps-banner">
                                 <picture>
                                     <source media="(min-width: 768px)" srcset="<?php echo e(asset('root/public/uploads/sliders/desktop/' . $values['desktop'])); ?>" class="img-fluid">
-                                    <img src="<?php echo e(asset('root/public/uploads/sliders/phone/' . $values['phone'])); ?>" alt="Stegpearl" class="img-fluid">
+                                    <img src="<?php echo e(asset('root/public/uploads/sliders/phone/' . $values['phone'])); ?>" alt="Epp Solar" class="img-fluid">
                                 </picture>
                             </div>
                         </a>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 <?php endif; ?>
- 
-
             </div>
         </section>
 
@@ -67,7 +65,7 @@
                         
                         <div class="owl-stage-outer py-md-5 py-2">
                             <div class="owl-stage" style="transform: translate3d(-2228px, 0px, 0px); transition: all 1s ease 0s; width: 4706px;">
-                            
+                
                             <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
 <?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.product-small-card','data' => ['productData' => $bestSellingProducts]]); ?>
 <?php $component->withName('product-small-card'); ?>
@@ -118,7 +116,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="about_block bg-blue-theme p-5 rounded">
-                                <h1 class="text-center text-white">EPP Solar</h1>
+                                <h1 class="text-left text-white mb-0 pb-20">Die Zukunft gestalten mit EPP Solar: Ihr strahlender Weg zu bezahlbarer und nachhaltiger Energie!</h1>
                                 <p class="text-white">EPP Solar ist ein führender E-Commerce-Marktplatz, der hochwertige Solarmodule zum besten Preis anbietet. Unser breites Produktsortiment umfasst verschiedene Balkonkraftwerk, Wechselrichter, <b>Speichersysteme</b>, Montagesysteme und andere photovoltaische Zubehörteile, die für unterschiedliche Kundenbedürfnisse geeignet sind, ob für den persönlichen oder geschäftlichen Gebrauch in <b>B2B oder B2C</b>.</p>
                                 <p class="text-white">Dank unserer umfassenden Kenntnisse im Bereich Photovoltaik und einem engagierten Team von Experten können wir unseren Kunden eine schnelle Lieferzeit, flexible Zahlungsoptionen und maßgeschneiderte Lösungen anbieten.</p>
                                 <p class="text-white">Bei EPP Solar streben wir danach, unseren Kunden die bestmöglichen Angebote zu bieten und hochwertige Produkte zu liefern. Unser Ziel ist es, ein führender Marktplatz für Solartechnikprodukte zu sein, auf dem Kunden ihre gewünschten Artikel auf benutzerfreundliche Weise finden oder kaufen können.</p>
@@ -138,12 +136,12 @@
                         <div class="row">
                             <div class="col-12 col-md-6">
                                 <div class="ps-promo__item">
-                                    <img class="ps-promo__banner" src="<?php echo e(asset('assets/img/stegpearl/hybrid-01.jpg')); ?>" alt="alt" />
+                                    <img class="ps-promo__banner" src="<?php echo e(asset('assets/img/stegpearl/hybrid-01.jpg')); ?>" alt="Epp Solar" />
                                 </div>
                             </div>
                             <div class="col-12 col-md-6">
                                 <div class="ps-promo__item">
-                                    <img class="ps-promo__banner" src="<?php echo e(asset('assets/img/stegpearl/solar-01.jpg')); ?>" alt="alt" />
+                                    <img class="ps-promo__banner" src="<?php echo e(asset('assets/img/stegpearl/solar-01.jpg')); ?>" alt="Epp Solar" />
                                 </div>
                             </div>
                         </div>
@@ -283,10 +281,11 @@
                     <h3 class="ps-section__title">Abonnieren Sie unseren Newsletter<br> und erhalten Sie die
                         neuesten Produktangebote</h3>
                     <div class="ps-section__content">
-                        <form action="do_action" method="post">
+                        <form action="/subscribe-email" method="post">
+                            <?php echo csrf_field(); ?>
                             <div class="ps-form--subscribe">
                                 <div class="ps-form__control">
-                                    <input class="form-control ps-input" type="email"
+                                    <input class="form-control ps-input" name="email" type="email" required
                                         placeholder="Enter your email address">
                                     <button class="ps-btn ps-btn--warning">Subscribe</button>
                                 </div>

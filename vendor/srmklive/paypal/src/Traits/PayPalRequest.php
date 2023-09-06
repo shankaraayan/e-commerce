@@ -117,6 +117,22 @@ trait PayPalRequest
     }
 
     /**
+     * Function to add multiple request headers.
+     *
+     * @param array $headers
+     *
+     * @return \Srmklive\PayPal\Services\PayPal
+     */
+    public function setRequestHeaders(array $headers): \Srmklive\PayPal\Services\PayPal
+    {
+        foreach ($headers as $key=>$value) {
+            $this->setRequestHeader($key, $value);
+        }
+
+        return $this;
+    }
+
+    /**
      * Return request options header.
      *
      * @param string $key
@@ -208,6 +224,7 @@ trait PayPalRequest
         $this->paymentAction = $credentials['payment_action'];
 
         $this->locale = $credentials['locale'];
+        $this->setRequestHeader('Accept-Language', $this->locale);
 
         $this->validateSSL = $credentials['validate_ssl'];
 

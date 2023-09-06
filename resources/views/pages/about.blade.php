@@ -26,7 +26,34 @@
 </div>
 
 <div class="bg-light-blue pt-50 pb-50">
-    <div class="container">
+    <div class="about-us-heading pb-50">
+        <div class="container">
+            <div class="row mt-5 text-center justify-content-center align-items-center">
+                <h3 class="text-center mb-0 fw-500 mr-3">Über</h3>
+                <img class="img-fluid" src="https://i0.wp.com/epp.solar/wp-content/uploads/2022/08/epplogo.png?fit=500%2C227&ssl=1" alt="epp.solar">
+            </div>
+            <div class="row mb-5">
+                <div class="col-12">
+                    <p> <img class="img-fluid mr-3"
+                        src="https://i0.wp.com/epp.solar/wp-content/uploads/2022/08/epplogo.png?fit=500%2C227&ssl=1"
+                        alt="">ist ein E-Commerce-Marktplatz, wo Sie
+                    Ihre Solarprodukte zum Bestpreis kaufen können. Steigen Sie mit Solarprodukten und <img
+                        class="img-fluid"
+                        src="https://i0.wp.com/epp.solar/wp-content/uploads/2022/08/epplogo.png?fit=500%2C227&ssl=1" alt="">
+                    auf den Eigenverbrauch um. Unterschiedliche
+                    Kunden, ob B2B (Von Geschäft zu Geschäft) oder B2C (Geschäft zum Kunden) Kunde, Sie alle können
+                    die Marke <img class="img-fluid"
+                        src="https://i0.wp.com/epp.solar/wp-content/uploads/2022/08/epplogo.png?fit=500%2C227&ssl=1" alt="">
+                    für ihre persönlichen und geschäftlichen
+                    Bedürfnisse auswählen. Unser umfangreiches Sortiment bietet für jeden Einsatzort eine
+                    individuelle Lösung, mit der Sie nicht nur frei von Sorgen, sondern teils vollkommen autark
+                    durchstarten können. Ob zu Hause auf dem eigenen Dach, auf dem Wohnmobil, Boot oder beim Zelten
+                    ist immer Verlass auf unsere hochwertigen Produkte.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container pb-50">
         <div class="row">
             <div class="col-md-6 col-12">
                 <h1 class="text-center fs-1 mb-5">Milestone</h1>
@@ -106,33 +133,6 @@
                             <span class="sr-only">Next</span>
                         </a>
                     </div>  
-            </div>
-        </div>
-    </div>
-    <div class="about-us-heading pt-50 mb-5">
-        <div class="container">
-            <div class="row mt-5 text-center justify-content-center align-items-center">
-                <h3 class="text-center mb-0 fw-500 mr-3">Über</h3>
-                <img class="img-fluid" src="https://i0.wp.com/epp.solar/wp-content/uploads/2022/08/epplogo.png?fit=500%2C227&ssl=1" alt="epp.solar">
-            </div>
-            <div class="row mb-5">
-                <div class="col-12">
-                    <p> <img class="img-fluid mr-3"
-                        src="https://i0.wp.com/epp.solar/wp-content/uploads/2022/08/epplogo.png?fit=500%2C227&ssl=1"
-                        alt="">ist ein E-Commerce-Marktplatz, wo Sie
-                    Ihre Solarprodukte zum Bestpreis kaufen können. Steigen Sie mit Solarprodukten und <img
-                        class="img-fluid"
-                        src="https://i0.wp.com/epp.solar/wp-content/uploads/2022/08/epplogo.png?fit=500%2C227&ssl=1" alt="">
-                    auf den Eigenverbrauch um. Unterschiedliche
-                    Kunden, ob B2B (Von Geschäft zu Geschäft) oder B2C (Geschäft zum Kunden) Kunde, Sie alle können
-                    die Marke <img class="img-fluid"
-                        src="https://i0.wp.com/epp.solar/wp-content/uploads/2022/08/epplogo.png?fit=500%2C227&ssl=1" alt="">
-                    für ihre persönlichen und geschäftlichen
-                    Bedürfnisse auswählen. Unser umfangreiches Sortiment bietet für jeden Einsatzort eine
-                    individuelle Lösung, mit der Sie nicht nur frei von Sorgen, sondern teils vollkommen autark
-                    durchstarten können. Ob zu Hause auf dem eigenen Dach, auf dem Wohnmobil, Boot oder beim Zelten
-                    ist immer Verlass auf unsere hochwertigen Produkte.</p>
-                </div>
             </div>
         </div>
     </div>

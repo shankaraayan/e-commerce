@@ -144,7 +144,7 @@ class ShippingController extends Controller
                 $code = $discount['code'];
                 foreach($cart as $item){
 
-                    $cart[$item['product_id']]['shipping_country'] = $shippingCountry;
+                    $cart[$item["cart_id"]]['shipping_country'] = $shippingCountry;
                     $tax = getTaxCountry((int)$shippingCountry);
                     if(empty($tax)){
                         $tax['vat_tax'] = 0;
@@ -156,7 +156,7 @@ class ShippingController extends Controller
                         }
                     }
                     
-                    if (isset($item['product_id'])) {
+                    if (isset($item["cart_id"])) {
                         // print_r($item['discount']);die;
                         $item['discount'] = [
                             'code' => $code,
@@ -189,7 +189,7 @@ class ShippingController extends Controller
             else{
                 $total = 0;
                 foreach($cart as $item){
-                    $cart[$item['product_id']]['shipping_country'] = $shippingCountry;
+                    $cart[$item["cart_id"]]['shipping_country'] = $shippingCountry;
                     $tax = getTaxCountry((int)$shippingCountry);
                     if(empty($tax)){
                         $tax['vat_tax'] = 0;

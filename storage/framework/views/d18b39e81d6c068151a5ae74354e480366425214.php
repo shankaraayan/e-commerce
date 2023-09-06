@@ -309,7 +309,8 @@
                                                 $subtotal = 0; 
                                                 $totalPrice = 0; 
                                                 $shipping_data = end($products);  
-                                                
+                                                $ban_transfer = end($products);
+                                                $discount = (end($products));
                                                 foreach ($products as $product) { 
                                                    $tax = getTaxCountry((int)$product['shipping_country']); 
                                                    
@@ -326,7 +327,20 @@
                                                    $taxAmount = @$product['price'] * $tax['vat_tax'] / 100 * @$product['quantity']; 
                                                    $subtotal += $product['price'] * $product['quantity'];
                                                    $totalPrice += ($product['price'] * $product['quantity']) + $taxAmount; 
-                                                } 
+                                                }
+                                                 
+
+                                                  if(isset($discount['discount']) && $discount['discount']['type'] == 'flat'){
+                                                          $discountPrice = $discount['discount']['discount_value'] . " ".$discount['discount']['type'] . " OFF";
+                                                          $totalPrice =  $totalPrice - $discount['discount']['discount_value'];
+                                                  }
+                                                  elseif(isset($discount['discount']) && $discount['discount']['type'] == 'Percentage'){
+                                                          $discountPrice = $discount['discount']['discount_value'] . " ". " %OFF";
+                                                          $totalPrice = $totalPrice - ($totalPrice * $discount['discount']['discount_value'] / 100 );
+                                                  }
+                                                  else{
+                                                          $discountPrice = '0';
+                                                  } 
                                              ?> 
                                             
                                             <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -427,6 +441,51 @@
 
                                               </th>
                                             </tr>
+                                            <?php if(isset($discount['discount'])): ?>
+                                    
+                                              
+                                              <tr>
+                                                <th
+                                                  scope="row"
+                                                  colspan="2"
+                                                  style="
+                                                    border: 1px solid #e5e5e5;
+                                                    text-align: left;
+                                                    font-weight: bold;
+                                                    vertical-align: middle;
+                                                    padding: 12px;
+                                                    font-size: 14px;
+                                                    border-width: 1px;
+                                                    border-style: solid;
+                                                    border-color: #e5e5e5;
+                                                    color: #636363;
+                                                  "
+                                                >
+                                                Gutschein: <?php echo e($discount['discount']['code']); ?>
+
+                                                </th>
+                                                <th
+                                                  scope="row"
+                                                  colspan="1"
+                                                  style="
+                                                    border: 1px solid #e5e5e5;
+                                                    font-weight: normal;
+                                                    text-align: left;
+                                                    vertical-align: middle;
+                                                    padding: 12px;
+                                                    font-size: 14px;
+                                                    border-width: 1px;
+                                                    border-style: solid;
+                                                    border-color: #e5e5e5;
+                                                    color: #636363;
+                                                  "
+                                                >
+                                                <?php echo $discountPrice; ?>
+
+                                                </th>
+                                              </tr>
+                                              
+                                            <?php endif; ?>
                                             <tr>
                                               <th
                                                 scope="row"
@@ -462,7 +521,16 @@
                                                   color: #636363;
                                                 "
                                               >
+                                              <?php if($ban_transfer['bank_transfer']==="yes"): ?>
+                                              <?php 
+                                                $bank_dis = ($totalPrice+$product['shipping_price'])*3/100;
+                                              ?>
+                                               <?php echo e(formatPrice($bank_dis)); ?>
+
+                                              <?php else: ?>
                                                 NA
+                                              <?php endif; ?>
+                                      
                                               </th>
                                             </tr>
 
@@ -581,8 +649,14 @@
                                                   color: #636363;
                                                 "
                                               >
-                                                <?php echo e((formatPrice($totalPrice + $details['shipping_price'] ))); ?>
+                                                
+                                                <?php if($ban_transfer['bank_transfer']==="yes"): ?>
+                                                    <?php echo e(formatPrice( ($totalPrice+$details['shipping_price'])-$bank_dis)); ?>
 
+                                                <?php else: ?>
+                                                <?php echo e(formatPrice($totalPrice+$details['shipping_price'] ?? 0)); ?>
+
+                                                <?php endif; ?>
                                               </th>
                                             </tr>
                                            

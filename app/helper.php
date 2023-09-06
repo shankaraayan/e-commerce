@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\admin\Address;
 use App\Models\admin\Category;
 use App\Models\admin\Slider;
 use App\Models\admin\AttributeTerm;
@@ -25,13 +26,19 @@ use Carbon\Carbon;
 
    function headerCategories()
    {
-      $headerCategories = Category::where('header',1)->get();
+      $headerCategories = Category::where('header',1)->orderBy('serial','ASC')->get();
       return $headerCategories;
    }
 
-   function categories()
+   function categories()   
    {
-      $categories = Category::get();
+      $categories = Category::orderBy('serial','ASC')->get();
+      return $categories;
+   }
+
+   function SingleCategory($id)
+   {
+      $categories = Category::where('id',$id)->pluck('name')->first();
       return $categories;
    }
 
@@ -62,6 +69,11 @@ use Carbon\Carbon;
     return $country;
  }
 
+ function getUserDefaultAddress()
+ {
+   return Address::where('user_id',auth()->user()->id)->first();
+ }
+
  function getTaxCountry($id)
  {
     $result = Country::where('id',$id)->first();
@@ -86,9 +98,9 @@ use Carbon\Carbon;
     return $wishlist;
  }
 
- function paypalDetail()
+ function paymentDetail($name)
  {
-    $PaymentGatway = PaymentGatway::where('status','1')->first();
+    $PaymentGatway = PaymentGatway::where('status','1')->where('app_name',$name)->first();
     return $PaymentGatway;
  }
 
@@ -129,6 +141,7 @@ $max_total = array_sum($allMaxprices);
    return $date->addWeekdays($days)->format('d-m-Y');
 }
  
+function activePaymentGatway(){}
 
 
 ?>
