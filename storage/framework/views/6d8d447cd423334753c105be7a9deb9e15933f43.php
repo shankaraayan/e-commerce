@@ -261,7 +261,7 @@ unset($__errorArgs, $__bag); ?>
                                     '<div class="ps-product__thumbnail"><a class="ps-product__image" href="' +
                                     url + '">' +
                                     '<figure><img src="' + imageUrl +
-                                    '" alt="alt" /></figure>' +
+                                    '" alt="Epp Solar" /></figure>' +
                                     '</a></div>' +
                                     '<div class="ps-product__content">' +
                                     '<h5 class="ps-product__title"><a href="/product-detail/'+categoryIds+'/'+ item.slug+'">' + item

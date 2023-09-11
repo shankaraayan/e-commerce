@@ -66,40 +66,40 @@
                                     <div class="ps-product--gallery">
                                         <div class="ps-product__thumbnail">
                                             <div class="slide"><img src="<?php echo e(asset('assets/img/products/001.jpg')); ?>"
-                                                    alt="alt" /></div>
+                                                    alt="Epp Solar" /></div>
                                             <div class="slide"><img src="<?php echo e(asset('assets/img/products/047.jpg')); ?>"
-                                                    alt="alt" /></div>
+                                                    alt="Epp Solar" /></div>
                                             <div class="slide"><img src="<?php echo e(asset('assets/img/products/047.jpg')); ?>"
-                                                    alt="alt" /></div>
+                                                    alt="Epp Solar" /></div>
                                             <div class="slide"><img src="<?php echo e(asset('assets/img/products/008.jpg')); ?>"
-                                                    alt="alt" /></div>
+                                                    alt="Epp Solar" /></div>
                                             <div class="slide"><img src="<?php echo e(asset('assets/img/products/034.jpg')); ?>"
-                                                    alt="alt" /></div>
+                                                    alt="Epp Solar" /></div>
                                         </div>
                                         <div class="ps-gallery--image">
                                             <div class="slide">
                                                 <div class="ps-gallery__item"><img
-                                                        src="<?php echo e(asset('assets/img/products/001.jpg')); ?>" alt="alt" />
+                                                        src="<?php echo e(asset('assets/img/products/001.jpg')); ?>" alt="Epp Solar" />
                                                 </div>
                                             </div>
                                             <div class="slide">
                                                 <div class="ps-gallery__item"><img
-                                                        src="<?php echo e(asset('assets/img/products/047.jpg')); ?>" alt="alt" />
+                                                        src="<?php echo e(asset('assets/img/products/047.jpg')); ?>" alt="Epp Solar" />
                                                 </div>
                                             </div>
                                             <div class="slide">
                                                 <div class="ps-gallery__item"><img
-                                                        src="<?php echo e(asset('assets/img/products/047.jpg')); ?>" alt="alt" />
+                                                        src="<?php echo e(asset('assets/img/products/047.jpg')); ?>" alt="Epp Solar" />
                                                 </div>
                                             </div>
                                             <div class="slide">
                                                 <div class="ps-gallery__item"><img
-                                                        src="<?php echo e(asset('assets/img/products/008.jpg')); ?>" alt="alt" />
+                                                        src="<?php echo e(asset('assets/img/products/008.jpg')); ?>" alt="Epp Solar" />
                                                 </div>
                                             </div>
                                             <div class="slide">
                                                 <div class="ps-gallery__item"><img
-                                                        src="<?php echo e(asset('assets/img/products/034.jpg')); ?>" alt="alt" />
+                                                        src="<?php echo e(asset('assets/img/products/034.jpg')); ?>" alt="Epp Solar" />
                                                 </div>
                                             </div>
                                         </div>
@@ -351,7 +351,7 @@ $(document).ready(function() {
                             // console.log(url);
                             dropdown.append('<div class="ps-product ps-product--horizontal">' +
                                 '<div class="ps-product__thumbnail"><a class="ps-product__image" href="' + url + '">' +
-                                '<figure><img src="' + imageUrl + '" alt="alt" /></figure>' +
+                                '<figure><img src="' + imageUrl + '" alt="Epp Solar" /></figure>' +
                                 '</a></div>' +
                                 '<div class="ps-product__content">' +
                                 '<h5 class="ps-product__title"><a>'+ item.product_name +'</a></h5>' +

@@ -1,14 +1,6 @@
 
 <style>
-    .ps-shopping .ps-shopping__footer .ps-btn {
-        display: inline-block;
-        width: auto;
-        text-transform: initial;
-        /* height: 44px; */
-        padding: 5px 10px;
-        font-size: 16px;
-        font-weight: 500;
-    }
+     
     .empty_cart_area .carticon {
         font-size: 10vw;
         color: #818181c4;
@@ -65,44 +57,44 @@
                                     <li class="variable">
                                         <div class="ps-product ps-product--wishlist">
                                             <div class="ps-product__remove"><a href="javascript::void(0)"
-                                                    onclick="remove_to_cart(<?= $id ?>)"><i
+                                                    onclick="remove_to_cart('<?php echo e($id); ?>')"><i
                                                         class="icon-trash2 text-danger"></i></a></div>
                                             <div class="ps-product__thumbnail"><a class="ps-product__image" href="<?php echo e(route('product.detail', [$category,$details['slug']])); ?>">
                                                     <figure><img src="<?php echo e(asset('root/public/uploads/' . @$details['images'])); ?>"
-                                                            alt="alt">
+                                                            alt="Epp Solar">
                                                     </figure>
                                                 </a></div>
                                             <div class="ps-product__content">
                                                 <h5 class="ps-product__title d-block text-left">
                                                     <a href="<?php echo e(route('product.detail', [$category,$details['slug']])); ?>"><span class="mb-2 d-block cart_producttitle"><?php echo e(@$details['name']); ?></span></a>
                                                     
-                                                    <span class="fs-5 font-weight-bold border-bottom text-muted">Components</span>
-                                                        <?php if(!empty(@$details['details'])): ?>
-                                                        <div class="card card-body border-0 p-1 mt-1">
-                                                            <ul class="list-inline">
-                                                                <?php
-                                                                    $detailsCount = count(@$details['details']);
-                                                                ?>
-                                                                <?php $__currentLoopData = $details['details']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                    <?php if($index < 2): ?>
-                                                                        <li class="text-muted mb-1">- <?php echo e($val); ?></li>
-                                                                    <?php endif; ?>
-                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                            </ul>
-                                                            <?php if($detailsCount > 2): ?>
-                                                                <div class="collapse" id="attribute_values<?php echo e($id); ?>">
-                                                                    <ul class="list-inline">
-                                                                        <?php $__currentLoopData = $details['details']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                            <?php if($index >= 2): ?>
-                                                                                <li class="text-muted mb-1">- <?php echo e($val); ?></li>
-                                                                            <?php endif; ?>
-                                                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                                    </ul>
-                                                                </div>
-                                                                <a class="btn shadow-none fs-5 font-weight-bold pl-0 text-left" data-toggle="collapse" href="#attribute_values<?php echo e($id); ?>" role="button" aria-expanded="false" aria-controls="attribute_values">View more</a>
-                                                            <?php endif; ?>
-                                                        </div>
+                                                    <span class="fs-5 font-weight-bold border-bottom text-muted">Komponenten</span>
+                                                    <?php if(!empty(@$details['details'])): ?>
+                                                    <div class="card card-body border-0 p-1 mt-1">
+                                                        <ul class="list-inline">
+                                                            <?php
+                                                                $detailsCount = count(@$details['details']);
+                                                            ?>
+                                                            <?php $__currentLoopData = $details['details']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <?php if($index < 2): ?>
+                                                                    <li class="text-muted small mb-1">- <?php echo e($val); ?></li>
+                                                                <?php endif; ?>
+                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                        </ul>
+                                                        <?php if($detailsCount > 2): ?>
+                                                            <div class="collapse" id="attribute_values<?php echo e($id); ?>">
+                                                                <ul class="list-inline">
+                                                                    <?php $__currentLoopData = $details['details']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $val): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                        <?php if($index >= 2): ?>
+                                                                            <li class="text-muted small mb-1"> - <?php echo e($val); ?></li>
+                                                                        <?php endif; ?>
+                                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                                </ul>
+                                                            </div>
+                                                            <a class="btn shadow-none fs-5 font-weight-bold pl-0 cartcomponent_btn text-left" data-toggle="collapse" href="#attribute_values<?php echo e($id); ?>" role="button" aria-expanded="false" aria-controls="attribute_values" data-text="Mehr anzeigen" data-alt-text="Weniger anzeigen">Mehr anzeigen</a>
                                                         <?php endif; ?>
+                                                    </div>
+                                                <?php endif; ?>
                                                     
                                                         
                                                     
@@ -159,7 +151,7 @@
                                                     href="<?php echo e(route('product.detail', [$category,@$details['slug']])); ?>">
                                                     <figure><img
                                                             src="<?php echo e(asset('root/public/uploads/' . @$details['images'])); ?>"
-                                                            alt="alt">
+                                                            alt="Epp Solar">
                                                     </figure>
                                                 </a></div>
                                             <div class="ps-product__content">
@@ -257,7 +249,7 @@
                                                         <a href="<?php echo e(url($details['cart_product_url'])); ?>"><span class="mb-0 d-block cart_producttitle ps-product__title"><?php echo e(@$details['name']); ?></span></a>
                                                     </div>
                                                     <div class="attribute_vals">
-                                                        <span class="fs-5 font-weight-bold border-bottom text-muted">Components</span>
+                                                        <span class="fs-5 font-weight-bold border-bottom text-muted">Komponenten</span>
                                                         <?php if(!empty(@$details['details'])): ?>
                                                         <div class="card card-body border-0 p-1 mt-1">
                                                             <ul class="list-inline">
@@ -280,7 +272,7 @@
                                                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                     </ul>
                                                                 </div>
-                                                                <a class="btn shadow-none fs-5 font-weight-bold pl-0 cartcomponent_btn text-left" data-toggle="collapse" href="#attribute_values<?php echo e($id); ?>" role="button" aria-expanded="false" aria-controls="attribute_values">View more</a>
+                                                                <a class="btn shadow-none fs-5 font-weight-bold pl-0 cartcomponent_btn text-left" data-toggle="collapse" href="#attribute_values<?php echo e($id); ?>" role="button" aria-expanded="false" aria-controls="attribute_values">Mehr anzeigen</a>
                                                             <?php endif; ?>
                                                         </div>
                                                         <?php endif; ?>
@@ -288,7 +280,7 @@
                                                     </div>
                                                     <div class="cart_product_shipping">
                                                         <span class="text-muted fs-5"> 
-                                                            Estimate Shipping date 
+                                                            Voraussichtliches Versanddatum
                                                             
                                                             
                                                             <?php echo e(working_days(@$details['product_availability'] ?? 10 )); ?>
@@ -299,8 +291,8 @@
                                                 </div>
                                             </div>
                                             
-                                            <div class="col-md-1 d-flex align-items-center justify-content-center">
-                                                <div class="ps-product__remove"><a href="javascript::void(0)" onclick="remove_to_cart(<?= $id ?>)"><i class="icon-trash2 text-danger"></i></a>
+                                            <div class="col-md-1 d-flex align-items-start justify-content-center">
+                                                <div class="ps-product__remove"><a href="javascript::void(0)" onclick="remove_to_cart('<?= $id ?>')"><i class="icon-trash2 text-danger"></i></a>
                                                 </div>
                                             </div>
                                                 
@@ -353,14 +345,14 @@
                                                         </div>
                                                         
                                                         <div class="cart_product_shipping">
-                                                            <span class="text-muted fs-5">Estimate Shipping date 
+                                                            <span class="text-muted fs-5">Voraussichtliches Versanddatum 
                                                                 
                                                                 <?php echo e(working_days(@$details['product_availability'] ?? 10  )); ?></span>
                                                         </div>
                                                     </div>
                                                 </div>   
 
-                                                <div class="col-md-1 d-flex align-items-center justify-content-center">
+                                                <div class="col-md-1 d-flex align-items-start justify-content-center">
                                                     <div class="ps-product__remove"> <a href="javascript::void(0)" onclick="remove_to_cart(<?= $id ?>)"><i class="icon-trash2 text-danger"></i></a></div>
                                                 </div>
 
@@ -404,17 +396,11 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="ps-shopping__footer">
-                        <div class="row">
-        
-                        </div>
-                    </div>
                 </div>
                 <div class="col-12 col-md-5 col-lg-3">
                     <div class="shadow bg-white pt-20 p-3">
                         <div class="h3 py-3 font-weight-bold text-blue px-2">Warenkorb-Summen</div>
-                    <div class="ps-shopping__box">
+                    <div class="ps-shopping__box mb-3">
                         <div class="ps-shopping__row">
                             <div class="ps-shopping__label">Zwischensumme
                             </div>
@@ -448,6 +434,12 @@
                             <a class="ps-shopping__link" href="<?php echo e(url('/')); ?>">Weiter zum Einkaufen</a>
                         </div>
                     </div>
+                    <div class="d-flex ps-shopping__footer justify-content-center mb-3 pt-2">
+                        <div class="ps-shopping__button">
+                            <p class="text-center text-muted">or</p>
+                            <a href="/clear_cart"><button class="ps-btn blue-btn--outline mr-0" type="button">Warenkorb leeren</button></a>
+                        </div>
+                    </div>
                     </div>
                 </div>
             <?php else: ?>
@@ -469,13 +461,26 @@
                 </div>
             </div>
             <?php endif; ?>
-           
-
-
-            
-
         </div>    
     <div>
 
 </div>
+
+ <?php if(session('cart')): ?>
+<script>
+    $(document).ready(function () {
+        $('#attribute_values<?php echo e(@$id); ?>').on('show.bs.collapse', function () {
+            $('[data-toggle="collapse"][href="#attribute_values<?php echo e(@$id); ?>"]').text($('[data-toggle="collapse"][href="#attribute_values<?php echo e(@$id); ?>"]').data('alt-text'));
+        });
+        $('#attribute_values<?php echo e(@$id); ?>').on('hide.bs.collapse', function () {
+            $('[data-toggle="collapse"][href="#attribute_values<?php echo e(@$id); ?>"]').text($('[data-toggle="collapse"][href="#attribute_values<?php echo e(@$id); ?>"]').data('text'));
+        });
+    });
+</script>
+<?php endif; ?>
+ 
+
+
+
+
 <?php /**PATH /home/customstegpearl/public_html/root/resources/views/elements/cart_data.blade.php ENDPATH**/ ?>

@@ -42,7 +42,8 @@
                                 ?>
                                
                                 <?php echo e($name); ?> !</span> </h4>
-                            <h5 class="mb-4 font-weight-normal">Your order <a class="d-inline-block" href="javascript:(void);"><span class="order_ID font-weight-bold d-inline-block text-green mx-1 fs-3">#<?php echo e($order->order_id); ?></span></a> has been placed.</h5> 
+                                 
+                            <h5 class="mb-4 font-weight-normal">Your order <a class="d-inline-block" href="<?php echo e(route("user.order-details",$order->order_id)); ?>"><span class="order_ID font-weight-bold d-inline-block text-green mx-1 fs-3">#<?php echo e($order->order_id); ?></span></a> has been placed.</h5> 
                             <p class="fs-4" style="line-height: 1.6em;">Your order confirmation and receipt have been included in an email dispatched to <span class="text-blue font-weight-bold"><?php echo e($billing['email']); ?></span>. If this email doesn't materialize in your inbox within a span of two minutes, we recommend perusing your spam folder to verify if it was channeled there.</p> 
                             <p class="order_date text-green d-flex align-items-center justify-content-center"><i class="icon-calendar-full text-green mr-2 font-weight-bold" style="font-size: 2rem;"></i><?php echo e(date('d-M-Y',strtotime($order['created_at']))); ?></p>
                         </div>
@@ -136,7 +137,7 @@
                         <div class="row product_list_row">
                             <div class="col-md-2 col-3">
                                 <figure>
-                                    <img src="<?php echo e(asset('root/public/uploads/' . @$product['thumb_image'])); ?>" class="img-fluid border p-1" alt="">
+                                    <img src="<?php echo e(asset('root/public/uploads/' . @$product['thumb_image'])); ?>" class="img-fluid border p-1" alt="Epp Solar">
                                 </figure>
                             </div>
                             <div class="col-md-8 col-9">

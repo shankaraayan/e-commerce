@@ -124,7 +124,7 @@
                                                         <div class="col-3">
                                                             <div class="relatedproduct_pic">
                                                                 <img src="https://stegback.com/root/storage/uploads/01683286837-1800-with-Epp-new07.jpg"
-                                                                    class="img-fluid" alt="">
+                                                                    class="img-fluid" alt="Epp Solar">
                                                             </div>
                                                         </div>
                                                         <div class="col-9">
@@ -144,7 +144,7 @@
                                                         <div class="col-3">
                                                             <div class="relatedproduct_pic">
                                                                 <img src="https://stegback.com/root/storage/uploads/01683286837-1800-with-Epp-new07.jpg"
-                                                                    class="img-fluid" alt="">
+                                                                    class="img-fluid" alt="Epp Solar">
                                                             </div>
                                                         </div>
                                                         <div class="col-9">
@@ -164,7 +164,7 @@
                                                         <div class="col-3">
                                                             <div class="relatedproduct_pic">
                                                                 <img src="https://stegback.com/root/storage/uploads/01683286837-1800-with-Epp-new07.jpg"
-                                                                    class="img-fluid" alt="">
+                                                                    class="img-fluid" alt="Epp Solar">
                                                             </div>
                                                         </div>
                                                         <div class="col-9">
@@ -184,7 +184,7 @@
                                                         <div class="col-3">
                                                             <div class="relatedproduct_pic">
                                                                 <img src="https://stegback.com/root/storage/uploads/01683286837-1800-with-Epp-new07.jpg"
-                                                                    class="img-fluid" alt="">
+                                                                    class="img-fluid" alt="Epp Solar">
                                                             </div>
                                                         </div>
                                                         <div class="col-9">
@@ -414,7 +414,7 @@
                                                                             <div class="col-3">
                                                                                 <div class="relatedproduct_pic">
                                                                                     <img src="https://stegback.com/root/storage/uploads/01683286837-1800-with-Epp-new07.jpg"
-                                                                                        class="img-fluid" alt="">
+                                                                                        class="img-fluid" alt="Epp Solar">
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-9">
@@ -437,7 +437,7 @@
                                                                             <div class="col-3">
                                                                                 <div class="relatedproduct_pic">
                                                                                     <img src="https://stegback.com/root/storage/uploads/01683286837-1800-with-Epp-new07.jpg"
-                                                                                        class="img-fluid" alt="">
+                                                                                        class="img-fluid" alt="Epp Solar">
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-9">
@@ -460,7 +460,7 @@
                                                                             <div class="col-3">
                                                                                 <div class="relatedproduct_pic">
                                                                                     <img src="https://stegback.com/root/storage/uploads/01683286837-1800-with-Epp-new07.jpg"
-                                                                                        class="img-fluid" alt="">
+                                                                                        class="img-fluid" alt="Epp Solar">
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-9">
@@ -483,7 +483,7 @@
                                                                             <div class="col-3">
                                                                                 <div class="relatedproduct_pic">
                                                                                     <img src="https://stegback.com/root/storage/uploads/01683286837-1800-with-Epp-new07.jpg"
-                                                                                        class="img-fluid" alt="">
+                                                                                        class="img-fluid" alt="Epp Solar">
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-9">

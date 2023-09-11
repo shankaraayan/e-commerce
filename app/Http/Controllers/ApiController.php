@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\countryModel;
 use App\Models\Order;
+use App\Services\UpdateQuantity;
 use Illuminate\Http\Request;
 
-class OrderApiController extends Controller
+class ApiController extends Controller
 {
     public function index(){        
         try {
@@ -52,7 +53,7 @@ class OrderApiController extends Controller
             return $this->successResponse('Order deleted successfully');
            
         } catch (\Exception $e) {
-            return $this->errorResponse('An error occurred while deleting the order',$e);
+            return $this->errorResponse($e);
             // return response()->json(['error' => ''], 500);
         }
     }
@@ -63,7 +64,7 @@ class OrderApiController extends Controller
             (new UpdateQuantity)->updateOrderStatus($request->order_id, $request->status);
            return $this->successResponse('Updated');
         } catch (\Exception $e) {
-            return $this->errorResponse('Error',$e);
+            return $this->errorResponse($e);
         }
     }
 

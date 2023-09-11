@@ -56,23 +56,23 @@
                     </div>
                 </div>
             </a>
-            <a href="{{route('user.wishlist')}}" class="col-md-4 col-sm-6 col-6 px-2 px-sm-3 mb-4">
+            {{-- <a href="{{route('user.wishlist')}}" class="col-md-4 col-sm-6 col-6 px-2 px-sm-3 mb-4">
                 <div class="dashboard_box text-center shadow-sm border align-items-center justify-content-center">
                     <div class="wishlist_box">
-                        {{-- <img src="{{asset('assets/img/stegpearl/wishlist.png')}}" /> --}}
+                        <img src="{{asset('assets/img/stegpearl/wishlist.png')}}" />
                         <i class="icon-heart"></i>
                         <h6 class="ps-section__title fw-400 pt-4 mb-0">Wishlist</h6>
                     </div>
                 </div>
-            </a>
-            {{--<a href="{{route('logout')}}" class="col-md-4 col-xs-12 px-1 px-sm-2 mb-3">
+            </a> --}}
+            {{-- <a href="{{route('logout')}}" class="col-md-4 col-xs-12 px-1 px-sm-2 mb-3">
                 <div class="dashboard_box text-center shadow-sm border align-items-center justify-content-center p-3 pt-5">
                     <div class="logout_box">
                         <img src="{{asset('assets/img/stegpearl/logout.png')}}" />
-                        <h4 class="ps-section__title pt-4">Logout</h4>
+                        <h4 class="ps-section__title fw-400 pt-4 mb-0">Logout</h4>
                     </div>
                 </div>
-            </a>--}}
+            </a> --}}
         </div>
     </div>
 </div>

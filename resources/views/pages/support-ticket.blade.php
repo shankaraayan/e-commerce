@@ -17,7 +17,7 @@
      <div class="bg-light-blue pt-50 pb-50">
       <div class="container">
         <img src="https://i0.wp.com/epp.solar/wp-content/uploads/2023/01/support-ticket-01-scaled.jpg?fit=2560%2C533&ssl=1"
-            alt="">
+            alt="Epp Solar">
         <div class="row">
           <div class="col-md-12">
             <iframe loading="lazy" class="support_ticket entered lazyloaded shadow border"

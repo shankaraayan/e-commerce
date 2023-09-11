@@ -14,16 +14,16 @@ Forgot password
                                         <form action="{{route('forget-password')}}" method="post">
                                             @csrf
                                             <div class="ps-form--review">
-                                                <h2 class="ps-form__title p-0 m-0">Forgot Password</h2><hr>
+                                                <h2 class="ps-form__title p-0 m-0">Passwort vergessen</h2><hr>
                                                 <div class="ps-form__group">
-                                                    <label class="ps-form__label">Email address *</label>
+                                                    <label class="ps-form__label">E-Mail Adresse *</label>
                                                     <input class="form-control ps-form__input" type="email" name="email" value="{{ old('email') }}">
                                                         @error('email')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror
                                                 </div>
                                                 <div class="ps-form__submit">
-                                                    <button type="submit" class="ps-btn ps-btn--warning">Forgot</button>
+                                                    <button type="submit" class="ps-btn ps-btn--warning">Vergessen</button>
                                                 </div>
                                                 <div class="d-flex align-items-center justify-content-center flex-column">
                                                     <a class="ps-account__link" href="{{route('login')}}">Sie haben bereits ein Konto? Bitte hier einloggen.</a>

@@ -36,14 +36,14 @@
                 <div class="col-12">
                     <p> <img class="img-fluid mr-3"
                         src="https://i0.wp.com/epp.solar/wp-content/uploads/2022/08/epplogo.png?fit=500%2C227&ssl=1"
-                        alt="">ist ein E-Commerce-Marktplatz, wo Sie
+                        alt="Epp Solar">ist ein E-Commerce-Marktplatz, wo Sie
                     Ihre Solarprodukte zum Bestpreis kaufen können. Steigen Sie mit Solarprodukten und <img
                         class="img-fluid"
-                        src="https://i0.wp.com/epp.solar/wp-content/uploads/2022/08/epplogo.png?fit=500%2C227&ssl=1" alt="">
+                        src="https://i0.wp.com/epp.solar/wp-content/uploads/2022/08/epplogo.png?fit=500%2C227&ssl=1" alt="Epp Solar">
                     auf den Eigenverbrauch um. Unterschiedliche
                     Kunden, ob B2B (Von Geschäft zu Geschäft) oder B2C (Geschäft zum Kunden) Kunde, Sie alle können
                     die Marke <img class="img-fluid"
-                        src="https://i0.wp.com/epp.solar/wp-content/uploads/2022/08/epplogo.png?fit=500%2C227&ssl=1" alt="">
+                        src="https://i0.wp.com/epp.solar/wp-content/uploads/2022/08/epplogo.png?fit=500%2C227&ssl=1" alt="Epp Solar">
                     für ihre persönlichen und geschäftlichen
                     Bedürfnisse auswählen. Unser umfangreiches Sortiment bietet für jeden Einsatzort eine
                     individuelle Lösung, mit der Sie nicht nur frei von Sorgen, sondern teils vollkommen autark

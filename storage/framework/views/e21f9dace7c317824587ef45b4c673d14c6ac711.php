@@ -98,31 +98,29 @@
                                             <?php if($key == 5): ?>
                                                 <?php break; ?>
                                             <?php endif; ?>
-                                            
+                                            <a href="/product-detail/<?php echo e($lastSegment); ?>/<?php echo e($product->slug); ?>">
                                                 <div class="ps-widget__item">
                                                     <div class="row no-gutters">
                                                         <div class="col-3">
                                                             <div class="product_pics">
-                                                                <img src="<?php echo e(asset('root/public/uploads/'.$product->thumb_image)); ?>" class="img-fluid" alt="">
+                                                                <img src="<?php echo e(asset('root/public/uploads/'.$product->thumb_image)); ?>" class="img-fluid" alt="<?php echo e(@$product->product_name); ?>">
                                                             </div>
                                                         </div>
                                                         <div class="col-9 pl-3">
                                                         <div class="product_info_rel">
                                                             <p class="product_info_name ps-product__title"><?php echo e($product->product_name); ?></p>
-                                                            <?php
-                                                                $attributeIDs = ($product->attributes_id);
-                                                                $result = explode(',', $attributeIDs);
-                                                                $prices = minmaxPrice($result);
-                                                            ?>
+                                                            
                                                             <?php if($product->type==='variable'): ?>
-                                                                <span class="ps-product__price text-green">aus  - <?php echo e(formatPrice($prices['sum_of_max_prices'])); ?></span>
+                                                            <?php $upto = min_max_price($product->id); ?>
+                                                                <span class="ps-product__price text-green">aus  - <?php echo e(formatPrice($upto)); ?></span>
                                                             <?php else: ?>
-                                                                <span class="ps-product__price text-green"><?php echo e(formatPrice($product->price)); ?></span>
+                                                                <span class="ps-product__del text-muted"><?php echo e(formatPrice($product->price)); ?></span> <span class=" ps-product__price text-green"><?php echo e(formatPrice($product->sale_price)); ?></span>
                                                             <?php endif; ?>
                                                         </div>
                                                     </div>
                                                     </div>
                                                 </div>
+                                            </a>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     <?php endif; ?>
                                 </div>
@@ -138,7 +136,7 @@
                                 $banner = categories()->where('slug',$lastSegment)->pluck('banner')->first();
                              ?>
                                 <?php if($banner != null): ?>
-                                <img src="<?php echo e(asset('root/public/uploads/category/'.$banner)); ?>" class="img-fluid w-100 rounded">
+                                <img src="<?php echo e(asset('root/public/uploads/category/'.$banner)); ?>" alt="Epp Solar" class="img-fluid w-100 rounded">
                                 <?php else: ?>
                                 <img src="https://campergold.net/wp-content/uploads/2023/05/campergold-2.jpg" class="img-fluid w-100 rounded">
                                 <?php endif; ?>
@@ -220,7 +218,7 @@
                         var html = `<div class="col-12 col-md-6 col-sm-6 col-lg-4 p-0">
                                         <div class="ps-product ps-product--standard">
                                             <div class="ps-product__thumbnail"><a class="ps-product__image" href="<?php echo e(route('product.detail',$product->slug)); ?>">
-                                                    <figure><img src="<?php echo e(asset('root/public/uploads/${product.thumb_image}')); ?>" alt="alt" class="img-fluid" /><img src="img/stegpearl/easy peak power.png" class="img-fluid" alt="alt" />
+                                                    <figure><img src="<?php echo e(asset('root/public/uploads/${product.thumb_image}')); ?>" alt="Epp Solar" class="img-fluid" /><img src="img/stegpearl/easy peak power.png" class="img-fluid" alt="Epp Solar" />
                                                     </figure>
                                                 </a>
                                                 <div class="ps-product__actions">
@@ -280,6 +278,7 @@
                 event.preventDefault();
                 const sortValue = this.getAttribute('data-sort');
                 updateSortQueryParams(sortValue);
+                $("#filter-name").html(sortValue.replace(/_/g, ' '));
             });
         });
 
@@ -317,13 +316,10 @@
                         var html = `<div class="col-12 col-lg-4 p-0">
                                         <div class="ps-product ps-product--standard">
                                             <div class="ps-product__thumbnail"><a class="ps-product__image" href="<?php echo e(route('product.detail',$product->slug)); ?>">
-                                                    <figure><img src="<?php echo e(asset('root/public/uploads/${product.thumb_image}')); ?>" alt="alt" class="img-fluid" /><img src="img/stegpearl/easy peak power.png" class="img-fluid" alt="alt" />
+                                                    <figure><img src="<?php echo e(asset('root/public/uploads/${product.thumb_image}')); ?>" alt="Epp Solar" class="img-fluid" />
                                                     </figure>
                                                 </a>
-                                                <div class="ps-product__actions">
-                                                    <div class="ps-product__item" data-toggle="tooltip" data-placement="left" title="" data-original-title="Wishlist"><a href="#"><i class="fa fa-heart-o"></i></a></div>
-
-                                                </div>
+                                 
                                                 <div class="ps-product__badge">
                                                     <div class="ps-badge ps-badge--hot">Hot</div>
                                                 </div>
@@ -540,7 +536,7 @@
                         "_token": "<?php echo e(csrf_token()); ?>",
                 },
                 success: function(response) {
-                    // console.log(response);
+                    console.log(response);
                     
                     response.map((item, index) => {
                     data += `
@@ -549,14 +545,15 @@
                             <div class="row no-gutters">
                                 <div class="col-3">
                                     <div class="product_pics">
-                                        <img src="/root/public/uploads/${item.thumb_image}" class="img-fluid" alt="">
+                                        <img src="/root/public/uploads/${item.thumb_image}" class="img-fluid" alt="Epp Solar">
                                     </div>
                                 </div>
                                 <div class="col-9 pl-3">
                                     <div class="product_info_rel">
                                         <p class="product_info_name ps-product__title">${item.product_name}</p>
                                         <div class="ps-product__price text-green">
-                                            ${item.type === "variable" ? `aus - €${price_normal_to_euro(item.sum_of_max_prices)}` : `€${price_normal_to_euro(item.price)}`}
+                                            
+                                            ${item.type === "variable" ? `aus - €${price_normal_to_euro(item.sum_of_max_prices)}` : `<span class="ps-product__del text-muted">€${price_normal_to_euro(item.price)}</span> <span class="text-green">€${price_normal_to_euro(item.sale_price)}</span>`}
                                         </div>
                                     </div>
                                 </div>

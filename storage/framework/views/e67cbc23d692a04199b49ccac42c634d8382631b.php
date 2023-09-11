@@ -20,55 +20,8 @@
 <?php $__env->startSection('content'); ?>
 
     <?php
-// dd(session('cart'));
-        if(session('cart')){
         $cart = session('cart');
-        
-        $lastCartItem = end($cart);
-        $session_country = @$lastCartItem['shipping_country'];
-        if($session_country == 0){
-            $session_country ='';
-        }
-        $session_shipping_class = (int)@$lastCartItem['shipping_class'];
-        $shippingCountry =  shippingCountry()->where('shipping_id',$session_shipping_class);
-        }else {
-            return redirect()->route('cart');
-        }
-        $cart = session('cart');
-        $class = [];
-        foreach ($cart as $item) {
-            $class[] = $item['shipping_class'];
-        }
-
-        $countriesByClass = [];
-        foreach ($class as $key => $shippingClassId) {
-            $countries = shippingCountry()
-                ->where('shipping_id', $shippingClassId)
-                ->pluck('country')
-                ->toArray();
-            $countriesByClass[$shippingClassId] = $countries;
-        }
-
-        $commonCountries = [];
-        $uncommonCountries = [];
-
-        foreach ($countriesByClass as $classId => $countries) {
-            if ($classId === reset($class)) {
-                $commonCountries = $countries;
-                $uncommonCountries = $countries;
-            } else {
-                $commonCountries = array_intersect($commonCountries, $countries);
-                $uncommonCountries = array_diff($uncommonCountries, $countries);
-            }
-        }
-
-        if (count(array_unique($class)) <= 1) {
-            $uncommonCountries = [];
-        }
-    ?>
-    
-    <?php
-       $cart_data =  end($cart);
+        $cart_data =  end($cart);
         if($userAddress){
             $billingAddress = json_decode($userAddress['billing_address'],true);
         }
@@ -90,7 +43,7 @@
                 <div class="ps-checkout__content bg-light">
                     <div class="container">
                     <div class="ps-checkout__wapper">
-                        <p class="ps-checkout__text mb-4">Sie haben noch kein Konto? <a href="<?php echo e(route('login')); ?>">Zum Anmelden hier klicken</a></p>
+                        <p class="ps-checkout__text mb-4">Sie haben noch kein Konto? <a href="/login?redirect=checkout">Zum Anmelden hier klicken</a></p>
                         <div class="ps-shopping__coupon row">
                             <div class="col-lg-8 col-md-12 col-12">
                                     <p class="ps-checkout__text ">Haben Sie einen Gutschein? <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"> Klicken Sie hier, um Ihren Code einzugeben</a></p>
@@ -191,7 +144,7 @@ unset($__errorArgs, $__bag); ?>
                                             <div class="ps-checkout__group">
                                                 <label for="email" class="ps-checkout__label">E-Mail Adresse<span
                                                         class="text-danger">*</span></label>
-                                                <input class="ps-input" type="email" name="email" id="user_email""
+                                                <input class="ps-input" type="email" name="email" id="user_email"
                                                     value="<?php echo e(old('email') ?? auth()->user()->email ?? ''); ?>">
                                                 <?php $__errorArgs = ['email'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -203,7 +156,9 @@ $message = $__bag->first($__errorArgs[0]); ?>
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
-                                                <span class="text-danger" style="font-size: small;" id="loginValidation"></span>
+                                                <?php if(!auth()->user()): ?>
+                                                    <span class="text-danger" style="font-size: small;" id="loginValidation"></span>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
     
@@ -391,7 +346,7 @@ unset($__errorArgs, $__bag); ?>
     
                                                 <div class="col-12">
                                                     <div class="ps-checkout__group">
-                                                        <label for="company_name" class="ps-checkout__label">Firmenname (optional)<span class="text-danger">*</span></label>
+                                                        <label for="company_name" class="ps-checkout__label">Firmenname (optional)</label>
                                                         <input class="ps-input" type="text" name="shipping_company_name" value="<?php echo e(old('shipping_company_name')); ?>">
                                                         <?php $__errorArgs = ['shipping_company_name'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -1108,7 +1063,7 @@ unset($__errorArgs, $__bag); ?>
             success: function(response) {
                 // console.log(response);
                 if(response == 'found'){
-                    $('#loginValidation').html('This email is registered with us, Please login your account. <a href="/login?redirect=checkout">Login Here</a>');
+                    $('#loginValidation').html('Diese E-Mail ist bei uns registriert, bitte loggen Sie sich ein. <a href="/login?redirect=checkout">Hier anmelden</a>');
                 }else{
                     $('#loginValidation').html('');
                 }
@@ -1120,6 +1075,14 @@ unset($__errorArgs, $__bag); ?>
     // ***************  start 3% bank transfer code ******************
 
 $(document).ready(function(){
+    // prevent double click submit
+    $("#payment_button").on('click', function (e) {
+        setTimeout(() => {
+            $(this).attr("disabled", true);
+        }, 500);
+     });
+     
+    //  check payment method 
     $(".payment_method").each(function() {
         // store payment type in session to manage reload page
         if (sessionStorage.getItem('p_m_t') && $(this).val() === sessionStorage.getItem("p_m_t")) {

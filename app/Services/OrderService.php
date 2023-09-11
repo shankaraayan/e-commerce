@@ -6,22 +6,31 @@ use Illuminate\Support\Facades\Http;
 
 class OrderService {
     
-    public function sendOrderStegback(int $order_no, array $orderData, string $url)
+    protected $url,$staticPath;
+    
+    public function __construct()
+    {
+        $this->url = env('APP_API_URL');
+    }
+    
+    //* Sent From Frontend Controller
+    public function sendOrderStegback(int $order_no, array $orderData,$payment=null)
     {
         try {
             $request =  Http::contentType('application/json')
-                ->post($url.'api/orderFromStegpearl', [
+                ->post($this->url."/api/eppsolar/24/save-order", [
                     'order_no' => $order_no,
-                    'order_data' => $orderData
+                    'order_data' => $orderData,
+                    'payment' => $payment,
                 ]);
 
+            return($request->body());die;
             if (!$request->successful()) throw new Exception();
-
             $response = $request->json();
             return $response;
 
         } catch (\Exception $e) {
-            return false;
+            return (['error'=> $e]);
         }
     }
 }

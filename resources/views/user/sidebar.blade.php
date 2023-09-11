@@ -19,9 +19,9 @@
                 <a href="{{route('user.account')}}" class="d-flex nav-link rounded-0 align-items-center justify-content-between ps-block__title text-left fs-3 py-3 {{(Route::currentRouteName()=='user.account')? 'active':''}}">
                     Account Details <i class="icon-user fs-3 fw-700"></i>
                 </a>
-                <a href="{{route('user.wishlist')}}" class="d-flex nav-link rounded-0 align-items-center justify-content-between ps-block__title text-left fs-3  py-3{{(Route::currentRouteName()=='user.wishlist')? 'active':''}}">
+                {{-- <a href="{{route('user.wishlist')}}" class="d-flex nav-link rounded-0 align-items-center justify-content-between ps-block__title text-left fs-3  py-3{{(Route::currentRouteName()=='user.wishlist')? 'active':''}}">
                     Wishlist <i class="icon-heart fs-3 fw-700"></i>
-                </a>
+                </a> --}}
                 <a href="{{route('logout')}}" class="d-flex nav-link rounded-0 align-items-center justify-content-between ps-block__title text-left fs-3 py-3">
                     Logout<i class="fa fa-sign-in fs-3 fw-700"></i>
                 </a>

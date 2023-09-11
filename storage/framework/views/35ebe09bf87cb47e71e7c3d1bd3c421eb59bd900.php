@@ -1,7 +1,7 @@
 
 
 <?php $__env->startSection("title"); ?>
-Reset password
+Passwort zurücksetzen
 <?php $__env->stopSection(); ?>
 
 <?php $__env->startSection("content"); ?>
@@ -15,9 +15,9 @@ Reset password
                                 <?php echo csrf_field(); ?>
                                 <div class="ps-form--review">
                                 <input type="hidden" name="id" value="<?php echo e($user[0]['id']); ?>">
-                                    <h2 class="ps-form__title">Reset Password</h2>
+                                    <h2 class="ps-form__title">Passwort zurücksetzen</h2>
                                     <div class="ps-form__group">
-                                        <label class="ps-form__label">new password</label>
+                                        <label class="ps-form__label">neues Passwort</label>
                                         <input class="form-control ps-form__input" type="password" name="password" value="<?php echo e(old('password')); ?>">
                                             <?php $__errorArgs = ['password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -31,7 +31,7 @@ endif;
 unset($__errorArgs, $__bag); ?>
                                     </div>
                                     <div class="ps-form__group">
-                                        <label class="ps-form__label">confirm password</label>
+                                        <label class="ps-form__label">Passwort bestätigen</label>
                                         <input class="form-control ps-form__input" type="password" name="password_confirmation" value="<?php echo e(old('password_confirmation')); ?>">
                                             <?php $__errorArgs = ['confirm-password'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -45,9 +45,9 @@ endif;
 unset($__errorArgs, $__bag); ?>
                                     </div>
                                     <div class="ps-form__submit">
-                                        <button type="submit" class="ps-btn ps-btn--warning">Reset</button>
+                                        <button type="submit" class="ps-btn ps-btn--warning">Zurücksetzen</button>
                                     </div>
-                                    <a class="ps-account__link" href="<?php echo e(route('login')); ?>">You already have an account. Please login here</a>
+                                    <a class="ps-account__link" href="<?php echo e(route('login')); ?>">Sie haben bereits ein Konto. Bitte hier anmelden</a>
                                 </div>
                             </form>
                         </div>

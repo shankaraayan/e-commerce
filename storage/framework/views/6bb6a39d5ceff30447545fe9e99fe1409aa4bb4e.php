@@ -55,15 +55,7 @@
                     </div>
                 </div>
             </a>
-            <a href="<?php echo e(route('user.wishlist')); ?>" class="col-md-4 col-sm-6 col-6 px-2 px-sm-3 mb-4">
-                <div class="dashboard_box text-center shadow-sm border align-items-center justify-content-center">
-                    <div class="wishlist_box">
-                        
-                        <i class="icon-heart"></i>
-                        <h6 class="ps-section__title fw-400 pt-4 mb-0">Wishlist</h6>
-                    </div>
-                </div>
-            </a>
+            
             
         </div>
     </div>

@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\ProductAttributeController;
-use App\Http\Controllers\OrderApiController;
+use App\Http\Controllers\ApiController;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\admin\AdminProductController;
 use App\Http\Controllers\admin\CategoryController;
@@ -40,3 +40,4 @@ Route::get('/orders', [OrderApiController::class, 'index']);
 // Route::delete('/orders/{id}', [OrderApiController::class, 'destroy']);
 
 Route::get('/similar-products/{id}', [FrontendController::class,'getRandomProductFromSameCategory'])->name('similar.products');
+Route::POST('/find-combination', [AdminProductController::class,'findCombination']);

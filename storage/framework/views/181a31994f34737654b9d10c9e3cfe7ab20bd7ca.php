@@ -153,7 +153,7 @@
         <p>Wir verwenden Cookies auf unserer Website, um Ihnen die relevanteste Erfahrung zu bieten, indem wir uns an Ihre Vorlieben erinnern und Besuche wiederholen. Durch Klicken auf "Akzeptieren" stimmen Sie der Verwendung ALLER Cookies zu.</p>
     </div>
     <div class="d-flex align-items-center justify-content-end">
-        <span class="detail-btn btn mr-1 fs-5" data-toggle="modal" data-target="#arky_cookies_Modal" ><u>Einstellungen</u></span>
+        <span class="detail-btn btn mr-1 fs-5" data-toggle="modal" data-target="#arky_cookies_Modal" ><span style="text-decoration: underline">Einstellungen</span></span>
         <span class="accept-btn mr-3 btn fs-5" onclick="setCookieViaAjax()">Akzeptieren</span>
         <span class="close-btn btn fs-5" onclick="closeDisclaimer()">Schließen</span>
     </div>

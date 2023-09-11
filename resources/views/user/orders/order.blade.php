@@ -75,5 +75,7 @@
                 @endif
             </tbody>
         </table>
+        {{$orders->links('pagination::bootstrap-4')}}
+      {{-- {{$orders->links() }} --}}
     </div>
 @endsection

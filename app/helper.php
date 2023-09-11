@@ -5,6 +5,7 @@ use App\Models\admin\Category;
 use App\Models\admin\Slider;
 use App\Models\admin\AttributeTerm;
 use App\Models\admin\PaymentGatway;
+use App\Models\admin\Product;
 use App\Models\Shipping;
 use App\Models\countryModel;
 use App\Models\Country;
@@ -105,34 +106,37 @@ use Carbon\Carbon;
  }
 
 
- function minmaxPrice(array $attribute)
- {
-  
-   $allMaxprices = [];
-   $allMinprices = [];
-   $min = 0;
-   foreach ($attribute as $id) {
-      $groupPrices = AttributeTerm::whereIn('attributes_id', [$id])
-      ->pluck('price')
-      ->toArray();
-      if (!empty($groupPrices)) {
-         $maxPrice = max($groupPrices);
-         $allMinprices[] = min($groupPrices);
-         $allMaxprices[] = $maxPrice;
-      }
-   }
+  function min_max_price($productId){
+   $product  = Product::find($productId);
+   $attributeIDs = ($product->attributes_id);
+   
+   $variations = explode(',', $attributeIDs);
+   $options = explode(',',$product->attributesTerms_id);
+   $attribute = [];
+   foreach ($variations as $variation) {
+    $attributeTerms = AttributeTerm::where('attributes_id', $variation)->pluck('id')->toArray();
+    foreach($attributeTerms as $terms){
+        if(in_array($terms,$options)){
+            $attribute[$variation][] = $terms;
+        }
+    }   
+}
+$attributes =  ($attribute);
+$allMaxPrices = [];
+$total = 0;
+ foreach ($attributes as $key => $attribute) {
+    // dd($key);
+    $groupPrices = AttributeTerm::where('attributes_id', $key)->whereIn('id',$attribute)
+       ->pluck('price')
+       ->toArray();
+    if (!empty($groupPrices)) {
+       $maxPrice = max($groupPrices);
+       $total += $maxPrice;
+    }
+}  
+ return  $total;
 
-$max_total = array_sum($allMaxprices);
-   if (!empty($allMinprices)) {
-      $min = min($allMinprices);
-   }
-
-   return [
-      'sum_of_max_prices' => $max_total,
-      'min_price' =>  $min,
-  ];
-
- }
+}
 
 
  function working_days($days){
@@ -141,7 +145,6 @@ $max_total = array_sum($allMaxprices);
    return $date->addWeekdays($days)->format('d-m-Y');
 }
  
-function activePaymentGatway(){}
 
 
 ?>

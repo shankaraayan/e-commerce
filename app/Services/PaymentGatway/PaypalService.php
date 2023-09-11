@@ -87,6 +87,8 @@ class PaypalService
         $paypal->order_id = $paymentData['order']['order_id'];
         $paypal->save();
 
+        $paymentData['payment'] = $paypal;
+        
         (new FrontendController)->OrderProccess($paymentData['order'],$paymentData['order_data'],$paymentData['details']);
 
         Order::where('order_id',$paymentData['order_data']['order_id'])->update([

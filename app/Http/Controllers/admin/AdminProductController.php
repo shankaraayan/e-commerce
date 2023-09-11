@@ -278,6 +278,21 @@ class AdminProductController extends Controller
         
         $feedContent = view('admin.product.feed', ['product' => $product])->render();
         return response($feedContent)->header('Content-Type', 'text/xml');
+        
+    }
+
+    private function convertToXml($data)
+    {
+        // Create a new SimpleXMLElement
+        $xml = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><product></product>');
+
+        // Loop through the data and add XML elements
+        foreach ($data as $key => $value) {
+            $xml->addChild($key, htmlspecialchars($value));
+        }
+
+        // Convert SimpleXMLElement to XML string
+        return $xml->asXML();
     }
 
     public function shorting_row(Request $request)
@@ -291,5 +306,26 @@ class AdminProductController extends Controller
         }
         return true;
     }
+    public function findCombination(Request $request)
+    {
+        // dd($request->all());
+        $options = array_values($request->terms);
+        // dd($options);
+        $product = Product::find($request->product_id);
+        $attributeIDs = is_array($product->attributes_id) ? $product->attributes_id : [];
+    
+        $attribute = [];
+        foreach ($attributeIDs as $variation) {
+            $attributeTerms = AttributeTerm::where('attributes_id', $variation)->pluck('id')->toArray();
+            foreach ($attributeTerms as $terms) {
+                if (in_array($terms, $options)) {
+                    $attribute[$variation][] = $terms;
+                }
+            }
+        }
+        $attributes = ($attribute);
+        dd($attributes);
+    }
+    
 
 }

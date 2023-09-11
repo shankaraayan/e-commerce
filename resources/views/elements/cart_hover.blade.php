@@ -7,7 +7,7 @@
                 <li class="ps-cart__item">
                     <div class="ps-product--mini-cart"><a class="ps-product__thumbnail"
                             href="{{ route('product.detail', $details['slug']) }}"><img
-                                src="{{ asset('root/public/uploads/' . $details['images']) }}" alt="alt" /></a>
+                                src="{{ asset('root/public/uploads/' . $details['images']) }}" alt="Epp Solar" /></a>
                         <div class="ps-product__content"><a class="ps-product__name"
                                 href="{{ route('product.detail', $details['slug']) }}">
                                 <span>{{ @$details['name'] }}</span><br>
@@ -25,7 +25,7 @@
             @else
                 <li class="ps-cart__item">
                     <div class="ps-product--mini-cart"><a class="ps-product__thumbnail" href="{{ route('product.detail', $details['slug']) }}"><img
-                                src="{{ asset('root/public/uploads/' . $details['images']) }}" alt="alt" /></a>
+                                src="{{ asset('root/public/uploads/' . $details['images']) }}" alt="Epp Solar" /></a>
                         <div class="ps-product__content"><a class="ps-product__name" href="{{ route('product.detail', $details['slug']) }}">{{ @$details['name'] }}</a>
                             <p class="ps-product__meta"> <span class="ps-product__sale">{{ @$details['price'] }}</span>
                                 {{-- <span class="ps-product__is-price">$80.65</span> --}}

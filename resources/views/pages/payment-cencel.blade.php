@@ -11,7 +11,7 @@
     }
 
     .order-cancel-page h1 {
-        margin-top: 3%;
+        margin-top: 5%;
         font-family: 'Lexend', sans-serif;
         color: #dc3545;
         font-size: 27px;
@@ -33,7 +33,7 @@
 @endsection
 
 @section('content')
-<div class="order-cancel-page pt-70 pb-70 bg-light">
+<div class="order-cancel-page pt-70 pb-70 bg-light-blue">
     <div class="container">
         <div class="bg-white p-xl-5 p-lg-5 p-md-3  shadow">
             <div class="row  justify-content-center  p-5">
@@ -41,19 +41,11 @@
                     <div class="order_thankyou d-flex align-items-center justify-content-center">
                         <div class="order_details_msg text-center">
                             <i class="icon-cross2 text-danger mr-1 bg-danger" style="font-size: 24px;"></i>
-                            <h1>Payment Failed</h1>
-                            <h4 class="font-weight-normal mb-4">You have canceled your payment or something went
-                                wrong </font>
-                                </font>
-                            </h4>
-
-                            <p class="fs-4" style="line-height: 1.6em;">We are sorry but there seems to be an
-                                issue with the payment for order #18370639. you will contact <a href=""><u>customer support</u></a> to
-                                resolve this.</p>
-                            <span class="thanyou_customer_name ml-1 text-green">
-                                <a href="{{route('checkout')}}">
-                                        Please try again!!
-                                </a>
+                            <h1>Zahlung fehlgeschlagen</h1>
+                            <h4 class="font-weight-normal mb-4">Sie haben Ihre Zahlung storniert oder etwas ist schiefgegangen.</h4>
+                            <p>"Es tut uns leid, aber es scheint ein Problem mit der Zahlung für Ihre Bestellung zu geben. Bitte setzen Sie sich mit unserem <a  href="/support-ticket"><span style="text-decoration: underline">Kundensupport-Team</span></a> in Verbindung, um dieses Problem zu lösen.</p>
+                            <span class="thanyou_customer_name">
+                                <a class="btn btn-link text-green fs-3" href="{{route('checkout')}}">Bitte versuchen Sie es erneut!</a>
                             </span>
 
                         </div>

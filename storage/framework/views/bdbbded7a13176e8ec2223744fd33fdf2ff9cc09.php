@@ -14,7 +14,7 @@
             <div class="ps-categogy__wrapper">
                 <div class="ps-categogy__filter <?php if(isset($filterIcon)): ?> <?php echo e($filterIcon); ?> <?php endif; ?>">
                     <a href="javascript:void(0);" id="collapse-filter" class="d-flex align-items-center justify-content-between"><i class="fa fa-filter"></i><i class="fa fa-times"></i>
-                        <sapn class="d-lg-inline-block d-md-inline-block d-none">Filter</span>
+                        <span class="d-lg-inline-block d-md-inline-block d-none">Filter</span>
                     </a>
                 </div>
                 
@@ -34,7 +34,12 @@
                             <span>Sort by</span>
                             <ul class="btn dropdown-toggle shadow-none list-inline d-flex align-items-center mb-0 p-0" type="button" id="sort_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                                 <li>
-                                    <span class="orderby-current active">Popularity</span>
+<?php
+    if(isset($_GET['orderBy']) && $_GET['orderBy'] != ''){
+        $text = $_GET['orderBy'];
+    }else{ $text = "Standard"; }
+?>
+                                    <span class="orderby-current active" id="filter-name"><?php echo e(ucfirst(str_replace('_',' ',$text))); ?></span>
                                     <ul class="dropdown-menu sort_menus" aria-labelledby="sort_dropdown">
                                         <li><a class="dropdown-item" href="#" data-sort="popularity">Popularity</a></li>
                                         <li><a class="dropdown-item" href="#" data-sort="low_to_high">Low to High</a></li>

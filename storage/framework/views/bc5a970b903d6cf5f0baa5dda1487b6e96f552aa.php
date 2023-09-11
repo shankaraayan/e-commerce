@@ -13,7 +13,7 @@
                         <div class="row no-gutters">
                             <div class="col-3">
                                 <div class="product_pics">
-                                    <img src="<?php echo e(asset('root/public/uploads/'.$product->thumb_image)); ?>" class="img-fluid" alt="">
+                                    <img src="<?php echo e(asset('root/public/uploads/'.$product->thumb_image)); ?>" class="img-fluid" alt="Epp Solar">
                                 </div>
                             </div>
                             <div class="col-9 pl-3">

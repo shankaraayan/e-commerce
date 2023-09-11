@@ -29,7 +29,7 @@
                 <li class="cart_products_details d-flex align-items-start" id="">
                     <a href="{{asset('root/public/uploads/'.$details['images'])}}" class="cart_product_item">
                         <div class="cart_product_pic">
-                            <img src="{{asset('root/public/uploads/'.$details['images'])}}" class="img-fluid" alt="">
+                            <img src="{{asset('root/public/uploads/'.$details['images'])}}" class="img-fluid" alt="Epp Solar">
                         </div>
                     </a>
                     <a href="{{ url('cart') }}" class="cart_product_item-detail">

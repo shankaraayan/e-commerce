@@ -15,11 +15,9 @@ class OrderController extends Controller
         return view('admin.orders.list',compact('orders'));
     }
     
-    
     public function show($id){
          $orders = Order::find($id);
          return view('admin.orders.view',compact('orders'));
     }
 
-   
 }

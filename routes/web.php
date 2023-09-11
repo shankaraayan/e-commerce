@@ -28,18 +28,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Address;
 
 use App\Http\Controllers\TestController;
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
-// Footer Routes
 Route::get('/about-us', function () {
     return view('pages.about');
 });
@@ -79,7 +68,7 @@ Route::get('/dashboard/{type?}', [ProfileController::class, 'dashboard'])->name(
 
 
 // user login register route
-Route::get('/login',[AuthController::class, 'index'])->name('login');
+Route::get('/login',[AuthController::class, 'index'])->name('login')->middleware('guest');
 Route::get('/register',[AuthController::class, 'register_ui'])->name('register');
 Route::post('/register',[AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
@@ -100,25 +89,41 @@ Route::post('add_address/{id}', [ProfileController::class, 'add_address'])->name
 //shop
 
 Route::get('/catalog', [ShopController::class, 'catalog'])->name('catalog');
+Route::get('shop',function(){
+    return redirect()->route('catalog');
+});
+
 Route::get('/shop/{slug}', [ShopController::class, 'index'])->name('shop');
 Route::get('/categories-product', [ShopController::class, 'categoriesProduct'])->name('categories-product');
 Route::get('/get-subcategories', [CategoryController::class, 'getSubcategories'])->name('getSubcategories');
 
-
+// cart route
 Route::get('/cart',function(){
     return view('pages.cart');
 })->name('cart');
 
-// cart route
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'index']);
 });
 
-
 Route::get('/testing', [ProductAttributeController::class, 'edit'])->name('ssd');
 Route::get('/testingss/{id}', [ProductAttributeController::class, 'delete'])->name('vales');
 Route::get('/testingsssss/{id?}', [ProductAttributeController::class, 'new'])->name('valesssss');
+
+Route::get('product-detail/{category?}/{id?}', [ProductController::class, 'productDetail'])->name('product.detail');
+Route::get('/', [ProductController::class, 'index'])->name('homepage');
+Route::get('product-terms', [ProductController::class, 'attributeTerms'])->name('product.attributeTerms');
+Route::get('product-terms-admin/{id?}', [ProductController::class, 'attributeTermsAdmin'])->name('product.admin.attributeTerms');
+Route::post('/add-to-cart', [FrontendController::class, 'addToCart']);
+Route::get('/add_to_wishlist/{id}', [FrontendController::class, 'add_to_wishlist']);
+Route::get('/get_all_cart_value', [FrontendController::class, 'get_all_cart_value']);
+Route::post('/remove_from_cart', [FrontendController::class, 'remove']);
+Route::post('/update_cart_value', [FrontendController::class, 'update_cart_value']);
+Route::post('/remove_to_cart', [FrontendController::class, 'remove_to_cart']);
+Route::get('/order_confirmation/{id}', [FrontendController::class, 'order_confirmation'])->name('order_confirmation');
+Route::get('/checkout',[FrontendController::class, 'get_checkout'] );
+Route::post('/checkout',[FrontendController::class, 'checkout'])->name('checkout');
 
 
 Route::name('admin.product.attribute.')->prefix('admin/product/attribute/')->middleware('isAdmin')->group(function () {
@@ -160,7 +165,7 @@ Route::name('admin.coupon.')->prefix('admin/coupon/')->middleware('isAdmin')->gr
 });
 
 
-// users
+//* users
 Route::name('admin.users.')->prefix('admin/users/')->middleware('isAdmin')->group(function () {
     Route::get('list', [UsersController::class, 'index'])->name('list');
     Route::get('view/{id}', [UsersController::class, 'view_user'])->name('view');
@@ -203,8 +208,9 @@ Route::name('admin.product.')->prefix('admin/product/')->middleware('isAdmin')->
     Route::get('delete/{id}', [AdminProductController::class, 'delete'])->name('delete');
 });
 Route::get('product-feed/{slug}.xml', [AdminProductController::class, 'generateProductFeed'])->name('feed');
-// public routes
 
+
+// public routes
 Route::get('/products', function () {
     return view('pages.products.products');
 })->name('products');
@@ -220,25 +226,6 @@ Route::get('/orders', function () {
 Route::get('/order/{id}', function () {
     return view('pages.orders.single-order');
 });
-
-
-Route::get('product-detail/{category?}/{id?}', [ProductController::class, 'productDetail'])->name('product.detail');
-Route::get('/', [ProductController::class, 'index'])->name('homepage');
-Route::get('product-terms', [ProductController::class, 'attributeTerms'])->name('product.attributeTerms');
-Route::get('product-terms-admin/{id?}', [ProductController::class, 'attributeTermsAdmin'])->name('product.admin.attributeTerms');
-
-
-Route::post('/add-to-cart', [FrontendController::class, 'addToCart']);
-Route::get('/add_to_wishlist/{id}', [FrontendController::class, 'add_to_wishlist']);
-Route::get('/get_all_cart_value', [FrontendController::class, 'get_all_cart_value']);
-Route::post('/remove_from_cart', [FrontendController::class, 'remove']);
-Route::post('/update_cart_value', [FrontendController::class, 'update_cart_value']);
-Route::post('/remove_to_cart', [FrontendController::class, 'remove_to_cart']);
-Route::get('/order_confirmation/{id}', [FrontendController::class, 'order_confirmation'])->name('order_confirmation');
-Route::get('/checkout',[FrontendController::class, 'get_checkout'] );
-Route::post('/checkout',[FrontendController::class, 'checkout'])->name('checkout');
-
-// admin protected routes
 
 // category
 Route::name('admin.category.')->prefix('admin/category/')->middleware('isAdmin')->group(function () {
@@ -330,5 +317,8 @@ Route::post('update-row-positions',[AdminProductController::class,'shorting_row'
 Route::post('subscribe-email',[FrontendController::class,'subscribe_email']);
 
 
+// temp route
+Route::get('view-order-email/{id}',[TestController::class,'view_order_email']);
 
-
+Route::get('min_max_price',[TestController::class,'min_max_price']);
+Route::get('/clear_cart',[FrontendController::class,'clear_cart']);

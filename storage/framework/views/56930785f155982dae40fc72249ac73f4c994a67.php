@@ -855,4 +855,4 @@
 <?php
 return true;
 dd();
-?><?php /**PATH /home/customstegpearl/public_html/root/resources/views/emails/campergold_order_confirm.blade.php ENDPATH**/ ?>
+?><?php /**PATH /home/customstegpearl/public_html/root/resources/views/emails/epp_order_confirm.blade.php ENDPATH**/ ?>

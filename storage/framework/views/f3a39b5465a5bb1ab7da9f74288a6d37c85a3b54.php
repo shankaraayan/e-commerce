@@ -38,7 +38,7 @@
                                 <div class="homepage_category rounded border p-1">
                                     <div class="ps-promo__item">
                                         <a class="ps-category__image ps-promo__banner" href="<?php echo e(route('shop',$cat->slug)); ?>">
-                                            <img class="ps-promo__banner" src="<?php echo e(asset('root/public/uploads/category/'.$cat->image)); ?>" alt="<?php echo e(@$cat->image); ?>">
+                                            <img class="ps-promo__banner" src="<?php echo e(asset('root/public/uploads/category/'.$cat->image)); ?>" alt="<?php echo e(@$cat->name); ?>">
                                         </a>
                                     </div>
                                     <div class="text-center fs-3 fw-600 text-blue my-3">
@@ -235,8 +235,8 @@
                                 <a href="javascript:void(0)">
                                     <div class="ps-review">
                                         <div class="ps-review__text">
-                                            <img src="<?php echo e(asset('assets/img/stegpearl/kaufland.webp')); ?>" class="img-fluid"
-                                                alt="kaufland">
+                                            <a target="_blank" href="https://www.kaufland.de/item/search/?search_value=epp.solar"><img src="<?php echo e(asset('assets/img/stegpearl/kaufland.webp')); ?>" class="img-fluid"
+                                                alt="kaufland"></a>
                                         </div>
                                     </div>
                                 </a>
@@ -245,8 +245,8 @@
                                 <a href="javascript:void(0)">
                                     <div class="ps-review">
                                         <div class="ps-review__text">
-                                            <img src="<?php echo e(asset('assets/img/stegpearl/amazon.webp')); ?>" class="img-fluid"
-                                                alt="amazon">
+                                            <a target="_blank" href="https://www.amazon.de/stores/EPPSolar/page/5C1EC114-08C7-41B6-8B55-FB3D929ED547?ref_=ast_bln"><img src="<?php echo e(asset('assets/img/stegpearl/amazon.webp')); ?>" class="img-fluid"
+                                                alt="amazon"></a>
                                         </div>
                                     </div>
                                 </a>
@@ -255,8 +255,8 @@
                                 <a href="javascript:void(0)">
                                     <div class="ps-review">
                                         <div class="ps-review__text">
-                                            <img src="<?php echo e(asset('assets/img/stegpearl/otto.webp')); ?>" class="img-fluid"
-                                                alt="otto">
+                                            <a target="_blank" href="https://www.otto.de/suche/epp.solar"><img src="<?php echo e(asset('assets/img/stegpearl/otto.webp')); ?>" class="img-fluid"
+                                                alt="otto"></a>
                                         </div>
                                     </div>
                                 </a>
@@ -265,8 +265,8 @@
                                 <a href="javascript:void(0)">
                                     <div class="ps-review">
                                         <div class="ps-review__text">
-                                            <img src="<?php echo e(asset('assets/img/stegpearl/ebay.webp')); ?>" class="img-fluid"
-                                                alt="ebay">
+                                            <a target="_blank" href="https://www.ebay.de/str/eppsolar"><img src="<?php echo e(asset('assets/img/stegpearl/ebay.webp')); ?>" class="img-fluid"
+                                                alt="ebay"></a>
                                         </div>
                                     </div>
                                 </a>
@@ -286,8 +286,8 @@
                             <div class="ps-form--subscribe">
                                 <div class="ps-form__control">
                                     <input class="form-control ps-input" name="email" type="email" required
-                                        placeholder="Enter your email address">
-                                    <button class="ps-btn ps-btn--warning">Subscribe</button>
+                                        placeholder="Geben Sie Ihre E-Mail Adresse ein">
+                                    <button class="ps-btn ps-btn--warning">Abonnieren</button>
                                 </div>
                             </div>
                         </form>

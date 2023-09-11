@@ -9,7 +9,7 @@ Login
                     <div class="col-12 col-md-6 offset-md-3">
                         <div class="card shadow-sm border-0">
                             <div class="card-body">
-                                    <form action="<?php echo e(route('login')); ?>" method="post">
+                                    <form action="<?php echo e(route('login')); ?>" method="post" id="loginForm">
                                         <?php echo csrf_field(); ?>
                                         <div class="ps-form--review">
                                             <h2 class="ps-form__title p-0 m-0">Einloggen</h2><hr>
@@ -50,11 +50,11 @@ unset($__errorArgs, $__bag); ?>
                                             </div>
                                             
                                             <div class="ps-form__submit">
-                                                <button class="ps-btn ps-btn--warning mb-4">Einloggen</button>
+                                                <button id="login_button" class="ps-btn ps-btn--warning mb-4">Einloggen</button>
                                             </div>
                                             <div class="d-flex align-items-center justify-content-center flex-column">
                                                 <a class="ps-account__link" href="<?php echo e(route('forget-password')); ?>">Haben Sie Ihr Passwort vergessen?</a>
-                                                <a class="ps-account__link" href="<?php echo e(route('register')); ?>">Neu bei Stegpearl? Erstelle ein Konto?</a>
+                                                <a class="ps-account__link" href="<?php echo e(route('register')); ?>">Neu bei EPPSolar? Erstelle ein Konto?</a>
                                             </div>
                                            
                                         </div>
@@ -67,6 +67,15 @@ unset($__errorArgs, $__bag); ?>
                 </div>
             </div>
         </div>
+        <script>
+            $(document).ready(function () {
+                $("#login_button").on('click', function (e) {
+                    setTimeout(() => {
+                        $(this).attr("disabled", true);
+                    }, 500);
+                });
+            });
+        </script>
 <?php $__env->stopSection(); ?>
 
 

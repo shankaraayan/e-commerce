@@ -51,6 +51,7 @@ class FrontendController extends Controller
         $id = @$request->id;
         $url = @$request->url;
         $qty = @$request->quantity;
+        $sku = $request->sku;
         if (empty($qty))
             $qty = 1;
             
@@ -63,7 +64,7 @@ class FrontendController extends Controller
         if (!empty($product)) {
             // for single product
             $cart = session()->get('cart', []);
-            $cartid = $id.rand(11,99);
+            $cartid = $sku;
             if ($product['type'] == 'single') {
                 if (isset($cart[$id])) {
                     if (!empty($qty))
@@ -71,7 +72,7 @@ class FrontendController extends Controller
                     else
                         $cart[$id]['quantity']++;
 
-                    $message = "Product Updated to Cart";
+                    $message = "Produkt im Warenkorb aktualisiert";
                 } else {
                     $cart[$id] = [
                         'product_id' => $id,
@@ -89,13 +90,10 @@ class FrontendController extends Controller
                         "product_availability" => $product['product_availability']
 
                     ];
-                    $message = "Product Added to Cart";
+                    $message = "Produkt zum Warenkorb hinzugefügt";
                 }
             } else {
 
-                // $product_details = @$request->product_details;
-                // $decoded_json = json_decode($product_details);
-                // print_r( $decoded_json);die;
                 $product_price = 0;
                 if (!empty($id)) {
                    
@@ -147,7 +145,7 @@ class FrontendController extends Controller
                             "cart_product_url" => isset($url) ? $url : '',
                             "product_availability" => $product['product_availability']
                         ];
-                        $message = "Product Added to Cart";
+                        $message = "Produkt zum Warenkorb hinzugefügt";
                     }
                 }
 
@@ -260,13 +258,59 @@ class FrontendController extends Controller
 
     public function get_checkout(Request $request)
     {
-        // dd(session('cart'));
+
+        if(session('cart')){
+            $cart = session('cart');
+            
+            $lastCartItem = end($cart);
+            $session_country = @$lastCartItem['shipping_country'];
+            if($session_country == 0){
+                $session_country ='';
+            }
+            $session_shipping_class = (int)@$lastCartItem['shipping_class'];
+            $shippingCountry =  shippingCountry()->where('shipping_id',$session_shipping_class);
+            }else {
+                return redirect()->route('cart');
+            }
+            $cart = session('cart');
+            $class = [];
+            foreach ($cart as $item) {
+                $class[] = $item['shipping_class'];
+            }
+    
+            $countriesByClass = [];
+            foreach ($class as $key => $shippingClassId) {
+                $countries = shippingCountry()
+                    ->where('shipping_id', $shippingClassId)
+                    ->pluck('country')
+                    ->toArray();
+                $countriesByClass[$shippingClassId] = $countries;
+            }
+    
+            $commonCountries = [];
+            $uncommonCountries = [];
+    
+            foreach ($countriesByClass as $classId => $countries) {
+                if ($classId === reset($class)) {
+                    $commonCountries = $countries;
+                    $uncommonCountries = $countries;
+                } else {
+                    $commonCountries = array_intersect($commonCountries, $countries);
+                    $uncommonCountries = array_diff($uncommonCountries, $countries);
+                }
+            }
+    
+            if (count(array_unique($class)) <= 1) {
+                $uncommonCountries = [];
+            }
+
         $userAddress = '';
         if(auth()->user()){
             $userAddress = getUserDefaultAddress();
         }
         $paymentGatway = PaymentGatway::where('status',1)->get();
-        return view('pages.checkout',compact('userAddress','paymentGatway'));
+        
+        return view('pages.checkout',compact('userAddress','paymentGatway','commonCountries','uncommonCountries','shippingCountry','session_country'));
     }
 
     
@@ -274,7 +318,7 @@ class FrontendController extends Controller
     {
        
         if(!auth()->user()){
-            if(User::where('email',$request->email)->exists()) return redirect()->back()->with('error',"Please Login Your Account")->withInput();
+            if(User::where('email',$request->email)->exists()) return redirect()->back()->with('error',"Bitte loggen Sie Ihr Konto ein")->withInput();
             $user = new User;
             $user->email = $request->email;
             $user->phone = $request->phone_number;
@@ -291,8 +335,6 @@ class FrontendController extends Controller
                 Mail::to($details['email'])->send(new MyTestMail($details));
         }
 
-      
-
         $data = [];
         $order_data=[];
         $order  = new Order;
@@ -303,7 +345,8 @@ class FrontendController extends Controller
         $billing_details['billing_address2'] = @$request->billing_address2;
         $billing_details['city'] = @$request->city;
         $billing_details['phone_number'] = @$request->phone_number;
-        $billing_details['country'] = @$request->district;
+        $billing_details['country'] = @$request->country;
+        $billing_details['country_code'] = country()->where('id',@$request->country)->pluck('short_code')->first();
         $billing_details['postal_code'] = @$request->postal_code;
 
         $shipping_details['shipping_fullname'] = @$request->shipping_fullname;
@@ -355,7 +398,7 @@ class FrontendController extends Controller
         $order->save();
         
         $details = [];
-        $details['template'] = 'campergold_order_confirm';
+        $details['template'] = 'epp_order_confirm';
         $details['subject'] = 'Order Confirmation';
         $details['email'] = $request->email;
         $details['data'] = $order_data;
@@ -381,9 +424,11 @@ class FrontendController extends Controller
             foreach (session('cart') as $id => $details) {
                 $attribute_price = 0;
                 $product = Product::Find($details['product_id']);
+                $sku = $product['sku'];
                 if (!empty($product)) {
 
                     if ($product['type'] == 'variable') {
+                        $sku = $details['cart_id'];
                         $attributes_price = AttributeTerm::whereIn('id', @$details['attribute_ids'])->sum('price');
                         $attributes_terms = AttributeTerm::whereIn('id', @$details['attribute_ids'])->get();
 
@@ -417,7 +462,7 @@ class FrontendController extends Controller
                     $product_details['thumb_image'] = $product['thumb_image'];
                     $product_details['slug'] = $product['slug'];
                     $product_details['type'] = $product['type'];
-                    $product_details['sku'] = $product['sku'];
+                    $product_details['sku'] = $sku;
                     $product_details['bank_transfer'] = $details['bank_transfer'];
                     $product_details['solar_product'] = $product['solar_product'] ? 'yes' : 'no';
                     $product_details['total_price'] = ($attribute_price + $details['price']) * $details['quantity'];
@@ -434,12 +479,13 @@ class FrontendController extends Controller
         return false;
     }
 
-    public function OrderProccess($order,$order_data,$mailDetails){
+    public function OrderProccess($order,$order_data,$mailDetails,$payments=null){
         
         $result = Mail::to($mailDetails['email'])->send(new MyTestMail($mailDetails));
-        $url = 'https://stegback.com/';
-        (new OrderService)->sendOrderStegback($order['order_id'], $order_data, $url);
 
+        //* Send order to stegback
+        // $response = (new OrderService)->sendOrderStegback($order['order_id'], $order_data,$payments);
+        // // dd ($response);die;
         Cart::where('user_id',auth()->user()->id ?? @$order->user_id)->delete();
         session()->forget('cart');
         return true;
@@ -468,7 +514,7 @@ class FrontendController extends Controller
             return view('pages.order_confirmation', compact('order'));
         } else {
             session()->flush();
-            return redirect(url('cart'))->with('success', 'Thanks for the Order');
+            return redirect(url('cart'))->with('success', 'Danke für die Bestellung');
         }
     }
 
@@ -489,12 +535,14 @@ class FrontendController extends Controller
         $product = Product::findOrFail($productId);
     
         // Get the category of the current product
-        $category = $product->categories;
+        $category = explode(',',$product->categories);
+        shuffle($category);
+        $category = end($category);
         $all_product = [];
         $category_name = Category::find($category)->pluck('name')->first();
 
         // Get a random product from the same category
-        $randomProduct = Product::where('categories',  $category)
+        $randomProduct = Product::where("FIND_IN_SET($category, categories)")
             ->where('id', '!=', $productId)
             ->inRandomOrder()
             ->where('status', 1)
@@ -504,9 +552,9 @@ class FrontendController extends Controller
             
             foreach($randomProduct as $product){
                 if($product['type']=="variable"){
-                    $response = $price->minmaxPrice(explode(',', $product->attributes_id));
-                    $product['sum_of_max_prices'] = $response['sum_of_max_prices'];
-                    $product['min_price'] = $response['min_price'];
+                    $maxPrice = min_max_price($product->id);
+                    // $response = $price->minmaxPrice(explode(',', $product->attributes_id));
+                    $product['sum_of_max_prices'] = $maxPrice;
                     $product['category_name'] = $category_name;
                     $all_product [] = $product;
                 }else{
@@ -565,20 +613,26 @@ class FrontendController extends Controller
 public function userCheck(Request $request)
 {
     $response  = User::where('email',$request->email)->exists();
-    
     if($response){
         return "found";
     }else{
         return "not";
     }
-
 }
 
 public function subscribe_email()
 {
-    // $request->session()->flash('success', 'Login successfully');
-    return redirect()->back()->with('success',"Email Subscribed Successfully");
+    return redirect()->back()->with('success',"E-Mail erfolgreich abonniert");
 }
 
+    public function clear_cart()
+    {
+        session()->forget('cart');
+        if(auth()->user())
+        {
+            Cart::where('user_id',auth()->user()->id)->delete();
+        }
+        return redirect()->back()->with('success',"Ihr Warenkorb wurde erfolgreich geleert");
+    }
     
 }

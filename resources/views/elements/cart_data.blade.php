@@ -1,14 +1,6 @@
 
 <style>
-    .ps-shopping .ps-shopping__footer .ps-btn {
-        display: inline-block;
-        width: auto;
-        text-transform: initial;
-        /* height: 44px; */
-        padding: 5px 10px;
-        font-size: 16px;
-        font-weight: 500;
-    }
+     
     .empty_cart_area .carticon {
         font-size: 10vw;
         color: #818181c4;
@@ -31,7 +23,7 @@
             @if(!empty(session('cart')))
                 
                 <div class="col-12 col-md-7 col-lg-9">
-                    {{-- Cart design for desktop --}}
+                    {{-- Cart design for Mobile --}}
                     <ul class="ps-shopping__list shadow bg-white p-2">
                         @php $total = 0 @endphp
                         @if (session('cart'))
@@ -65,44 +57,44 @@
                                     <li class="variable">
                                         <div class="ps-product ps-product--wishlist">
                                             <div class="ps-product__remove"><a href="javascript::void(0)"
-                                                    onclick="remove_to_cart(<?= $id ?>)"><i
+                                                    onclick="remove_to_cart('{{ $id }}')"><i
                                                         class="icon-trash2 text-danger"></i></a></div>
                                             <div class="ps-product__thumbnail"><a class="ps-product__image" href="{{ route('product.detail', [$category,$details['slug']]) }}">
                                                     <figure><img src="{{ asset('root/public/uploads/' . @$details['images']) }}"
-                                                            alt="alt">
+                                                            alt="Epp Solar">
                                                     </figure>
                                                 </a></div>
                                             <div class="ps-product__content">
                                                 <h5 class="ps-product__title d-block text-left">
                                                     <a href="{{ route('product.detail', [$category,$details['slug']]) }}"><span class="mb-2 d-block cart_producttitle">{{ @$details['name'] }}</span></a>
                                                     
-                                                    <span class="fs-5 font-weight-bold border-bottom text-muted">Components</span>
-                                                        @if (!empty(@$details['details']))
-                                                        <div class="card card-body border-0 p-1 mt-1">
-                                                            <ul class="list-inline">
-                                                                @php
-                                                                    $detailsCount = count(@$details['details']);
-                                                                @endphp
-                                                                @foreach ($details['details'] as $index => $val)
-                                                                    @if ($index < 2)
-                                                                        <li class="text-muted mb-1">- {{ $val }}</li>
-                                                                    @endif
-                                                                @endforeach
-                                                            </ul>
-                                                            @if ($detailsCount > 2)
-                                                                <div class="collapse" id="attribute_values{{$id}}">
-                                                                    <ul class="list-inline">
-                                                                        @foreach ($details['details'] as $index => $val)
-                                                                            @if ($index >= 2)
-                                                                                <li class="text-muted mb-1">- {{ $val }}</li>
-                                                                            @endif
-                                                                        @endforeach
-                                                                    </ul>
-                                                                </div>
-                                                                <a class="btn shadow-none fs-5 font-weight-bold pl-0 text-left" data-toggle="collapse" href="#attribute_values{{$id}}" role="button" aria-expanded="false" aria-controls="attribute_values">View more</a>
-                                                            @endif
-                                                        </div>
+                                                    <span class="fs-5 font-weight-bold border-bottom text-muted">Komponenten</span>
+                                                    @if (!empty(@$details['details']))
+                                                    <div class="card card-body border-0 p-1 mt-1">
+                                                        <ul class="list-inline">
+                                                            @php
+                                                                $detailsCount = count(@$details['details']);
+                                                            @endphp
+                                                            @foreach ($details['details'] as $index => $val)
+                                                                @if ($index < 2)
+                                                                    <li class="text-muted small mb-1">- {{ $val }}</li>
+                                                                @endif
+                                                            @endforeach
+                                                        </ul>
+                                                        @if ($detailsCount > 2)
+                                                            <div class="collapse" id="attribute_values{{$id}}">
+                                                                <ul class="list-inline">
+                                                                    @foreach ($details['details'] as $index => $val)
+                                                                        @if ($index >= 2)
+                                                                            <li class="text-muted small mb-1"> - {{ $val }}</li>
+                                                                        @endif
+                                                                    @endforeach
+                                                                </ul>
+                                                            </div>
+                                                            <a class="btn shadow-none fs-5 font-weight-bold pl-0 cartcomponent_btn text-left" data-toggle="collapse" href="#attribute_values{{$id}}" role="button" aria-expanded="false" aria-controls="attribute_values" data-text="Mehr anzeigen" data-alt-text="Weniger anzeigen">Mehr anzeigen</a>
                                                         @endif
+                                                    </div>
+                                                @endif
                                                     
                                                         {{-- @if (!empty(@$details['details']))
                                                             @foreach (@$details['details'] as $val)
@@ -163,7 +155,7 @@
                                                     href="{{ route('product.detail', [$category,@$details['slug']]) }}">
                                                     <figure><img
                                                             src="{{ asset('root/public/uploads/' . @$details['images']) }}"
-                                                            alt="alt">
+                                                            alt="Epp Solar">
                                                     </figure>
                                                 </a></div>
                                             <div class="ps-product__content">
@@ -261,7 +253,7 @@
                                                         <a href="{{ url($details['cart_product_url']) }}"><span class="mb-0 d-block cart_producttitle ps-product__title">{{ @$details['name'] }}</span></a>
                                                     </div>
                                                     <div class="attribute_vals">
-                                                        <span class="fs-5 font-weight-bold border-bottom text-muted">Components</span>
+                                                        <span class="fs-5 font-weight-bold border-bottom text-muted">Komponenten</span>
                                                         @if (!empty(@$details['details']))
                                                         <div class="card card-body border-0 p-1 mt-1">
                                                             <ul class="list-inline">
@@ -284,7 +276,7 @@
                                                                         @endforeach
                                                                     </ul>
                                                                 </div>
-                                                                <a class="btn shadow-none fs-5 font-weight-bold pl-0 cartcomponent_btn text-left" data-toggle="collapse" href="#attribute_values{{$id}}" role="button" aria-expanded="false" aria-controls="attribute_values">View more</a>
+                                                                <a class="btn shadow-none fs-5 font-weight-bold pl-0 cartcomponent_btn text-left" data-toggle="collapse" href="#attribute_values{{$id}}" role="button" aria-expanded="false" aria-controls="attribute_values">Mehr anzeigen</a>
                                                             @endif
                                                         </div>
                                                         @endif
@@ -292,7 +284,7 @@
                                                     </div>
                                                     <div class="cart_product_shipping">
                                                         <span class="text-muted fs-5"> 
-                                                            Estimate Shipping date 
+                                                            Voraussichtliches Versanddatum
                                                             {{-- @dd($details['product_availability']); --}}
                                                             {{-- {{ date('d-M-Y',strtotime(@today()->addDays($details->product_availability ?? 10)))}}  --}}
                                                             {{ working_days(@$details['product_availability'] ?? 10 ) }}
@@ -302,8 +294,8 @@
                                                 </div>
                                             </div>
                                             
-                                            <div class="col-md-1 d-flex align-items-center justify-content-center">
-                                                <div class="ps-product__remove"><a href="javascript::void(0)" onclick="remove_to_cart(<?= $id ?>)"><i class="icon-trash2 text-danger"></i></a>
+                                            <div class="col-md-1 d-flex align-items-start justify-content-center">
+                                                <div class="ps-product__remove"><a href="javascript::void(0)" onclick="remove_to_cart('<?= $id ?>')"><i class="icon-trash2 text-danger"></i></a>
                                                 </div>
                                             </div>
                                                 
@@ -355,14 +347,14 @@
                                                         </div>
                                                         
                                                         <div class="cart_product_shipping">
-                                                            <span class="text-muted fs-5">Estimate Shipping date 
+                                                            <span class="text-muted fs-5">Voraussichtliches Versanddatum 
                                                                 
                                                                 {{ working_days(@$details['product_availability'] ?? 10  ) }}</span>
                                                         </div>
                                                     </div>
                                                 </div>   
 
-                                                <div class="col-md-1 d-flex align-items-center justify-content-center">
+                                                <div class="col-md-1 d-flex align-items-start justify-content-center">
                                                     <div class="ps-product__remove"> <a href="javascript::void(0)" onclick="remove_to_cart(<?= $id ?>)"><i class="icon-trash2 text-danger"></i></a></div>
                                                 </div>
 
@@ -405,17 +397,11 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="ps-shopping__footer">
-                        <div class="row">
-        
-                        </div>
-                    </div>
                 </div>
                 <div class="col-12 col-md-5 col-lg-3">
                     <div class="shadow bg-white pt-20 p-3">
                         <div class="h3 py-3 font-weight-bold text-blue px-2">Warenkorb-Summen</div>
-                    <div class="ps-shopping__box">
+                    <div class="ps-shopping__box mb-3">
                         <div class="ps-shopping__row">
                             <div class="ps-shopping__label">Zwischensumme
                             </div>
@@ -448,6 +434,12 @@
                             <a class="ps-shopping__link" href="{{ url('/') }}">Weiter zum Einkaufen</a>
                         </div>
                     </div>
+                    <div class="d-flex ps-shopping__footer justify-content-center mb-3 pt-2">
+                        <div class="ps-shopping__button">
+                            <p class="text-center text-muted">or</p>
+                            <a href="/clear_cart"><button class="ps-btn blue-btn--outline mr-0" type="button">Warenkorb leeren</button></a>
+                        </div>
+                    </div>
                     </div>
                 </div>
             @else
@@ -469,12 +461,25 @@
                 </div>
             </div>
             @endif
-           
-
-
-            
-
         </div>    
     <div>
 
 </div>
+
+ @if(session('cart'))
+<script>
+    $(document).ready(function () {
+        $('#attribute_values{{@$id}}').on('show.bs.collapse', function () {
+            $('[data-toggle="collapse"][href="#attribute_values{{@$id}}"]').text($('[data-toggle="collapse"][href="#attribute_values{{@$id}}"]').data('alt-text'));
+        });
+        $('#attribute_values{{@$id}}').on('hide.bs.collapse', function () {
+            $('[data-toggle="collapse"][href="#attribute_values{{@$id}}"]').text($('[data-toggle="collapse"][href="#attribute_values{{@$id}}"]').data('text'));
+        });
+    });
+</script>
+@endif
+ 
+
+
+
+

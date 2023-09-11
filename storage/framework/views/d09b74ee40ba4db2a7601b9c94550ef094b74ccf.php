@@ -73,6 +73,9 @@
                 <?php endif; ?>
             </tbody>
         </table>
+        <?php echo e($orders->links('pagination::bootstrap-4')); ?>
+
+      
     </div>
 <?php $__env->stopSection(); ?>
 

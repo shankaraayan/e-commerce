@@ -61,8 +61,8 @@
                                         <div class="ps-product ps-product--standard">
                                             <div class="ps-product__thumbnail"><a class="ps-product__image" href="{{route('shop',$product->slug)}}">
                                                     <figure>
-                                                        <img src="{{asset('root/public/uploads/category/'.$product->image)}}" alt="alt" class="img-fluid" />
-                                                        <img src="{{asset('root/public/uploads/category/'.$product->image)}}" class="img-fluid" alt="alt" />
+                                                        <img src="{{asset('root/public/uploads/category/'.$product->image)}}" alt="{{ @$product->name }}" class="img-fluid" />
+                                                        <img src="{{asset('root/public/uploads/category/'.$product->image)}}" alt="{{ @$product->name }}" class="img-fluid" />
                                                     </figure>
                                                 </a>
                                                 <div class="ps-product__actions">

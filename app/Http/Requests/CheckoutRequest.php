@@ -37,7 +37,7 @@ class CheckoutRequest extends FormRequest
 
         $shipping_rules = [
             'shipping_fullname' => 'required',
-            'shipping_country' => 'required',
+            // 'shipping_country' => 'required',
             'shipping_email' => 'required',
             'shipping_billing_address1' => 'required',
             'shipping_city' => 'required',

@@ -408,7 +408,7 @@
                                     before:top-[60px] before:rounded before:z-[-1] before:bg-opacity-[0.1] before:bg-info-500">
                                     <div class="  h-[70px] w-[70px] rounded-full mx-auto mb-4 relative">
 
-                                    <img src=assets/images/all-img/cus-1.png alt="" class="w-full h-full rounded-full">
+                                    <img src=assets/images/all-img/cus-1.png alt="Epp Solar" class="w-full h-full rounded-full">
                                     <span class="h-[27px] w-[27px] absolute right-0 bottom-0 rounded-full bg-[#FFC155] border border-white flex flex-col
                                         items-center justify-center text-white text-xs font-medium">
                                         2
@@ -437,10 +437,10 @@
                                     <div class="  ring-2 ring-[#FFC155]  h-[70px] w-[70px] rounded-full mx-auto mb-4 relative">
 
                                     <span class="crown absolute -top-[24px] left-1/2 -translate-x-1/2">
-                                <img src="assets/images/icon/crown.svg" alt="">
+                                <img src="assets/images/icon/crown.svg" alt="Epp Solar">
                             </span>
 
-                                    <img src=assets/images/all-img/cus-2.png alt="" class="w-full h-full rounded-full">
+                                    <img src=assets/images/all-img/cus-2.png alt="Epp Solar" class="w-full h-full rounded-full">
                                     <span class="h-[27px] w-[27px] absolute right-0 bottom-0 rounded-full bg-[#FFC155] border border-white flex flex-col
                                             items-center justify-center text-white text-xs font-medium">
                                         1
@@ -468,7 +468,7 @@
                                         before:top-[60px] before:rounded before:z-[-1] before:bg-opacity-[0.1] before:bg-success-500">
                                     <div class="  h-[70px] w-[70px] rounded-full mx-auto mb-4 relative">
 
-                                    <img src=assets/images/all-img/cus-3.png alt="" class="w-full h-full rounded-full">
+                                    <img src=assets/images/all-img/cus-3.png alt="Epp Solar" class="w-full h-full rounded-full">
                                     <span class="h-[27px] w-[27px] absolute right-0 bottom-0 rounded-full bg-[#FFC155] border border-white flex flex-col
                                     items-center justify-center text-white text-xs font-medium">
                                         3
@@ -499,7 +499,7 @@
                                     space-y-3 rtl:space-x-reverse">
                                     <div class="  h-10 w-10 rounded-full relative">
 
-                                    <img src=assets/images/users/user-1.jpg alt="" class="w-full h-full rounded-full">
+                                    <img src=assets/images/users/user-1.jpg alt="Epp Solar" class="w-full h-full rounded-full">
                                     <span class="h-4 w-4 absolute right-0 bottom-0 rounded-full bg-[#FFC155] border border-white flex flex-col items-center
                                             justify-center text-white text-[10px] font-medium">
                                         4
@@ -526,7 +526,7 @@
                                         space-y-3 rtl:space-x-reverse">
                                     <div class="  h-10 w-10 rounded-full relative">
 
-                                    <img src=assets/images/users/user-2.jpg alt="" class="w-full h-full rounded-full">
+                                    <img src=assets/images/users/user-2.jpg alt="Epp Solar" class="w-full h-full rounded-full">
                                     <span class="h-4 w-4 absolute right-0 bottom-0 rounded-full bg-[#FFC155] border border-white flex flex-col items-center
                                             justify-center text-white text-[10px] font-medium">
                                         5
@@ -553,7 +553,7 @@
                                      space-y-3 rtl:space-x-reverse">
                                     <div class="  h-10 w-10 rounded-full relative">
 
-                                    <img src=assets/images/users/user-3.jpg alt="" class="w-full h-full rounded-full">
+                                    <img src=assets/images/users/user-3.jpg alt="Epp Solar" class="w-full h-full rounded-full">
                                     <span class="h-4 w-4 absolute right-0 bottom-0 rounded-full bg-[#FFC155] border border-white flex flex-col items-center
                                             justify-center text-white text-[10px] font-medium">
                                         6
@@ -652,7 +652,7 @@
                                             <div class="flex items-center">
                                             <div class="flex-none">
                                                 <div class="w-8 h-8 rounded-[100%] ltr:mr-3 rtl:ml-3">
-                                                <img src=assets/images/users/user-1.jpg alt="" class="w-full h-full rounded-[100%] object-cover">
+                                                <img src=assets/images/users/user-1.jpg alt="Epp Solar" class="w-full h-full rounded-[100%] object-cover">
                                                 </div>
                                             </div>
                                             <div class="flex-1 text-start">
@@ -679,7 +679,7 @@
                                             <div class="flex items-center">
                                             <div class="flex-none">
                                                 <div class="w-8 h-8 rounded-[100%] ltr:mr-3 rtl:ml-3">
-                                                <img src=assets/images/users/user-2.jpg alt="" class="w-full h-full rounded-[100%] object-cover">
+                                                <img src=assets/images/users/user-2.jpg alt="Epp Solar" class="w-full h-full rounded-[100%] object-cover">
                                                 </div>
                                             </div>
                                             <div class="flex-1 text-start">
@@ -706,7 +706,7 @@
                                             <div class="flex items-center">
                                             <div class="flex-none">
                                                 <div class="w-8 h-8 rounded-[100%] ltr:mr-3 rtl:ml-3">
-                                                <img src=assets/images/users/user-3.jpg alt="" class="w-full h-full rounded-[100%] object-cover">
+                                                <img src=assets/images/users/user-3.jpg alt="Epp Solar" class="w-full h-full rounded-[100%] object-cover">
                                                 </div>
                                             </div>
                                             <div class="flex-1 text-start">
@@ -733,7 +733,7 @@
                                             <div class="flex items-center">
                                             <div class="flex-none">
                                                 <div class="w-8 h-8 rounded-[100%] ltr:mr-3 rtl:ml-3">
-                                                <img src=assets/images/users/user-4.jpg alt="" class="w-full h-full rounded-[100%] object-cover">
+                                                <img src=assets/images/users/user-4.jpg alt="Epp Solar" class="w-full h-full rounded-[100%] object-cover">
                                                 </div>
                                             </div>
                                             <div class="flex-1 text-start">
@@ -760,7 +760,7 @@
                                             <div class="flex items-center">
                                             <div class="flex-none">
                                                 <div class="w-8 h-8 rounded-[100%] ltr:mr-3 rtl:ml-3">
-                                                <img src=assets/images/users/user-5.jpg alt="" class="w-full h-full rounded-[100%] object-cover">
+                                                <img src=assets/images/users/user-5.jpg alt="Epp Solar" class="w-full h-full rounded-[100%] object-cover">
                                                 </div>
                                             </div>
                                             <div class="flex-1 text-start">
@@ -787,7 +787,7 @@
                                             <div class="flex items-center">
                                             <div class="flex-none">
                                                 <div class="w-8 h-8 rounded-[100%] ltr:mr-3 rtl:ml-3">
-                                                <img src=assets/images/users/user-6.jpg alt="" class="w-full h-full rounded-[100%] object-cover">
+                                                <img src=assets/images/users/user-6.jpg alt="Epp Solar" class="w-full h-full rounded-[100%] object-cover">
                                                 </div>
                                             </div>
                                             <div class="flex-1 text-start">
@@ -814,7 +814,7 @@
                                             <div class="flex items-center">
                                             <div class="flex-none">
                                                 <div class="w-8 h-8 rounded-[100%] ltr:mr-3 rtl:ml-3">
-                                                <img src=assets/images/users/user-1.jpg alt="" class="w-full h-full rounded-[100%] object-cover">
+                                                <img src=assets/images/users/user-1.jpg alt="Epp Solar" class="w-full h-full rounded-[100%] object-cover">
                                                 </div>
                                             </div>
                                             <div class="flex-1 text-start">
@@ -1011,7 +1011,7 @@
 
                                 <div class="bg-slate-50 dark:bg-slate-900 p-4 rounded text-center">
                                 <div class="h-12 w-12 rounded-full mb-4 mx-auto">
-                                    <img src=assets/images/all-img/p-1.png alt="" class="w-full h-full rounded-full">
+                                    <img src=assets/images/all-img/p-1.png alt="Epp Solar" class="w-full h-full rounded-full">
                                 </div>
                                 <span class="text-slate-500 dark:text-slate-300 text-sm mb-1 block font-normal">
                                     $150.00
@@ -1027,7 +1027,7 @@
 
                                 <div class="bg-slate-50 dark:bg-slate-900 p-4 rounded text-center">
                                 <div class="h-12 w-12 rounded-full mb-4 mx-auto">
-                                    <img src=assets/images/all-img/p-2.png alt="" class="w-full h-full rounded-full">
+                                    <img src=assets/images/all-img/p-2.png alt="Epp Solar" class="w-full h-full rounded-full">
                                 </div>
                                 <span class="text-slate-500 dark:text-slate-300 text-sm mb-1 block font-normal">
                                     $150.00
@@ -1043,7 +1043,7 @@
 
                                 <div class="bg-slate-50 dark:bg-slate-900 p-4 rounded text-center">
                                 <div class="h-12 w-12 rounded-full mb-4 mx-auto">
-                                    <img src=assets/images/all-img/p-3.png alt="" class="w-full h-full rounded-full">
+                                    <img src=assets/images/all-img/p-3.png alt="Epp Solar" class="w-full h-full rounded-full">
                                 </div>
                                 <span class="text-slate-500 dark:text-slate-300 text-sm mb-1 block font-normal">
                                 $150.00
@@ -1059,7 +1059,7 @@
 
                                 <div class="bg-slate-50 dark:bg-slate-900 p-4 rounded text-center">
                                 <div class="h-12 w-12 rounded-full mb-4 mx-auto">
-                                    <img src=assets/images/all-img/p-4.png alt="" class="w-full h-full rounded-full">
+                                    <img src=assets/images/all-img/p-4.png alt="Epp Solar" class="w-full h-full rounded-full">
                                 </div>
                                 <span class="text-slate-500 dark:text-slate-300 text-sm mb-1 block font-normal">
                                     $150.00
@@ -1075,7 +1075,7 @@
 
                                 <div class="bg-slate-50 dark:bg-slate-900 p-4 rounded text-center">
                                 <div class="h-12 w-12 rounded-full mb-4 mx-auto">
-                                    <img src=assets/images/all-img/p-5.png alt="" class="w-full h-full rounded-full">
+                                    <img src=assets/images/all-img/p-5.png alt="Epp Solar" class="w-full h-full rounded-full">
                                 </div>
                                 <span class="text-slate-500 dark:text-slate-300 text-sm mb-1 block font-normal">
                                     $150.00
@@ -1091,7 +1091,7 @@
 
                                 <div class="bg-slate-50 dark:bg-slate-900 p-4 rounded text-center">
                                 <div class="h-12 w-12 rounded-full mb-4 mx-auto">
-                                    <img src=assets/images/all-img/p-6.png alt="" class="w-full h-full rounded-full">
+                                    <img src=assets/images/all-img/p-6.png alt="Epp Solar" class="w-full h-full rounded-full">
                                 </div>
                                 <span class="text-slate-500 dark:text-slate-300 text-sm mb-1 block font-normal">
                                     $150.00

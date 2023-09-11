@@ -126,16 +126,18 @@ class PaymentGatwayController extends Controller
         $response = Mollie::api()->payments()->get($paymentData['payment_id']);
         
 
-        $paypal = new MollieTransaction();
-        $paypal->transaction_id = $response->id;
-        $paypal->status = $response->status;
-        $paypal->payment_source = $response->details;
-        $paypal->purchase_units = null;
-        $paypal->payer = $response->profileId;
-        $paypal->order_id = $paymentData['order']['order_id'];
-        $paypal->save();
+        $mollie = new MollieTransaction();
+        $mollie->transaction_id = $response->id;
+        $mollie->status = $response->status;
+        $mollie->payment_source = $response->details;
+        $mollie->purchase_units = null;
+        $mollie->payer = $response->profileId;
+        $mollie->order_id = $paymentData['order']['order_id'];
+        $mollie->save();
 
-        (new FrontendController)->OrderProccess($paymentData['order'],$paymentData['order_data'],$paymentData['details']);
+        $paymentData['payment'] = $mollie;
+
+        (new FrontendController)->OrderProccess($paymentData['order'],$paymentData['order_data'],$paymentData['details'],$paymentData['payment']);
 
         Order::where('order_id',$paymentData['order']['order_id'])->update([
             'payment_id' => $response->id,

@@ -1,7 +1,7 @@
 
 @extends('Layout.Layout')
 @section("title")
-Reset password
+Passwort zurücksetzen
 @endsection
 
 @section("content")
@@ -15,25 +15,25 @@ Reset password
                                 @csrf
                                 <div class="ps-form--review">
                                 <input type="hidden" name="id" value="{{ $user[0]['id']}}">
-                                    <h2 class="ps-form__title">Reset Password</h2>
+                                    <h2 class="ps-form__title">Passwort zurücksetzen</h2>
                                     <div class="ps-form__group">
-                                        <label class="ps-form__label">new password</label>
+                                        <label class="ps-form__label">neues Passwort</label>
                                         <input class="form-control ps-form__input" type="password" name="password" value="{{ old('password') }}">
                                             @error('password')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                     </div>
                                     <div class="ps-form__group">
-                                        <label class="ps-form__label">confirm password</label>
+                                        <label class="ps-form__label">Passwort bestätigen</label>
                                         <input class="form-control ps-form__input" type="password" name="password_confirmation" value="{{ old('password_confirmation') }}">
                                             @error('confirm-password')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                     </div>
                                     <div class="ps-form__submit">
-                                        <button type="submit" class="ps-btn ps-btn--warning">Reset</button>
+                                        <button type="submit" class="ps-btn ps-btn--warning">Zurücksetzen</button>
                                     </div>
-                                    <a class="ps-account__link" href="{{route('login')}}">You already have an account. Please login here</a>
+                                    <a class="ps-account__link" href="{{route('login')}}">Sie haben bereits ein Konto. Bitte hier anmelden</a>
                                 </div>
                             </form>
                         </div>

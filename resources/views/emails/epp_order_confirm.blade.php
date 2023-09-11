@@ -1,4 +1,4 @@
-@include('emails.elements.header') 
+@include('emails.elements.epp.header') 
 @php 
     $details = $data['data'];
 
@@ -178,8 +178,9 @@
                             word-break: keep-all;
                           "
                         >
+                  
                           <span style="padding-left: 20px; padding-right: 20px; font-size: 16px; display: inline-block; letter-spacing: normal;">
-                            <a style="color: white !important;" href=""> <span style="font-size: 16px; margin: 0; line-height: 2; word-break: break-word; mso-line-height-alt: 32px;">BESTELLUNG ANSEHEN</span> </a>
+                            <a style="color: white !important;" href="{{ route('user.order-details', ['orderId' => $details['order_id'] ]) }}" target="_blank"> <span style="font-size: 16px; margin: 0; line-height: 2; word-break: break-word; mso-line-height-alt: 32px;">BESTELLUNG ANSEHEN</span> </a>
                           </span>
                         </div>
                       </div>
@@ -309,6 +310,7 @@
                                                 $subtotal = 0; 
                                                 $totalPrice = 0; 
                                                 $shipping_data = end($products);  
+                                                
                                                 $ban_transfer = end($products);
                                                 $discount = (end($products));
                                                 foreach ($products as $product) { 
@@ -601,7 +603,7 @@
                                                   color: #636363;
                                                 "
                                               >
-                                                {{formatPrice($details['shipping_price'])}}
+                                                {{formatPrice($shipping_data['shipping_price'])}}
                                               </th>
                                             </tr>
                                             
@@ -642,9 +644,10 @@
                                               >
                                                 {{-- {{(formatPrice($totalPrice + $details['shipping_price'] ))}} --}}
                                                 @if($ban_transfer['bank_transfer']==="yes")
-                                                    {{ formatPrice( ($totalPrice+$details['shipping_price'])-$bank_dis) }}
+                                                    {{ formatPrice( ($totalPrice+$shipping_data['shipping_price'])-$bank_dis) }}
+                                                    {{-- @dd($details); --}}
                                                 @else
-                                                {{ formatPrice($totalPrice+$details['shipping_price'] ?? 0)}}
+                                                {{ formatPrice($totalPrice+$shipping_data['shipping_price'] ?? 0)}}
                                                 @endif
                                               </th>
                                             </tr>
@@ -826,7 +829,7 @@
                   </tbody>
                 </table>
                 
-                @include('emails.elements.order_footer')
+                @include('emails.elements.epp.order_footer')
                
               </td>
             </tr>

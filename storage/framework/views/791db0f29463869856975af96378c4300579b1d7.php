@@ -68,7 +68,7 @@
                                 <div class="filegroup">
                                     <label>
                                       <span class="text-secondary-900 text-sm leading-6 capitalize">Logo Image</span>
-                                        <input name="logo" type="file" class=" w-full hidden">
+                                        <input name="logo" type="file" class=" w-full hidden" >
                                         <span class="w-full h-[40px] file-control flex items-center custom-class">
                                         <span class="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
                                         <span class="text-slate-800">Choose a file or drop it here...</span>

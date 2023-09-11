@@ -127,11 +127,11 @@
     </div>
 
     <div class="row mb-50 border p-2">
+        
         <div class="col-md-6">
-
             <?php
                 $shipping = json_decode($orders['shipping_address'], true);
-                if($shipping['shipping_fullname'] == null || $shipping['shipping_billing_address1']){
+                if($shipping['shipping_fullname'] == null && $shipping['shipping_billing_address1']==null){
                     $shipping = json_decode($orders['billing_details'], true);
                 }
                 $shipping = implode(', ', $shipping);

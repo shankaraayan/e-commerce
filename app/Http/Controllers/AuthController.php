@@ -73,9 +73,8 @@ class AuthController extends Controller
 
         // Mail::to($user->email)->send(new VerificationEmail($user,$verificationLink));
 
-        $request->session()->flash('success','Registration successful. Please check your email to verify your account.');
+        $request->session()->flash('success','Registrierung erfolgreich. Bitte überprüfen Sie Ihre E-Mail, um Ihr Konto zu bestätigen.');
         return redirect()->route('homepage');
-        // return redirect()->route('homepage')->with('success', 'Registration successful. Please check your email to verify your account.');
     }
 
     public function login_view(){
@@ -128,14 +127,14 @@ class AuthController extends Controller
              $details['data'] = $verificationLink;
             //  return view('emails.verification',compact('details'));die;
              Mail::to($details['email'])->send(new MyTestMail($details));
-            $request->session()->flash('error', 'Your email address is not verified. Please check your inbox for a verification email or click on the "Resend Verification Email" link.');
+            $request->session()->flash('error', 'Ihre E-Mail-Adresse ist nicht verifiziert. Bitte prüfen Sie Ihren Posteingang auf eine Verifizierungs-E-Mail oder klicken Sie auf den Link "Verifizierungs-E-Mail erneut senden".');
             return redirect()->back();
         }
 
         if(auth()->attempt($validator->validated()) && auth()->user()->is_admin == 1){
 
             $request->session()->regenerateToken();
-            $request->session()->flash('success', 'Login successfully');
+            $request->session()->flash('success', 'Anmeldung erfolgreich');
 
             $carts = session()->get('cart');
             if($carts != null){
@@ -166,15 +165,14 @@ class AuthController extends Controller
 
         }elseif(auth()->attempt($validator->validated()) && auth()->user()->is_admin == 0){
             $request->session()->regenerateToken();
-            $request->session()->flash('success', 'Login successfully');
+            $request->session()->flash('success', 'Anmeldung erfolgreich');
             if(!empty($redirectParameter)) return redirect()->route($redirectParameter);
             
             return redirect()->route('user.dashboard');
 
         }else{
-            $request->session()->flash('error', 'Login faild ! Invalid email or password.');
+            $request->session()->flash('error', 'Login fehlgeschlagen! Ungültige E-Mail oder ungültiges Passwort.');
             return redirect()->back();
-            // return redirect()->back()->withErrors(['error' => 'Login faild ! Invalid email or password.']);
         }
     }
 
@@ -183,9 +181,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        // $request->session()->flash('success', 'Logout Success');
-        // return redirect('/');
-        return redirect('/')->with('success', 'Logout Success');
+        return redirect('/')->with('success', 'Erfolgreich abmelden');
     }
 
     // change password
@@ -210,15 +206,15 @@ class AuthController extends Controller
         $user = auth()->user();
 
         if (!Hash::check($request->current_password, $user->password)) {
-            $request->session()->flash('error', 'The current password is incorrect.');
-            return back()->withErrors(['current_password' => 'The current password is incorrect.']);
+            $request->session()->flash('error', 'Das aktuelle Passwort ist falsch.');
+            return back()->withErrors(['current_password' => 'Das aktuelle Passwort ist falsch.']);
         }
 
         $user->password = Hash::make($request->new_password);
 
         $user->save();
-        $request->session()->flash('success', 'Password changed successfully.');
-        return redirect()->route('user.account')->with('succeuser.accountss', 'Password changed successfully.');
+        $request->session()->flash('success', 'Passwort erfolgreich geändert.');
+        return redirect()->route('user.account')->with('succeuser.accountss', 'Passwort erfolgreich geändert.');
     }
 
     // verify email
@@ -227,7 +223,7 @@ class AuthController extends Controller
         $user = User::where('verification_token', $token)->first();
 
         if (!$user) {
-            $request->session()->flash('error', 'Your verification link has expired !');
+            $request->session()->flash('error', 'Ihr Verifizierungslink ist abgelaufen!');
             return redirect()->route('homepage');
         }
 
@@ -240,7 +236,7 @@ class AuthController extends Controller
         $user->verification_token = null;
         $user->email_verified_at = now();
         $user->save();
-        $request->session()->flash('success', 'Email verified successfully.');
+        $request->session()->flash('success', 'E-Mail erfolgreich verifiziert.');
         return redirect()->route('login');
     }
 
@@ -252,11 +248,11 @@ class AuthController extends Controller
         if ($user && $user->email_verified_at == null) {
             $verificationLink = route('verify', $user->verification_token);
             Mail::to($user->email)->send(new VerificationEmail($user, $verificationLink));
-            $request->session()->flash('success', 'Verification email has been resent. Please check your email to verify your account.');
+            $request->session()->flash('success', 'Die Verifizierungs-E-Mail wurde erneut gesendet. Bitte überprüfen Sie Ihre E-Mail, um Ihr Konto zu verifizieren.');
             return redirect()->back();
         }
         
-        return redirect()->route('login')->with('error', 'Unable to resend verification email.');
+        return redirect()->route('login')->with('error', 'Die Verifizierungs-E-Mail kann nicht erneut gesendet werden.');
     }
 
     public function forgetPassword(Request $request){
@@ -294,10 +290,10 @@ class AuthController extends Controller
                     'created_at' => $datetime
                 ]
                 );
-                $request->session()->flash('success', 'Reset Password Send Success ! check your mail !');
+                $request->session()->flash('success', 'Passwort zurücksetzen Erfolg senden ! prüfen Sie Ihre Mail ');
                 return redirect()->route('homepage');
         }else{
-            $request->session()->flash('error', 'User not found !');
+            $request->session()->flash('error', 'Benutzer nicht gefunden!');
             return redirect()->back();
         }
     }
@@ -309,7 +305,7 @@ class AuthController extends Controller
             $user = User::where('email',$resetData[0]['email'])->get();
             return view('auth.reset-password',compact('user'));
         }else{
-            $request->session()->flash('error', 'Invalid token !');
+            $request->session()->flash('error', 'Ungültiges Token!');
             return redirect()->route('homepage');
         }
 
@@ -339,7 +335,7 @@ class AuthController extends Controller
 
             $reset->delete();
 
-            $request->session()->flash('success','Password Reset successfully.');
+            $request->session()->flash('success','Passwort erfolgreich zurückgesetzt.');
             return redirect()->route('login');
         }else{
             return redirect()->route('homepage');

@@ -36,7 +36,10 @@ class ProfileController extends Controller
     }
     public function orders(){
         $id = Auth::user()->id;
-        $orders = Order::where('user_id',$id)->get();
+        $orders = Order::where('user_id',$id)
+        ->orderBy('created_at', 'desc')
+        ->paginate(15);
+
         return view('user.orders.order',compact('orders'));
     }
 
@@ -65,8 +68,8 @@ class ProfileController extends Controller
         $user->phone = $request->phone;
         
         $user->update();
-        $request->session()->flash('success', 'Profile updated successfully');
-        return redirect()->route('user.account')->with('sucess','profile updated successfullly');
+        $request->session()->flash('success', 'Profil erfolgreich aktualisiert');
+        return redirect()->route('user.account');
     }
     
     public function change_password($id,Request $request){
@@ -87,8 +90,8 @@ class ProfileController extends Controller
          $user = Auth::user();
          $user->password = Hash::make($request->input('new_password'));
          $user->save();
-         $request->session()->flash('success', 'password updated successfullly');
-         return redirect()->route('user.account')->with('sucess','password updated successfullly');
+         $request->session()->flash('success', 'Passwort erfolgreich aktualisiert');
+         return redirect()->route('user.account');
     }
 
 
@@ -141,7 +144,7 @@ class ProfileController extends Controller
                 $new_address->shipping_address = $data;
             }
             $new_address->save();
-            $request->session()->flash('success', 'address added successfullly');
+            $request->session()->flash('success', 'Adresse erfolgreich hinzugefügt');
             return redirect()->route('user.address');die;
         }else{
             if($data['address_type']=="billing"){
@@ -152,7 +155,7 @@ class ProfileController extends Controller
             }
             $address->update();
         }
-        $request->session()->flash('success', 'address updated successfullly');
+        $request->session()->flash('success', 'Adresse erfolgreich aktualisiert');
         return redirect()->route('user.address');
     }
     

@@ -1,7 +1,7 @@
 <div class="ps-product__thumbnail mb-1"><a class="ps-product__image" onclick="addSimiliarProductId({{$product->id}})" href="{{route('product.detail',[$category,$product->slug] )}}">
         <figure class="card-image-container">
-            <img src="{{asset('root/public/uploads/'.$product->thumb_image)}}" alt="alt" class="img-fluid" />
-            <img src="{{asset('root/public/uploads/'.$product->thumb_image)}}" class="img-fluid" alt="alt" />
+            <img src="{{asset('root/public/uploads/'.$product->thumb_image)}}" alt="{{ @$product->product_name }}" class="img-fluid" />
+            <img src="{{asset('root/public/uploads/'.$product->thumb_image)}}" alt="{{ @$product->product_name }}" class="img-fluid" />
         </figure>
     </a>
     <div class="ps-product__badge">
@@ -31,13 +31,10 @@
     </a>
     
     <div class="ps-product__meta mb-1 text-center">
-        @php
-            $attributeIDs = ($product->attributes_id);
-            $result = explode(',', $attributeIDs);
-            $prices = minmaxPrice($result);
-        @endphp
+       
         @if ($product->type==='variable')
-            <span class="ps-product__price text-green">bis zu - {{formatPrice($prices['sum_of_max_prices']) }}</span>
+            @php $upto = min_max_price($product->id); @endphp
+            <span class="ps-product__price text-green">bis zu - {{formatPrice($upto) }}</span>
         @else
             <span class="ps-product__del text-muted">{{ formatPrice($product->price) }}</span>
             <span class="ps-product__price text-green">{{ formatPrice($product->sale_price) }}</span>

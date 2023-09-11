@@ -54,7 +54,7 @@ class CouponController extends Controller
         // dd($request->All());die;
         $coupon = Coupon::find($id);
         $coupon->update($request->All());
-        return redirect()->back()->with('success','Coupon update successfully !');
+        return redirect()->back()->with('success','Coupon-Update erfolgreich !');
     }
     public  function delete($id){
         $coupon = Coupon::find($id)->delete();
@@ -69,7 +69,7 @@ class CouponController extends Controller
         if ($coupon) {
 
             if(today() >= $coupon->expiry_date){
-                $response = ['message' => 'Coupon is already expired.','status' => 'faild',];
+                $response = ['message' => 'Der Coupon ist bereits abgelaufen.','status' => 'faild',];
                 return response()->json($response);
             }
 
@@ -77,7 +77,7 @@ class CouponController extends Controller
 
             if(!in_array('all', $applicableCountry)){
                 if(!in_array($request->country, $applicableCountry)){
-                    $response = ['message' => 'This coupon code is not applicable in your country.','status' => 'faild',];
+                    $response = ['message' => 'Dieser Gutscheincode ist in Ihrem Land nicht gültig.','status' => 'faild',];
                     return response()->json($response);
                 }
             }
@@ -86,11 +86,11 @@ class CouponController extends Controller
                 if(auth()->user()){
 
                     if(!in_array(auth()->user()->email,$userList)){
-                        $response = ['message' => 'This coupon code is only for limited user.','status' => 'faild',];
+                        $response = ['message' => 'Dieser Gutscheincode ist nur für eine begrenzte Anzahl von Benutzern gültig.','status' => 'faild',];
                         return response()->json($response);
                     }
                 }else{
-                    $response = ['message' => 'This coupon code is only for limited user. please login','status' => 'faild',];
+                    $response = ['message' => 'Dieser Gutscheincode ist nur für eine begrenzte Anzahl von Benutzern gültig. Bitte melden Sie sich an.','status' => 'faild',];
                     return response()->json($response);
                 }
             }
@@ -103,7 +103,7 @@ class CouponController extends Controller
             }
             if($cartValue < $coupon->min_order){
 
-                $response = ['message' => 'Cart value is not enough for this code. Please add more product.','status' => 'faild',];
+                $response = ['message' => 'Der Warenkorbwert reicht für diesen Code nicht aus. Bitte fügen Sie weitere Produkte hinzu.','status' => 'faild',];
                 return response()->json($response);
             }
             
@@ -126,7 +126,7 @@ class CouponController extends Controller
             return response()->json($response);
         
         } else {
-            $response = ['message' => 'Coupon Not Found!','status' => 'faild'];
+            $response = ['message' => 'Coupon nicht gefunden!','status' => 'faild'];
             return  response()->json($response);
         }
     }
@@ -152,7 +152,7 @@ class CouponController extends Controller
             $shipping = new UpdateShipping ;
             $response = $shipping->update($request);
             
-            $response['message'] = 'Coupon removed!';
+            $response['message'] = 'Coupon entfernt!';
             $response['status'] = 'success';
             
             return response()->json($response);

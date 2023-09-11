@@ -18,22 +18,22 @@
                     <div class="ps-section__carousel related_product_view">
                     <div class="main-image owl-carousel owl-loaded owl-drag" data-owl-loop="true" data-owl-auto="false" data-owl-nav="false" data-owl-dots="false">
                         <div class="item">
-                          <img src="{{ asset('root/public/uploads/' . $product->thumb_image) }}" alt="alt" />
+                          <img src="{{ asset('root/public/uploads/' . $product->thumb_image) }}" alt="Epp Solar" />
                         </div>
                         @foreach ($product->images as $image)
                         <div class="item">
-                          <img src="{{ asset('root/public/uploads/' . $image->images) }}" alt="alt" />
+                          <img src="{{ asset('root/public/uploads/' . $image->images) }}" alt="Epp Solar" />
                         </div>
                         @endforeach
                     </div>
                   
                         <div class="gallery owl-carousel owl-loaded owl-drag mt-4" data-owl-auto="false" data-owl-loop="false" data-owl-speed="13000" data-owl-gap="10" data-owl-nav="true" data-owl-dots="false" data-owl-item="4" data-owl-item-xs="4" data-owl-item-sm="4" data-owl-item-md="3" data-owl-item-lg="4" data-owl-item-xl="4" data-owl-duration="1000" data-owl-mousedrag="on">
                         <div class="item">
-                        <img src="{{ asset('root/public/uploads/' . $product->thumb_image) }}" alt="alt" data-index="0" />
+                        <img src="{{ asset('root/public/uploads/' . $product->thumb_image) }}" alt="Epp Solar" data-index="0" />
                         </div>
                         @foreach ($product->images as $image)
                         <div class="item">
-                        <img src="{{ asset('root/public/uploads/' . $image->images) }}" alt="alt"
+                        <img src="{{ asset('root/public/uploads/' . $image->images) }}" alt="Epp Solar"
                             data-index="{{ $loop->index+1 }}" />
                         </div>
                         @endforeach
@@ -97,7 +97,7 @@
                                               @if(@$vales->image)
 
                                               <div class="ps-section__thumbnail col-md-2 col-3">
-                                              <img src="{{asset('root/public/uploads/'.$vales->image)}}" alt="" class="img-fluid">
+                                              <img src="{{asset('root/public/uploads/'.$vales->image)}}" alt="Epp Solar" class="img-fluid">
                                               </div>
                                               @endif
                                               <div class="align-middle {{ @$vales->image ? 'col-md-7 col-9' : 'col-9' }}">
@@ -130,7 +130,7 @@
                                                 <div class="row align-items-center select_var_row p-2 term-select-{{$vales->id}}" onclick="highlightDiv(this)">
                                                     @if(@$vales->image)
                                                     <div class="ps-section__thumbnail col-md-2 col-3">
-                                                    <img src="{{asset('root/public/uploads/'.$vales->image)}}" alt="" class="img-fluid">
+                                                    <img src="{{asset('root/public/uploads/'.$vales->image)}}" alt="Epp Solar" class="img-fluid">
                                                     </div>
                                                     @endif
                                                     <div class="align-middle {{ @$vales->image ? 'col-9 col-md-7' : 'col-9' }}">
@@ -140,10 +140,7 @@
                                                     <p class="ps-desc">{{$vales->attribute_term_description}}</p>
                                                     </div>
                                                     <div class="{{ @$vales->image ? 'col-12 col-md-3' : 'col-3' }}  text-right mt-md-0 mt-2">
-                                                      {{-- <small class="attribute_price">
-                                                        {{formatPrice($vales->price) }}
-                                                      </small>
-                                                      Copy code --}}
+                                                 
                                                       <small class="attribute_price">
                                                           @if($vales->price > 0)
                                                               {{ formatPrice($vales->price) }}
@@ -165,7 +162,7 @@
                                           <div class="row align-items-center select_var_row p-2 term-select-{{$vales->id}}">
                                               @if(@$vales->image)
                                               <div class="ps-section__thumbnail col-md-2 col-3">
-                                              <img src="{{asset('root/public/uploads/'.$vales->image)}}" alt="" class="img-fluid">
+                                              <img src="{{asset('root/public/uploads/'.$vales->image)}}" alt="Epp Solar" class="img-fluid">
                                               </div>
                                               @endif
                                               <div class="align-middle  {{ @$vales->image ? 'col-9 col-md-7' : 'col-9' }}">
@@ -262,12 +259,8 @@
           </div>
         </div> 
         
-        {{-- Attribute Htmls Begins --}}
 
         <div class="ps-product__content mt-5">
-          
-         
-
           <section id="term_short_des_container" class="attribute_appendArea {{ @$components ? 'd-block' : 'd-none' }}">
             <div class="text-center mb-20 text-blue fs-1 fw-600">Lieferumfang</div>
             <div class="container border px-0">
@@ -440,7 +433,7 @@
 </script>
   
 <script>
-      var global_obj_sku = {};
+
       function saveValue(element, attributeId, name = null, pids, term_id, attribute_name) {
           // console.log(element);
           var id = parseInt(pids.split("heading_Var")[1]);
@@ -484,15 +477,15 @@
             params.append(attribute_name, term_id);
             url.search = params.toString();
             window.history.pushState({ path: url.href }, '', url.href);
+
           }
 
           $(".attribute_box").each(function(index){
               $(this).removeClass('disabled-attr-box');    
           });
         html_components();
-        global_obj_sku[attributeId] = term_id;
-        fetch_sku(global_obj_sku);
-      
+        
+        fetch_sku_onchange();
       }
 
 
@@ -513,7 +506,7 @@
                 <div class="form-check col-12 mb-4">
                       <div class="row select_var_row align-items-center mx-0 mb-4 p-2 term-select-${user.id}}" onclick="highlightDiv(this);saveValue(this, '${user.attributes_id}','','heading_Var${1}',${user.id},'${user.attribute_name}');" data-atr-name="${user.attribute_term_name}" data-atr-price="${user.price}" data-value="${user.attribute_term_name},${user.price},${user.id},${user.attribute_name}">
                           <div class="ps-section__thumbnail ${user.image !== null ?'d-block col-md-2 col-3':'d-none'}">
-                              <img src="${imageUrl}" alt="" width="100px">
+                              <img src="${imageUrl}" alt="Epp Solar" width="100px">
                           </div>
                           <div class="${user.image !== null ?'col-md-7 col-9':'col-9'}">
                               <div class="mb-3">
@@ -553,7 +546,7 @@
             element.style.border = '2px solid #075095';
       }
 
-      function add_to_cart(id,url=null,termIds) {
+      function add_to_cart(id,url=null,termIds,sku=null) {
         var product_details = sessionStorage.getItem('sessionData');
         var shippingClassSelect = document.getElementById('shipping_class');
         var shippingCountry = shippingClassSelect.value;
@@ -568,6 +561,7 @@
             "url" : url,
             "product_details": termIds,
             "quantity": qty,
+            "sku": sku,
             "shipping_country": shippingCountry,
           },
           success: function (response) {
@@ -627,7 +621,8 @@
 
         } else { 
           let url = window.location.href;
-          add_to_cart(productId,url,termIds);
+          const sku = $("#sku").text();
+          add_to_cart(productId,url,termIds,sku);
         }
       }
       function pageLoad(){
@@ -644,6 +639,7 @@
             for (par of paramString) {
               termIdss.push(par.split('=')[1]);
             }
+           
             $.ajax({
                 type: 'get',
                 url: '{{ url('/term-html') }}',
@@ -677,6 +673,7 @@
                   $("#totalPrice").html('€'+price_normal_to_euro(total_price)); 
                   $("#totalPrice").css('display', 'block');
                   fetch_sku(obj_sku);
+
                 },
                 error : function(error){
                   console.log('error');
@@ -754,15 +751,15 @@
       }
 
        // fetch sku 
-       function fetch_sku($sku_data) {
-
+       function fetch_sku(sku_data) {
+           
             let productId = $("#product_id").val().replace('$', '');
             let attr_count = $('.attribute_box').length;
-            const sku_length = Object.keys($sku_data).length;
-            const final_sku = { [productId]: $sku_data };
-          
+            const sku_length = Object.keys(sku_data).length;
+            const final_sku = { [productId]: sku_data };
+           
             if(attr_count==sku_length){
-              
+          
                   $.ajax({
                   url: '{{ url('/sku-fetch') }}', 
                   method: 'POST',
@@ -772,7 +769,7 @@
                     url : window.location.href
                   },
                   success: function (response) {
-                    console.log(response,'sku');
+                    console.log(response);
                     if(response.status==true){
                       $("#sku").html(response.sku);
                     }
@@ -803,6 +800,44 @@
           });
       });
 
+</script>
+
+<script>
+  function fetch_sku_onchange(){
+    const current_url = window.location.href;
+        let paramString = current_url.split('?')[1];
+        paramString = paramString.split("&");
+        var sku_values = []; // Create an array to store the values
+        $('.attribute_box').length
+        for (par of paramString) {
+            var splitResult = par.split('=');
+            if (splitResult.length === 2) {
+                var value = splitResult[1];
+                sku_values.push(value); // Push the value into the array
+            }
+        }
+        if($('.attribute_box').length==sku_values.length){
+            $.ajax({
+                url: '{{ url('/term-html') }}',
+                method: 'GET',
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    "ids": sku_values,
+                  },
+                success: function (response) {
+                  let obj_sku = {};
+                  response && response.map((item, index) => {
+                    obj_sku[item.attributes_id] = item.id;
+                  });
+                  fetch_sku(obj_sku);
+                },
+                error : function(err){
+                  console.log(err);
+                }
+            })
+        }
+        
+  }
 </script>
 
 @endsection
